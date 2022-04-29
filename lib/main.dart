@@ -127,7 +127,8 @@ class _MyHomePageState extends State<MyHomePage> {
             const SizedBox(
               height: 5,
             ),
-            const Icon(PerritosIcons.icon_task),
+            const Icon(PerritosIcons.Icon_Add),
+            const Icon (PerritosIcons.Icon_Dog),
             const SizedBox(
               height: 5,
             ),
