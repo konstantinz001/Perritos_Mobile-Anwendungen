@@ -28,10 +28,18 @@ class PerritosProfile extends StatelessWidget {
             size: 91,
           ),
         ),
-        Text(
-            label,
-            style: perritosDoublePica,
-        ),
+        TextFormField(
+          textAlign: TextAlign.center,
+          initialValue: label,
+          decoration: const InputDecoration(
+            border: InputBorder.none,
+            focusedBorder: InputBorder.none,
+            enabledBorder: InputBorder.none,
+            errorBorder: InputBorder.none,
+            disabledBorder: InputBorder.none,
+          ),
+          style: perritosDoublePica,
+        )
       ]
     );
   }
