@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application/assets/styles/perritos-icons/perritos_icons.dart';
 import 'package:flutter_application/assets/ui-components/buttons/perritos-button.dart';
+import 'package:flutter_application/assets/ui-components/profile/perritos-profile.dart';
 
 void main() {
   runApp(const MyApp());
@@ -128,7 +129,14 @@ class _MyHomePageState extends State<MyHomePage> {
               height: 5,
             ),
             const Icon(PerritosIcons.Icon_Add),
-            const Icon (PerritosIcons.Icon_Dog),
+            const SizedBox(
+              height: 5,
+            ),
+            PerritosProfile(
+                icon: PerritosIcons.Icon_Dog,
+                label: 'Dog',
+                onPressed: () => {print('test disabled')},
+            ),
             const SizedBox(
               height: 5,
             ),
