@@ -9,7 +9,7 @@ const Color perritosBurntSienna = Color(0xFFE76F51);
 const Color perritosSnow = Color(0xFFFAF6F4);
 
 enum PerritosColor {
-  perritosCharcoalColor,
+  perritosCharcoal,
   perritosGoldFusion,
   perritosMaizeCrayola,
   perritosSandyBrown,
@@ -20,7 +20,7 @@ enum PerritosColor {
 extension PerritosColorExtension on PerritosColor {
   Color get color {
     switch (this) {
-      case PerritosColor.perritosCharcoalColor:
+      case PerritosColor.perritosCharcoal:
         return perritosCharcoal;
       case PerritosColor.perritosGoldFusion:
         return perritosGoldFusion;
