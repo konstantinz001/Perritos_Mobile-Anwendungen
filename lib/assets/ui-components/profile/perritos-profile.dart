@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application/assets/styles/perritos-colors.dart';
 import 'package:flutter_application/assets/styles/perritos-fonts.dart';
+import 'package:flutter_application/assets/styles/perritos-icons/perritos_icons.dart';
 
 class PerritosProfile extends StatelessWidget {
-  const PerritosProfile({
+  PerritosProfile({
     required this.icon,
     required this.label,
+    this.perritosColor = PerritosColor.perritosCharcoal,
+    this.edit = false,
     required this.onPressed,
     Key? key,
   }) : super(key: key);
@@ -16,31 +19,42 @@ class PerritosProfile extends StatelessWidget {
 
   final GestureTapCallback onPressed;
 
+  bool edit;
+
+  PerritosColor perritosColor;
+
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        InkWell(
-          onTap: onPressed,
-          borderRadius: BorderRadius.circular(50),
-          child: Icon (
-            icon, 
-            size: 91,
-          ),
+    return InkWell(
+      onTap: onPressed,
+      child: Column(children: [
+        edit == false ?
+        Icon(
+          icon, 
+          size: 91, 
+          color: perritosColor.color
+        ):
+        Stack(
+          alignment: Alignment.center,
+          children: [
+            Icon(
+              icon, 
+              size: 91, 
+              color: perritosColor.color.withOpacity(0.5)
+            ),
+            Icon(
+              PerritosIcons.Icon_Edit, 
+              size: 59, 
+              color: PerritosColor.perritosCharcoal.color
+            )
+          ]
         ),
-        TextFormField(
+        Text(
+          label,
           textAlign: TextAlign.center,
-          initialValue: label,
-          decoration: const InputDecoration(
-            border: InputBorder.none,
-            focusedBorder: InputBorder.none,
-            enabledBorder: InputBorder.none,
-            errorBorder: InputBorder.none,
-            disabledBorder: InputBorder.none,
-          ),
           style: perritosDoublePica,
         )
-      ]
+      ])
     );
   }
 }

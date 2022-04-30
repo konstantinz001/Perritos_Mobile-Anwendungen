@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application/assets/styles/perritos-colors.dart';
 import 'package:flutter_application/assets/styles/perritos-icons/perritos_icons.dart';
 import 'package:flutter_application/assets/ui-components/buttons/perritos-button.dart';
 import 'package:flutter_application/assets/ui-components/profile/perritos-profile.dart';
@@ -135,7 +136,9 @@ class _MyHomePageState extends State<MyHomePage> {
             PerritosProfile(
                 icon: PerritosIcons.Icon_Dog,
                 label: 'Dog',
-                onPressed: () => {print('test disabled')},
+                edit: false,
+                perritosColor: PerritosColor.perritosMaizeCrayola,
+                onPressed: () => {print('test profile')},
             ),
             const SizedBox(
               height: 5,
