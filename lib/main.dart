@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application/assets/styles/perritos-colors.dart';
 import 'package:flutter_application/assets/styles/perritos-icons/perritos_icons.dart';
 import 'package:flutter_application/assets/ui-components/buttons/perritos-button.dart';
+import 'package:flutter_application/assets/ui-components/profile/perritos-editable-profile.dart';
 import 'package:flutter_application/assets/ui-components/profile/perritos-profile.dart';
 
 void main() {
@@ -35,7 +36,6 @@ class MyApp extends StatelessWidget {
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
-
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
   // how it looks.
@@ -53,6 +53,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  TextEditingController testController = TextEditingController(text: "User");
 
   void _incrementCounter() {
     setState(() {
@@ -121,15 +122,12 @@ class _MyHomePageState extends State<MyHomePage> {
             const SizedBox(
               height: 5,
             ),
-            PerritosButton(
-              onPressed: () => {print('tapped good')},
-              label: 'Perritos Good',
-              theme: PerritosButtonTheme.good,
+            PerritosEditableProfile(
+              icon: PerritosIcons.Icon_Dog, 
+              label: testController.text, 
+              textEditingController: testController,
+              onPressed:() => {print(testController.text)},
             ),
-            const SizedBox(
-              height: 5,
-            ),
-            const Icon(PerritosIcons.Icon_Add),
             const SizedBox(
               height: 5,
             ),
@@ -142,11 +140,6 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             const SizedBox(
               height: 5,
-            ),
-            PerritosButton(
-              onPressed: () => {print('test disabled')},
-              label: 'Perritos Disabled',
-              disabled: true,
             ),
           ],
         ),
