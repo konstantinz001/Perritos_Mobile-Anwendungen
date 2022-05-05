@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application/assets/styles/perritos-icons/perritos_icons.dart';
-import 'package:flutter_application/assets/ui-components/buttons/perritos-button.dart';
-import 'package:flutter_application/assets/ui-components/buttons/perritos-icon-button.dart';
+import 'assets/ui-components/text-input/perritos_description_input.dart';
+import 'assets/ui-components/text-input/perritos_search_input.dart';
+import 'assets/ui-components/text-input/perritos_txt_input.dart';
 
 void main() {
   runApp(const MyApp());
@@ -51,7 +51,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
 
   void _incrementCounter() {
     setState(() {
@@ -60,7 +59,6 @@ class _MyHomePageState extends State<MyHomePage> {
       // so that the display can reflect the updated values. If we changed
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
-      _counter++;
     });
   }
 
@@ -98,54 +96,25 @@ class _MyHomePageState extends State<MyHomePage> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-            PerritosButton(
-              onPressed: () => {print('tapped perritos')},
-              label: 'Perritos',
-            ),
             const SizedBox(
               height: 5,
             ),
-            PerritosButton(
-              onPressed: () => {print('tapped danger')},
-              label: 'Perritos Danger',
-              theme: PerritosButtonTheme.danger,
+            PerritosTxtInput(
+              onSubmit: (value) {print(value);},
+              label: "Label:",
+              optlabel: "optional value",
+              width: 370,
             ),
-            const SizedBox(
-              height: 5,
+            PerritosTxtInput(
+              onSubmit: (value) {print(value);},
+              width: 370,
             ),
-            PerritosButton(
-              onPressed: () => {print('tapped good')},
-              label: 'Perritos Good',
-              theme: PerritosButtonTheme.good,
+            PerritosTxtInput(
+              onSubmit: (value) {print(value);},
+              label: 'Holaaa',
             ),
-            const SizedBox(
-              height: 5,
-            ),
-            const Icon(PerritosIcons.Icon_Add),
-            const Icon (PerritosIcons.Icon_Dog),
-            const SizedBox(
-              height: 5,
-            ),
-            PerritosButton(
-              onPressed: () => {print('test disabled')},
-              label: 'Perritos Disabled',
-              disabled: true,
-            ),
-            const SizedBox(
-              height: 5,
-            ),
-            PerritosIconButton(
-              onPressed: () => {print('test icon button')},
-              label: 'löschen', 
-              icon: PerritosIcons.Icon_Remove
-            )
+            PerritosDescriptionInput(onSubmit: (value) {print(value);}),
+            PerritosSearchInput(onSubmit: (value) {print(value);})
           ],
         ),
       ),

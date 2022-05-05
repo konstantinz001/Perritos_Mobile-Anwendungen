@@ -1,3 +1,17 @@
-2022/04/29-14:38:02.420 9307 Reusing MANIFEST /private/var/folders/s1/blgp6ljd685b8gg243tp73240000gn/T/flutter_tools.YtFdOH/flutter_tools_chrome_device.XbCUUy/Default/Site Characteristics Database/MANIFEST-000001
-2022/04/29-14:38:02.420 9307 Recovering log #3
-2022/04/29-14:38:02.420 9307 Reusing old log /private/var/folders/s1/blgp6ljd685b8gg243tp73240000gn/T/flutter_tools.YtFdOH/flutter_tools_chrome_device.XbCUUy/Default/Site Characteristics Database/000003.log 
+2022/05/05-12:22:38.142 3f74 Reusing MANIFEST C:\Users\Maria\AppData\Local\Temp\flutter_tools.a947636a\flutter_tools_chrome_device.b4238be2\Default\Site Characteristics Database/MANIFEST-000001
+2022/05/05-12:22:38.143 3f74 Recovering log #3
+2022/05/05-12:22:38.143 3f74 Level-0 table #10: started
+2022/05/05-12:22:38.147 3f74 Level-0 table #10: 219 bytes OK
+2022/05/05-12:22:38.147 3f74 Recovering log #6
+2022/05/05-12:22:38.147 3f74 Recovering log #10
+2022/05/05-12:22:38.147 3f74 Reusing old log C:\Users\Maria\AppData\Local\Temp\flutter_tools.a947636a\flutter_tools_chrome_device.b4238be2\Default\Site Characteristics Database/000010.log 
+2022/05/05-12:22:38.151 3f74 Delete type=0 #3
+2022/05/05-12:22:38.151 3f74 Delete type=0 #6
+2022/05/05-12:22:38.152 ddc Compacting 4@0 + 0@1 files
+2022/05/05-12:22:38.161 ddc Generated table #11@0: 2 keys, 191 bytes
+2022/05/05-12:22:38.162 ddc Compacted 4@0 + 0@1 files => 191 bytes
+2022/05/05-12:22:38.175 ddc compacted to: files[ 0 1 0 0 0 0 0 ]
+2022/05/05-12:22:38.175 ddc Delete type=2 #4
+2022/05/05-12:22:38.175 ddc Delete type=2 #6
+2022/05/05-12:22:38.175 ddc Delete type=2 #7
+2022/05/05-12:22:38.175 ddc Delete type=2 #10
