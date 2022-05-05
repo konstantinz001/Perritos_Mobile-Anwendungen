@@ -26,6 +26,8 @@ extension PerritosColorExtension on PerritosColor {
         return perritosGoldFusion;
       case PerritosColor.perritosMaizeCrayola:
         return perritosMaizeCrayola;
+      case PerritosColor.perritosSandyBrown:
+        return perritosSandyBrown;
       case PerritosColor.perritosBurntSienna:
         return perritosBurntSienna;
       case PerritosColor.perritosSnow:
