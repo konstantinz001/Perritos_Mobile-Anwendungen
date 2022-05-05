@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application/assets/styles/perritos-icons/perritos_icons.dart';
 import 'package:flutter_application/assets/ui-components/buttons/perritos-button.dart';
+import 'package:flutter_application/assets/ui-components/buttons/perritos-icon-button.dart';
 
 void main() {
   runApp(const MyApp());
@@ -137,6 +138,14 @@ class _MyHomePageState extends State<MyHomePage> {
               label: 'Perritos Disabled',
               disabled: true,
             ),
+            const SizedBox(
+              height: 5,
+            ),
+            PerritosIconButton(
+              onPressed: () => {print('test icon button')},
+              label: 'löschen', 
+              icon: PerritosIcons.Icon_Remove
+            )
           ],
         ),
       ),
