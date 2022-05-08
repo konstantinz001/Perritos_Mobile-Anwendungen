@@ -21,7 +21,7 @@ class PerritosChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ActionChip(
-      onPressed: onPressed,
+      onPressed: disabled ? () => {} : onPressed,
       label: Text(
         label,
         style:
