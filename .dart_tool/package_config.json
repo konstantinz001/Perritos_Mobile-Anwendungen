@@ -80,10 +80,22 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "flutter_riverpod",
+      "rootUri": "file:///Users/cortes/Desktop/MobileAnwendungen/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_riverpod-2.0.0-dev.5",
+      "packageUri": "lib/",
+      "languageVersion": "2.14"
+    },
+    {
       "name": "flutter_test",
       "rootUri": "file:///Users/cortes/Desktop/MobileAnwendungen/flutter/packages/flutter_test",
       "packageUri": "lib/",
       "languageVersion": "2.12"
+    },
+    {
+      "name": "freezed_annotation",
+      "rootUri": "file:///Users/cortes/Desktop/MobileAnwendungen/flutter/.pub-cache/hosted/pub.dartlang.org/freezed_annotation-2.0.3",
+      "packageUri": "lib/",
+      "languageVersion": "2.14"
     },
     {
       "name": "google_fonts",
@@ -102,6 +114,12 @@
       "rootUri": "file:///Users/cortes/Desktop/MobileAnwendungen/flutter/.pub-cache/hosted/pub.dartlang.org/http_parser-4.0.0",
       "packageUri": "lib/",
       "languageVersion": "2.12"
+    },
+    {
+      "name": "json_annotation",
+      "rootUri": "file:///Users/cortes/Desktop/MobileAnwendungen/flutter/.pub-cache/hosted/pub.dartlang.org/json_annotation-4.5.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.14"
     },
     {
       "name": "lints",
@@ -194,6 +212,12 @@
       "languageVersion": "2.14"
     },
     {
+      "name": "riverpod",
+      "rootUri": "file:///Users/cortes/Desktop/MobileAnwendungen/flutter/.pub-cache/hosted/pub.dartlang.org/riverpod-2.0.0-dev.5",
+      "packageUri": "lib/",
+      "languageVersion": "2.14"
+    },
+    {
       "name": "sky_engine",
       "rootUri": "file:///Users/cortes/Desktop/MobileAnwendungen/flutter/bin/cache/pkg/sky_engine",
       "packageUri": "lib/",
@@ -208,6 +232,12 @@
     {
       "name": "stack_trace",
       "rootUri": "file:///Users/cortes/Desktop/MobileAnwendungen/flutter/.pub-cache/hosted/pub.dartlang.org/stack_trace-1.10.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "state_notifier",
+      "rootUri": "file:///Users/cortes/Desktop/MobileAnwendungen/flutter/.pub-cache/hosted/pub.dartlang.org/state_notifier-0.7.2+1",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -266,7 +296,7 @@
       "languageVersion": "2.16"
     }
   ],
-  "generated": "2022-05-08T10:47:49.508315Z",
+  "generated": "2022-05-08T11:19:36.842308Z",
   "generator": "pub",
   "generatorVersion": "2.16.2"
 }
