@@ -1,4 +1,4 @@
-#Thu Apr 28 11:33:57 CEST 2022
-base.0=/Users/cortes/Desktop/MobileAnwendungen/perritos/build/app/intermediates/dex/debug/mergeDexDebug/classes.dex
+#Thu May 05 12:26:30 CEST 2022
+base.0=C\:\\Users\\Konsi\\Desktop\\MEGA\\Studium\\Semester 6\\Mobile Anwendung\\Perritos\\gruppe-20\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
 renamed.0=classes.dex
 path.0=classes.dex

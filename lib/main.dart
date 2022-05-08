@@ -4,6 +4,7 @@ import 'package:flutter_application/assets/styles/perritos-icons/perritos_icons.
 import 'package:flutter_application/assets/ui-components/buttons/perritos-button.dart';
 import 'package:flutter_application/assets/ui-components/profile/perritos-editable-profile.dart';
 import 'package:flutter_application/assets/ui-components/profile/perritos-profile.dart';
+import 'package:flutter_application/assets/ui-components/chips/perritos-chip.dart';
 
 void main() {
   runApp(const MyApp());
@@ -123,23 +124,50 @@ class _MyHomePageState extends State<MyHomePage> {
               height: 5,
             ),
             PerritosEditableProfile(
-              icon: PerritosIcons.Icon_Dog, 
-              label: testController.text, 
+              icon: PerritosIcons.Icon_Dog,
+              label: testController.text,
               textEditingController: testController,
-              onPressed:() => {print(testController.text)},
+              onPressed: () => {print(testController.text)},
             ),
             const SizedBox(
               height: 5,
             ),
             PerritosProfile(
-                icon: PerritosIcons.Icon_Dog,
-                label: 'Dog',
-                edit: false,
-                perritosColor: PerritosColor.perritosMaizeCrayola,
-                onPressed: () => {print('test profile')},
+              icon: PerritosIcons.Icon_Dog,
+              label: 'Dog',
+              edit: false,
+              perritosColor: PerritosColor.perritosMaizeCrayola,
+              onPressed: () => {print('test profile')},
             ),
             const SizedBox(
               height: 5,
+            ),
+            Wrap(
+              spacing: 6.0,
+              runSpacing: 6.0,
+              children: <Widget>[
+                PerritosChip(
+                    disabled: false,
+                    label: 'Mutter',
+                    color: perritosGoldFusion,
+                    onPressed: () => {print("OK")}),
+                PerritosChip(
+                    disabled: true,
+                    label: 'Vatter',
+                    color: perritosMaizeCrayola,
+                    onPressed: () => print("OK")),
+                PerritosChip(
+                    disabled: false,
+                    label: 'Sohn',
+                    color: perritosSandyBrown,
+                    onPressed: () => {print("OK")}),
+                PerritosChip(
+                    disabled: false,
+                    label: 'Tochter',
+                    color: perritosBurntSienna,
+                    // ignore: avoid_print
+                    onPressed: () => {print("OK")}),
+              ],
             ),
           ],
         ),
