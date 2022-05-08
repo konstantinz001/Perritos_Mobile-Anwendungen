@@ -149,23 +149,22 @@ class _MyHomePageState extends State<MyHomePage> {
                 PerritosChip(
                     disabled: false,
                     label: 'Mutter',
-                    color: perritosGoldFusion,
+                    color: PerritosColor.perritosGoldFusion,
                     onPressed: () => {print("OK")}),
                 PerritosChip(
                     disabled: true,
                     label: 'Vatter',
-                    color: perritosMaizeCrayola,
+                    color: PerritosColor.perritosMaizeCrayola,
                     onPressed: () => print("OK")),
                 PerritosChip(
                     disabled: false,
                     label: 'Sohn',
-                    color: perritosSandyBrown,
+                    color: PerritosColor.perritosSandyBrown,
                     onPressed: () => {print("OK")}),
                 PerritosChip(
                     disabled: false,
                     label: 'Tochter',
-                    color: perritosBurntSienna,
-                    // ignore: avoid_print
+                    color: PerritosColor.perritosBurntSienna,
                     onPressed: () => {print("OK")}),
               ],
             ),

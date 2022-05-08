@@ -14,7 +14,7 @@ class PerritosChip extends StatelessWidget {
       : super(key: key);
 
   final String label;
-  final Color color;
+  final PerritosColor color;
   GestureTapCallback onPressed;
   bool disabled;
 
@@ -27,8 +27,8 @@ class PerritosChip extends StatelessWidget {
         style:
             disabled ? perritosDoublePicaLightOpacity : perritosDoublePicaLight,
       ),
-      backgroundColor: !disabled ? color : Colors.grey,
-      padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+      backgroundColor: !disabled ? color.color : perritosCharcoal.withOpacity(0.5),
+      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
     );
   }
 
