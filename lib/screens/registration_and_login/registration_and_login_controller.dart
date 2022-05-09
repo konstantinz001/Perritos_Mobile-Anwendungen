@@ -2,9 +2,12 @@ import 'package:flutter_application/screens/registration_and_login/registration_
 import 'package:flutter_application/screens/registration_and_login/registration_and_login_view.dart';
 
 class RegistrationAndLoginImplmentation extends RegistrationAndLoginController {
-
-  RegistrationAndLoginImplmentation({RegistrationAndLoginModel? model,})
-      : super(model ?? const RegistrationAndLoginModel(currentRegistrationAndLoginScreen: RegistrationAndLogin.kickoff));
+  RegistrationAndLoginImplmentation({
+    RegistrationAndLoginModel? model,
+  }) : super(model ??
+            const RegistrationAndLoginModel(
+                currentRegistrationAndLoginScreen:
+                    RegistrationAndLogin.kickoff));
 
   @override
   void switchCurrentRegistrationAndLoginScreen(screen) {

@@ -17,73 +17,67 @@ class RegistrationAndLoginView extends ConsumerWidget {
         ref.watch(providers.registrationAndLoginControllerProvider);
 
     return Scaffold(
-
       body: Center(
-        child:
-            model.currentRegistrationAndLoginScreen ==
-                    RegistrationAndLogin.kickoff
-                ? 
-                Container(
+          child: model.currentRegistrationAndLoginScreen ==
+                  RegistrationAndLogin.kickoff
+              ? Container(
                   color: PerritosColor.perritosSnow.color,
-                  child: 
-                    Padding(
+                  child: Padding(
                       padding: const EdgeInsets.only(
                         left: 10,
                         top: 0,
                         right: 10,
                         bottom: 0,
                       ),
-                      child:
-                        Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              const Image(
-                                image: AssetImage('lib/assets/images/Perritos_Logo_1_Coloured.png'),
-                                height: 227,
-                              ),
-                              const SizedBox(height: 60),
-                              PerritosButton(onPressed: () => {controller.switchCurrentRegistrationAndLoginScreen(
-                                          RegistrationAndLogin.login)}, label: 'Login'),
-                              const SizedBox(height: 20),
-                              PerritosButton(
-                                onPressed: () => {controller.switchCurrentRegistrationAndLoginScreen(
-                                          RegistrationAndLogin.registration)}, 
-                                label: 'Sign Up'
-                              ),
-                              const SizedBox(height: 60),
-                            ],
-                        )
-                    )
-                )
-                : model.currentRegistrationAndLoginScreen ==
-                    RegistrationAndLogin.registration 
-                ? Column(
-                    children: [
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          const Image(
+                            image: AssetImage(
+                                'lib/assets/images/Perritos_Logo_1_Coloured.png'),
+                            height: 227,
+                          ),
+                          const SizedBox(height: 60),
+                          PerritosButton(
+                              onPressed: () => {
+                                    controller
+                                        .switchCurrentRegistrationAndLoginScreen(
+                                            RegistrationAndLogin.login)
+                                  },
+                              label: 'Login'),
+                          const SizedBox(height: 20),
+                          PerritosButton(
+                              onPressed: () => {
+                                    controller
+                                        .switchCurrentRegistrationAndLoginScreen(
+                                            RegistrationAndLogin.registration)
+                                  },
+                              label: 'Sign Up'),
+                          const SizedBox(height: 60),
+                        ],
+                      )))
+              : model.currentRegistrationAndLoginScreen ==
+                      RegistrationAndLogin.registration
+                  ? Column(children: [
                       Text(
                         'Welcome!',
                         style: perritosDoubleParagon,
                       ),
                       const SizedBox(height: 20),
                       PerritosButton(
-                        onPressed: () => {print('Sign Up')}, 
-                        label: 'Sign Up'
-                      ),
-                    ]
-                ) : Column(
-                    children: [
+                          onPressed: () => {print('Sign Up')},
+                          label: 'Sign Up'),
+                    ])
+                  : Column(children: [
                       Text(
                         'Welcome back!',
                         style: perritosDoubleParagon,
                       ),
                       const SizedBox(height: 20),
                       PerritosButton(
-                        onPressed: () => {print('Login')}, 
-                        label: 'Login'
-                      ),
-                    ]
-                ) 
-      ),
+                          onPressed: () => {print('Login')}, label: 'Login'),
+                    ])),
     );
   }
 }

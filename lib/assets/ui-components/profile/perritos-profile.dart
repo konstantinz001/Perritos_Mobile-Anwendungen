@@ -13,7 +13,7 @@ class PerritosProfile extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  final IconData icon;
+  IconData icon;
 
   final String label;
 
@@ -26,35 +26,21 @@ class PerritosProfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: onPressed,
-      child: Column(children: [
-        edit == false ?
-        Icon(
-          icon, 
-          size: 91, 
-          color: perritosColor.color
-        ):
-        Stack(
-          alignment: Alignment.center,
-          children: [
-            Icon(
-              icon, 
-              size: 91, 
-              color: perritosColor.color.withOpacity(0.5)
-            ),
-            Icon(
-              PerritosIcons.Icon_Edit, 
-              size: 59, 
-              color: PerritosColor.perritosCharcoal.color
-            )
-          ]
-        ),
-        Text(
-          label,
-          textAlign: TextAlign.center,
-          style: perritosDoublePica,
-        )
-      ])
-    );
+        onTap: onPressed,
+        child: Column(children: [
+          edit == false
+              ? Icon(icon, size: 91, color: perritosColor.color)
+              : Stack(alignment: Alignment.center, children: [
+                  Icon(icon,
+                      size: 91, color: perritosColor.color.withOpacity(0.5)),
+                  Icon(PerritosIcons.Icon_Edit,
+                      size: 59, color: PerritosColor.perritosCharcoal.color)
+                ]),
+          Text(
+            label,
+            textAlign: TextAlign.center,
+            style: perritosDoublePica,
+          )
+        ]));
   }
 }

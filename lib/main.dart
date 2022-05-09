@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application/screens/registration_and_login/registration_and_login_view.dart';
+import 'package:flutter_application/screens/userprofil/userprofil_view.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() async {
@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: RegistrationAndLoginView(),
+      home: UserProfilView(),
     );
   }
 }

@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/cortes/Desktop/MobileAnwendungen/gruppe-20/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-es-rUS/values-es-rUS.xml",
+            "outputFile": "C:\\Users\\Konsi\\Desktop\\MEGA\\Studium\\Semester 6\\Mobile Anwendung\\Perritos\\gruppe-20\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-es-rUS\\values-es-rUS.xml",
             "map": [
                 {
-                    "source": "/Users/cortes/.gradle/caches/transforms-3/cbbd95a71c37efdfc64418cb4f36b641/transformed/core-1.6.0/res/values-es-rUS/values-es-rUS.xml",
+                    "source": "C:\\Users\\Konsi\\.gradle\\caches\\transforms-3\\cbbd95a71c37efdfc64418cb4f36b641\\transformed\\core-1.6.0\\res\\values-es-rUS\\values-es-rUS.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
