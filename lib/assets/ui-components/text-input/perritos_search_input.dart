@@ -1,6 +1,7 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:flutter_application/assets/styles/perritos-icons/perritos_icons.dart';
 
 import '../../styles/perritos-colors.dart';
 import '../../styles/perritos-fonts.dart';
@@ -10,7 +11,7 @@ class PerritosSearchInput extends StatefulWidget{
   const PerritosSearchInput ({
     Key? key,
     this.hintTxt = "Search",
-    this.width = 370,
+    this.width = double.infinity,
     required this.onSubmit
   }) : super(key: key);
 
@@ -73,7 +74,7 @@ class _PerritosSearchInputState extends State<PerritosSearchInput> {
                   )
               ),
             hintText: widget.hintTxt,
-            prefixIcon: const Icon(Icons.search,color: perritosCharcoal), //TODO: Icon ändern
+            prefixIcon: const Icon(PerritosIcons.Icon_Search, color: perritosCharcoal,), //TODO: Icon ändern
           ),
         )
     );
