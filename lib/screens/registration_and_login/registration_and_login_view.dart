@@ -62,18 +62,58 @@ class RegistrationAndLoginView extends ConsumerWidget {
                 )
                 : model.currentRegistrationAndLoginScreen ==
                     RegistrationAndLogin.registration 
-                ? Column(
-                    children: [
-                      Text(
-                        'Welcome!',
-                        style: perritosDoubleParagon,
-                      ),
-                      const SizedBox(height: 20),
-                      PerritosButton(
+                ? Container(
+                color: PerritosColor.perritosSnow.color,
+                child:
+                Padding(
+                  padding: const EdgeInsets.only(
+                    left: 10,
+                    top: 0,
+                    right: 10,
+                    bottom: 0,
+                  ),
+                  child: Column (
+                      children: [
+                        const SizedBox(height: 60,),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SizedBox(width: 10),
+                              Expanded(child:
+                              PerritosIconButton(
+                                  onPressed: () => controller.switchCurrentRegistrationAndLoginScreen(RegistrationAndLogin.kickoff),
+                                  iconSize: 40,
+                                  icon: PerritosIcons.Icon_Arrow_Left) //TODO: Change color to match figma
+                          ),
+                              Text(
+                                'Welcome!',
+                                style: perritosDoubleParagon,
+                              ),
+                              Spacer()
+                            ]
+                        ),
+                        const SizedBox(height: 36),
+                        PerritosTxtInput( //TODO: Space between TxtInputs
+                          onSubmit: (value) => {print(value)},
+                          hintTxt: "Username",),
+                        PerritosTxtInput(
+                          onSubmit: (value) => {print(value)},
+                          hintTxt: "E-Mail Adresse",),
+                        PerritosTxtInput(
+                          onSubmit: (value) => {print(value)},
+                          hintTxt: "Passwort",),
+                        PerritosTxtInput(
+                          onSubmit: (value) => {print(value)},
+                          hintTxt: "Passwort bestätigen",),
+                        Spacer(),
+                        PerritosButton(
                         onPressed: () => {print('Sign Up')},
                         label: 'Sign Up'
-                      ),
+                        ),
+                        SizedBox(height: 60)
                     ]
+                  )
+                )
                 ) : Container(
                 color: PerritosColor.perritosSnow.color,
                 child:
@@ -94,19 +134,19 @@ class RegistrationAndLoginView extends ConsumerWidget {
                           Expanded(child:
                           PerritosIconButton(
                               onPressed: () => controller.switchCurrentRegistrationAndLoginScreen(RegistrationAndLogin.kickoff),
-                              label: "",
-                              icon: PerritosIcons.Icon_Arrow_Left)
+                              iconSize: 40,
+                              icon: PerritosIcons.Icon_Arrow_Left) //TODO: Change color to match figma
                           ),
                           Text(
                             'Welcome back!',
-                            style: perritosDoubleParagon,
+                            style: perritosDoubleParagon, //TODO: Change color to match figma?
                             textAlign: TextAlign.center,
                           ),
                           Spacer()
                         ],
                       ),
                       const SizedBox(height: 36),
-                      PerritosTxtInput(
+                      PerritosTxtInput( //TODO: Space between TxtInputs
                         onSubmit: (value) => {print(value)},
                         hintTxt: "E-Mail Adresse",),
                       PerritosTxtInput(
