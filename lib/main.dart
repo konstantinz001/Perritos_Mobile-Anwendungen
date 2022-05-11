@@ -113,7 +113,9 @@ class _MyHomePageState extends State<MyHomePage> {
               onSubmit: (value) {print(value);},
               label: 'Holaaa',
             ),
-            PerritosDescriptionInput(onSubmit: (value) {print(value);}),
+            PerritosDescriptionInput(
+              onSubmit: (value) {print(value);},
+              label: "Label:",),
             PerritosSearchInput(onSubmit: (value) {print(value);})
           ],
         ),

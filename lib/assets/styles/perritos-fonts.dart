@@ -17,6 +17,10 @@ TextStyle perritosDoublePicaLable = GoogleFonts.pompiere(
   color: perritosCharcoal, fontSize: 20
 );
 
+TextStyle perritosDoublePicaLableNumbers = GoogleFonts.pompiere(
+    color: perritosCharcoal, fontSize: 14
+);
+
 TextStyle perritosDoublePicaLableFocused = GoogleFonts.pompiere(
     color: perritosMaizeCrayola, fontSize: 20
 );
