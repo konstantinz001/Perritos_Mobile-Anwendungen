@@ -6,13 +6,15 @@ class PerritosIconButton extends StatelessWidget {
   PerritosIconButton({
     Key? key,
     required this.onPressed,
-    required this.label,
+    this.label = "",
+    this.iconSize = 16,
     required this.icon,
   }) : super(key: key);
 
   final GestureTapCallback onPressed;
   final String label;
   final IconData icon;
+  final double iconSize;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +25,7 @@ class PerritosIconButton extends StatelessWidget {
         children: [
           Icon(
             icon,
-            size: 16,
+            size: iconSize,
             color: perritosCharcoal.withOpacity(0.7),
           ),
           Text(

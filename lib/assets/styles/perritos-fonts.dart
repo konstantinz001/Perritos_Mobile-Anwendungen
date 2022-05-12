@@ -13,6 +13,18 @@ TextStyle perritosDoubleParagonLight = GoogleFonts.pompiere(
 TextStyle perritosDoublePica = GoogleFonts.pompiere(
     color: perritosCharcoal, fontSize: 24);
 
+TextStyle perritosDoublePicaLable = GoogleFonts.pompiere(
+  color: perritosCharcoal, fontSize: 20
+);
+
+TextStyle perritosDoublePicaLableNumbers = GoogleFonts.pompiere(
+    color: perritosCharcoal, fontSize: 14
+);
+
+TextStyle perritosDoublePicaLableFocused = GoogleFonts.pompiere(
+    color: perritosMaizeCrayola, fontSize: 20
+);
+
 TextStyle perritosDoublePicaOpacity = GoogleFonts.pompiere(
     color: perritosCharcoal.withOpacity(0.5), fontSize: 24);
   
