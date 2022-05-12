@@ -74,7 +74,7 @@ class _PerritosSearchInputState extends State<PerritosSearchInput> {
                   )
               ),
             hintText: widget.hintTxt,
-            prefixIcon: const Icon(PerritosIcons.Icon_Search, color: perritosCharcoal,), //TODO: Icon ändern
+            prefixIcon: const Icon(PerritosIcons.Icon_Search, color: perritosCharcoal,), 
           ),
         )
     );
