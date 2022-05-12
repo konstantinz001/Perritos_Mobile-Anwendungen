@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application/assets/styles/perritos-colors.dart';
 import 'package:flutter_application/assets/styles/perritos-fonts.dart';
@@ -78,7 +77,7 @@ class RegistrationAndLoginView extends ConsumerWidget {
                         Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              SizedBox(width: 10),
+                              const SizedBox(width: 10),
                               Expanded(child:
                               PerritosIconButton(
                                   onPressed: () => controller.switchCurrentRegistrationAndLoginScreen(RegistrationAndLogin.kickoff),
@@ -89,7 +88,7 @@ class RegistrationAndLoginView extends ConsumerWidget {
                                 'Welcome!',
                                 style: perritosDoubleParagon,
                               ),
-                              Spacer()
+                              const Spacer()
                             ]
                         ),
                         const SizedBox(height: 36),
@@ -101,16 +100,20 @@ class RegistrationAndLoginView extends ConsumerWidget {
                           hintTxt: "E-Mail Adresse",),
                         PerritosTxtInput(
                           onSubmit: (value) => {print(value)},
-                          hintTxt: "Passwort",),
+                          hintTxt: "Passwort",
+                          password: true,
+                        ),
                         PerritosTxtInput(
                           onSubmit: (value) => {print(value)},
-                          hintTxt: "Passwort bestätigen",),
-                        Spacer(),
+                          hintTxt: "Passwort bestätigen",
+                          password: true,
+                        ),
+                        const Spacer(),
                         PerritosButton(
                         onPressed: () => {print('Sign Up')},
                         label: 'Sign Up'
                         ),
-                        SizedBox(height: 60)
+                        const SizedBox(height: 60)
                     ]
                   )
                 )
@@ -130,7 +133,7 @@ class RegistrationAndLoginView extends ConsumerWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          SizedBox(width: 10),
+                          const SizedBox(width: 10),
                           Expanded(child:
                           PerritosIconButton(
                               onPressed: () => controller.switchCurrentRegistrationAndLoginScreen(RegistrationAndLogin.kickoff),
@@ -142,7 +145,7 @@ class RegistrationAndLoginView extends ConsumerWidget {
                             style: perritosDoubleParagon, //TODO: Change color to match figma?
                             textAlign: TextAlign.center,
                           ),
-                          Spacer()
+                          const Spacer()
                         ],
                       ),
                       const SizedBox(height: 36),
@@ -151,13 +154,15 @@ class RegistrationAndLoginView extends ConsumerWidget {
                         hintTxt: "E-Mail Adresse",),
                       PerritosTxtInput(
                         onSubmit: (value) => {print(value)},
-                        hintTxt: "Passwort",),
-                      Spacer(),
+                        hintTxt: "Passwort",
+                        password: true,
+                        ),
+                      const Spacer(),
                       PerritosButton(
                           onPressed: () => {print('Login')},
                           label: 'Login'
                       ),
-                      SizedBox(height: 60)
+                      const SizedBox(height: 60)
                     ],
                   ),
                 )

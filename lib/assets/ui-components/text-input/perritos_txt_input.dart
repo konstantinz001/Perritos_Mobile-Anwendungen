@@ -12,6 +12,7 @@ class PerritosTxtInput extends StatefulWidget{
     this.label = "",
     this.optlabel = "",
     this.width = double.infinity,
+    this.password = false,
     required this.onSubmit
   }) : super (key: key);
 
@@ -19,6 +20,7 @@ class PerritosTxtInput extends StatefulWidget{
   final String label;
   final String optlabel;
   final double width;
+  final bool password;
   final Function(String) onSubmit;
 
   @override
@@ -76,6 +78,10 @@ class _PerritosTxtInputState extends State<PerritosTxtInput> {
               const SizedBox(width: 20)
             ]),
             TextFormField(
+              obscureText: widget.password,
+              enableSuggestions: !widget.password,
+              autocorrect: false,
+              cursorColor: PerritosColor.perritosCharcoal.color,
               style: perritosDoublePica,
               onFieldSubmitted: widget.onSubmit,
               controller: myController,
