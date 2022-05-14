@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application/assets/styles/perritos-colors.dart';
 import 'package:flutter_application/assets/styles/perritos-fonts.dart';
-import 'package:flutter_application/assets/styles/perritos-icons/perritos_icons.dart';
+import 'package:flutter_application/assets/styles/perritos-icons/PerritosIcons_icons.dart';
 import 'package:flutter_application/assets/ui-components/buttons/perritos-button.dart';
 import 'package:flutter_application/assets/ui-components/buttons/perritos-icon-button.dart';
 import 'package:flutter_application/assets/ui-components/text-input/perritos_txt_input.dart';
