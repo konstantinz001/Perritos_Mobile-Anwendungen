@@ -63,7 +63,7 @@ class _PerritosTxtInputState extends State<PerritosTxtInput> {
                 alignment: Alignment.topLeft,
                 child: Text(
                   widget.label,
-                  style: myFocusNode.hasFocus ? perritosDoublePicaLableFocused : perritosDoublePicaLable,
+                  style: myFocusNode.hasFocus ? perritosParagonMaizeCrayola : perritosParagonOpacity,
                   textAlign: TextAlign.left,
                 ),
               ),
@@ -72,7 +72,7 @@ class _PerritosTxtInputState extends State<PerritosTxtInput> {
                   alignment: Alignment.topRight,
                   child: Text(
                     widget.optlabel,
-                    style: perritosDoublePicaLable,
+                    style: perritosParagonOpacity,
                     textAlign: TextAlign.right,
                   )),
               const SizedBox(width: 20)
