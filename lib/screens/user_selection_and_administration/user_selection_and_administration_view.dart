@@ -5,6 +5,8 @@ import 'package:flutter_application/assets/ui-components/profile/perritos-editab
 import 'package:flutter_application/assets/ui-components/profile/perritos-profile.dart';
 import 'package:flutter_application/common/providers.dart';
 import 'package:flutter_application/assets/styles/perritos-icons/PerritosIcons_icons.dart';
+import 'package:flutter_application/models/userDataModel.dart';
+import 'package:flutter_application/screens/user_selection_and_administration/user_selection_and_administation_controller.dart';
 import 'package:flutter_application/screens/user_selection_and_administration/user_selection_and_administration_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -50,7 +52,9 @@ class UserSelectionAndAdministrationView extends ConsumerWidget {
                                                 UserSelectionAndAdministration
                                                     .edit)
                                       })),
-                          const SizedBox(height: 60),
+                          const SizedBox(height: 60),],
+
+                          for(var user in UserList) {
                           PerritosProfile(
                               icon: PerritosIcons.Icon_User,
                               label: 'Dad',
@@ -61,6 +65,7 @@ class UserSelectionAndAdministrationView extends ConsumerWidget {
                                             UserSelectionAndAdministration
                                                 .select)
                                   }),
+                          }
                           const SizedBox(height: 20),
                           PerritosProfile(
                               icon: PerritosIcons.Icon_User,
@@ -78,9 +83,15 @@ class UserSelectionAndAdministrationView extends ConsumerWidget {
                               tooltip: 'Hinzufügen',
                               iconSize: 42,
                               onPressed: () => {
+                                    controller.addUser(UserModel("Kira")),
                                     controller
                                         .switchCurrentUserSelectionAndAdministrationScreen(
-                                            UserSelectionAndAdministration.add)
+                                            UserSelectionAndAdministration
+                                                .kickoff)
+                                    /*controller
+                                        .switchCurrentUserSelectionAndAdministrationScreen(
+                                            UserSelectionAndAdministration
+                                                .kickoff)*/
                                   }),
                         ],
                       )))
@@ -164,4 +175,6 @@ abstract class UserSelectionAndAdministrationController
       : super(state);
 
   void switchCurrentUserSelectionAndAdministrationScreen(screen);
+
+  void addUser(UserModel userModel);
 }
