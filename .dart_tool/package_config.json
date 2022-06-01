@@ -140,6 +140,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "date_format",
+      "rootUri": "file:///Users/cortes/Desktop/MobileAnwendungen/flutter/.pub-cache/hosted/pub.dartlang.org/date_format-2.0.6",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "fake_async",
       "rootUri": "file:///Users/cortes/Desktop/MobileAnwendungen/flutter/.pub-cache/hosted/pub.dartlang.org/fake_async-1.2.0",
       "packageUri": "lib/",
@@ -238,6 +244,12 @@
     {
       "name": "http_parser",
       "rootUri": "file:///Users/cortes/Desktop/MobileAnwendungen/flutter/.pub-cache/hosted/pub.dartlang.org/http_parser-4.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "intl",
+      "rootUri": "file:///Users/cortes/Desktop/MobileAnwendungen/flutter/.pub-cache/hosted/pub.dartlang.org/intl-0.17.0",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -518,7 +530,7 @@
       "languageVersion": "2.16"
     }
   ],
-  "generated": "2022-06-01T12:02:18.383483Z",
+  "generated": "2022-06-01T13:57:55.239906Z",
   "generator": "pub",
   "generatorVersion": "2.16.2"
 }
