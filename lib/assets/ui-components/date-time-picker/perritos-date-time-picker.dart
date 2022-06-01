@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application/assets/styles/perritos-colors.dart';
 import 'package:flutter_application/assets/styles/perritos-fonts.dart';
 import 'package:date_format/date_format.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 class PerritosDateTimePicker extends StatefulWidget {
@@ -30,12 +31,24 @@ class _PerritosDateTimePickerState extends State<PerritosDateTimePicker> {
 
   Future<Null> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
-        context: context,
-        initialDate: selectedDate,
-        initialDatePickerMode: DatePickerMode.day,
-        firstDate: DateTime(2015),
-        lastDate: DateTime(2101),
-        locale: const Locale.fromSubtags(languageCode: 'de'));
+      context: context,
+      initialDate: selectedDate,
+      initialDatePickerMode: DatePickerMode.day,
+      firstDate: DateTime(2015),
+      lastDate: DateTime(2101),
+      builder: (BuildContext? context, Widget? child) {
+        return Theme(
+          data: ThemeData(
+              primaryColor: PerritosColor.perritosCharcoal.color,
+              colorScheme: ColorScheme.light(
+                  primary: PerritosColor.perritosBurntSienna.color),
+              buttonTheme:
+                  const ButtonThemeData(textTheme: ButtonTextTheme.primary),
+              fontFamily: GoogleFonts.pompiere().fontFamily),
+          child: child!,
+        );
+      },
+    );
     if (picked != null) {
       setState(() {
         selectedDate = picked;
@@ -48,28 +61,36 @@ class _PerritosDateTimePickerState extends State<PerritosDateTimePicker> {
     final TimeOfDay? picked = await showTimePicker(
       context: context,
       initialTime: selectedTime,
+      builder: (BuildContext? context, Widget? child) {
+        return Theme(
+          data: ThemeData(
+              primaryColor: PerritosColor.perritosCharcoal.color,
+              colorScheme: ColorScheme.light(
+                  primary: PerritosColor.perritosBurntSienna.color),
+              buttonTheme:
+                  const ButtonThemeData(textTheme: ButtonTextTheme.primary),
+              fontFamily: GoogleFonts.pompiere().fontFamily),
+          child: child!,
+        );
+      },
     );
     if (picked != null) {
       setState(() {
         selectedTime = picked;
-        _hour = selectedTime.hour.toString();
-        _minute = selectedTime.minute.toString();
-        _time = _hour + ' : ' + _minute;
-        _timeController.text = _time;
-        _timeController.text = formatDate(
-            DateTime(2019, 08, 1, selectedTime.hour, selectedTime.minute),
-            [hh, ':', nn, " ", am]).toString();
+        _timeController.text = DateFormat.Hm('de').format(
+          DateTime(DateTime.now().year, 
+          DateTime.now().month, DateTime.now().day, 
+          selectedTime.hour, 
+          selectedTime.minute
+        ));
       });
     }
   }
 
   @override
   void initState() {
-    _dateController.text = DateFormat.yMd().format(DateTime.now());
-
-    _timeController.text = formatDate(
-        DateTime(2019, 08, 1, DateTime.now().hour, DateTime.now().minute),
-        [hh, ':', nn, " ", am]).toString();
+    _dateController.text = DateFormat.yMd('de').format(DateTime.now());
+    _timeController.text = DateFormat.Hm('de').format(DateTime.now());
     super.initState();
   }
 
