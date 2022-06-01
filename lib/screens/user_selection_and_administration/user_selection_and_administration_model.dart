@@ -12,5 +12,6 @@ class UserSelectionAndAdministrationModel
     required UserSelectionAndAdministration
         currentUserSelectionAndAdministrationScreen,
     required List<UserModel> userList,
+    required bool editable,
   }) = _UserSelectionAndAdministrationModel;
 }

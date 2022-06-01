@@ -16,7 +16,8 @@ class UserSelectionAndAdministrationImplmentation
             const UserSelectionAndAdministrationModel(
                 currentUserSelectionAndAdministrationScreen:
                     UserSelectionAndAdministration.kickoff,
-                userList: UserList));
+                userList: UserList,
+                editable: false));
 
   @override
   void switchCurrentUserSelectionAndAdministrationScreen(screen) {
@@ -25,6 +26,11 @@ class UserSelectionAndAdministrationImplmentation
 
   @override
   void addUser(usermodel) {
-    state = state.copyWith(userList: new List.from(UserList)..add(usermodel));
+    state = state.copyWith(
+        userList: new List.from(state.userList.toList())..insert(0, usermodel));
+  }
+
+  void changeEditability() {
+    state = state.copyWith(editable: state.editable == true ? false : true);
   }
 }
