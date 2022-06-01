@@ -17,8 +17,30 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: RegistrationAndLoginView(),
+    return MaterialApp(
+      home: Navigator(
+        initialRoute: '/RegistrationAndLogin',
+        onGenerateRoute: (RouteSettings routeParams) {
+          if (routeParams.name == '/RegistrationAndLogin') {
+            return MaterialPageRoute(builder: (context) => const RegistrationAndLoginView());
+          } else if (routeParams.name == '/UserSelectionAndAdministration') {
+            return MaterialPageRoute(builder: (context) => const Center(child: Text('UserSelectionAndAdministration Screen')));
+          } else if (routeParams.name == '/DogSelectionAndAdministration') {
+            return MaterialPageRoute(builder: (context) => const Center(child: Text('DogSelectionAndAdministration Screen')));
+          } else if (routeParams.name == '/Home') {
+            return MaterialPageRoute(builder: (context) => const Center(child: Text('Home Screen')));
+          } else if (routeParams.name == '/Calendar') {
+            return MaterialPageRoute(builder: (context) => const Center(child: Text('Calendar Screen')));
+          } else if (routeParams.name == '/DogProfileInfo') {
+            return MaterialPageRoute(builder: (context) => const Center(child: Text('DogProfileInfo Screen')));
+          } 
+          return MaterialPageRoute(
+              builder: (context) => const Center(child: Text('Unkown Screen')));
+        },
+        onPopPage: (route, result) {
+          return route.didPop(result);
+        },
+      )
     );
   }
 }

@@ -4,7 +4,6 @@ import 'package:flutter_application/assets/styles/perritos-fonts.dart';
 import 'package:flutter_application/assets/styles/perritos-icons/PerritosIcons_icons.dart';
 import 'package:flutter_application/assets/ui-components/buttons/perritos-button.dart';
 import 'package:flutter_application/assets/ui-components/buttons/perritos-icon-button.dart';
-import 'package:flutter_application/assets/ui-components/slider/perritos-slider.dart';
 import 'package:flutter_application/assets/ui-components/text-input/perritos_txt_input.dart';
 import 'package:flutter_application/common/providers.dart';
 import 'package:flutter_application/screens/registration_and_login/registration_and_login_model.dart';
@@ -55,7 +54,6 @@ class RegistrationAndLoginView extends ConsumerWidget {
                                           RegistrationAndLogin.registration)}, 
                                 label: 'Sign Up'
                               ),
-                              PerritosSlider(),
                               const SizedBox(height: 60),
                             ],
                         )
@@ -84,7 +82,7 @@ class RegistrationAndLoginView extends ConsumerWidget {
                               PerritosIconButton(
                                   onPressed: () => controller.switchCurrentRegistrationAndLoginScreen(RegistrationAndLogin.kickoff),
                                   iconSize: 40,
-                                  icon: PerritosIcons.Icon_Arrow_Left) //TODO: Change color to match figma
+                                  icon: PerritosIcons.Icon_Arrow_Left) 
                           ),
                               Text(
                                 'Welcome!',
@@ -94,7 +92,7 @@ class RegistrationAndLoginView extends ConsumerWidget {
                             ]
                         ),
                         const SizedBox(height: 36),
-                        PerritosTxtInput( //TODO: Space between TxtInputs
+                        PerritosTxtInput( 
                           onSubmit: (value) => {print(value)},
                           hintTxt: "Username",),
                         PerritosTxtInput(
@@ -140,18 +138,18 @@ class RegistrationAndLoginView extends ConsumerWidget {
                           PerritosIconButton(
                               onPressed: () => controller.switchCurrentRegistrationAndLoginScreen(RegistrationAndLogin.kickoff),
                               iconSize: 40,
-                              icon: PerritosIcons.Icon_Arrow_Left) //TODO: Change color to match figma
+                              icon: PerritosIcons.Icon_Arrow_Left) 
                           ),
                           Text(
                             'Welcome back!',
-                            style: perritosDoubleParagon, //TODO: Change color to match figma?
+                            style: perritosDoubleParagon,
                             textAlign: TextAlign.center,
                           ),
                           const Spacer()
                         ],
                       ),
                       const SizedBox(height: 36),
-                      PerritosTxtInput( //TODO: Space between TxtInputs
+                      PerritosTxtInput( 
                         onSubmit: (value) => {print(value)},
                         hintTxt: "E-Mail Adresse",),
                       PerritosTxtInput(
@@ -161,7 +159,7 @@ class RegistrationAndLoginView extends ConsumerWidget {
                         ),
                       const Spacer(),
                       PerritosButton(
-                          onPressed: () => {print('Login')},
+                          onPressed: () => {Navigator.pushNamed(context, '/Home')},
                           label: 'Login'
                       ),
                       const SizedBox(height: 60)
