@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application/screens/registration_and_login/registration_and_login_view.dart';
 import 'package:flutter_application/screens/user_selection_and_administration/user_selection_and_administration_view.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() async {
   runApp(await buildApp());
@@ -19,7 +20,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        home: Navigator(
+      localizationsDelegates: [
+         GlobalMaterialLocalizations.delegate
+      ],
+      supportedLocales: [
+        const Locale('en'),
+        const Locale('de')
+      ],
+      home: Navigator(
       initialRoute: '/RegistrationAndLogin',
       onGenerateRoute: (RouteSettings routeParams) {
         if (routeParams.name == '/RegistrationAndLogin') {
