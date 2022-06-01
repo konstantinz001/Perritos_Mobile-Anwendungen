@@ -40,7 +40,7 @@ class _PerritosNavigationBarState extends State<PerritosNavigationBar> {
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           IconButton(
             icon: Icon(
@@ -51,6 +51,7 @@ class _PerritosNavigationBarState extends State<PerritosNavigationBar> {
                   : PerritosColor.perritosCharcoal.color,
             ),
             onPressed: widget.navigateToHome,
+            padding: EdgeInsets.all(0),
           ),
           IconButton(
             icon: Icon(
@@ -61,6 +62,7 @@ class _PerritosNavigationBarState extends State<PerritosNavigationBar> {
                   : PerritosColor.perritosCharcoal.color,
             ),
             onPressed: widget.navigateToCalendar,
+            padding: EdgeInsets.all(0),
           ),
           IconButton(
             icon: Icon(
@@ -71,6 +73,7 @@ class _PerritosNavigationBarState extends State<PerritosNavigationBar> {
                   : PerritosColor.perritosCharcoal.color,
             ),
             onPressed: widget.navigateToProfile,
+            padding: EdgeInsets.all(0),
           )
         ],
       ),
