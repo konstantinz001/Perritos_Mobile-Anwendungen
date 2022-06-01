@@ -9,6 +9,8 @@ import 'package:flutter_application/common/providers.dart';
 import 'package:flutter_application/screens/registration_and_login/registration_and_login_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../assets/ui-components/navigation/perritos-navigation.dart';
+
 class RegistrationAndLoginView extends ConsumerWidget {
   const RegistrationAndLoginView({Key? key}) : super(key: key);
 
@@ -53,6 +55,12 @@ class RegistrationAndLoginView extends ConsumerWidget {
                                 onPressed: () => {controller.switchCurrentRegistrationAndLoginScreen(
                                           RegistrationAndLogin.registration)}, 
                                 label: 'Sign Up'
+                              ),
+                              PerritosNavigationBar(
+                                activeView: activeView.home,
+                                navigateToHome: () => {print('Home')},
+                                navigateToCalendar: () => {print('Calendar')},
+                                navigateToProfile: () => {print('Profile')},
                               ),
                               const SizedBox(height: 60),
                             ],
