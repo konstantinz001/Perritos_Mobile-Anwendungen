@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application/assets/styles/perritos-colors.dart';
 import 'package:flutter_application/assets/styles/perritos-fonts.dart';
-import 'package:flutter_application/assets/styles/perritos-icons/perritos_icons.dart';
+import 'package:flutter_application/assets/styles/perritos-icons/PerritosIcons_icons.dart';
 
 class PerritosProfile extends StatelessWidget {
   PerritosProfile({

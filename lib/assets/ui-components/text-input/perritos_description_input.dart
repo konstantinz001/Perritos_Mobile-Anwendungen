@@ -62,7 +62,7 @@ class _PerritosDescriptionInputState
               alignment: Alignment.topLeft,
               child: Text(
                 widget.label,
-                style: myFocusNode.hasFocus ? perritosDoublePicaLableFocused : perritosDoublePicaLable,
+                style: myFocusNode.hasFocus ? perritosParagonMaizeCrayola : perritosParagonOpacity,
                 textAlign: TextAlign.left,
               ),
             ),
@@ -71,7 +71,7 @@ class _PerritosDescriptionInputState
               alignment: Alignment.topRight,
               child: Text(
                   '${enteredText.length.toString()} / 500',
-                style: perritosDoublePicaLableNumbers,
+                style: perritosEnglishOpacity,
                 textAlign: TextAlign.right,
               ),
             ),
