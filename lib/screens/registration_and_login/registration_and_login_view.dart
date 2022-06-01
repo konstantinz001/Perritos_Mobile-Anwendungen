@@ -4,7 +4,6 @@ import 'package:flutter_application/assets/styles/perritos-fonts.dart';
 import 'package:flutter_application/assets/styles/perritos-icons/PerritosIcons_icons.dart';
 import 'package:flutter_application/assets/ui-components/buttons/perritos-button.dart';
 import 'package:flutter_application/assets/ui-components/buttons/perritos-icon-button.dart';
-import 'package:flutter_application/assets/ui-components/date-time-picker/perritos-date-time-picker.dart';
 import 'package:flutter_application/assets/ui-components/text-input/perritos_txt_input.dart';
 import 'package:flutter_application/common/providers.dart';
 import 'package:flutter_application/screens/registration_and_login/registration_and_login_model.dart';
@@ -55,7 +54,6 @@ class RegistrationAndLoginView extends ConsumerWidget {
                                           RegistrationAndLogin.registration)}, 
                                 label: 'Sign Up'
                               ),
-                              const PerritosDateTimePicker(),
                               const SizedBox(height: 60),
                             ],
                         )
