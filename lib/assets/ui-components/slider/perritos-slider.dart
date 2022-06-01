@@ -15,27 +15,26 @@ class PerritosSlider extends StatefulWidget {
 class _PerritosSliderState extends State<PerritosSlider> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child: Column(
+    return Column(
       children: [
         Row(
           children: [
             Expanded(
                 child: Row(
               children: [
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 Icon(
                   PerritosIcons.Icon_Smiley_Happy,
                   size: 21,
                   color: PerritosColor.perritosGoldFusion.color,
                 ),
-                Spacer(),
+                const Spacer(),
                 Icon(
                   PerritosIcons.Icon_Smiley_Sad,
                   size: 21,
                   color: PerritosColor.perritosBurntSienna.color,
                 ),
-                SizedBox(width: 10)
+                const SizedBox(width: 10)
               ],
             )),
           ],
@@ -66,6 +65,6 @@ class _PerritosSliderState extends State<PerritosSlider> {
           ],
         )
       ],
-    ));
+    );
   }
 }
