@@ -105,11 +105,13 @@ class UserSelectionAndAdministrationView extends ConsumerWidget {
                             model.editable == false
                                 ? (Align(
                                     alignment: Alignment.bottomCenter,
-                                    child: IconButton(
-                                        icon:
-                                            const Icon(PerritosIcons.Icon_Add),
-                                        tooltip: 'Hinzufügen',
-                                        iconSize: 42,
+                                    child: FloatingActionButton(
+                                        backgroundColor: PerritosColor
+                                            .perritosCharcoal.color,
+                                        child: const Icon(
+                                          PerritosIcons.Icon_Add,
+                                          size: 42,
+                                        ),
                                         onPressed: () => {
                                               controller
                                                   .switchCurrentUserSelectionAndAdministrationScreen(
@@ -158,6 +160,7 @@ class UserSelectionAndAdministrationView extends ConsumerWidget {
                                         children: [
                                           PerritosEditableProfile(
                                             icon: PerritosIcons.Icon_User,
+                                            placeholder: "Name",
                                             label: "",
                                             onPressed: () => {
                                               controller
@@ -236,6 +239,7 @@ class UserSelectionAndAdministrationView extends ConsumerWidget {
                                             children: [
                                               PerritosEditableProfile(
                                                 icon: PerritosIcons.Icon_User,
+                                                placeholder: "Name",
                                                 label: "",
                                                 onPressed: () => {
                                                   controller
@@ -297,4 +301,8 @@ abstract class UserSelectionAndAdministrationController
   void changeEditability();
 
   void changeSelectedUser(UserModel userModel);
+
+  void disabledSelectedUser();
+
+  UserModel getSelectedUser();
 }

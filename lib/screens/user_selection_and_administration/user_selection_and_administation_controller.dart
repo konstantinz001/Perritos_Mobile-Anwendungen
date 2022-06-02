@@ -46,4 +46,33 @@ class UserSelectionAndAdministrationImplmentation
                   .indexWhere((element) => element.name == userModel.name),
               userModel));
   }
+
+  UserModel getSelectedUser() {
+    int index = state.userList
+        .toList()
+        .indexWhere((element) => element.selected == true);
+    return state.userList[index];
+  }
+
+  void disabledSelectedUser() {
+    for (var user in state.userList) {
+      if (user.selected == true) {
+        int index = state.userList
+            .toList()
+            .indexWhere((element) => element.name == user.name);
+
+        state = state.copyWith(
+            userList: new List.from(state.userList.toList())
+              ..insert(
+                  state.userList
+                      .toList()
+                      .indexWhere((element) => element.name == user.name),
+                  UserModel(user.name, false))
+              ..removeAt(state.userList
+                      .toList()
+                      .indexWhere((element) => element.selected == true) +
+                  1));
+      }
+    }
+  }
 }
