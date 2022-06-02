@@ -19,6 +19,8 @@ mixin _$UserSelectionAndAdministrationModel {
   UserSelectionAndAdministration
       get currentUserSelectionAndAdministrationScreen =>
           throw _privateConstructorUsedError;
+  List<UserModel> get userList => throw _privateConstructorUsedError;
+  bool get editable => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $UserSelectionAndAdministrationModelCopyWith<
@@ -34,7 +36,9 @@ abstract class $UserSelectionAndAdministrationModelCopyWith<$Res> {
       _$UserSelectionAndAdministrationModelCopyWithImpl<$Res>;
   $Res call(
       {UserSelectionAndAdministration
-          currentUserSelectionAndAdministrationScreen});
+          currentUserSelectionAndAdministrationScreen,
+      List<UserModel> userList,
+      bool editable});
 }
 
 /// @nodoc
@@ -49,6 +53,8 @@ class _$UserSelectionAndAdministrationModelCopyWithImpl<$Res>
   @override
   $Res call({
     Object? currentUserSelectionAndAdministrationScreen = freezed,
+    Object? userList = freezed,
+    Object? editable = freezed,
   }) {
     return _then(_value.copyWith(
       currentUserSelectionAndAdministrationScreen:
@@ -56,6 +62,14 @@ class _$UserSelectionAndAdministrationModelCopyWithImpl<$Res>
               ? _value.currentUserSelectionAndAdministrationScreen
               : currentUserSelectionAndAdministrationScreen // ignore: cast_nullable_to_non_nullable
                   as UserSelectionAndAdministration,
+      userList: userList == freezed
+          ? _value.userList
+          : userList // ignore: cast_nullable_to_non_nullable
+              as List<UserModel>,
+      editable: editable == freezed
+          ? _value.editable
+          : editable // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -70,7 +84,9 @@ abstract class _$$_UserSelectionAndAdministrationModelCopyWith<$Res>
   @override
   $Res call(
       {UserSelectionAndAdministration
-          currentUserSelectionAndAdministrationScreen});
+          currentUserSelectionAndAdministrationScreen,
+      List<UserModel> userList,
+      bool editable});
 }
 
 /// @nodoc
@@ -90,6 +106,8 @@ class __$$_UserSelectionAndAdministrationModelCopyWithImpl<$Res>
   @override
   $Res call({
     Object? currentUserSelectionAndAdministrationScreen = freezed,
+    Object? userList = freezed,
+    Object? editable = freezed,
   }) {
     return _then(_$_UserSelectionAndAdministrationModel(
       currentUserSelectionAndAdministrationScreen:
@@ -97,6 +115,14 @@ class __$$_UserSelectionAndAdministrationModelCopyWithImpl<$Res>
               ? _value.currentUserSelectionAndAdministrationScreen
               : currentUserSelectionAndAdministrationScreen // ignore: cast_nullable_to_non_nullable
                   as UserSelectionAndAdministration,
+      userList: userList == freezed
+          ? _value._userList
+          : userList // ignore: cast_nullable_to_non_nullable
+              as List<UserModel>,
+      editable: editable == freezed
+          ? _value.editable
+          : editable // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -106,15 +132,27 @@ class __$$_UserSelectionAndAdministrationModelCopyWithImpl<$Res>
 class _$_UserSelectionAndAdministrationModel
     implements _UserSelectionAndAdministrationModel {
   const _$_UserSelectionAndAdministrationModel(
-      {required this.currentUserSelectionAndAdministrationScreen});
+      {required this.currentUserSelectionAndAdministrationScreen,
+      required final List<UserModel> userList,
+      required this.editable})
+      : _userList = userList;
 
   @override
   final UserSelectionAndAdministration
       currentUserSelectionAndAdministrationScreen;
+  final List<UserModel> _userList;
+  @override
+  List<UserModel> get userList {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_userList);
+  }
+
+  @override
+  final bool editable;
 
   @override
   String toString() {
-    return 'UserSelectionAndAdministrationModel(currentUserSelectionAndAdministrationScreen: $currentUserSelectionAndAdministrationScreen)';
+    return 'UserSelectionAndAdministrationModel(currentUserSelectionAndAdministrationScreen: $currentUserSelectionAndAdministrationScreen, userList: $userList, editable: $editable)';
   }
 
   @override
@@ -124,14 +162,18 @@ class _$_UserSelectionAndAdministrationModel
             other is _$_UserSelectionAndAdministrationModel &&
             const DeepCollectionEquality().equals(
                 other.currentUserSelectionAndAdministrationScreen,
-                currentUserSelectionAndAdministrationScreen));
+                currentUserSelectionAndAdministrationScreen) &&
+            const DeepCollectionEquality().equals(other._userList, _userList) &&
+            const DeepCollectionEquality().equals(other.editable, editable));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality()
-          .hash(currentUserSelectionAndAdministrationScreen));
+          .hash(currentUserSelectionAndAdministrationScreen),
+      const DeepCollectionEquality().hash(_userList),
+      const DeepCollectionEquality().hash(editable));
 
   @JsonKey(ignore: true)
   @override
@@ -144,14 +186,19 @@ class _$_UserSelectionAndAdministrationModel
 abstract class _UserSelectionAndAdministrationModel
     implements UserSelectionAndAdministrationModel {
   const factory _UserSelectionAndAdministrationModel(
-          {required final UserSelectionAndAdministration
-              currentUserSelectionAndAdministrationScreen}) =
-      _$_UserSelectionAndAdministrationModel;
+      {required final UserSelectionAndAdministration
+          currentUserSelectionAndAdministrationScreen,
+      required final List<UserModel> userList,
+      required final bool editable}) = _$_UserSelectionAndAdministrationModel;
 
   @override
   UserSelectionAndAdministration
       get currentUserSelectionAndAdministrationScreen =>
           throw _privateConstructorUsedError;
+  @override
+  List<UserModel> get userList => throw _privateConstructorUsedError;
+  @override
+  bool get editable => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$$_UserSelectionAndAdministrationModelCopyWith<
