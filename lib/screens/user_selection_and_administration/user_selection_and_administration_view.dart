@@ -5,7 +5,7 @@ import 'package:flutter_application/assets/ui-components/profile/perritos-editab
 import 'package:flutter_application/assets/ui-components/profile/perritos-profile.dart';
 import 'package:flutter_application/common/providers.dart';
 import 'package:flutter_application/assets/styles/perritos-icons/PerritosIcons_icons.dart';
-import 'package:flutter_application/models/userDataModel.dart';
+import 'package:flutter_application/models/user_model.dart';
 import 'package:flutter_application/screens/user_selection_and_administration/user_selection_and_administration_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

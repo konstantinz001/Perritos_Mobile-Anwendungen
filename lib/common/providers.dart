@@ -1,5 +1,6 @@
 import 'package:flutter_application/screens/registration_and_login/registration_and_login_controller.dart';
 import 'package:flutter_application/screens/registration_and_login/registration_and_login_model.dart';
+import 'package:flutter_application/common/services/auth_service.dart';
 import 'package:flutter_application/screens/registration_and_login/registration_and_login_view.dart';
 import 'package:flutter_application/screens/user_selection_and_administration/user_selection_and_administation_controller.dart';
 import 'package:flutter_application/screens/user_selection_and_administration/user_selection_and_administration_model.dart';
@@ -11,12 +12,15 @@ import '../screens/user_selection_and_administration/user_selection_and_administ
 final Providers providers = Providers();
 
 class Providers {
+  final Provider<AuthService> authServiceProvider =
+      Provider<AuthService>((ProviderRef ref) => AuthFirebaseService());
+
   final StateNotifierProvider<RegistrationAndLoginController,
           RegistrationAndLoginModel> registrationAndLoginControllerProvider =
       StateNotifierProvider<RegistrationAndLoginController,
               RegistrationAndLoginModel>(
           (StateNotifierProviderRef ref) =>
-              RegistrationAndLoginImplmentation());
+              RegistrationAndLoginImplmentation(authService: ref.read(providers.authServiceProvider)));
 
   final StateNotifierProvider<UserSelectionAndAdministrationController,
           UserSelectionAndAdministrationModel>

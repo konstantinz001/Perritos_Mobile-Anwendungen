@@ -12,7 +12,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../assets/ui-components/navigation/perritos-navigation.dart';
 
 class RegistrationAndLoginView extends ConsumerWidget {
-  const RegistrationAndLoginView({Key? key}) : super(key: key);
+  RegistrationAndLoginView({Key? key}) : super(key: key);
+
+  String email = '';
+  String password = '';
+  String username = '';
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -96,26 +100,26 @@ class RegistrationAndLoginView extends ConsumerWidget {
                             ]),
                         const SizedBox(height: 36),
                         PerritosTxtInput(
-                          onSubmit: (value) => {print(value)},
+                          onSubmit: (value) => {username = value},
                           hintTxt: "Username",
                         ),
                         PerritosTxtInput(
-                          onSubmit: (value) => {print(value)},
+                          onSubmit: (value) => {email = value},
                           hintTxt: "E-Mail Adresse",
                         ),
                         PerritosTxtInput(
-                          onSubmit: (value) => {print(value)},
+                          onSubmit: (value) => {password = value},
                           hintTxt: "Passwort",
                           password: true,
                         ),
                         PerritosTxtInput(
-                          onSubmit: (value) => {print(value)},
+                          onSubmit: (value) => {password = value},
                           hintTxt: "Passwort bestätigen",
                           password: true,
                         ),
                         const Spacer(),
                         PerritosButton(
-                            onPressed: () => {print('Sign Up')},
+                            onPressed: () => {controller.register(username, email, password)},
                             label: 'Sign Up'),
                         const SizedBox(height: 60)
                       ])))
@@ -183,4 +187,5 @@ abstract class RegistrationAndLoginController
       : super(state);
 
   void switchCurrentRegistrationAndLoginScreen(screen);
+  void register(username, email, password);
 }

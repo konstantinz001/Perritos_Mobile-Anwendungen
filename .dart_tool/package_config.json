@@ -141,7 +141,7 @@
     },
     {
       "name": "date_format",
-      "rootUri": "file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/date_format-2.0.6",
+      "rootUri": "file:///Users/cortes/Desktop/MobileAnwendungen/flutter/.pub-cache/hosted/pub.dartlang.org/date_format-2.0.6",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -207,9 +207,9 @@
     },
     {
       "name": "flutter_localizations",
-      "rootUri": "file:///C:/src/flutter/packages/flutter_localizations",
+      "rootUri": "file:///Users/cortes/Desktop/MobileAnwendungen/flutter/packages/flutter_localizations",
       "packageUri": "lib/",
-      "languageVersion": "2.17"
+      "languageVersion": "2.12"
     },
     {
       "name": "flutter_riverpod",
@@ -279,7 +279,7 @@
     },
     {
       "name": "intl",
-      "rootUri": "file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/intl-0.17.0",
+      "rootUri": "file:///Users/cortes/Desktop/MobileAnwendungen/flutter/.pub-cache/hosted/pub.dartlang.org/intl-0.17.0",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -566,7 +566,7 @@
       "languageVersion": "2.16"
     }
   ],
-  "generated": "2022-06-02T09:21:36.700991Z",
+  "generated": "2022-06-02T10:16:10.739384Z",
   "generator": "pub",
   "generatorVersion": "2.16.2"
 }
