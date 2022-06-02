@@ -3,9 +3,9 @@ import 'package:flutter_application/screens/user_selection_and_administration/us
 import 'package:flutter_application/screens/user_selection_and_administration/user_selection_and_administration_view.dart';
 
 const List<UserModel> UserList = [
-  const UserModel("Mom"),
-  const UserModel("Dad"),
-  const UserModel("Lisa")
+  const UserModel("Mom", false),
+  const UserModel("Dad", false),
+  const UserModel("Lisa", false)
 ];
 
 class UserSelectionAndAdministrationImplmentation
@@ -32,5 +32,18 @@ class UserSelectionAndAdministrationImplmentation
 
   void changeEditability() {
     state = state.copyWith(editable: state.editable == true ? false : true);
+  }
+
+  void changeSelectedUser(UserModel userModel) {
+    state = state.copyWith(
+        userList: new List.from(state.userList.toList())
+          ..removeAt(state.userList
+              .toList()
+              .indexWhere((element) => element.name == userModel.name))
+          ..insert(
+              state.userList
+                  .toList()
+                  .indexWhere((element) => element.name == userModel.name),
+              userModel));
   }
 }

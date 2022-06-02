@@ -1,4 +1,5 @@
 class UserModel {
   final String name;
-  const UserModel(this.name);
+  final bool selected;
+  const UserModel(this.name, this.selected);
 }
