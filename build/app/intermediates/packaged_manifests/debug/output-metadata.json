@@ -4,7 +4,7 @@
     "type": "PACKAGED_MANIFESTS",
     "kind": "Directory"
   },
-  "applicationId": "com.example.flutter_application",
+  "applicationId": "com.htwg.perritos",
   "variantName": "debug",
   "elements": [
     {

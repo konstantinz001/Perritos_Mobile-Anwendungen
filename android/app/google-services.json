@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "118233221518",
+    "project_id": "flutterperritos",
+    "storage_bucket": "flutterperritos.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:118233221518:android:cf516d76988e1fbbe13cdf",
+        "android_client_info": {
+          "package_name": "com.htwg.perritos"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "118233221518-2e7sg521tl5i772iljq1i3ar0qgkljo0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA-brtvnsz520VEjXUWwhi_DddPRfwINSg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "118233221518-2e7sg521tl5i772iljq1i3ar0qgkljo0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -20,6 +20,9 @@ class RegistrationAndLoginImplmentation extends RegistrationAndLoginController {
   }
 
   void register(username, email, password) {
+    print(username);
+    print(email);
+    print(password);
     dynamic result = _authService.register(email: email, password: password);
     if (result == null) print("NOT WORKING");
   }
