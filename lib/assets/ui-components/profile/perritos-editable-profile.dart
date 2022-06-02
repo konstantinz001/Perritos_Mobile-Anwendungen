@@ -11,6 +11,8 @@ class PerritosEditableProfile extends StatefulWidget {
 
   final TextEditingController textEditingController;
 
+  final String placeholder;
+
   PerritosColor perritosColor;
 
   PerritosEditableProfile(
@@ -18,6 +20,7 @@ class PerritosEditableProfile extends StatefulWidget {
       required this.label,
       required this.onPressed,
       required this.textEditingController,
+      required this.placeholder,
       this.perritosColor = PerritosColor.perritosCharcoal,
       Key? key})
       : super(key: key);
@@ -49,8 +52,9 @@ class _PerritosEditableProfileState extends State<PerritosEditableProfile> {
             text: text,
           );
         },
-        decoration: const InputDecoration(
+        decoration: InputDecoration(
           border: InputBorder.none,
+          hintText: widget.placeholder,
           focusedBorder: InputBorder.none,
           enabledBorder: InputBorder.none,
           errorBorder: InputBorder.none,

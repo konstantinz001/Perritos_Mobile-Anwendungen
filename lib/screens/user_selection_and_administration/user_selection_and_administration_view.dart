@@ -5,26 +5,29 @@ import 'package:flutter_application/assets/ui-components/profile/perritos-editab
 import 'package:flutter_application/assets/ui-components/profile/perritos-profile.dart';
 import 'package:flutter_application/common/providers.dart';
 import 'package:flutter_application/assets/styles/perritos-icons/PerritosIcons_icons.dart';
+import 'package:flutter_application/models/userDataModel.dart';
 import 'package:flutter_application/screens/user_selection_and_administration/user_selection_and_administration_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../../assets/ui-components/buttons/perritos-button.dart';
 
 class UserSelectionAndAdministrationView extends ConsumerWidget {
   const UserSelectionAndAdministrationView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    //Geht nicht wahrscheinlich in Model einbauen. Muss mich da noch einlesen.
-    bool editable = false;
-
     final UserSelectionAndAdministrationController controller = ref.read(
         providers.userSelectionAndAdministrationControllerProvider.notifier);
     final UserSelectionAndAdministrationModel model =
         ref.watch(providers.userSelectionAndAdministrationControllerProvider);
 
+    TextEditingController textEditingController =
+        TextEditingController(); //HOW????
     return Scaffold(
       body: Center(
           child: model.currentUserSelectionAndAdministrationScreen ==
                   UserSelectionAndAdministration.kickoff
+              //KICKOFF___________________________________________________________________
               ? Container(
                   color: PerritosColor.perritosSnow.color,
                   child: Padding(
@@ -35,57 +38,93 @@ class UserSelectionAndAdministrationView extends ConsumerWidget {
                         bottom: 0,
                       ),
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          Align(
-                              alignment: Alignment.topRight,
-                              child: IconButton(
-                                  icon: const Icon(PerritosIcons.Icon_Edit),
-                                  tooltip: 'Bearbeiten',
-                                  iconSize: 26,
-                                  onPressed: () => {
-                                        controller
-                                            .switchCurrentUserSelectionAndAdministrationScreen(
-                                                UserSelectionAndAdministration
-                                                    .edit)
-                                      })),
-                          const SizedBox(height: 60),
-                          PerritosProfile(
-                              icon: PerritosIcons.Icon_User,
-                              label: 'Dad',
-                              edit: editable,
-                              onPressed: () => {
-                                    controller
-                                        .switchCurrentUserSelectionAndAdministrationScreen(
-                                            UserSelectionAndAdministration
-                                                .select)
-                                  }),
-                          const SizedBox(height: 20),
-                          PerritosProfile(
-                              icon: PerritosIcons.Icon_User,
-                              label: 'Mum',
-                              edit: false,
-                              onPressed: () => {
-                                    controller
-                                        .switchCurrentUserSelectionAndAdministrationScreen(
-                                            UserSelectionAndAdministration
-                                                .select)
-                                  }),
-                          const SizedBox(height: 20),
-                          IconButton(
-                              icon: const Icon(PerritosIcons.Icon_Add),
-                              tooltip: 'Hinzufügen',
-                              iconSize: 42,
-                              onPressed: () => {
-                                    controller
-                                        .switchCurrentUserSelectionAndAdministrationScreen(
-                                            UserSelectionAndAdministration.add)
-                                  }),
-                        ],
-                      )))
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            const SizedBox(height: 20),
+                            model.editable == false
+                                ? Align(
+                                    alignment: Alignment.topRight,
+                                    child: IconButton(
+                                        icon:
+                                            const Icon(PerritosIcons.Icon_Edit),
+                                        tooltip: 'Bearbeiten',
+                                        iconSize: 26,
+                                        onPressed: () => {
+                                              controller.changeEditability(),
+                                              controller
+                                                  .switchCurrentUserSelectionAndAdministrationScreen(
+                                                      UserSelectionAndAdministration
+                                                          .kickoff)
+                                            }))
+                                : Align(
+                                    alignment: Alignment.topLeft,
+                                    child: IconButton(
+                                        icon: const Icon(
+                                            PerritosIcons.Icon_Arrow_Left),
+                                        tooltip: 'Return',
+                                        iconSize: 26,
+                                        onPressed: () => {
+                                              controller.changeEditability(),
+                                              controller
+                                                  .switchCurrentUserSelectionAndAdministrationScreen(
+                                                      UserSelectionAndAdministration
+                                                          .kickoff)
+                                            })),
+                            const SizedBox(height: 60),
+                            Expanded(
+                              child: SingleChildScrollView(
+                                child: Column(children: [
+                                  for (var user in model.userList)
+                                    Column(
+                                      children: [
+                                        PerritosProfile(
+                                            icon: PerritosIcons.Icon_User,
+                                            label: user.name,
+                                            edit: model.editable,
+                                            onPressed: () => {
+                                                  controller.changeSelectedUser(
+                                                      UserModel(user.name,
+                                                          !user.selected)),
+                                                  model.editable == false
+                                                      ? controller
+                                                          .switchCurrentUserSelectionAndAdministrationScreen(
+                                                              UserSelectionAndAdministration
+                                                                  .select)
+                                                      : controller
+                                                          .switchCurrentUserSelectionAndAdministrationScreen(
+                                                              UserSelectionAndAdministration
+                                                                  .edit)
+                                                }),
+                                        const SizedBox(height: 20),
+                                      ],
+                                    ),
+                                ]),
+                              ),
+                            ),
+                            model.editable == false
+                                ? (Align(
+                                    alignment: Alignment.bottomCenter,
+                                    child: FloatingActionButton(
+                                        backgroundColor: PerritosColor
+                                            .perritosCharcoal.color,
+                                        child: const Icon(
+                                          PerritosIcons.Icon_Add,
+                                          size: 42,
+                                        ),
+                                        onPressed: () => {
+                                              controller
+                                                  .switchCurrentUserSelectionAndAdministrationScreen(
+                                                      UserSelectionAndAdministration
+                                                          .add)
+                                            }),
+                                  ))
+                                : const SizedBox(height: 42),
+                            const SizedBox(height: 20),
+                          ])))
               : model.currentUserSelectionAndAdministrationScreen ==
-                      UserSelectionAndAdministration.edit
+                      UserSelectionAndAdministration.add
+                  //ADD_______________________________________________________________________
                   ? Container(
                       color: PerritosColor.perritosSnow.color,
                       child: Padding(
@@ -96,56 +135,148 @@ class UserSelectionAndAdministrationView extends ConsumerWidget {
                             bottom: 0,
                           ),
                           child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              Align(
-                                  alignment: Alignment.topLeft,
-                                  child: IconButton(
-                                      icon: const Icon(
-                                          PerritosIcons.Icon_Arrow_Left),
-                                      tooltip: 'Bearbeiten',
-                                      iconSize: 26,
-                                      onPressed: () => {
-                                            controller
-                                                .switchCurrentUserSelectionAndAdministrationScreen(
-                                                    UserSelectionAndAdministration
-                                                        .kickoff)
-                                          })),
-                              const SizedBox(height: 60),
-                              PerritosProfile(
-                                  icon: PerritosIcons.Icon_User,
-                                  label: 'Dad',
-                                  edit: true,
-                                  onPressed: () => {
-                                        controller
-                                            .switchCurrentUserSelectionAndAdministrationScreen(
-                                                UserSelectionAndAdministration
-                                                    .select)
-                                      }),
-                              const SizedBox(height: 20),
-                              PerritosProfile(
-                                  icon: PerritosIcons.Icon_Edit,
-                                  label: 'Mum',
-                                  edit: true,
-                                  onPressed: () => {
-                                        controller
-                                            .switchCurrentUserSelectionAndAdministrationScreen(
-                                                UserSelectionAndAdministration
-                                                    .select)
-                                      }),
-                              const SizedBox(height: 20),
-                            ],
-                          )))
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                const SizedBox(height: 20),
+                                Align(
+                                    alignment: Alignment.topLeft,
+                                    child: IconButton(
+                                        icon: const Icon(
+                                            PerritosIcons.Icon_Arrow_Left),
+                                        tooltip: 'Return',
+                                        iconSize: 26,
+                                        onPressed: () => {
+                                              controller
+                                                  .switchCurrentUserSelectionAndAdministrationScreen(
+                                                      UserSelectionAndAdministration
+                                                          .kickoff)
+                                            })),
+                                const SizedBox(height: 60),
+                                Expanded(
+                                  child: SingleChildScrollView(
+                                    child: Column(children: [
+                                      Column(
+                                        children: [
+                                          PerritosEditableProfile(
+                                            icon: PerritosIcons.Icon_User,
+                                            placeholder: "Name",
+                                            label: "",
+                                            onPressed: () => {
+                                              controller
+                                                  .switchCurrentUserSelectionAndAdministrationScreen(
+                                                      UserSelectionAndAdministration
+                                                          .select)
+                                            },
+                                            textEditingController:
+                                                textEditingController,
+                                          ),
+                                          const SizedBox(height: 20),
+                                        ],
+                                      ),
+                                    ]),
+                                  ),
+                                ),
+                                (Align(
+                                  alignment: Alignment.bottomCenter,
+                                  child: PerritosButton(
+                                    onPressed: () => {
+                                      if (textEditingController.text != "")
+                                        {
+                                          controller.addUser(
+                                            UserModel(
+                                                textEditingController.text,
+                                                false),
+                                          ),
+                                          textEditingController.text = "",
+                                          controller
+                                              .switchCurrentUserSelectionAndAdministrationScreen(
+                                                  UserSelectionAndAdministration
+                                                      .kickoff)
+                                        }
+                                    },
+                                    label: 'erstellen',
+                                  ),
+                                )),
+                                const SizedBox(height: 20),
+                              ])))
                   : model.currentUserSelectionAndAdministrationScreen ==
-                          UserSelectionAndAdministration.select
-                      ? Column(children: [
-                          Text(
-                            'SELECTED USER!',
-                            style: perritosDoubleParagon,
-                          ),
-                          const SizedBox(height: 20),
-                        ])
+                          UserSelectionAndAdministration.edit
+                      //EDIT______________________________________________________________________
+                      ? Container(
+                          color: PerritosColor.perritosSnow.color,
+                          child: Padding(
+                              padding: const EdgeInsets.only(
+                                left: 10,
+                                top: 0,
+                                right: 10,
+                                bottom: 0,
+                              ),
+                              child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.stretch,
+                                  children: [
+                                    const SizedBox(height: 20),
+                                    Align(
+                                        alignment: Alignment.topLeft,
+                                        child: IconButton(
+                                            icon: const Icon(
+                                                PerritosIcons.Icon_Arrow_Left),
+                                            tooltip: 'Return',
+                                            iconSize: 26,
+                                            onPressed: () => {
+                                                  controller
+                                                      .switchCurrentUserSelectionAndAdministrationScreen(
+                                                          UserSelectionAndAdministration
+                                                              .kickoff)
+                                                })),
+                                    const SizedBox(height: 60),
+                                    Expanded(
+                                      child: SingleChildScrollView(
+                                        child: Column(children: [
+                                          Column(
+                                            children: [
+                                              PerritosEditableProfile(
+                                                icon: PerritosIcons.Icon_User,
+                                                placeholder: "Name",
+                                                label: "",
+                                                onPressed: () => {
+                                                  controller
+                                                      .switchCurrentUserSelectionAndAdministrationScreen(
+                                                          UserSelectionAndAdministration
+                                                              .select)
+                                                },
+                                                textEditingController:
+                                                    textEditingController,
+                                              ),
+                                              const SizedBox(height: 20),
+                                            ],
+                                          ),
+                                        ]),
+                                      ),
+                                    ),
+                                    (Align(
+                                      alignment: Alignment.bottomCenter,
+                                      child: PerritosButton(
+                                        onPressed: () => {
+                                          if (textEditingController.text != "")
+                                            {
+                                              controller.addUser(UserModel(
+                                                  textEditingController.text,
+                                                  false)),
+                                              textEditingController.text = "",
+                                              controller
+                                                  .switchCurrentUserSelectionAndAdministrationScreen(
+                                                      UserSelectionAndAdministration
+                                                          .kickoff)
+                                            }
+                                        },
+                                        label: 'bearbeiten',
+                                      ),
+                                    )),
+                                    const SizedBox(height: 20),
+                                  ])))
                       : Column(children: [
                           Text(
                             'Welcome back!',
@@ -164,4 +295,14 @@ abstract class UserSelectionAndAdministrationController
       : super(state);
 
   void switchCurrentUserSelectionAndAdministrationScreen(screen);
+
+  void addUser(UserModel userModel);
+
+  void changeEditability();
+
+  void changeSelectedUser(UserModel userModel);
+
+  void disabledSelectedUser();
+
+  UserModel getSelectedUser();
 }
