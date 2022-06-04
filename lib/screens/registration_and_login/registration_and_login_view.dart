@@ -96,7 +96,11 @@ class RegistrationAndLoginView extends ConsumerWidget {
                               ),
                               const Spacer()
                             ]),
-                        const SizedBox(height: 36),
+                        Expanded(child:
+                         SingleChildScrollView(child: 
+                          Column(
+                            children: [
+                        const SizedBox(height: 40),
                         /*PerritosTxtInput(
                           onSubmit: (value) => {controller.set = value},
                           hintTxt: "Username",
@@ -128,7 +132,10 @@ class RegistrationAndLoginView extends ConsumerWidget {
                           hintTxt: "Passwort bestätigen",
                           password: true,
                         ),
-                        const Spacer(),
+                            ],
+                          )
+                        ),                       
+                        ),
                         PerritosButton(
                             onPressed: () async => {
                                   await (controller
@@ -206,25 +213,31 @@ class RegistrationAndLoginView extends ConsumerWidget {
                             const Spacer()
                           ],
                         ),
-                        const SizedBox(height: 36),
-                        PerritosTxtInput(
-                          onSubmit: (value) => {controller.changeState(
-                                                  model.currentRegistrationAndLoginScreen, 
-                                                  model.password, 
-                                                  model.confirmPassword, 
-                                                  value)},
-                          hintTxt: "E-Mail Adresse",
+                        Expanded(child: 
+                          SingleChildScrollView(child:
+                            Column(children: [
+                              const SizedBox(height: 36),
+                              PerritosTxtInput(
+                                onSubmit: (value) => {controller.changeState(
+                                                        model.currentRegistrationAndLoginScreen, 
+                                                        model.password, 
+                                                        model.confirmPassword, 
+                                                        value)},
+                                hintTxt: "E-Mail Adresse",
+                              ),
+                              PerritosTxtInput(
+                                onSubmit: (value) => {controller.changeState(
+                                                        model.currentRegistrationAndLoginScreen, 
+                                                        value, 
+                                                        model.confirmPassword, 
+                                                        model.email)},
+                                hintTxt: "Passwort",
+                                password: true,
+                              ),
+                            ],)
+                          )
                         ),
-                        PerritosTxtInput(
-                          onSubmit: (value) => {controller.changeState(
-                                                  model.currentRegistrationAndLoginScreen, 
-                                                  value, 
-                                                  model.confirmPassword, 
-                                                  model.email)},
-                          hintTxt: "Passwort",
-                          password: true,
-                        ),
-                        const Spacer(),
+
                         PerritosButton(
                             onPressed: () async => {
                                   await (controller.login(model.password, model.email).then((value) =>

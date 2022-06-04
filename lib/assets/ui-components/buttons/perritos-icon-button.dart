@@ -24,7 +24,7 @@ class PerritosIconButton extends StatelessWidget {
           Icon(
             icon,
             size: iconSize,
-            color: perritosCharcoal.withOpacity(0.7),
+            color: perritosCharcoal,
           ),
           Text(label, style: perritosParagonOpacity)
         ]));
