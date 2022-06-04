@@ -4,17 +4,10 @@ import 'package:flutter_application/screens/registration_and_login/registration_
 
 import '../../models/auth_user_model.dart';
 
-enum RegistrationMessage {
-  success,
-  error,
-  passwordsNotEqual
-}
+enum RegistrationMessage { success, error, passwordsNotEqual }
 
 class RegistrationAndLoginImplmentation extends RegistrationAndLoginController {
   final AuthService _authService;
-  String email = '';
-  String password = '';
-  String confirmpassword = '';
 
   RegistrationAndLoginImplmentation({
     RegistrationAndLoginModel? model,
@@ -22,48 +15,40 @@ class RegistrationAndLoginImplmentation extends RegistrationAndLoginController {
   })  : _authService = authService,
         super(model ??
             const RegistrationAndLoginModel(
-                currentRegistrationAndLoginScreen:
-                    RegistrationAndLogin.kickoff));
+                currentRegistrationAndLoginScreen: RegistrationAndLogin.kickoff,
+                password: '',
+                confirmPassword: '',
+                email: ''));
 
   @override
-  void switchCurrentRegistrationAndLoginScreen(screen) {
-    state = state.copyWith(currentRegistrationAndLoginScreen: screen);
+  void changeState(screen, password, confirmPassword, email) {
+    state = state.copyWith(
+        currentRegistrationAndLoginScreen: screen,
+        password: password,
+        confirmPassword: confirmPassword,
+        email: email);
   }
 
-  void setEmail(inputEmail) {
-    email = inputEmail;
-  }
-
-  void setPassword(inputPassword) {
-    password = inputPassword;
-  }
-
-  void setConfirmPassword(inputConfirmPassword) {
-    confirmpassword = inputConfirmPassword;
-  }
-
-  void resetValues() {
-    email = '';
-    password = '';
-    confirmpassword = '';
-  }
-
-  Future<RegistrationMessage> register() async {
-    if (password == confirmpassword) {
+  Future<RegistrationMessage> register(password, confirmPassword, email) async {
+    print(password);
+    print(confirmPassword);
+    print(email);
+    if (password == confirmPassword) {
       dynamic result =
           await _authService.register(email: email, password: password);
-      resetValues();
       if (result == null) {
-        return Future.delayed(const Duration(seconds: 1), () => RegistrationMessage.error);
+        return Future.delayed(
+            const Duration(seconds: 1), () => RegistrationMessage.error);
       }
-      return Future.delayed(const Duration(seconds: 1), () => RegistrationMessage.success);
+      return Future.delayed(
+          const Duration(seconds: 1), () => RegistrationMessage.success);
     }
-    return Future.delayed(const Duration(seconds: 1), () => RegistrationMessage.passwordsNotEqual);
+    return Future.delayed(const Duration(seconds: 1),
+        () => RegistrationMessage.passwordsNotEqual);
   }
 
-  Future<bool> login() async {
+  Future<bool> login(password, email) async {
     dynamic result = await _authService.login(email: email, password: password);
-    resetValues();
     if (result == null) {
       return Future.delayed(const Duration(seconds: 3), () => false);
     }
