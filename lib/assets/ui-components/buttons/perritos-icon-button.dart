@@ -19,20 +19,14 @@ class PerritosIconButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: onPressed,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
+        onTap: onPressed,
+        child: Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
           Icon(
             icon,
             size: iconSize,
             color: perritosCharcoal.withOpacity(0.7),
           ),
-          Text(
-            label,
-            style: perritosParagonOpacity
-          )
-      ])
-    );
+          Text(label, style: perritosParagonOpacity)
+        ]));
   }
 }

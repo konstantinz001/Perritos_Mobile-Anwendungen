@@ -14,10 +14,6 @@ import '../../assets/ui-components/navigation/perritos-navigation.dart';
 class RegistrationAndLoginView extends ConsumerWidget {
   RegistrationAndLoginView({Key? key}) : super(key: key);
 
-  String email = '';
-  String password = '';
-  String username = '';
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final RegistrationAndLoginController controller =
@@ -87,9 +83,13 @@ class RegistrationAndLoginView extends ConsumerWidget {
                               const SizedBox(width: 10),
                               Expanded(
                                   child: PerritosIconButton(
-                                      onPressed: () => controller
-                                          .switchCurrentRegistrationAndLoginScreen(
-                                              RegistrationAndLogin.kickoff),
+                                      onPressed: () => {
+                                            controller.resetValues(),
+                                            controller
+                                                .switchCurrentRegistrationAndLoginScreen(
+                                                    RegistrationAndLogin
+                                                        .kickoff)
+                                          },
                                       iconSize: 40,
                                       icon: PerritosIcons.Icon_Arrow_Left)),
                               Text(
@@ -99,27 +99,60 @@ class RegistrationAndLoginView extends ConsumerWidget {
                               const Spacer()
                             ]),
                         const SizedBox(height: 36),
-                        PerritosTxtInput(
-                          onSubmit: (value) => {username = value},
+                        /*PerritosTxtInput(
+                          onSubmit: (value) => {controller.set = value},
                           hintTxt: "Username",
-                        ),
+                        ),*/
                         PerritosTxtInput(
-                          onSubmit: (value) => {email = value},
+                          onSubmit: (value) => {controller.setEmail(value)},
                           hintTxt: "E-Mail Adresse",
                         ),
                         PerritosTxtInput(
-                          onSubmit: (value) => {password = value},
+                          onSubmit: (value) => {controller.setPassword(value)},
                           hintTxt: "Passwort",
                           password: true,
                         ),
                         PerritosTxtInput(
-                          onSubmit: (value) => {password = value},
+                          onSubmit: (value) =>
+                              {controller.setConfirmPassword(value)},
                           hintTxt: "Passwort bestätigen",
                           password: true,
                         ),
                         const Spacer(),
                         PerritosButton(
-                            onPressed: () => {controller.register(username, email, password)},
+                            onPressed: () async => {
+                                  await (controller
+                                      .register()
+                                      .then((value) => value
+                                          ? {
+                                              controller
+                                                  .switchCurrentRegistrationAndLoginScreen(
+                                                      RegistrationAndLogin
+                                                          .kickoff),
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(const SnackBar(
+                                                      content: Text(
+                                                          'Registration was successful!',
+                                                          style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold)),
+                                                      backgroundColor:
+                                                          perritosBurntSienna))
+                                            }
+                                          : {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(const SnackBar(
+                                                      content: Text(
+                                                          'Registration not possible! Please try an other Email or Password.',
+                                                          style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold)),
+                                                      backgroundColor:
+                                                          perritosBurntSienna))
+                                            }))
+                                },
                             label: 'Sign Up'),
                         const SizedBox(height: 60)
                       ])))
@@ -143,9 +176,11 @@ class RegistrationAndLoginView extends ConsumerWidget {
                             const SizedBox(width: 10),
                             Expanded(
                                 child: PerritosIconButton(
-                                    onPressed: () => controller
-                                        .switchCurrentRegistrationAndLoginScreen(
-                                            RegistrationAndLogin.kickoff),
+                                    onPressed: () => {
+                                          controller
+                                              .switchCurrentRegistrationAndLoginScreen(
+                                                  RegistrationAndLogin.kickoff)
+                                        },
                                     iconSize: 40,
                                     icon: PerritosIcons.Icon_Arrow_Left)),
                             Text(
@@ -158,19 +193,35 @@ class RegistrationAndLoginView extends ConsumerWidget {
                         ),
                         const SizedBox(height: 36),
                         PerritosTxtInput(
-                          onSubmit: (value) => {print(value)},
+                          onSubmit: (value) => {controller.setEmail(value)},
                           hintTxt: "E-Mail Adresse",
                         ),
                         PerritosTxtInput(
-                          onSubmit: (value) => {print(value)},
+                          onSubmit: (value) => {controller.setPassword(value)},
                           hintTxt: "Passwort",
                           password: true,
                         ),
                         const Spacer(),
                         PerritosButton(
-                            onPressed: () => {
-                                  Navigator.pushNamed(context,
-                                      '/UserSelectionAndAdministration')
+                            onPressed: () async => {
+                                  await (controller.login().then((value) =>
+                                      value
+                                          ? {
+                                              Navigator.pushNamed(context,
+                                                  '/UserSelectionAndAdministration')
+                                            }
+                                          : {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(const SnackBar(
+                                                      content: Text(
+                                                          'Wrong Email or Password!',
+                                                          style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold)),
+                                                      backgroundColor:
+                                                          perritosBurntSienna))
+                                            }))
                                 },
                             label: 'Login'),
                         const SizedBox(height: 60)
@@ -187,5 +238,10 @@ abstract class RegistrationAndLoginController
       : super(state);
 
   void switchCurrentRegistrationAndLoginScreen(screen);
-  void register(username, email, password);
+  void setConfirmPassword(inputConfirmPassword);
+  void setPassword(inputPassword);
+  void setEmail(inputEmail);
+  void resetValues();
+  Future<bool> register();
+  Future<bool> login();
 }
