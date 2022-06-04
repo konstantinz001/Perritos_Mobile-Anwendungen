@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\Users\\Konsi\\Desktop\\MEGA\\Studium\\Semester 6\\Mobile Anwendung\\Perritos\\gruppe-20\\build\\path_provider_android\\intermediates\\res\\merged\\debug\\values-ne\\values-ne.xml",
+            "outputFile": "/Users/cortes/Desktop/MobileAnwendungen/gruppe-20/build/path_provider_android/intermediates/incremental/mergeDebugResources/merged.dir/values-ne/values-ne.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Konsi\\.gradle\\caches\\transforms-3\\cbbd95a71c37efdfc64418cb4f36b641\\transformed\\core-1.6.0\\res\\values-ne\\values-ne.xml",
+                    "source": "/Users/cortes/.gradle/caches/transforms-3/2806c9bbba05086fca8f28d9d351180d/transformed/core-1.6.0/res/values-ne/values-ne.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -16,10 +16,10 @@
             ]
         },
         {
-            "outputFile": "C:\\Users\\Konsi\\Desktop\\MEGA\\Studium\\Semester 6\\Mobile Anwendung\\Perritos\\gruppe-20\\build\\path_provider_android\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-ne\\values-ne.xml",
+            "outputFile": "/Users/cortes/Desktop/MobileAnwendungen/gruppe-20/build/path_provider_android/intermediates/res/merged/debug/values-ne/values-ne.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Konsi\\.gradle\\caches\\transforms-3\\cbbd95a71c37efdfc64418cb4f36b641\\transformed\\core-1.6.0\\res\\values-ne\\values-ne.xml",
+                    "source": "/Users/cortes/.gradle/caches/transforms-3/2806c9bbba05086fca8f28d9d351180d/transformed/core-1.6.0/res/values-ne/values-ne.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

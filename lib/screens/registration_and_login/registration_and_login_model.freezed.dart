@@ -18,6 +18,9 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$RegistrationAndLoginModel {
   RegistrationAndLogin get currentRegistrationAndLoginScreen =>
       throw _privateConstructorUsedError;
+  String get password => throw _privateConstructorUsedError;
+  String get confirmPassword => throw _privateConstructorUsedError;
+  String get email => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $RegistrationAndLoginModelCopyWith<RegistrationAndLoginModel> get copyWith =>
@@ -29,7 +32,11 @@ abstract class $RegistrationAndLoginModelCopyWith<$Res> {
   factory $RegistrationAndLoginModelCopyWith(RegistrationAndLoginModel value,
           $Res Function(RegistrationAndLoginModel) then) =
       _$RegistrationAndLoginModelCopyWithImpl<$Res>;
-  $Res call({RegistrationAndLogin currentRegistrationAndLoginScreen});
+  $Res call(
+      {RegistrationAndLogin currentRegistrationAndLoginScreen,
+      String password,
+      String confirmPassword,
+      String email});
 }
 
 /// @nodoc
@@ -44,6 +51,9 @@ class _$RegistrationAndLoginModelCopyWithImpl<$Res>
   @override
   $Res call({
     Object? currentRegistrationAndLoginScreen = freezed,
+    Object? password = freezed,
+    Object? confirmPassword = freezed,
+    Object? email = freezed,
   }) {
     return _then(_value.copyWith(
       currentRegistrationAndLoginScreen: currentRegistrationAndLoginScreen ==
@@ -51,6 +61,18 @@ class _$RegistrationAndLoginModelCopyWithImpl<$Res>
           ? _value.currentRegistrationAndLoginScreen
           : currentRegistrationAndLoginScreen // ignore: cast_nullable_to_non_nullable
               as RegistrationAndLogin,
+      password: password == freezed
+          ? _value.password
+          : password // ignore: cast_nullable_to_non_nullable
+              as String,
+      confirmPassword: confirmPassword == freezed
+          ? _value.confirmPassword
+          : confirmPassword // ignore: cast_nullable_to_non_nullable
+              as String,
+      email: email == freezed
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -63,7 +85,11 @@ abstract class _$$_RegistrationAndLoginModelCopyWith<$Res>
           $Res Function(_$_RegistrationAndLoginModel) then) =
       __$$_RegistrationAndLoginModelCopyWithImpl<$Res>;
   @override
-  $Res call({RegistrationAndLogin currentRegistrationAndLoginScreen});
+  $Res call(
+      {RegistrationAndLogin currentRegistrationAndLoginScreen,
+      String password,
+      String confirmPassword,
+      String email});
 }
 
 /// @nodoc
@@ -82,6 +108,9 @@ class __$$_RegistrationAndLoginModelCopyWithImpl<$Res>
   @override
   $Res call({
     Object? currentRegistrationAndLoginScreen = freezed,
+    Object? password = freezed,
+    Object? confirmPassword = freezed,
+    Object? email = freezed,
   }) {
     return _then(_$_RegistrationAndLoginModel(
       currentRegistrationAndLoginScreen: currentRegistrationAndLoginScreen ==
@@ -89,6 +118,18 @@ class __$$_RegistrationAndLoginModelCopyWithImpl<$Res>
           ? _value.currentRegistrationAndLoginScreen
           : currentRegistrationAndLoginScreen // ignore: cast_nullable_to_non_nullable
               as RegistrationAndLogin,
+      password: password == freezed
+          ? _value.password
+          : password // ignore: cast_nullable_to_non_nullable
+              as String,
+      confirmPassword: confirmPassword == freezed
+          ? _value.confirmPassword
+          : confirmPassword // ignore: cast_nullable_to_non_nullable
+              as String,
+      email: email == freezed
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -97,14 +138,23 @@ class __$$_RegistrationAndLoginModelCopyWithImpl<$Res>
 
 class _$_RegistrationAndLoginModel implements _RegistrationAndLoginModel {
   const _$_RegistrationAndLoginModel(
-      {required this.currentRegistrationAndLoginScreen});
+      {required this.currentRegistrationAndLoginScreen,
+      required this.password,
+      required this.confirmPassword,
+      required this.email});
 
   @override
   final RegistrationAndLogin currentRegistrationAndLoginScreen;
+  @override
+  final String password;
+  @override
+  final String confirmPassword;
+  @override
+  final String email;
 
   @override
   String toString() {
-    return 'RegistrationAndLoginModel(currentRegistrationAndLoginScreen: $currentRegistrationAndLoginScreen)';
+    return 'RegistrationAndLoginModel(currentRegistrationAndLoginScreen: $currentRegistrationAndLoginScreen, password: $password, confirmPassword: $confirmPassword, email: $email)';
   }
 
   @override
@@ -114,12 +164,20 @@ class _$_RegistrationAndLoginModel implements _RegistrationAndLoginModel {
             other is _$_RegistrationAndLoginModel &&
             const DeepCollectionEquality().equals(
                 other.currentRegistrationAndLoginScreen,
-                currentRegistrationAndLoginScreen));
+                currentRegistrationAndLoginScreen) &&
+            const DeepCollectionEquality().equals(other.password, password) &&
+            const DeepCollectionEquality()
+                .equals(other.confirmPassword, confirmPassword) &&
+            const DeepCollectionEquality().equals(other.email, email));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType,
-      const DeepCollectionEquality().hash(currentRegistrationAndLoginScreen));
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(currentRegistrationAndLoginScreen),
+      const DeepCollectionEquality().hash(password),
+      const DeepCollectionEquality().hash(confirmPassword),
+      const DeepCollectionEquality().hash(email));
 
   @JsonKey(ignore: true)
   @override
@@ -130,12 +188,20 @@ class _$_RegistrationAndLoginModel implements _RegistrationAndLoginModel {
 
 abstract class _RegistrationAndLoginModel implements RegistrationAndLoginModel {
   const factory _RegistrationAndLoginModel(
-      {required final RegistrationAndLogin
-          currentRegistrationAndLoginScreen}) = _$_RegistrationAndLoginModel;
+      {required final RegistrationAndLogin currentRegistrationAndLoginScreen,
+      required final String password,
+      required final String confirmPassword,
+      required final String email}) = _$_RegistrationAndLoginModel;
 
   @override
   RegistrationAndLogin get currentRegistrationAndLoginScreen =>
       throw _privateConstructorUsedError;
+  @override
+  String get password => throw _privateConstructorUsedError;
+  @override
+  String get confirmPassword => throw _privateConstructorUsedError;
+  @override
+  String get email => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$$_RegistrationAndLoginModelCopyWith<_$_RegistrationAndLoginModel>

@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:flutter_application/models/userDataModel.dart';
+import 'package:flutter_application/models/user_model.dart';
 
 part 'user_selection_and_administration_model.freezed.dart';
 

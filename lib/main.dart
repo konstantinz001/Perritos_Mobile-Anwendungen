@@ -4,6 +4,7 @@ import 'package:flutter_application/screens/user_selection_and_administration/us
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
+
 void main() async {
   runApp(await buildApp());
 }
@@ -32,7 +33,7 @@ class MyApp extends StatelessWidget {
       onGenerateRoute: (RouteSettings routeParams) {
         if (routeParams.name == '/RegistrationAndLogin') {
           return MaterialPageRoute(
-              builder: (context) => const RegistrationAndLoginView());
+              builder: (context) => RegistrationAndLoginView());
         } else if (routeParams.name == '/UserSelectionAndAdministration') {
           return MaterialPageRoute(
               builder: (context) => const UserSelectionAndAdministrationView());

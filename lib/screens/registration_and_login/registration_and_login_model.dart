@@ -12,5 +12,8 @@ enum RegistrationAndLogin {
 class RegistrationAndLoginModel with _$RegistrationAndLoginModel {
   const factory RegistrationAndLoginModel({
     required RegistrationAndLogin currentRegistrationAndLoginScreen,
+    required String password,
+    required String confirmPassword,
+    required String email
   }) = _RegistrationAndLoginModel;
 }
