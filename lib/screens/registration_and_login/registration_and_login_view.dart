@@ -6,6 +6,7 @@ import 'package:flutter_application/assets/ui-components/buttons/perritos-button
 import 'package:flutter_application/assets/ui-components/buttons/perritos-icon-button.dart';
 import 'package:flutter_application/assets/ui-components/text-input/perritos_txt_input.dart';
 import 'package:flutter_application/common/providers.dart';
+import 'package:flutter_application/screens/registration_and_login/registration_and_login_controller.dart';
 import 'package:flutter_application/screens/registration_and_login/registration_and_login_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -123,35 +124,40 @@ class RegistrationAndLoginView extends ConsumerWidget {
                             onPressed: () async => {
                                   await (controller
                                       .register()
-                                      .then((value) => value
+                                      .then((message) => message == RegistrationMessage.success
                                           ? {
                                               controller
                                                   .switchCurrentRegistrationAndLoginScreen(
                                                       RegistrationAndLogin
                                                           .kickoff),
                                               ScaffoldMessenger.of(context)
-                                                  .showSnackBar(const SnackBar(
+                                                  .showSnackBar(SnackBar(
                                                       content: Text(
-                                                          'Registration was successful!',
-                                                          style: TextStyle(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold)),
+                                                          'Registrierung war erfolgreich!',
+                                                          style: perritosDoublePica),
+                                                      backgroundColor:
+                                                        perritosGoldFusion))
+                                            }
+                                          : message == RegistrationMessage.error ? 
+                                          {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar( SnackBar(
+                                                      content: Text(
+                                                          'Registrierung war nicht erfolgreich! Versuche mit einer anderen E-Mail oder einem anderen Passwort.',
+                                                          style: perritosDoublePica),
+                                                      backgroundColor:
+                                                          perritosBurntSienna))
+                                            }: 
+                                            {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar( SnackBar(
+                                                      content: Text(
+                                                          'Passwörter stimmen nicht überein!',
+                                                          style: perritosDoublePica),
                                                       backgroundColor:
                                                           perritosBurntSienna))
                                             }
-                                          : {
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(const SnackBar(
-                                                      content: Text(
-                                                          'Registration not possible! Please try an other Email or Password.',
-                                                          style: TextStyle(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold)),
-                                                      backgroundColor:
-                                                          perritosBurntSienna))
-                                            }))
+                                            ))
                                 },
                             label: 'Sign Up'),
                         const SizedBox(height: 60)
@@ -212,13 +218,10 @@ class RegistrationAndLoginView extends ConsumerWidget {
                                             }
                                           : {
                                               ScaffoldMessenger.of(context)
-                                                  .showSnackBar(const SnackBar(
+                                                  .showSnackBar( SnackBar(
                                                       content: Text(
-                                                          'Wrong Email or Password!',
-                                                          style: TextStyle(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold)),
+                                                          'Falsche E-Mail oder falsches Passwort!',
+                                                          style: perritosDoublePica),
                                                       backgroundColor:
                                                           perritosBurntSienna))
                                             }))
@@ -242,6 +245,6 @@ abstract class RegistrationAndLoginController
   void setPassword(inputPassword);
   void setEmail(inputEmail);
   void resetValues();
-  Future<bool> register();
+  Future<RegistrationMessage> register();
   Future<bool> login();
 }

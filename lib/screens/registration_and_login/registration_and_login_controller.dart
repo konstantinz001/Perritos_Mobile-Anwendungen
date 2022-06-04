@@ -4,6 +4,12 @@ import 'package:flutter_application/screens/registration_and_login/registration_
 
 import '../../models/auth_user_model.dart';
 
+enum RegistrationMessage {
+  success,
+  error,
+  passwordsNotEqual
+}
+
 class RegistrationAndLoginImplmentation extends RegistrationAndLoginController {
   final AuthService _authService;
   String email = '';
@@ -42,18 +48,17 @@ class RegistrationAndLoginImplmentation extends RegistrationAndLoginController {
     confirmpassword = '';
   }
 
-  Future<bool> register() async {
+  Future<RegistrationMessage> register() async {
     if (password == confirmpassword) {
       dynamic result =
           await _authService.register(email: email, password: password);
       resetValues();
-      print(result);
       if (result == null) {
-        return Future.delayed(const Duration(seconds: 1), () => false);
+        return Future.delayed(const Duration(seconds: 1), () => RegistrationMessage.error);
       }
-      return Future.delayed(const Duration(seconds: 1), () => true);
+      return Future.delayed(const Duration(seconds: 1), () => RegistrationMessage.success);
     }
-    return Future.delayed(const Duration(seconds: 1), () => false);
+    return Future.delayed(const Duration(seconds: 1), () => RegistrationMessage.passwordsNotEqual);
   }
 
   Future<bool> login() async {
