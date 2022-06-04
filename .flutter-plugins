@@ -1,9 +1,9 @@
 # This is a generated file; do not edit or check into version control.
-firebase_auth=C:\\src\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\firebase_auth-0.14.0+9\\
-firebase_core=C:\\src\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\firebase_core-0.4.2+2\\
-path_provider=C:\\src\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\path_provider-2.0.9\\
-path_provider_android=C:\\src\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\path_provider_android-2.0.12\\
-path_provider_ios=C:\\src\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\path_provider_ios-2.0.8\\
-path_provider_linux=C:\\src\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\path_provider_linux-2.1.5\\
-path_provider_macos=C:\\src\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\path_provider_macos-2.0.5\\
-path_provider_windows=C:\\src\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\path_provider_windows-2.0.5\\
+firebase_auth=/Users/cortes/Desktop/MobileAnwendungen/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_auth-0.14.0+9/
+firebase_core=/Users/cortes/Desktop/MobileAnwendungen/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_core-0.4.2+2/
+path_provider=/Users/cortes/Desktop/MobileAnwendungen/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider-2.0.9/
+path_provider_android=/Users/cortes/Desktop/MobileAnwendungen/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_android-2.0.12/
+path_provider_ios=/Users/cortes/Desktop/MobileAnwendungen/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_ios-2.0.8/
+path_provider_linux=/Users/cortes/Desktop/MobileAnwendungen/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_linux-2.1.5/
+path_provider_macos=/Users/cortes/Desktop/MobileAnwendungen/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_macos-2.0.5/
+path_provider_windows=/Users/cortes/Desktop/MobileAnwendungen/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_windows-2.0.5/
