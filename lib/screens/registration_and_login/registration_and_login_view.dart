@@ -9,11 +9,8 @@ import 'package:flutter_application/common/providers.dart';
 import 'package:flutter_application/screens/registration_and_login/registration_and_login_controller.dart';
 import 'package:flutter_application/screens/registration_and_login/registration_and_login_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../../assets/ui-components/navigation/perritos-navigation.dart';
-
 class RegistrationAndLoginView extends ConsumerWidget {
-  RegistrationAndLoginView({Key? key}) : super(key: key);
+  const RegistrationAndLoginView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
