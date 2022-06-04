@@ -16,16 +16,12 @@ abstract class AuthService {
 class AuthFirebaseService extends AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  // create user obj based on firebase user
   AuthUserModel _userFromFirebaseUser(FirebaseUser user) {
     return user != null ? AuthUserModel(uid: user.uid) : AuthUserModel(uid: "");
   }
 
-  // auth change user stream
   Stream<AuthUserModel> get user {
-    return _auth.onAuthStateChanged
-        //.map((FirebaseUser user) => _userFromFirebaseUser(user));
-        .map(_userFromFirebaseUser);
+    return _auth.onAuthStateChanged.map(_userFromFirebaseUser);
   }
 
   @override

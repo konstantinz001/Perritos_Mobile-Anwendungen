@@ -47,11 +47,13 @@ class RegistrationAndLoginImplmentation extends RegistrationAndLoginController {
       dynamic result =
           await _authService.register(email: email, password: password);
       resetValues();
+      print(result);
       if (result == null) {
         return Future.delayed(const Duration(seconds: 1), () => false);
       }
+      return Future.delayed(const Duration(seconds: 1), () => true);
     }
-    return Future.delayed(const Duration(seconds: 1), () => true);
+    return Future.delayed(const Duration(seconds: 1), () => false);
   }
 
   Future<bool> login() async {
