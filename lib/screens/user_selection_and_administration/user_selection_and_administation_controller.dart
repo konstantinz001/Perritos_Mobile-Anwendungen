@@ -4,13 +4,11 @@ import 'package:flutter_application/screens/user_selection_and_administration/us
 
 class UserSelectionAndAdministrationImplmentation
     extends UserSelectionAndAdministrationController {
-  final List<UserModel> _users;
 
   UserSelectionAndAdministrationImplmentation(
       {required List<UserModel> users,
       UserSelectionAndAdministrationModel? model})
-      : _users = users,
-        super(model ??
+      : super(model ??
             UserSelectionAndAdministrationModel(
               currentUserSelectionAndAdministrationScreen:
                   UserSelectionAndAdministration.kickoff,
@@ -18,22 +16,26 @@ class UserSelectionAndAdministrationImplmentation
               editable: false,
             ));
 
+  @override
   void switchCurrentUserSelectionAndAdministrationScreen(screen) {
     state = state.copyWith(currentUserSelectionAndAdministrationScreen: screen);
   }
 
+  @override
   void addUser(usermodel) {
     state = state.copyWith(
-        userList: new List.from(state.userList.toList())..insert(0, usermodel));
+        userList: List.from(state.userList.toList())..insert(0, usermodel));
   }
 
+  @override
   void changeEditability() {
     state = state.copyWith(editable: state.editable == true ? false : true);
   }
 
+  @override
   void changeSelectedUser(UserModel userModel) {
     state = state.copyWith(
-        userList: new List.from(state.userList.toList())
+        userList: List.from(state.userList.toList())
           ..removeAt(state.userList
               .toList()
               .indexWhere((element) => element.name == userModel.name))
@@ -44,6 +46,7 @@ class UserSelectionAndAdministrationImplmentation
               userModel));
   }
 
+  @override
   UserModel getSelectedUser() {
     int index = state.userList
         .toList()
@@ -51,15 +54,12 @@ class UserSelectionAndAdministrationImplmentation
     return state.userList[index];
   }
 
+  @override
   void disabledSelectedUser() {
     for (var user in state.userList) {
       if (user.selected == true) {
-        int index = state.userList
-            .toList()
-            .indexWhere((element) => element.name == user.name);
-
         state = state.copyWith(
-            userList: new List.from(state.userList.toList())
+            userList: List.from(state.userList.toList())
               ..insert(
                   state.userList
                       .toList()

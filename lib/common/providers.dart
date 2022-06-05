@@ -7,8 +7,6 @@ import 'package:flutter_application/screens/user_selection_and_administration/us
 import 'package:flutter_application/screens/user_selection_and_administration/user_selection_and_administration_model.dart';
 import 'package:flutter_application/screens/user_selection_and_administration/user_selection_and_administration_view.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tuple/tuple.dart';
-
 import '../screens/user_selection_and_administration/user_selection_and_administration_view.dart';
 
 final Providers providers = Providers();

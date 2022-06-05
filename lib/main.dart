@@ -23,14 +23,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        localizationsDelegates: [GlobalMaterialLocalizations.delegate],
-        supportedLocales: [const Locale('en'), const Locale('de')],
+        localizationsDelegates: const [GlobalMaterialLocalizations.delegate],
+        supportedLocales: const [Locale('en'), Locale('de')],
         home: Navigator(
           initialRoute: '/RegistrationAndLogin',
           onGenerateRoute: (RouteSettings routeParams) {
             if (routeParams.name == '/RegistrationAndLogin') {
               return MaterialPageRoute(
-                  builder: (context) => RegistrationAndLoginView());
+                  builder: (context) => const RegistrationAndLoginView());
             } else if (routeParams.name == '/UserSelectionAndAdministration') {
               final Map args = routeParams.arguments as Map;
               return MaterialPageRoute(
