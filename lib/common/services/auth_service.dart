@@ -11,6 +11,7 @@ abstract class AuthService {
     required String email,
     required String password,
   });
+  Future loadUserList();
 }
 
 class AuthFirebaseService extends AuthService {
@@ -43,6 +44,19 @@ class AuthFirebaseService extends AuthService {
           email: email, password: password);
       FirebaseUser user = result.user;
       return user;
+    } catch (error) {
+      return null;
+    }
+  }
+
+  Future loadUserList() async {
+    try {
+      List<UserModel> uList = await [
+        const UserModel("Mom", false),
+        const UserModel("Dad", false),
+        const UserModel("Lisa", false)
+      ];
+      return uList;
     } catch (error) {
       return null;
     }

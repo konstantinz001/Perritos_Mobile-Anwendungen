@@ -2,29 +2,38 @@ import 'package:flutter_application/models/user_model.dart';
 import 'package:flutter_application/screens/user_selection_and_administration/user_selection_and_administration_model.dart';
 import 'package:flutter_application/screens/user_selection_and_administration/user_selection_and_administration_view.dart';
 
-const List<UserModel> UserList = [
-  const UserModel("Mom", false),
-  const UserModel("Dad", false),
-  const UserModel("Lisa", false)
-];
+List<UserModel> loadUsers() {
+  var loadedList = [
+    const UserModel("Mom", false),
+    const UserModel("Dad", false),
+    const UserModel("Lisa", false)
+  ];
+  return loadedList;
+}
 
 class UserSelectionAndAdministrationImplmentation
     extends UserSelectionAndAdministrationController {
-  UserSelectionAndAdministrationImplmentation({
-    UserSelectionAndAdministrationModel? model,
-  }) : super(model ??
-            const UserSelectionAndAdministrationModel(
+  final String _id;
+  final List<UserModel> _users;
+
+  UserSelectionAndAdministrationImplmentation(
+      {required String id,
+      required List<UserModel> users,
+      UserSelectionAndAdministrationModel? model})
+      : _id = id,
+        _users = users,
+        super(model ??
+            UserSelectionAndAdministrationModel(
                 currentUserSelectionAndAdministrationScreen:
                     UserSelectionAndAdministration.kickoff,
-                userList: UserList,
-                editable: false));
+                userList: users,
+                editable: false,
+                emailID: id));
 
-  @override
   void switchCurrentUserSelectionAndAdministrationScreen(screen) {
     state = state.copyWith(currentUserSelectionAndAdministrationScreen: screen);
   }
 
-  @override
   void addUser(usermodel) {
     state = state.copyWith(
         userList: new List.from(state.userList.toList())..insert(0, usermodel));

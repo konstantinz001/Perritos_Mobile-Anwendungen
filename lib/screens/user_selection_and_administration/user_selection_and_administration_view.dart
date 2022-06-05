@@ -8,26 +8,35 @@ import 'package:flutter_application/assets/styles/perritos-icons/PerritosIcons_i
 import 'package:flutter_application/models/user_model.dart';
 import 'package:flutter_application/screens/user_selection_and_administration/user_selection_and_administration_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tuple/tuple.dart';
 
 import '../../assets/ui-components/buttons/perritos-button.dart';
 
 class UserSelectionAndAdministrationView extends ConsumerWidget {
-  const UserSelectionAndAdministrationView({Key? key}) : super(key: key);
+  final String _emailID;
+  final List<UserModel> _users;
+  const UserSelectionAndAdministrationView(
+      {Key? key, required String emailID, required List<UserModel> users})
+      : _emailID = emailID,
+        _users = users,
+        super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final UserSelectionAndAdministrationController controller = ref.read(
-        providers.userSelectionAndAdministrationControllerProvider.notifier);
-    final UserSelectionAndAdministrationModel model =
-        ref.watch(providers.userSelectionAndAdministrationControllerProvider);
+        providers
+            .userSelectionAndAdministrationControllerProvider(
+                Tuple2(_emailID, _users))
+            .notifier);
+    final UserSelectionAndAdministrationModel model = ref.watch(
+        providers.userSelectionAndAdministrationControllerProvider(
+            Tuple2(_emailID, _users)));
 
-    TextEditingController textEditingController =
-        TextEditingController(); //HOW????
-    return Scaffold(
+    TextEditingController textEditingController = TextEditingController();
+    var buildWidget = Scaffold(
       body: Center(
           child: model.currentUserSelectionAndAdministrationScreen ==
                   UserSelectionAndAdministration.kickoff
-              //KICKOFF___________________________________________________________________
               ? Container(
                   color: PerritosColor.perritosSnow.color,
                   child: Padding(
@@ -124,7 +133,6 @@ class UserSelectionAndAdministrationView extends ConsumerWidget {
                           ])))
               : model.currentUserSelectionAndAdministrationScreen ==
                       UserSelectionAndAdministration.add
-                  //ADD_______________________________________________________________________
                   ? Container(
                       color: PerritosColor.perritosSnow.color,
                       child: Padding(
@@ -202,7 +210,6 @@ class UserSelectionAndAdministrationView extends ConsumerWidget {
                               ])))
                   : model.currentUserSelectionAndAdministrationScreen ==
                           UserSelectionAndAdministration.edit
-                      //EDIT______________________________________________________________________
                       ? Container(
                           color: PerritosColor.perritosSnow.color,
                           child: Padding(
@@ -285,6 +292,7 @@ class UserSelectionAndAdministrationView extends ConsumerWidget {
                           const SizedBox(height: 20),
                         ])),
     );
+    return buildWidget;
   }
 }
 
