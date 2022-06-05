@@ -4,24 +4,24 @@
             "outputFile": "C:\\Users\\Konsi\\Desktop\\Mobile Anwendung\\Perritos\\gruppe-20\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-pt-rPT\\values-pt-rPT.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Konsi\\.gradle\\caches\\transforms-3\\5c4a19efc0a28211ec09955c87a37429\\transformed\\jetified-play-services-basement-16.1.0\\res\\values-pt-rPT\\values.xml",
+                    "source": "C:\\Users\\Konsi\\.gradle\\caches\\transforms-3\\9d0d591919603b1f333cf58c478e14ac\\transformed\\jetified-play-services-basement-18.0.0\\res\\values-pt-rPT\\values.xml",
                     "from": {
                         "startLines": "4",
                         "startColumns": "0",
-                        "startOffsets": "251",
-                        "endColumns": "203",
-                        "endOffsets": "454"
+                        "startOffsets": "199",
+                        "endColumns": "140",
+                        "endOffsets": "339"
                     },
                     "to": {
                         "startLines": "10",
                         "startColumns": "4",
                         "startOffsets": "1294",
-                        "endColumns": "203",
-                        "endOffsets": "1493"
+                        "endColumns": "144",
+                        "endOffsets": "1434"
                     }
                 },
                 {
-                    "source": "C:\\Users\\Konsi\\.gradle\\caches\\transforms-3\\fe882a583893c20fb3024246cac79bb7\\transformed\\jetified-play-services-base-16.0.1\\res\\values-pt-rPT\\values.xml",
+                    "source": "C:\\Users\\Konsi\\.gradle\\caches\\transforms-3\\53f71a2b325a24fa01342b0ae753f0b2\\transformed\\jetified-play-services-base-17.1.0\\res\\values-pt-rPT\\values.xml",
                     "from": {
                         "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
                         "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
@@ -32,9 +32,9 @@
                     "to": {
                         "startLines": "2,3,4,5,6,7,8,9,11,12,13,14,15,16,17,18,19",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "105,212,407,537,647,874,1004,1156,1498,1745,1855,2056,2189,2407,2615,2713,2812",
+                        "startOffsets": "105,212,407,537,647,874,1004,1156,1439,1686,1796,1997,2130,2348,2556,2654,2753",
                         "endColumns": "106,194,129,109,226,129,151,137,246,109,200,132,217,207,97,98,115",
-                        "endOffsets": "207,402,532,642,869,999,1151,1289,1740,1850,2051,2184,2402,2610,2708,2807,2923"
+                        "endOffsets": "207,402,532,642,869,999,1151,1289,1681,1791,1992,2125,2343,2551,2649,2748,2864"
                     }
                 },
                 {
@@ -49,9 +49,9 @@
                     "to": {
                         "startLines": "20",
                         "startColumns": "4",
-                        "startOffsets": "2928",
+                        "startOffsets": "2869",
                         "endColumns": "100",
-                        "endOffsets": "3024"
+                        "endOffsets": "2965"
                     }
                 }
             ]

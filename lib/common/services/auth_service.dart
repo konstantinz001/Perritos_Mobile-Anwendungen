@@ -17,20 +17,20 @@ abstract class AuthService {
 class AuthFirebaseService extends AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  AuthUserModel _userFromFirebaseUser(FirebaseUser user) {
+  AuthUserModel _userFromFirebaseUser(User? user) {
     return user != null ? AuthUserModel(uid: user.uid) : AuthUserModel(uid: "");
   }
 
-  Stream<AuthUserModel> get user {
+  /*Stream<AuthUserModel> get user {
     return _auth.onAuthStateChanged.map(_userFromFirebaseUser);
-  }
+  }*/
 
   @override
   Future login({required String email, required String password}) async {
     try {
-      AuthResult result = await _auth.signInWithEmailAndPassword(
+      UserCredential result = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
-      FirebaseUser user = result.user;
+      User? user = result.user;
       return _userFromFirebaseUser(user);
     } catch (error) {
       return null;
@@ -40,9 +40,9 @@ class AuthFirebaseService extends AuthService {
   @override
   Future register({required String email, required String password}) async {
     try {
-      AuthResult result = await _auth.createUserWithEmailAndPassword(
+      UserCredential result = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
-      FirebaseUser user = result.user;
+      User? user = result.user;
       return user;
     } catch (error) {
       return null;
