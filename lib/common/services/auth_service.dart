@@ -52,7 +52,6 @@ class AuthFirebaseService extends AuthService {
   @override
   Future loadUserList({required String email}) async {
     //Load Where emailID = email
-    print(email);
     try {
       List<UserModel> uList = await [
         const UserModel("test@web.de", "Mom", false),
