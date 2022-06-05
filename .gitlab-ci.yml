@@ -28,7 +28,5 @@ analyze_and_test:
     reports:
       junit:
         - report.xml
-  tags:
-    - shared
   only:
     - merge_requests
