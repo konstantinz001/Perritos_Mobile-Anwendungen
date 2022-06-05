@@ -13,24 +13,20 @@ import 'package:tuple/tuple.dart';
 import '../../assets/ui-components/buttons/perritos-button.dart';
 
 class UserSelectionAndAdministrationView extends ConsumerWidget {
-  final String _emailID;
   final List<UserModel> _users;
   const UserSelectionAndAdministrationView(
-      {Key? key, required String emailID, required List<UserModel> users})
-      : _emailID = emailID,
-        _users = users,
+      {Key? key, required List<UserModel> users})
+      : _users = users,
         super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final UserSelectionAndAdministrationController controller = ref.read(
         providers
-            .userSelectionAndAdministrationControllerProvider(
-                Tuple2(_emailID, _users))
+            .userSelectionAndAdministrationControllerProvider(_users)
             .notifier);
     final UserSelectionAndAdministrationModel model = ref.watch(
-        providers.userSelectionAndAdministrationControllerProvider(
-            Tuple2(_emailID, _users)));
+        providers.userSelectionAndAdministrationControllerProvider(_users));
 
     TextEditingController textEditingController = TextEditingController();
     var buildWidget = Scaffold(
@@ -93,7 +89,9 @@ class UserSelectionAndAdministrationView extends ConsumerWidget {
                                             edit: model.editable,
                                             onPressed: () => {
                                                   controller.changeSelectedUser(
-                                                      UserModel(user.name,
+                                                      UserModel(
+                                                          user.emailID,
+                                                          user.name,
                                                           !user.selected)),
                                                   model.editable == false
                                                       ? controller
@@ -193,6 +191,7 @@ class UserSelectionAndAdministrationView extends ConsumerWidget {
                                         {
                                           controller.addUser(
                                             UserModel(
+                                                model.userList.first.emailID,
                                                 textEditingController.text,
                                                 false),
                                           ),
@@ -270,6 +269,7 @@ class UserSelectionAndAdministrationView extends ConsumerWidget {
                                           if (textEditingController.text != "")
                                             {
                                               controller.addUser(UserModel(
+                                                  model.userList.first.emailID,
                                                   textEditingController.text,
                                                   false)),
                                               textEditingController.text = "",

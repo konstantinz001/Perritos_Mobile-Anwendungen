@@ -19,7 +19,6 @@ mixin _$UserSelectionAndAdministrationModel {
   UserSelectionAndAdministration
       get currentUserSelectionAndAdministrationScreen =>
           throw _privateConstructorUsedError;
-  String get emailID => throw _privateConstructorUsedError;
   List<UserModel> get userList => throw _privateConstructorUsedError;
   bool get editable => throw _privateConstructorUsedError;
 
@@ -38,7 +37,6 @@ abstract class $UserSelectionAndAdministrationModelCopyWith<$Res> {
   $Res call(
       {UserSelectionAndAdministration
           currentUserSelectionAndAdministrationScreen,
-      String emailID,
       List<UserModel> userList,
       bool editable});
 }
@@ -55,7 +53,6 @@ class _$UserSelectionAndAdministrationModelCopyWithImpl<$Res>
   @override
   $Res call({
     Object? currentUserSelectionAndAdministrationScreen = freezed,
-    Object? emailID = freezed,
     Object? userList = freezed,
     Object? editable = freezed,
   }) {
@@ -65,10 +62,6 @@ class _$UserSelectionAndAdministrationModelCopyWithImpl<$Res>
               ? _value.currentUserSelectionAndAdministrationScreen
               : currentUserSelectionAndAdministrationScreen // ignore: cast_nullable_to_non_nullable
                   as UserSelectionAndAdministration,
-      emailID: emailID == freezed
-          ? _value.emailID
-          : emailID // ignore: cast_nullable_to_non_nullable
-              as String,
       userList: userList == freezed
           ? _value.userList
           : userList // ignore: cast_nullable_to_non_nullable
@@ -92,7 +85,6 @@ abstract class _$$_UserSelectionAndAdministrationModelCopyWith<$Res>
   $Res call(
       {UserSelectionAndAdministration
           currentUserSelectionAndAdministrationScreen,
-      String emailID,
       List<UserModel> userList,
       bool editable});
 }
@@ -114,7 +106,6 @@ class __$$_UserSelectionAndAdministrationModelCopyWithImpl<$Res>
   @override
   $Res call({
     Object? currentUserSelectionAndAdministrationScreen = freezed,
-    Object? emailID = freezed,
     Object? userList = freezed,
     Object? editable = freezed,
   }) {
@@ -124,10 +115,6 @@ class __$$_UserSelectionAndAdministrationModelCopyWithImpl<$Res>
               ? _value.currentUserSelectionAndAdministrationScreen
               : currentUserSelectionAndAdministrationScreen // ignore: cast_nullable_to_non_nullable
                   as UserSelectionAndAdministration,
-      emailID: emailID == freezed
-          ? _value.emailID
-          : emailID // ignore: cast_nullable_to_non_nullable
-              as String,
       userList: userList == freezed
           ? _value._userList
           : userList // ignore: cast_nullable_to_non_nullable
@@ -146,7 +133,6 @@ class _$_UserSelectionAndAdministrationModel
     implements _UserSelectionAndAdministrationModel {
   const _$_UserSelectionAndAdministrationModel(
       {required this.currentUserSelectionAndAdministrationScreen,
-      required this.emailID,
       required final List<UserModel> userList,
       required this.editable})
       : _userList = userList;
@@ -154,8 +140,6 @@ class _$_UserSelectionAndAdministrationModel
   @override
   final UserSelectionAndAdministration
       currentUserSelectionAndAdministrationScreen;
-  @override
-  final String emailID;
   final List<UserModel> _userList;
   @override
   List<UserModel> get userList {
@@ -168,7 +152,7 @@ class _$_UserSelectionAndAdministrationModel
 
   @override
   String toString() {
-    return 'UserSelectionAndAdministrationModel(currentUserSelectionAndAdministrationScreen: $currentUserSelectionAndAdministrationScreen, emailID: $emailID, userList: $userList, editable: $editable)';
+    return 'UserSelectionAndAdministrationModel(currentUserSelectionAndAdministrationScreen: $currentUserSelectionAndAdministrationScreen, userList: $userList, editable: $editable)';
   }
 
   @override
@@ -179,7 +163,6 @@ class _$_UserSelectionAndAdministrationModel
             const DeepCollectionEquality().equals(
                 other.currentUserSelectionAndAdministrationScreen,
                 currentUserSelectionAndAdministrationScreen) &&
-            const DeepCollectionEquality().equals(other.emailID, emailID) &&
             const DeepCollectionEquality().equals(other._userList, _userList) &&
             const DeepCollectionEquality().equals(other.editable, editable));
   }
@@ -189,7 +172,6 @@ class _$_UserSelectionAndAdministrationModel
       runtimeType,
       const DeepCollectionEquality()
           .hash(currentUserSelectionAndAdministrationScreen),
-      const DeepCollectionEquality().hash(emailID),
       const DeepCollectionEquality().hash(_userList),
       const DeepCollectionEquality().hash(editable));
 
@@ -206,7 +188,6 @@ abstract class _UserSelectionAndAdministrationModel
   const factory _UserSelectionAndAdministrationModel(
       {required final UserSelectionAndAdministration
           currentUserSelectionAndAdministrationScreen,
-      required final String emailID,
       required final List<UserModel> userList,
       required final bool editable}) = _$_UserSelectionAndAdministrationModel;
 
@@ -214,8 +195,6 @@ abstract class _UserSelectionAndAdministrationModel
   UserSelectionAndAdministration
       get currentUserSelectionAndAdministrationScreen =>
           throw _privateConstructorUsedError;
-  @override
-  String get emailID => throw _privateConstructorUsedError;
   @override
   List<UserModel> get userList => throw _privateConstructorUsedError;
   @override

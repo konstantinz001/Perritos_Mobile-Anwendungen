@@ -32,7 +32,6 @@ class MyApp extends StatelessWidget {
               final Map args = routeParams.arguments as Map;
               return MaterialPageRoute(
                   builder: (context) => UserSelectionAndAdministrationView(
-                        emailID: args['emailID'],
                         users: args['userList'],
                       ));
             } else if (routeParams.name == '/DogSelectionAndAdministration') {

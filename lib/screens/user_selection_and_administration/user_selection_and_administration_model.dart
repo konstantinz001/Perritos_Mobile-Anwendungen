@@ -11,7 +11,6 @@ class UserSelectionAndAdministrationModel
   const factory UserSelectionAndAdministrationModel({
     required UserSelectionAndAdministration
         currentUserSelectionAndAdministrationScreen,
-    required String emailID,
     required List<UserModel> userList,
     required bool editable,
   }) = _UserSelectionAndAdministrationModel;

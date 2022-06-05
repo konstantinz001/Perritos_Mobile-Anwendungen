@@ -44,16 +44,15 @@ class RegistrationAndLoginImplmentation extends RegistrationAndLoginController {
   }
 
   Future<bool> login(password, email) async {
-    dynamic result =
-        await _authService.login(email: "l@web.de", password: "123456");
+    dynamic result = await _authService.login(email: email, password: password);
     if (result == null) {
       return Future.delayed(const Duration(seconds: 1), () => false);
     }
     return Future.delayed(const Duration(seconds: 1), () => true);
   }
 
-  Future<List<UserModel>> loadUsers() async {
-    dynamic result = await _authService.loadUserList();
+  Future<List<UserModel>> loadUsers(email) async {
+    dynamic result = await _authService.loadUserList(email: email);
     if (result == null) {
       return Future.delayed(const Duration(seconds: 1), () => result);
     }

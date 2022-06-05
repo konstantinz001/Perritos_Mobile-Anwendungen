@@ -261,14 +261,13 @@ class RegistrationAndLoginView extends ConsumerWidget {
                                       .login(model.password, model.email)
                                       .then((users) => users
                                           ? {
-                                              (controller.loadUsers().then(
-                                                  (userlist) =>
+                                              (controller
+                                                  .loadUsers(model.email)
+                                                  .then((userlist) =>
                                                       Navigator.pushNamed(
                                                           context,
                                                           '/UserSelectionAndAdministration',
                                                           arguments: {
-                                                            'emailID':
-                                                                model.email,
                                                             'userList': userlist
                                                           })))
                                             }
@@ -300,5 +299,5 @@ abstract class RegistrationAndLoginController
   void changeState(screen, password, confirmPassword, email);
   Future<RegistrationMessage> register(password, confirmPassword, email);
   Future<bool> login(password, email);
-  Future<List<UserModel>> loadUsers();
+  Future<List<UserModel>> loadUsers(email);
 }

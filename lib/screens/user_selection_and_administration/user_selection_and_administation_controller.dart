@@ -2,33 +2,21 @@ import 'package:flutter_application/models/user_model.dart';
 import 'package:flutter_application/screens/user_selection_and_administration/user_selection_and_administration_model.dart';
 import 'package:flutter_application/screens/user_selection_and_administration/user_selection_and_administration_view.dart';
 
-List<UserModel> loadUsers() {
-  var loadedList = [
-    const UserModel("Mom", false),
-    const UserModel("Dad", false),
-    const UserModel("Lisa", false)
-  ];
-  return loadedList;
-}
-
 class UserSelectionAndAdministrationImplmentation
     extends UserSelectionAndAdministrationController {
-  final String _id;
   final List<UserModel> _users;
 
   UserSelectionAndAdministrationImplmentation(
-      {required String id,
-      required List<UserModel> users,
+      {required List<UserModel> users,
       UserSelectionAndAdministrationModel? model})
-      : _id = id,
-        _users = users,
+      : _users = users,
         super(model ??
             UserSelectionAndAdministrationModel(
-                currentUserSelectionAndAdministrationScreen:
-                    UserSelectionAndAdministration.kickoff,
-                userList: users,
-                editable: false,
-                emailID: id));
+              currentUserSelectionAndAdministrationScreen:
+                  UserSelectionAndAdministration.kickoff,
+              userList: users,
+              editable: false,
+            ));
 
   void switchCurrentUserSelectionAndAdministrationScreen(screen) {
     state = state.copyWith(currentUserSelectionAndAdministrationScreen: screen);
@@ -76,7 +64,7 @@ class UserSelectionAndAdministrationImplmentation
                   state.userList
                       .toList()
                       .indexWhere((element) => element.name == user.name),
-                  UserModel(user.name, false))
+                  UserModel(user.emailID, user.name, false))
               ..removeAt(state.userList
                       .toList()
                       .indexWhere((element) => element.selected == true) +

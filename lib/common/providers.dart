@@ -27,10 +27,9 @@ class Providers {
   final StateNotifierProviderFamily<
           UserSelectionAndAdministrationController,
           UserSelectionAndAdministrationModel,
-          Tuple2> userSelectionAndAdministrationControllerProvider =
+          List<UserModel>> userSelectionAndAdministrationControllerProvider =
       StateNotifierProvider.family<UserSelectionAndAdministrationController,
-              UserSelectionAndAdministrationModel, Tuple2>(
-          (StateNotifierProviderRef ref, Tuple2 data) =>
-              UserSelectionAndAdministrationImplmentation(
-                  id: data.item1, users: data.item2));
+              UserSelectionAndAdministrationModel, List<UserModel>>(
+          (StateNotifierProviderRef ref, List<UserModel> data) =>
+              UserSelectionAndAdministrationImplmentation(users: data));
 }
