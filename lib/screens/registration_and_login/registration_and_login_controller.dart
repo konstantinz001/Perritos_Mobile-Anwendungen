@@ -1,3 +1,4 @@
+import 'package:flutter_application/models/user_model.dart';
 import 'package:flutter_application/screens/registration_and_login/registration_and_login_model.dart';
 import 'package:flutter_application/common/services/auth_service.dart';
 import 'package:flutter_application/screens/registration_and_login/registration_and_login_view.dart';
@@ -45,8 +46,16 @@ class RegistrationAndLoginImplmentation extends RegistrationAndLoginController {
   Future<bool> login(password, email) async {
     dynamic result = await _authService.login(email: email, password: password);
     if (result == null) {
-      return Future.delayed(const Duration(seconds: 3), () => false);
+      return Future.delayed(const Duration(seconds: 1), () => false);
     }
-    return Future.delayed(const Duration(seconds: 3), () => true);
+    return Future.delayed(const Duration(seconds: 1), () => true);
+  }
+
+  Future<List<UserModel>> loadUsers(email) async {
+    dynamic result = await _authService.loadUserList(email: email);
+    if (result == null) {
+      return Future.delayed(const Duration(seconds: 1), () => result);
+    }
+    return Future.delayed(const Duration(seconds: 1), () => result);
   }
 }

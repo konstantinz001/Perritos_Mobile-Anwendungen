@@ -8,26 +8,31 @@ import 'package:flutter_application/assets/styles/perritos-icons/PerritosIcons_i
 import 'package:flutter_application/models/user_model.dart';
 import 'package:flutter_application/screens/user_selection_and_administration/user_selection_and_administration_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tuple/tuple.dart';
 
 import '../../assets/ui-components/buttons/perritos-button.dart';
 
 class UserSelectionAndAdministrationView extends ConsumerWidget {
-  const UserSelectionAndAdministrationView({Key? key}) : super(key: key);
+  final List<UserModel> _users;
+  const UserSelectionAndAdministrationView(
+      {Key? key, required List<UserModel> users})
+      : _users = users,
+        super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final UserSelectionAndAdministrationController controller = ref.read(
-        providers.userSelectionAndAdministrationControllerProvider.notifier);
-    final UserSelectionAndAdministrationModel model =
-        ref.watch(providers.userSelectionAndAdministrationControllerProvider);
+        providers
+            .userSelectionAndAdministrationControllerProvider(_users)
+            .notifier);
+    final UserSelectionAndAdministrationModel model = ref.watch(
+        providers.userSelectionAndAdministrationControllerProvider(_users));
 
-    TextEditingController textEditingController =
-        TextEditingController(); //HOW????
-    return Scaffold(
+    TextEditingController textEditingController = TextEditingController();
+    var buildWidget = Scaffold(
       body: Center(
           child: model.currentUserSelectionAndAdministrationScreen ==
                   UserSelectionAndAdministration.kickoff
-              //KICKOFF___________________________________________________________________
               ? Container(
                   color: PerritosColor.perritosSnow.color,
                   child: Padding(
@@ -84,7 +89,9 @@ class UserSelectionAndAdministrationView extends ConsumerWidget {
                                             edit: model.editable,
                                             onPressed: () => {
                                                   controller.changeSelectedUser(
-                                                      UserModel(user.name,
+                                                      UserModel(
+                                                          user.emailID,
+                                                          user.name,
                                                           !user.selected)),
                                                   model.editable == false
                                                       ? controller
@@ -124,7 +131,6 @@ class UserSelectionAndAdministrationView extends ConsumerWidget {
                           ])))
               : model.currentUserSelectionAndAdministrationScreen ==
                       UserSelectionAndAdministration.add
-                  //ADD_______________________________________________________________________
                   ? Container(
                       color: PerritosColor.perritosSnow.color,
                       child: Padding(
@@ -185,6 +191,7 @@ class UserSelectionAndAdministrationView extends ConsumerWidget {
                                         {
                                           controller.addUser(
                                             UserModel(
+                                                model.userList.first.emailID,
                                                 textEditingController.text,
                                                 false),
                                           ),
@@ -202,7 +209,6 @@ class UserSelectionAndAdministrationView extends ConsumerWidget {
                               ])))
                   : model.currentUserSelectionAndAdministrationScreen ==
                           UserSelectionAndAdministration.edit
-                      //EDIT______________________________________________________________________
                       ? Container(
                           color: PerritosColor.perritosSnow.color,
                           child: Padding(
@@ -263,6 +269,7 @@ class UserSelectionAndAdministrationView extends ConsumerWidget {
                                           if (textEditingController.text != "")
                                             {
                                               controller.addUser(UserModel(
+                                                  model.userList.first.emailID,
                                                   textEditingController.text,
                                                   false)),
                                               textEditingController.text = "",
@@ -285,6 +292,7 @@ class UserSelectionAndAdministrationView extends ConsumerWidget {
                           const SizedBox(height: 20),
                         ])),
     );
+    return buildWidget;
   }
 }
 

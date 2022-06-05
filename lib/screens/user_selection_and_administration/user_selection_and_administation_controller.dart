@@ -2,29 +2,26 @@ import 'package:flutter_application/models/user_model.dart';
 import 'package:flutter_application/screens/user_selection_and_administration/user_selection_and_administration_model.dart';
 import 'package:flutter_application/screens/user_selection_and_administration/user_selection_and_administration_view.dart';
 
-const List<UserModel> UserList = [
-  const UserModel("Mom", false),
-  const UserModel("Dad", false),
-  const UserModel("Lisa", false)
-];
-
 class UserSelectionAndAdministrationImplmentation
     extends UserSelectionAndAdministrationController {
-  UserSelectionAndAdministrationImplmentation({
-    UserSelectionAndAdministrationModel? model,
-  }) : super(model ??
-            const UserSelectionAndAdministrationModel(
-                currentUserSelectionAndAdministrationScreen:
-                    UserSelectionAndAdministration.kickoff,
-                userList: UserList,
-                editable: false));
+  final List<UserModel> _users;
 
-  @override
+  UserSelectionAndAdministrationImplmentation(
+      {required List<UserModel> users,
+      UserSelectionAndAdministrationModel? model})
+      : _users = users,
+        super(model ??
+            UserSelectionAndAdministrationModel(
+              currentUserSelectionAndAdministrationScreen:
+                  UserSelectionAndAdministration.kickoff,
+              userList: users,
+              editable: false,
+            ));
+
   void switchCurrentUserSelectionAndAdministrationScreen(screen) {
     state = state.copyWith(currentUserSelectionAndAdministrationScreen: screen);
   }
 
-  @override
   void addUser(usermodel) {
     state = state.copyWith(
         userList: new List.from(state.userList.toList())..insert(0, usermodel));
@@ -67,7 +64,7 @@ class UserSelectionAndAdministrationImplmentation
                   state.userList
                       .toList()
                       .indexWhere((element) => element.name == user.name),
-                  UserModel(user.name, false))
+                  UserModel(user.emailID, user.name, false))
               ..removeAt(state.userList
                       .toList()
                       .indexWhere((element) => element.selected == true) +

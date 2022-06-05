@@ -1,18 +1,18 @@
 [
     {
-        "merged": "/Users/cortes/Desktop/MobileAnwendungen/gruppe-20/build/path_provider_android/intermediates/res/merged/debug/drawable/notification_bg.xml",
-        "source": "/Users/cortes/.gradle/caches/transforms-3/2806c9bbba05086fca8f28d9d351180d/transformed/core-1.6.0/res/drawable/notification_bg.xml"
+        "merged": "C:\\Users\\Konsi\\Desktop\\Mobile Anwendung\\Perritos\\gruppe-20\\build\\path_provider_android\\intermediates\\res\\merged\\debug\\drawable\\notification_bg.xml",
+        "source": "C:\\Users\\Konsi\\.gradle\\caches\\transforms-3\\2806c9bbba05086fca8f28d9d351180d\\transformed\\core-1.6.0\\res\\drawable\\notification_bg.xml"
     },
     {
-        "merged": "/Users/cortes/Desktop/MobileAnwendungen/gruppe-20/build/path_provider_android/intermediates/res/merged/debug/drawable/notification_icon_background.xml",
-        "source": "/Users/cortes/.gradle/caches/transforms-3/2806c9bbba05086fca8f28d9d351180d/transformed/core-1.6.0/res/drawable/notification_icon_background.xml"
+        "merged": "C:\\Users\\Konsi\\Desktop\\Mobile Anwendung\\Perritos\\gruppe-20\\build\\path_provider_android\\intermediates\\res\\merged\\debug\\drawable\\notification_bg_low.xml",
+        "source": "C:\\Users\\Konsi\\.gradle\\caches\\transforms-3\\2806c9bbba05086fca8f28d9d351180d\\transformed\\core-1.6.0\\res\\drawable\\notification_bg_low.xml"
     },
     {
-        "merged": "/Users/cortes/Desktop/MobileAnwendungen/gruppe-20/build/path_provider_android/intermediates/res/merged/debug/drawable/notification_bg_low.xml",
-        "source": "/Users/cortes/.gradle/caches/transforms-3/2806c9bbba05086fca8f28d9d351180d/transformed/core-1.6.0/res/drawable/notification_bg_low.xml"
+        "merged": "C:\\Users\\Konsi\\Desktop\\Mobile Anwendung\\Perritos\\gruppe-20\\build\\path_provider_android\\intermediates\\res\\merged\\debug\\drawable\\notification_tile_bg.xml",
+        "source": "C:\\Users\\Konsi\\.gradle\\caches\\transforms-3\\2806c9bbba05086fca8f28d9d351180d\\transformed\\core-1.6.0\\res\\drawable\\notification_tile_bg.xml"
     },
     {
-        "merged": "/Users/cortes/Desktop/MobileAnwendungen/gruppe-20/build/path_provider_android/intermediates/res/merged/debug/drawable/notification_tile_bg.xml",
-        "source": "/Users/cortes/.gradle/caches/transforms-3/2806c9bbba05086fca8f28d9d351180d/transformed/core-1.6.0/res/drawable/notification_tile_bg.xml"
+        "merged": "C:\\Users\\Konsi\\Desktop\\Mobile Anwendung\\Perritos\\gruppe-20\\build\\path_provider_android\\intermediates\\res\\merged\\debug\\drawable\\notification_icon_background.xml",
+        "source": "C:\\Users\\Konsi\\.gradle\\caches\\transforms-3\\2806c9bbba05086fca8f28d9d351180d\\transformed\\core-1.6.0\\res\\drawable\\notification_icon_background.xml"
     }
 ]
