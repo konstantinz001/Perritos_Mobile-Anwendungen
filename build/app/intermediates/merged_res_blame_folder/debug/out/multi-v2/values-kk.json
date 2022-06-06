@@ -1,44 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/cortes/Desktop/MobileAnwendungen/gruppe-20/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-kk/values-kk.xml",
+            "outputFile": "C:\\Users\\Konsi\\Desktop\\Mobile Anwendung\\Perritos\\gruppe-20\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-kk\\values-kk.xml",
             "map": [
                 {
-                    "source": "/Users/cortes/.gradle/caches/transforms-3/2806c9bbba05086fca8f28d9d351180d/transformed/core-1.6.0/res/values-kk/values-kk.xml",
-                    "from": {
-                        "startLines": "2",
-                        "startColumns": "4",
-                        "startOffsets": "55",
-                        "endColumns": "100",
-                        "endOffsets": "151"
-                    },
-                    "to": {
-                        "startLines": "24",
-                        "startColumns": "4",
-                        "startOffsets": "2689",
-                        "endColumns": "100",
-                        "endOffsets": "2785"
-                    }
-                },
-                {
-                    "source": "/Users/cortes/.gradle/caches/transforms-3/9d0d591919603b1f333cf58c478e14ac/transformed/jetified-play-services-basement-18.0.0/res/values-kk/values.xml",
-                    "from": {
-                        "startLines": "4",
-                        "startColumns": "0",
-                        "startOffsets": "195",
-                        "endColumns": "159",
-                        "endOffsets": "354"
-                    },
-                    "to": {
-                        "startLines": "10",
-                        "startColumns": "4",
-                        "startOffsets": "1041",
-                        "endColumns": "163",
-                        "endOffsets": "1200"
-                    }
-                },
-                {
-                    "source": "/Users/cortes/.gradle/caches/transforms-3/24146112dcdb3dcaa63dddfb5e38d61b/transformed/browser-1.4.0/res/values-kk/values-kk.xml",
+                    "source": "C:\\Users\\Konsi\\.gradle\\caches\\transforms-3\\24146112dcdb3dcaa63dddfb5e38d61b\\transformed\\browser-1.4.0\\res\\values-kk\\values-kk.xml",
                     "from": {
                         "startLines": "2,3,4,5",
                         "startColumns": "4,4,4,4",
@@ -55,7 +21,7 @@
                     }
                 },
                 {
-                    "source": "/Users/cortes/.gradle/caches/transforms-3/21355fe025c21eab7d3c9e35f654c272/transformed/jetified-play-services-base-18.0.1/res/values-kk/values.xml",
+                    "source": "C:\\Users\\Konsi\\.gradle\\caches\\transforms-3\\21355fe025c21eab7d3c9e35f654c272\\transformed\\jetified-play-services-base-18.0.1\\res\\values-kk\\values.xml",
                     "from": {
                         "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
                         "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
@@ -69,6 +35,40 @@
                         "startOffsets": "55,158,311,437,543,683,809,932,1205,1370,1476,1633,1762,1915,2072,2135,2194",
                         "endColumns": "102,152,125,105,139,125,122,108,164,105,156,128,152,156,62,58,77",
                         "endOffsets": "153,306,432,538,678,804,927,1036,1365,1471,1628,1757,1910,2067,2130,2189,2267"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Konsi\\.gradle\\caches\\transforms-3\\9d0d591919603b1f333cf58c478e14ac\\transformed\\jetified-play-services-basement-18.0.0\\res\\values-kk\\values.xml",
+                    "from": {
+                        "startLines": "4",
+                        "startColumns": "0",
+                        "startOffsets": "195",
+                        "endColumns": "159",
+                        "endOffsets": "354"
+                    },
+                    "to": {
+                        "startLines": "10",
+                        "startColumns": "4",
+                        "startOffsets": "1041",
+                        "endColumns": "163",
+                        "endOffsets": "1200"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Konsi\\.gradle\\caches\\transforms-3\\2806c9bbba05086fca8f28d9d351180d\\transformed\\core-1.6.0\\res\\values-kk\\values-kk.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "100",
+                        "endOffsets": "151"
+                    },
+                    "to": {
+                        "startLines": "24",
+                        "startColumns": "4",
+                        "startOffsets": "2689",
+                        "endColumns": "100",
+                        "endOffsets": "2785"
                     }
                 }
             ]

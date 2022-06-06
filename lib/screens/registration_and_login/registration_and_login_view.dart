@@ -47,7 +47,7 @@ class RegistrationAndLoginView extends ConsumerWidget {
                       PerritosButton(
                           onPressed: () => {
                                 controller.changeState(
-                                    RegistrationAndLogin.login, "", "", "","")
+                                    RegistrationAndLogin.login, "", "", "", "")
                               },
                           label: 'Login'),
                       const SizedBox(height: 20),
@@ -112,7 +112,7 @@ class RegistrationAndLoginView extends ConsumerWidget {
                                       model.currentRegistrationAndLoginScreen,
                                       model.password,
                                       model.confirmPassword,
-                                      model.email, 
+                                      model.email,
                                       value)
                                 },
                                 hintTxt: "Username",
@@ -123,7 +123,7 @@ class RegistrationAndLoginView extends ConsumerWidget {
                                       model.currentRegistrationAndLoginScreen,
                                       model.password,
                                       model.confirmPassword,
-                                      value, 
+                                      value,
                                       model.username)
                                 },
                                 hintTxt: "E-Mail Adresse",
@@ -134,7 +134,7 @@ class RegistrationAndLoginView extends ConsumerWidget {
                                       model.currentRegistrationAndLoginScreen,
                                       value,
                                       model.confirmPassword,
-                                      model.email, 
+                                      model.email,
                                       model.username)
                                 },
                                 hintTxt: "Passwort",
@@ -158,8 +158,11 @@ class RegistrationAndLoginView extends ConsumerWidget {
                         PerritosButton(
                             onPressed: () async => {
                                   await (controller
-                                      .register(model.password,
-                                          model.confirmPassword, model.email, model.username)
+                                      .register(
+                                          model.password,
+                                          model.confirmPassword,
+                                          model.email,
+                                          model.username)
                                       .then((message) => message ==
                                               RegistrationMessage.success
                                           ? {
@@ -317,7 +320,8 @@ abstract class RegistrationAndLoginController
       : super(state);
 
   void changeState(screen, password, confirmPassword, email, username);
-  Future<RegistrationMessage> register(password, confirmPassword, email, username);
+  Future<RegistrationMessage> register(
+      password, confirmPassword, email, username);
   Future<bool> login(password, email);
   Future<List<UserModel>> loadUsers(String email);
 }

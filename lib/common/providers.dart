@@ -42,10 +42,9 @@ class Providers {
           UserSelectionAndAdministrationImplmentation(
               users: data,
               databaseService: ref.read(providers.databaseServiceProvider)));
-            
-  final StateNotifierProvider<CalendarController,
-          CalendarModel> calendarControllerProvider =
-      StateNotifierProvider<CalendarController,
-              CalendarModel>(
+
+  final StateNotifierProvider<CalendarController, CalendarModel>
+      calendarControllerProvider =
+      StateNotifierProvider<CalendarController, CalendarModel>(
           (StateNotifierProviderRef ref) => CalendarImplmentation());
 }

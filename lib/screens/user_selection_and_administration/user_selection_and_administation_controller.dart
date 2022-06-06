@@ -18,6 +18,9 @@ class UserSelectionAndAdministrationImplmentation
             UserSelectionAndAdministrationModel(
               currentUserSelectionAndAdministrationScreen:
                   UserSelectionAndAdministration.kickoff,
+              userName: '',
+              iconName: 'Icon_User',
+              iconColor: 'perritosCharcoal',
               userList: users,
               editable: false,
             ));
@@ -29,13 +32,41 @@ class UserSelectionAndAdministrationImplmentation
 
   Future<void> addUser(UserModel userModel) async {
     _databaseService.insertUser(
-        emailID: userModel.emailID, name: userModel.name);
+        emailID: userModel.emailID,
+        name: userModel.name,
+        iconName: userModel.iconName,
+        iconColor: userModel.iconColor);
     await Future.delayed(const Duration(seconds: 1));
   }
 
   Future<void> setUserList(String email) async {
     state = state.copyWith(userList: List.from(await loadUsers(email)));
     await Future.delayed(const Duration(seconds: 1));
+  }
+
+  @override
+  void setEditingName(String name) {
+    print(state.userName);
+    print(name);
+    state = state.copyWith(userName: name);
+    print(state.userName);
+  }
+
+  @override
+  void setEditingIconName(String iconName) {
+    state = state.copyWith(iconName: iconName);
+  }
+
+  @override
+  void setEditingIconColor(String iconColor) {
+    state = state.copyWith(iconColor: iconColor);
+  }
+
+  @override
+  void setEditingDefault() {
+    setEditingName('');
+    setEditingIconName('Icon_User');
+    setEditingIconColor('perritosCharcoal');
   }
 
   @override
@@ -75,7 +106,8 @@ class UserSelectionAndAdministrationImplmentation
                   state.userList
                       .toList()
                       .indexWhere((element) => element.name == user.name),
-                  UserModel(user.emailID, user.name, false))
+                  UserModel(user.emailID, user.name, false, user.iconName,
+                      user.iconColor))
               ..removeAt(state.userList
                       .toList()
                       .indexWhere((element) => element.selected == true) +
@@ -88,9 +120,6 @@ class UserSelectionAndAdministrationImplmentation
   Future<List<UserModel>> loadUsers(String email) async {
     await for (List<UserModel> tasks
         in _databaseService.getAllUsers(emailID: email)) {
-      tasks.forEach((element) {
-        print("C:" + element.name);
-      });
       await Future.delayed(const Duration(seconds: 1));
       return tasks;
     }

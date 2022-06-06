@@ -11,7 +11,6 @@ abstract class AuthService {
     required String email,
     required String password,
   });
-  Future loadUserList({required String email});
 }
 
 class AuthFirebaseService extends AuthService {
@@ -44,21 +43,6 @@ class AuthFirebaseService extends AuthService {
           email: email, password: password);
       User? user = result.user;
       return user;
-    } catch (error) {
-      return null;
-    }
-  }
-
-  @override
-  Future loadUserList({required String email}) async {
-    //Load Where emailID = email
-    try {
-      List<UserModel> uList = await [
-        const UserModel("test@web.de", "Mom", false),
-        const UserModel("test@web.de", "Dad", false),
-        const UserModel("test@web.de", "Lisa", false)
-      ];
-      return uList;
     } catch (error) {
       return null;
     }

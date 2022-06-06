@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application/assets/styles/perritos-colors.dart';
 import 'package:flutter_application/assets/styles/perritos-fonts.dart';
 import 'package:flutter_application/assets/ui-components/buttons/perritos-button.dart';
+import 'package:flutter_application/assets/ui-components/buttons/perritos-icon-button.dart';
 import 'package:flutter_application/assets/ui-components/profile/perritos-editable-profile.dart';
 import 'package:flutter_application/assets/ui-components/profile/perritos-profile.dart';
 import 'package:flutter_application/common/providers.dart';
@@ -27,11 +28,9 @@ class UserSelectionAndAdministrationView extends ConsumerWidget {
             .notifier);
     final UserSelectionAndAdministrationModel model = ref.watch(
         providers.userSelectionAndAdministrationControllerProvider(_users));
-    _users.forEach((element) {
-      print(element.name);
-    });
 
     TextEditingController textEditingController = TextEditingController();
+    textEditingController.text = model.userName;
     var buildWidget = Scaffold(
       body: Center(
           child: model.currentUserSelectionAndAdministrationScreen ==
@@ -56,7 +55,6 @@ class UserSelectionAndAdministrationView extends ConsumerWidget {
                                     child: IconButton(
                                         icon:
                                             const Icon(PerritosIcons.Icon_Edit),
-                                        tooltip: 'Bearbeiten',
                                         iconSize: 26,
                                         onPressed: () => {
                                               controller.changeEditability(),
@@ -70,7 +68,6 @@ class UserSelectionAndAdministrationView extends ConsumerWidget {
                                     child: IconButton(
                                         icon: const Icon(
                                             PerritosIcons.Icon_Arrow_Left),
-                                        tooltip: 'Return',
                                         iconSize: 26,
                                         onPressed: () => {
                                               controller.changeEditability(),
@@ -87,7 +84,33 @@ class UserSelectionAndAdministrationView extends ConsumerWidget {
                                     Column(
                                       children: [
                                         PerritosProfile(
-                                            icon: PerritosIcons.Icon_User,
+                                            icon: user.iconName ==
+                                                    'Icon_Smiley_Happy'
+                                                ? PerritosIcons
+                                                    .Icon_Smiley_Happy
+                                                : user.iconName ==
+                                                        'Icon_Smiley_Sad'
+                                                    ? PerritosIcons
+                                                        .Icon_Smiley_Sad
+                                                    : PerritosIcons.Icon_User,
+                                            perritosColor: user.iconColor ==
+                                                    'perritosGoldFusion'
+                                                ? PerritosColor
+                                                    .perritosGoldFusion
+                                                : user.iconColor ==
+                                                        'perritosMaizeCrayola'
+                                                    ? PerritosColor
+                                                        .perritosMaizeCrayola
+                                                    : user.iconColor ==
+                                                            'perritosSandyBrown'
+                                                        ? PerritosColor
+                                                            .perritosSandyBrown
+                                                        : user.iconColor ==
+                                                                'perritosBurntSienna'
+                                                            ? PerritosColor
+                                                                .perritosBurntSienna
+                                                            : PerritosColor
+                                                                .perritosCharcoal,
                                             label: user.name,
                                             edit: model.editable,
                                             onPressed: () => {
@@ -95,7 +118,9 @@ class UserSelectionAndAdministrationView extends ConsumerWidget {
                                                       UserModel(
                                                           user.emailID,
                                                           user.name,
-                                                          !user.selected)),
+                                                          !user.selected,
+                                                          "",
+                                                          "")),
                                                   model.editable == false
                                                       ? controller
                                                           .switchCurrentUserSelectionAndAdministrationScreen(
@@ -123,6 +148,7 @@ class UserSelectionAndAdministrationView extends ConsumerWidget {
                                           size: 42,
                                         ),
                                         onPressed: () => {
+                                              controller.setEditingDefault(),
                                               controller
                                                   .switchCurrentUserSelectionAndAdministrationScreen(
                                                       UserSelectionAndAdministration
@@ -177,14 +203,43 @@ class UserSelectionAndAdministrationView extends ConsumerWidget {
                                       Column(
                                         children: [
                                           PerritosEditableProfile(
-                                            icon: PerritosIcons.Icon_User,
+                                            icon: model.iconName ==
+                                                    'Icon_Smiley_Happy'
+                                                ? PerritosIcons
+                                                    .Icon_Smiley_Happy
+                                                : model.iconName ==
+                                                        'Icon_Smiley_Sad'
+                                                    ? PerritosIcons
+                                                        .Icon_Smiley_Sad
+                                                    : PerritosIcons.Icon_User,
+                                            perritosColor: model.iconColor ==
+                                                    'perritosGoldFusion'
+                                                ? PerritosColor
+                                                    .perritosGoldFusion
+                                                : model.iconColor ==
+                                                        'perritosMaizeCrayola'
+                                                    ? PerritosColor
+                                                        .perritosMaizeCrayola
+                                                    : model.iconColor ==
+                                                            'perritosSandyBrown'
+                                                        ? PerritosColor
+                                                            .perritosSandyBrown
+                                                        : model.iconColor ==
+                                                                'perritosBurntSienna'
+                                                            ? PerritosColor
+                                                                .perritosBurntSienna
+                                                            : PerritosColor
+                                                                .perritosCharcoal,
                                             placeholder: "Name",
-                                            label: "",
+                                            label: textEditingController.text,
                                             onPressed: () => {
+                                              print(textEditingController.text),
+                                              controller.setEditingName(
+                                                  textEditingController.text),
                                               controller
                                                   .switchCurrentUserSelectionAndAdministrationScreen(
                                                       UserSelectionAndAdministration
-                                                          .select)
+                                                          .changeIconName)
                                             },
                                             textEditingController:
                                                 textEditingController,
@@ -205,9 +260,10 @@ class UserSelectionAndAdministrationView extends ConsumerWidget {
                                             UserModel(
                                                 _emailID,
                                                 textEditingController.text,
-                                                false),
+                                                false,
+                                                model.iconName,
+                                                model.iconColor),
                                           ),
-                                          textEditingController.text = "",
                                           controller
                                               .loadUsers(_emailID)
                                               .then((userlist) => {
@@ -218,7 +274,7 @@ class UserSelectionAndAdministrationView extends ConsumerWidget {
                                                           'userList': userlist
                                                         })
                                                   }),
-                                        }
+                                        },
                                     },
                                     label: 'erstellen',
                                   ),
@@ -232,7 +288,7 @@ class UserSelectionAndAdministrationView extends ConsumerWidget {
                           child: Padding(
                               padding: const EdgeInsets.only(
                                 left: 10,
-                                top: 0,
+                                top: 60,
                                 right: 10,
                                 bottom: 0,
                               ),
@@ -241,14 +297,12 @@ class UserSelectionAndAdministrationView extends ConsumerWidget {
                                   crossAxisAlignment:
                                       CrossAxisAlignment.stretch,
                                   children: [
-                                    const SizedBox(height: 20),
                                     Align(
                                         alignment: Alignment.topLeft,
                                         child: IconButton(
                                             icon: const Icon(
                                                 PerritosIcons.Icon_Arrow_Left),
-                                            tooltip: 'Return',
-                                            iconSize: 26,
+                                            iconSize: 40,
                                             onPressed: () => {
                                                   controller
                                                       .switchCurrentUserSelectionAndAdministrationScreen(
@@ -289,8 +343,9 @@ class UserSelectionAndAdministrationView extends ConsumerWidget {
                                               controller.addUser(UserModel(
                                                   _emailID,
                                                   textEditingController.text,
-                                                  false)),
-                                              textEditingController.text = "",
+                                                  false,
+                                                  "",
+                                                  "")),
                                               controller
                                                   .switchCurrentUserSelectionAndAdministrationScreen(
                                                       UserSelectionAndAdministration
@@ -302,13 +357,300 @@ class UserSelectionAndAdministrationView extends ConsumerWidget {
                                     )),
                                     const SizedBox(height: 20),
                                   ])))
-                      : Column(children: [
-                          Text(
-                            'Welcome back!',
-                            style: perritosDoubleParagon,
-                          ),
-                          const SizedBox(height: 20),
-                        ])),
+                      : model.currentUserSelectionAndAdministrationScreen ==
+                              UserSelectionAndAdministration.changeIconName
+                          ? Container(
+                              color: PerritosColor.perritosSnow.color,
+                              child: Padding(
+                                  padding: const EdgeInsets.only(
+                                    left: 10,
+                                    top: 60,
+                                    right: 10,
+                                    bottom: 0,
+                                  ),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.stretch,
+                                    children: [
+                                      Expanded(
+                                          child: SingleChildScrollView(
+                                              child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment
+                                                          .stretch,
+                                                  children: [
+                                            Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  const SizedBox(width: 10),
+                                                  Expanded(
+                                                      child: PerritosIconButton(
+                                                          //PROBLEM: Was wenn wir davor in edit waren???
+                                                          onPressed: () => {
+                                                                textEditingController
+                                                                        .text =
+                                                                    model
+                                                                        .userName,
+                                                                controller
+                                                                    .switchCurrentUserSelectionAndAdministrationScreen(
+                                                                        UserSelectionAndAdministration
+                                                                            .add)
+                                                              },
+                                                          iconSize: 40,
+                                                          icon: PerritosIcons
+                                                              .Icon_Arrow_Left)),
+                                                  Text(
+                                                    'Profilbild',
+                                                    style:
+                                                        perritosDoubleParagon,
+                                                  ),
+                                                  const Spacer()
+                                                ]),
+                                            const SizedBox(
+                                              height: 40,
+                                            ),
+                                            PerritosProfile(
+                                                icon: PerritosIcons.Icon_User,
+                                                label: "Der User",
+                                                onPressed: () => {
+                                                      controller
+                                                          .setEditingIconName(
+                                                              'Icon_User'),
+                                                      controller.switchCurrentUserSelectionAndAdministrationScreen(
+                                                          UserSelectionAndAdministration
+                                                              .changeIconColor)
+                                                    }),
+                                            const SizedBox(
+                                              height: 20,
+                                            ),
+                                            PerritosProfile(
+                                                icon: PerritosIcons
+                                                    .Icon_Smiley_Happy,
+                                                label: "Der Glückliche",
+                                                onPressed: () => {
+                                                      controller
+                                                          .setEditingIconName(
+                                                              'Icon_Smiley_Happy'),
+                                                      controller.switchCurrentUserSelectionAndAdministrationScreen(
+                                                          UserSelectionAndAdministration
+                                                              .changeIconColor)
+                                                    }),
+                                            const SizedBox(
+                                              height: 20,
+                                            ),
+                                            PerritosProfile(
+                                                icon: PerritosIcons
+                                                    .Icon_Smiley_Sad,
+                                                label: "Der Traurige",
+                                                onPressed: () => {
+                                                      controller
+                                                          .setEditingIconName(
+                                                              'Icon_Smiley_Sad'),
+                                                      controller.switchCurrentUserSelectionAndAdministrationScreen(
+                                                          UserSelectionAndAdministration
+                                                              .changeIconColor)
+                                                    }),
+                                          ])))
+                                    ],
+                                  )))
+                          : Container(
+                              color: PerritosColor.perritosSnow.color,
+                              child: Padding(
+                                  padding: const EdgeInsets.only(
+                                    left: 10,
+                                    top: 60,
+                                    right: 10,
+                                    bottom: 0,
+                                  ),
+                                  child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.stretch,
+                                      children: [
+                                        Expanded(
+                                            child: SingleChildScrollView(
+                                          child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.stretch,
+                                              children: [
+                                                Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      const SizedBox(width: 10),
+                                                      Expanded(
+                                                          child:
+                                                              PerritosIconButton(
+                                                                  onPressed:
+                                                                      () => {
+                                                                            controller.switchCurrentUserSelectionAndAdministrationScreen(UserSelectionAndAdministration.changeIconName)
+                                                                          },
+                                                                  iconSize: 40,
+                                                                  icon: PerritosIcons
+                                                                      .Icon_Arrow_Left)),
+                                                      Text(
+                                                        'Profilbild Farbe',
+                                                        style:
+                                                            perritosDoubleParagon,
+                                                      ),
+                                                      const Spacer()
+                                                    ]),
+                                                const SizedBox(
+                                                  height: 40,
+                                                ),
+                                                PerritosProfile(
+                                                    icon: model.iconName ==
+                                                            'Icon_Smiley_Happy'
+                                                        ? PerritosIcons
+                                                            .Icon_Smiley_Happy
+                                                        : model.iconName ==
+                                                                'Icon_Smiley_Sad'
+                                                            ? PerritosIcons
+                                                                .Icon_Smiley_Sad
+                                                            : PerritosIcons
+                                                                .Icon_User,
+                                                    perritosColor: PerritosColor
+                                                        .perritosCharcoal,
+                                                    label: "charcoal",
+                                                    onPressed: () => {
+                                                          controller
+                                                              .setEditingIconColor(
+                                                                  'perritosCharcoal'),
+                                                          textEditingController
+                                                                  .text =
+                                                              model.userName,
+                                                          controller
+                                                              .switchCurrentUserSelectionAndAdministrationScreen(
+                                                                  UserSelectionAndAdministration
+                                                                      .add)
+                                                        }),
+                                                const SizedBox(
+                                                  height: 20,
+                                                ),
+                                                PerritosProfile(
+                                                    icon: model.iconName ==
+                                                            'Icon_Smiley_Happy'
+                                                        ? PerritosIcons
+                                                            .Icon_Smiley_Happy
+                                                        : model.iconName ==
+                                                                'Icon_Smiley_Sad'
+                                                            ? PerritosIcons
+                                                                .Icon_Smiley_Sad
+                                                            : PerritosIcons
+                                                                .Icon_User,
+                                                    perritosColor: PerritosColor
+                                                        .perritosGoldFusion,
+                                                    label: "gold-fusion",
+                                                    onPressed: () => {
+                                                          controller
+                                                              .setEditingIconColor(
+                                                                  'perritosGoldFusion'),
+                                                          textEditingController
+                                                                  .text =
+                                                              model.userName,
+                                                          controller
+                                                              .switchCurrentUserSelectionAndAdministrationScreen(
+                                                                  UserSelectionAndAdministration
+                                                                      .add)
+                                                        }),
+                                                const SizedBox(
+                                                  height: 20,
+                                                ),
+                                                PerritosProfile(
+                                                    icon: model.iconName ==
+                                                            'Icon_Smiley_Happy'
+                                                        ? PerritosIcons
+                                                            .Icon_Smiley_Happy
+                                                        : model.iconName ==
+                                                                'Icon_Smiley_Sad'
+                                                            ? PerritosIcons
+                                                                .Icon_Smiley_Sad
+                                                            : PerritosIcons
+                                                                .Icon_User,
+                                                    perritosColor: PerritosColor
+                                                        .perritosMaizeCrayola,
+                                                    label: "maize-crayola",
+                                                    onPressed: () => {
+                                                          controller
+                                                              .setEditingIconColor(
+                                                                  'perritosMaizeCrayola'),
+                                                          textEditingController
+                                                                  .text =
+                                                              model.userName,
+                                                          controller
+                                                              .switchCurrentUserSelectionAndAdministrationScreen(
+                                                                  UserSelectionAndAdministration
+                                                                      .add)
+                                                        }),
+                                                const SizedBox(
+                                                  height: 20,
+                                                ),
+                                                PerritosProfile(
+                                                    icon: model.iconName ==
+                                                            'Icon_Smiley_Happy'
+                                                        ? PerritosIcons
+                                                            .Icon_Smiley_Happy
+                                                        : model.iconName ==
+                                                                'Icon_Smiley_Sad'
+                                                            ? PerritosIcons
+                                                                .Icon_Smiley_Sad
+                                                            : PerritosIcons
+                                                                .Icon_User,
+                                                    perritosColor: PerritosColor
+                                                        .perritosSandyBrown,
+                                                    label: "sandy-brown",
+                                                    onPressed: () => {
+                                                          controller
+                                                              .setEditingIconColor(
+                                                                  'perritosSandyBrown'),
+                                                          textEditingController
+                                                                  .text =
+                                                              model.userName,
+                                                          controller
+                                                              .switchCurrentUserSelectionAndAdministrationScreen(
+                                                                  UserSelectionAndAdministration
+                                                                      .add)
+                                                        }),
+                                                const SizedBox(
+                                                  height: 20,
+                                                ),
+                                                PerritosProfile(
+                                                    icon: model.iconName ==
+                                                            'Icon_Smiley_Happy'
+                                                        ? PerritosIcons
+                                                            .Icon_Smiley_Happy
+                                                        : model.iconName ==
+                                                                'Icon_Smiley_Sad'
+                                                            ? PerritosIcons
+                                                                .Icon_Smiley_Sad
+                                                            : PerritosIcons
+                                                                .Icon_User,
+                                                    perritosColor: PerritosColor
+                                                        .perritosBurntSienna,
+                                                    label: "burnt-sienna",
+                                                    onPressed: () => {
+                                                          controller
+                                                              .setEditingIconColor(
+                                                                  'perritosBurntSienna'),
+                                                          textEditingController
+                                                                  .text =
+                                                              model.userName,
+                                                          controller
+                                                              .switchCurrentUserSelectionAndAdministrationScreen(
+                                                                  UserSelectionAndAdministration
+                                                                      .add)
+                                                        }),
+                                              ]),
+                                        ))
+                                      ])))),
     );
     return buildWidget;
   }
@@ -333,4 +675,8 @@ abstract class UserSelectionAndAdministrationController
   UserModel getSelectedUser();
   Future<List<UserModel>> loadUsers(String email);
   Future<void> setUserList(String email);
+  void setEditingName(String name);
+  void setEditingIconColor(String iconColor);
+  void setEditingIconName(String iconColor);
+  void setEditingDefault();
 }

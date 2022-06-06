@@ -21,6 +21,9 @@ mixin _$UserSelectionAndAdministrationModel {
           throw _privateConstructorUsedError;
   List<UserModel> get userList => throw _privateConstructorUsedError;
   bool get editable => throw _privateConstructorUsedError;
+  String get userName => throw _privateConstructorUsedError;
+  String get iconName => throw _privateConstructorUsedError;
+  String get iconColor => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $UserSelectionAndAdministrationModelCopyWith<
@@ -38,7 +41,10 @@ abstract class $UserSelectionAndAdministrationModelCopyWith<$Res> {
       {UserSelectionAndAdministration
           currentUserSelectionAndAdministrationScreen,
       List<UserModel> userList,
-      bool editable});
+      bool editable,
+      String userName,
+      String iconName,
+      String iconColor});
 }
 
 /// @nodoc
@@ -55,6 +61,9 @@ class _$UserSelectionAndAdministrationModelCopyWithImpl<$Res>
     Object? currentUserSelectionAndAdministrationScreen = freezed,
     Object? userList = freezed,
     Object? editable = freezed,
+    Object? userName = freezed,
+    Object? iconName = freezed,
+    Object? iconColor = freezed,
   }) {
     return _then(_value.copyWith(
       currentUserSelectionAndAdministrationScreen:
@@ -70,6 +79,18 @@ class _$UserSelectionAndAdministrationModelCopyWithImpl<$Res>
           ? _value.editable
           : editable // ignore: cast_nullable_to_non_nullable
               as bool,
+      userName: userName == freezed
+          ? _value.userName
+          : userName // ignore: cast_nullable_to_non_nullable
+              as String,
+      iconName: iconName == freezed
+          ? _value.iconName
+          : iconName // ignore: cast_nullable_to_non_nullable
+              as String,
+      iconColor: iconColor == freezed
+          ? _value.iconColor
+          : iconColor // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -86,7 +107,10 @@ abstract class _$$_UserSelectionAndAdministrationModelCopyWith<$Res>
       {UserSelectionAndAdministration
           currentUserSelectionAndAdministrationScreen,
       List<UserModel> userList,
-      bool editable});
+      bool editable,
+      String userName,
+      String iconName,
+      String iconColor});
 }
 
 /// @nodoc
@@ -108,6 +132,9 @@ class __$$_UserSelectionAndAdministrationModelCopyWithImpl<$Res>
     Object? currentUserSelectionAndAdministrationScreen = freezed,
     Object? userList = freezed,
     Object? editable = freezed,
+    Object? userName = freezed,
+    Object? iconName = freezed,
+    Object? iconColor = freezed,
   }) {
     return _then(_$_UserSelectionAndAdministrationModel(
       currentUserSelectionAndAdministrationScreen:
@@ -123,6 +150,18 @@ class __$$_UserSelectionAndAdministrationModelCopyWithImpl<$Res>
           ? _value.editable
           : editable // ignore: cast_nullable_to_non_nullable
               as bool,
+      userName: userName == freezed
+          ? _value.userName
+          : userName // ignore: cast_nullable_to_non_nullable
+              as String,
+      iconName: iconName == freezed
+          ? _value.iconName
+          : iconName // ignore: cast_nullable_to_non_nullable
+              as String,
+      iconColor: iconColor == freezed
+          ? _value.iconColor
+          : iconColor // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -134,7 +173,10 @@ class _$_UserSelectionAndAdministrationModel
   const _$_UserSelectionAndAdministrationModel(
       {required this.currentUserSelectionAndAdministrationScreen,
       required final List<UserModel> userList,
-      required this.editable})
+      required this.editable,
+      required this.userName,
+      required this.iconName,
+      required this.iconColor})
       : _userList = userList;
 
   @override
@@ -149,10 +191,16 @@ class _$_UserSelectionAndAdministrationModel
 
   @override
   final bool editable;
+  @override
+  final String userName;
+  @override
+  final String iconName;
+  @override
+  final String iconColor;
 
   @override
   String toString() {
-    return 'UserSelectionAndAdministrationModel(currentUserSelectionAndAdministrationScreen: $currentUserSelectionAndAdministrationScreen, userList: $userList, editable: $editable)';
+    return 'UserSelectionAndAdministrationModel(currentUserSelectionAndAdministrationScreen: $currentUserSelectionAndAdministrationScreen, userList: $userList, editable: $editable, userName: $userName, iconName: $iconName, iconColor: $iconColor)';
   }
 
   @override
@@ -164,7 +212,10 @@ class _$_UserSelectionAndAdministrationModel
                 other.currentUserSelectionAndAdministrationScreen,
                 currentUserSelectionAndAdministrationScreen) &&
             const DeepCollectionEquality().equals(other._userList, _userList) &&
-            const DeepCollectionEquality().equals(other.editable, editable));
+            const DeepCollectionEquality().equals(other.editable, editable) &&
+            const DeepCollectionEquality().equals(other.userName, userName) &&
+            const DeepCollectionEquality().equals(other.iconName, iconName) &&
+            const DeepCollectionEquality().equals(other.iconColor, iconColor));
   }
 
   @override
@@ -173,7 +224,10 @@ class _$_UserSelectionAndAdministrationModel
       const DeepCollectionEquality()
           .hash(currentUserSelectionAndAdministrationScreen),
       const DeepCollectionEquality().hash(_userList),
-      const DeepCollectionEquality().hash(editable));
+      const DeepCollectionEquality().hash(editable),
+      const DeepCollectionEquality().hash(userName),
+      const DeepCollectionEquality().hash(iconName),
+      const DeepCollectionEquality().hash(iconColor));
 
   @JsonKey(ignore: true)
   @override
@@ -186,10 +240,14 @@ class _$_UserSelectionAndAdministrationModel
 abstract class _UserSelectionAndAdministrationModel
     implements UserSelectionAndAdministrationModel {
   const factory _UserSelectionAndAdministrationModel(
-      {required final UserSelectionAndAdministration
-          currentUserSelectionAndAdministrationScreen,
-      required final List<UserModel> userList,
-      required final bool editable}) = _$_UserSelectionAndAdministrationModel;
+          {required final UserSelectionAndAdministration
+              currentUserSelectionAndAdministrationScreen,
+          required final List<UserModel> userList,
+          required final bool editable,
+          required final String userName,
+          required final String iconName,
+          required final String iconColor}) =
+      _$_UserSelectionAndAdministrationModel;
 
   @override
   UserSelectionAndAdministration
@@ -199,6 +257,12 @@ abstract class _UserSelectionAndAdministrationModel
   List<UserModel> get userList => throw _privateConstructorUsedError;
   @override
   bool get editable => throw _privateConstructorUsedError;
+  @override
+  String get userName => throw _privateConstructorUsedError;
+  @override
+  String get iconName => throw _privateConstructorUsedError;
+  @override
+  String get iconColor => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$$_UserSelectionAndAdministrationModelCopyWith<

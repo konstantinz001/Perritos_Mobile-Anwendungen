@@ -3,14 +3,16 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_application/models/user_model.dart';
 
 abstract class DatabaseService {
-  Future insertUser({
-    required String emailID,
-    required String name,
-  });
-  Future updateUser({
-    required String emailID,
-    required String name,
-  });
+  Future insertUser(
+      {required String emailID,
+      required String name,
+      required String iconName,
+      required String iconColor});
+  Future updateUser(
+      {required String emailID,
+      required String name,
+      required String iconName,
+      required String iconColor});
   Future deleteUser({
     required String emailID,
     required String name,
@@ -30,20 +32,35 @@ class DatabaseFireStoreService extends DatabaseService {
   String seperator = "_";
 
   @override
-  Future insertUser({required String emailID, required String name}) async {
+  Future insertUser(
+      {required String emailID,
+      required String name,
+      required String iconName,
+      required String iconColor}) async {
     if (!(await checkIfUserExists(emailID: emailID, name: name))) {
-      return await _userCollection
-          .doc(emailID + seperator + name)
-          .set({'emailID': emailID, 'name': name}, SetOptions(merge: true));
+      return await _userCollection.doc(emailID + seperator + name).set({
+        'emailID': emailID,
+        'name': name,
+        'iconName': iconName,
+        'iconColor': iconColor
+      }, SetOptions(merge: true));
     }
     return null;
   }
 
   @override
-  Future updateUser({required String emailID, required String name}) async {
+  Future updateUser(
+      {required String emailID,
+      required String name,
+      required String iconName,
+      required String iconColor}) async {
     if (await checkIfUserExists(emailID: emailID, name: name)) {
       deleteUser(emailID: emailID, name: name);
-      insertUser(emailID: emailID, name: name);
+      insertUser(
+          emailID: emailID,
+          name: name,
+          iconName: iconName,
+          iconColor: iconColor);
     }
     return null; //User konnte nicht geupdatet werden!
   }
@@ -71,14 +88,9 @@ class DatabaseFireStoreService extends DatabaseService {
     Stream<QuerySnapshot> stream =
         _userCollection.where('emailID', isEqualTo: emailID).snapshots();
 
-    stream.listen((event) {
-      event.docs.forEach((element) {
-        print("Service:" + element.get('name'));
-      });
-    });
-
     return stream.map((qShot) => qShot.docs
-        .map((doc) => UserModel(doc.get('emailID'), doc.get('name'), false))
+        .map((doc) => UserModel(doc.get('emailID'), doc.get('name'), false,
+            doc.get('iconName'), doc.get('iconColor')))
         .toList());
   }
 
