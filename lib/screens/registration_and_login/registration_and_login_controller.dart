@@ -24,19 +24,22 @@ class RegistrationAndLoginImplmentation extends RegistrationAndLoginController {
                 currentRegistrationAndLoginScreen: RegistrationAndLogin.kickoff,
                 password: '',
                 confirmPassword: '',
-                email: ''));
+                email: '',
+                username: ''));
 
   @override
-  void changeState(screen, password, confirmPassword, email) {
+  void changeState(screen, password, confirmPassword, email, username) {
     state = state.copyWith(
         currentRegistrationAndLoginScreen: screen,
         password: password,
         confirmPassword: confirmPassword,
-        email: email);
+        email: email,
+        username: username);
   }
 
   @override
-  Future<RegistrationMessage> register(password, confirmPassword, email) async {
+  Future<RegistrationMessage> register(
+      password, confirmPassword, email, username) async {
     if (password == confirmPassword) {
       dynamic result =
           await _authService.register(email: email, password: password);
@@ -44,6 +47,8 @@ class RegistrationAndLoginImplmentation extends RegistrationAndLoginController {
         return Future.delayed(
             const Duration(seconds: 1), () => RegistrationMessage.error);
       }
+      _databaseService.insertUser(
+        emailID: email, name: username);
       return Future.delayed(
           const Duration(seconds: 1), () => RegistrationMessage.success);
     }

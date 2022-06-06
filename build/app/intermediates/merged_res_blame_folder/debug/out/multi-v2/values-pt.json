@@ -4,8 +4,7 @@
             "outputFile": "/Users/cortes/Desktop/MobileAnwendungen/gruppe-20/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-pt/values-pt.xml",
             "map": [
                 {
-<<<<<<< HEAD
-                    "source": "C:\\Users\\Konsi\\.gradle\\caches\\transforms-3\\24146112dcdb3dcaa63dddfb5e38d61b\\transformed\\browser-1.4.0\\res\\values-pt\\values-pt.xml",
+                    "source": "/Users/cortes/.gradle/caches/transforms-3/24146112dcdb3dcaa63dddfb5e38d61b/transformed/browser-1.4.0/res/values-pt/values-pt.xml",
                     "from": {
                         "startLines": "2,3,4,5",
                         "startColumns": "4,4,4,4",
@@ -15,10 +14,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\Konsi\\.gradle\\caches\\transforms-3\\2806c9bbba05086fca8f28d9d351180d\\transformed\\core-1.6.0\\res\\values-pt\\values-pt.xml",
-=======
                     "source": "/Users/cortes/.gradle/caches/transforms-3/2806c9bbba05086fca8f28d9d351180d/transformed/core-1.6.0/res/values-pt/values-pt.xml",
->>>>>>> origin/main
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

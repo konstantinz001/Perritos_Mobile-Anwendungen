@@ -4,11 +4,7 @@
             "outputFile": "/Users/cortes/Desktop/MobileAnwendungen/gruppe-20/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-th/values-th.xml",
             "map": [
                 {
-<<<<<<< HEAD
-                    "source": "C:\\Users\\Konsi\\.gradle\\caches\\transforms-3\\21355fe025c21eab7d3c9e35f654c272\\transformed\\jetified-play-services-base-18.0.1\\res\\values-th\\values.xml",
-=======
-                    "source": "/Users/cortes/.gradle/caches/transforms-3/53f71a2b325a24fa01342b0ae753f0b2/transformed/jetified-play-services-base-17.1.0/res/values-th/values.xml",
->>>>>>> origin/main
+                    "source": "/Users/cortes/.gradle/caches/transforms-3/21355fe025c21eab7d3c9e35f654c272/transformed/jetified-play-services-base-18.0.1/res/values-th/values.xml",
                     "from": {
                         "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
                         "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
@@ -25,7 +21,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\Konsi\\.gradle\\caches\\transforms-3\\24146112dcdb3dcaa63dddfb5e38d61b\\transformed\\browser-1.4.0\\res\\values-th\\values-th.xml",
+                    "source": "/Users/cortes/.gradle/caches/transforms-3/24146112dcdb3dcaa63dddfb5e38d61b/transformed/browser-1.4.0/res/values-th/values-th.xml",
                     "from": {
                         "startLines": "2,3,4,5",
                         "startColumns": "4,4,4,4",

@@ -105,19 +105,19 @@
     },
     {
       "name": "cloud_firestore",
-      "rootUri": "file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/cloud_firestore-3.1.17",
+      "rootUri": "file:///Users/cortes/Desktop/MobileAnwendungen/flutter/.pub-cache/hosted/pub.dartlang.org/cloud_firestore-3.1.17",
       "packageUri": "lib/",
       "languageVersion": "2.16"
     },
     {
       "name": "cloud_firestore_platform_interface",
-      "rootUri": "file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/cloud_firestore_platform_interface-5.5.7",
+      "rootUri": "file:///Users/cortes/Desktop/MobileAnwendungen/flutter/.pub-cache/hosted/pub.dartlang.org/cloud_firestore_platform_interface-5.5.7",
       "packageUri": "lib/",
       "languageVersion": "2.16"
     },
     {
       "name": "cloud_firestore_web",
-      "rootUri": "file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/cloud_firestore_web-2.6.16",
+      "rootUri": "file:///Users/cortes/Desktop/MobileAnwendungen/flutter/.pub-cache/hosted/pub.dartlang.org/cloud_firestore_web-2.6.16",
       "packageUri": "lib/",
       "languageVersion": "2.16"
     },
@@ -608,11 +608,7 @@
       "languageVersion": "2.16"
     }
   ],
-<<<<<<< HEAD
-  "generated": "2022-06-05T15:25:44.329846Z",
-=======
-  "generated": "2022-06-05T13:49:33.464809Z",
->>>>>>> origin/main
+  "generated": "2022-06-06T08:51:04.224023Z",
   "generator": "pub",
   "generatorVersion": "2.17.1"
 }
