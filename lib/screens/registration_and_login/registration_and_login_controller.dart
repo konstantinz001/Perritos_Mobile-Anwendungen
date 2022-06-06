@@ -45,7 +45,10 @@ class RegistrationAndLoginImplmentation extends RegistrationAndLoginController {
             const Duration(seconds: 1), () => RegistrationMessage.error);
       }
       _databaseService.insertUser(
-        emailID: email, name: username);
+          emailID: email,
+          name: username,
+          iconName: 'Icon_User',
+          iconColor: 'perritosCharcoal');
       return Future.delayed(
           const Duration(seconds: 1), () => RegistrationMessage.success);
     }
