@@ -1,20 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\Users\\Konsi\\Desktop\\Mobile Anwendung\\Perritos\\gruppe-20\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-en-rXC\\values-en-rXC.xml",
+            "outputFile": "/Users/cortes/Desktop/MobileAnwendungen/gruppe-20/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-en-rXC/values-en-rXC.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Konsi\\.gradle\\caches\\transforms-3\\24146112dcdb3dcaa63dddfb5e38d61b\\transformed\\browser-1.4.0\\res\\values-en-rXC\\values-en-rXC.xml",
-                    "from": {
-                        "startLines": "2,3,4,5",
-                        "startColumns": "4,4,4,4",
-                        "startOffsets": "55,255,454,665",
-                        "endColumns": "199,198,210,201",
-                        "endOffsets": "250,449,660,862"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\Konsi\\.gradle\\caches\\transforms-3\\2806c9bbba05086fca8f28d9d351180d\\transformed\\core-1.6.0\\res\\values-en-rXC\\values-en-rXC.xml",
+                    "source": "/Users/cortes/.gradle/caches/transforms-3/2806c9bbba05086fca8f28d9d351180d/transformed/core-1.6.0/res/values-en-rXC/values-en-rXC.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -28,6 +18,16 @@
                         "startOffsets": "867",
                         "endColumns": "203",
                         "endOffsets": "1066"
+                    }
+                },
+                {
+                    "source": "/Users/cortes/.gradle/caches/transforms-3/24146112dcdb3dcaa63dddfb5e38d61b/transformed/browser-1.4.0/res/values-en-rXC/values-en-rXC.xml",
+                    "from": {
+                        "startLines": "2,3,4,5",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "55,255,454,665",
+                        "endColumns": "199,198,210,201",
+                        "endOffsets": "250,449,660,862"
                     }
                 }
             ]
