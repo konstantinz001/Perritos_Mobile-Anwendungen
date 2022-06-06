@@ -25,10 +25,4 @@ test:
     - lcov --summary coverage/lcov.info
     - genhtml coverage/lcov.info --output=coverage
   coverage: '/lines\.*: \d+\.\d+\%/'
-  artifacts:
-    name: coverage
-    paths:
-      - $CI_PROJECT_DIR/coverage
-    reports:
-      junit: report.xml
 
