@@ -28,11 +28,17 @@ TextStyle perritosDoublePicaLightOpacity =
 TextStyle perritosParagon =
     GoogleFonts.pompiere(color: perritosCharcoal, fontSize: 20);
 
+TextStyle perritosParagonLight =
+    GoogleFonts.pompiere(color: perritosSnow, fontSize: 20);
+
 TextStyle perritosParagonOpacity = GoogleFonts.pompiere(
     color: perritosCharcoal.withOpacity(0.7), fontSize: 20);
 
 TextStyle perritosParagonMaizeCrayola =
     GoogleFonts.pompiere(color: perritosMaizeCrayola, fontSize: 20);
+
+TextStyle perritosParagonGoldFusion =
+    GoogleFonts.pompiere(color: perritosGoldFusion, fontSize: 20);
 
 //English:
 TextStyle perritosEnglish =
