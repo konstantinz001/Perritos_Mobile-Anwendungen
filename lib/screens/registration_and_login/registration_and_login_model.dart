@@ -14,6 +14,7 @@ class RegistrationAndLoginModel with _$RegistrationAndLoginModel {
     required RegistrationAndLogin currentRegistrationAndLoginScreen,
     required String password,
     required String confirmPassword,
-    required String email
+    required String email,
+    required String username,
   }) = _RegistrationAndLoginModel;
 }

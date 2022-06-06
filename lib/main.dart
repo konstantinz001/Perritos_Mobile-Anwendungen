@@ -1,5 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application/common/services/db_service.dart';
+import 'package:flutter_application/models/user_model.dart';
 import 'package:flutter_application/screens/registration_and_login/registration_and_login_view.dart';
 import 'package:flutter_application/screens/user_selection_and_administration/user_selection_and_administration_view.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -36,6 +39,7 @@ class MyApp extends StatelessWidget {
               return MaterialPageRoute(
                   builder: (context) => UserSelectionAndAdministrationView(
                         users: args['userList'],
+                        emailID: args['emailID'],
                       ));
             } else if (routeParams.name == '/DogSelectionAndAdministration') {
               return MaterialPageRoute(
