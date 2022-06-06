@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application/assets/styles/perritos-colors.dart';
+import 'package:flutter_application/assets/styles/perritos-fonts.dart';
 import 'package:flutter_application/assets/styles/perritos-icons/PerritosIcons_icons.dart';
 import 'package:flutter_application/assets/ui-components/buttons/perritos-icon-button.dart';
 import 'package:flutter_application/assets/ui-components/navigation/perritos-navigation.dart';
@@ -56,6 +57,36 @@ class CalendarView extends ConsumerWidget {
                     focusedDay: DateTime.now(), 
                     firstDay: DateTime(DateTime.now().year - 10, DateTime.now().month, DateTime.now().day),
                     lastDay: DateTime(DateTime.now().year + 10, DateTime.now().month, DateTime.now().day),
+                    calendarStyle: CalendarStyle(
+                      selectedDecoration: BoxDecoration(
+                        color: PerritosColor.perritosSandyBrown.color,
+                        shape: BoxShape.circle
+                      ),
+                      todayDecoration: BoxDecoration(
+                        color: PerritosColor.perritosCharcoal.color.withOpacity(0.6),
+                        shape: BoxShape.circle
+                      ),
+                      todayTextStyle: perritosParagonLight,
+                      weekendTextStyle: perritosParagonGoldFusion,
+                      defaultTextStyle: perritosParagon,
+                      outsideTextStyle:perritosParagonOpacity,
+                      
+                    ),
+                    headerStyle: HeaderStyle(
+                      titleTextStyle: perritosDoublePica,
+                      titleCentered: true,
+                      leftChevronIcon: Icon(
+                        PerritosIcons.Icon_Arrow_Left,
+                        size: 16,
+                        color: PerritosColor.perritosCharcoal.color,
+                      ),
+                      rightChevronIcon: Icon(
+                        PerritosIcons.Icon_Arrow_Right,
+                        size: 16,
+                        color: PerritosColor.perritosCharcoal.color,
+                      ),
+                      formatButtonVisible: false
+                    ),
                   )     
                 ]
               )
