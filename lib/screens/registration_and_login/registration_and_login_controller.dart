@@ -35,6 +35,7 @@ class RegistrationAndLoginImplmentation extends RegistrationAndLoginController {
         email: email);
   }
 
+  @override
   Future<RegistrationMessage> register(password, confirmPassword, email) async {
     if (password == confirmPassword) {
       dynamic result =
@@ -50,6 +51,7 @@ class RegistrationAndLoginImplmentation extends RegistrationAndLoginController {
         () => RegistrationMessage.passwordsNotEqual);
   }
 
+  @override
   Future<bool> login(password, email) async {
     dynamic result = await _authService.login(email: email, password: password);
     if (result == null) {

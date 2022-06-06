@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\Users\\Konsi\\Desktop\\Mobile Anwendung\\Perritos\\gruppe-20\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-uz\\values-uz.xml",
+            "outputFile": "/Users/cortes/Desktop/MobileAnwendungen/gruppe-20/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-uz/values-uz.xml",
             "map": [
                 {
                     "source": "C:\\Users\\Konsi\\.gradle\\caches\\transforms-3\\24146112dcdb3dcaa63dddfb5e38d61b\\transformed\\browser-1.4.0\\res\\values-uz\\values-uz.xml",
@@ -38,7 +38,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\Konsi\\.gradle\\caches\\transforms-3\\9d0d591919603b1f333cf58c478e14ac\\transformed\\jetified-play-services-basement-18.0.0\\res\\values-uz\\values.xml",
+                    "source": "/Users/cortes/.gradle/caches/transforms-3/9d0d591919603b1f333cf58c478e14ac/transformed/jetified-play-services-basement-18.0.0/res/values-uz/values.xml",
                     "from": {
                         "startLines": "4",
                         "startColumns": "0",

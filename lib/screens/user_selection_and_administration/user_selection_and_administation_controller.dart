@@ -22,6 +22,7 @@ class UserSelectionAndAdministrationImplmentation
               editable: false,
             ));
 
+  @override
   void switchCurrentUserSelectionAndAdministrationScreen(screen) {
     state = state.copyWith(currentUserSelectionAndAdministrationScreen: screen);
   }
@@ -37,10 +38,12 @@ class UserSelectionAndAdministrationImplmentation
     await Future.delayed(const Duration(seconds: 1));
   }
 
+  @override
   void changeEditability() {
     state = state.copyWith(editable: state.editable == true ? false : true);
   }
 
+  @override
   void changeSelectedUser(UserModel userModel) {
     state = state.copyWith(
         userList: List.from(state.userList.toList())
@@ -54,6 +57,7 @@ class UserSelectionAndAdministrationImplmentation
               userModel));
   }
 
+  @override
   UserModel getSelectedUser() {
     int index = state.userList
         .toList()
@@ -61,13 +65,10 @@ class UserSelectionAndAdministrationImplmentation
     return state.userList[index];
   }
 
+  @override
   void disabledSelectedUser() {
     for (var user in state.userList) {
       if (user.selected == true) {
-        int index = state.userList
-            .toList()
-            .indexWhere((element) => element.name == user.name);
-
         state = state.copyWith(
             userList: List.from(state.userList.toList())
               ..insert(

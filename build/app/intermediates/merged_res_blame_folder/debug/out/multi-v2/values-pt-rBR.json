@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\Users\\Konsi\\Desktop\\Mobile Anwendung\\Perritos\\gruppe-20\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-pt-rBR\\values-pt-rBR.xml",
+            "outputFile": "/Users/cortes/Desktop/MobileAnwendungen/gruppe-20/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-pt-rBR/values-pt-rBR.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Konsi\\.gradle\\caches\\transforms-3\\2806c9bbba05086fca8f28d9d351180d\\transformed\\core-1.6.0\\res\\values-pt-rBR\\values-pt-rBR.xml",
+                    "source": "/Users/cortes/.gradle/caches/transforms-3/2806c9bbba05086fca8f28d9d351180d/transformed/core-1.6.0/res/values-pt-rBR/values-pt-rBR.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -38,6 +38,7 @@
                     }
                 },
                 {
+<<<<<<< HEAD
                     "source": "C:\\Users\\Konsi\\.gradle\\caches\\transforms-3\\9d0d591919603b1f333cf58c478e14ac\\transformed\\jetified-play-services-basement-18.0.0\\res\\values-pt-rBR\\values.xml",
                     "from": {
                         "startLines": "4",
@@ -56,6 +57,9 @@
                 },
                 {
                     "source": "C:\\Users\\Konsi\\.gradle\\caches\\transforms-3\\21355fe025c21eab7d3c9e35f654c272\\transformed\\jetified-play-services-base-18.0.1\\res\\values-pt-rBR\\values.xml",
+=======
+                    "source": "/Users/cortes/.gradle/caches/transforms-3/53f71a2b325a24fa01342b0ae753f0b2/transformed/jetified-play-services-base-17.1.0/res/values-pt-rBR/values.xml",
+>>>>>>> origin/main
                     "from": {
                         "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
                         "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
@@ -69,6 +73,23 @@
                         "startOffsets": "55,160,308,435,543,710,840,962,1212,1382,1490,1654,1784,1941,2098,2167,2233",
                         "endColumns": "104,147,126,107,166,129,121,104,169,107,163,129,156,156,68,65,83",
                         "endOffsets": "155,303,430,538,705,835,957,1062,1377,1485,1649,1779,1936,2093,2162,2228,2312"
+                    }
+                },
+                {
+                    "source": "/Users/cortes/.gradle/caches/transforms-3/9d0d591919603b1f333cf58c478e14ac/transformed/jetified-play-services-basement-18.0.0/res/values-pt-rBR/values.xml",
+                    "from": {
+                        "startLines": "4",
+                        "startColumns": "0",
+                        "startOffsets": "199",
+                        "endColumns": "140",
+                        "endOffsets": "339"
+                    },
+                    "to": {
+                        "startLines": "10",
+                        "startColumns": "4",
+                        "startOffsets": "1275",
+                        "endColumns": "144",
+                        "endOffsets": "1415"
                     }
                 }
             ]

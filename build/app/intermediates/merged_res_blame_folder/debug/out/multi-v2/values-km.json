@@ -1,9 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\Users\\Konsi\\Desktop\\Mobile Anwendung\\Perritos\\gruppe-20\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-km\\values-km.xml",
+            "outputFile": "/Users/cortes/Desktop/MobileAnwendungen/gruppe-20/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-km/values-km.xml",
             "map": [
                 {
+<<<<<<< HEAD
                     "source": "C:\\Users\\Konsi\\.gradle\\caches\\transforms-3\\24146112dcdb3dcaa63dddfb5e38d61b\\transformed\\browser-1.4.0\\res\\values-km\\values-km.xml",
                     "from": {
                         "startLines": "2,3,4,5",
@@ -22,6 +23,9 @@
                 },
                 {
                     "source": "C:\\Users\\Konsi\\.gradle\\caches\\transforms-3\\2806c9bbba05086fca8f28d9d351180d\\transformed\\core-1.6.0\\res\\values-km\\values-km.xml",
+=======
+                    "source": "/Users/cortes/.gradle/caches/transforms-3/2806c9bbba05086fca8f28d9d351180d/transformed/core-1.6.0/res/values-km/values-km.xml",
+>>>>>>> origin/main
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -38,6 +42,7 @@
                     }
                 },
                 {
+<<<<<<< HEAD
                     "source": "C:\\Users\\Konsi\\.gradle\\caches\\transforms-3\\9d0d591919603b1f333cf58c478e14ac\\transformed\\jetified-play-services-basement-18.0.0\\res\\values-km\\values.xml",
                     "from": {
                         "startLines": "4",
@@ -56,6 +61,9 @@
                 },
                 {
                     "source": "C:\\Users\\Konsi\\.gradle\\caches\\transforms-3\\21355fe025c21eab7d3c9e35f654c272\\transformed\\jetified-play-services-base-18.0.1\\res\\values-km\\values.xml",
+=======
+                    "source": "/Users/cortes/.gradle/caches/transforms-3/53f71a2b325a24fa01342b0ae753f0b2/transformed/jetified-play-services-base-17.1.0/res/values-km/values.xml",
+>>>>>>> origin/main
                     "from": {
                         "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
                         "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
@@ -69,6 +77,23 @@
                         "startOffsets": "55,157,312,433,538,700,824,945,1203,1361,1478,1649,1774,1919,2077,2141,2199",
                         "endColumns": "101,154,120,104,161,123,120,108,157,116,170,124,144,157,63,57,76",
                         "endOffsets": "152,307,428,533,695,819,940,1049,1356,1473,1644,1769,1914,2072,2136,2194,2271"
+                    }
+                },
+                {
+                    "source": "/Users/cortes/.gradle/caches/transforms-3/9d0d591919603b1f333cf58c478e14ac/transformed/jetified-play-services-basement-18.0.0/res/values-km/values.xml",
+                    "from": {
+                        "startLines": "4",
+                        "startColumns": "0",
+                        "startOffsets": "195",
+                        "endColumns": "144",
+                        "endOffsets": "339"
+                    },
+                    "to": {
+                        "startLines": "10",
+                        "startColumns": "4",
+                        "startOffsets": "1262",
+                        "endColumns": "148",
+                        "endOffsets": "1406"
                     }
                 }
             ]
