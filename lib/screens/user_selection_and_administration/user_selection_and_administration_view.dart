@@ -14,9 +14,11 @@ import '../../assets/ui-components/buttons/perritos-button.dart';
 
 class UserSelectionAndAdministrationView extends ConsumerWidget {
   final List<UserModel> _users;
+  final String _emailID;
   const UserSelectionAndAdministrationView(
-      {Key? key, required List<UserModel> users})
+      {Key? key, required List<UserModel> users, required String emailID})
       : _users = users,
+        _emailID = emailID,
         super(key: key);
 
   @override
@@ -27,6 +29,9 @@ class UserSelectionAndAdministrationView extends ConsumerWidget {
             .notifier);
     final UserSelectionAndAdministrationModel model = ref.watch(
         providers.userSelectionAndAdministrationControllerProvider(_users));
+    _users.forEach((element) {
+      print(element.name);
+    });
 
     TextEditingController textEditingController = TextEditingController();
     var buildWidget = Scaffold(
@@ -152,11 +157,20 @@ class UserSelectionAndAdministrationView extends ConsumerWidget {
                                             PerritosIcons.Icon_Arrow_Left),
                                         tooltip: 'Return',
                                         iconSize: 26,
-                                        onPressed: () => {
+                                        onPressed: () async => {
                                               controller
-                                                  .switchCurrentUserSelectionAndAdministrationScreen(
-                                                      UserSelectionAndAdministration
-                                                          .kickoff)
+                                                  .loadUsers(_emailID)
+                                                  .then((userlist) => {
+                                                        Navigator.pushNamed(
+                                                            context,
+                                                            '/UserSelectionAndAdministration',
+                                                            arguments: {
+                                                              'emailID':
+                                                                  _emailID,
+                                                              'userList':
+                                                                  userlist
+                                                            })
+                                                      }),
                                             })),
                                 const SizedBox(height: 60),
                                 Expanded(
@@ -186,20 +200,26 @@ class UserSelectionAndAdministrationView extends ConsumerWidget {
                                 (Align(
                                   alignment: Alignment.bottomCenter,
                                   child: PerritosButton(
-                                    onPressed: () => {
+                                    onPressed: () async => {
                                       if (textEditingController.text != "")
                                         {
-                                          controller.addUser(
+                                          await controller.addUser(
                                             UserModel(
-                                                model.userList.first.emailID,
+                                                _emailID,
                                                 textEditingController.text,
                                                 false),
                                           ),
                                           textEditingController.text = "",
                                           controller
-                                              .switchCurrentUserSelectionAndAdministrationScreen(
-                                                  UserSelectionAndAdministration
-                                                      .kickoff)
+                                              .loadUsers(_emailID)
+                                              .then((userlist) => {
+                                                    Navigator.pushNamed(context,
+                                                        '/UserSelectionAndAdministration',
+                                                        arguments: {
+                                                          'emailID': _emailID,
+                                                          'userList': userlist
+                                                        })
+                                                  }),
                                         }
                                     },
                                     label: 'erstellen',
@@ -269,7 +289,7 @@ class UserSelectionAndAdministrationView extends ConsumerWidget {
                                           if (textEditingController.text != "")
                                             {
                                               controller.addUser(UserModel(
-                                                  model.userList.first.emailID,
+                                                  _emailID,
                                                   textEditingController.text,
                                                   false)),
                                               textEditingController.text = "",
@@ -304,7 +324,7 @@ abstract class UserSelectionAndAdministrationController
 
   void switchCurrentUserSelectionAndAdministrationScreen(screen);
 
-  void addUser(UserModel userModel);
+  Future<void> addUser(UserModel userModel);
 
   void changeEditability();
 
@@ -313,4 +333,6 @@ abstract class UserSelectionAndAdministrationController
   void disabledSelectedUser();
 
   UserModel getSelectedUser();
+  Future<List<UserModel>> loadUsers(String email);
+  Future<void> setUserList(String email);
 }

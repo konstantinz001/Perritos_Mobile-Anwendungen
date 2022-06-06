@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application/assets/styles/perritos-colors.dart';
 import 'package:flutter_application/assets/styles/perritos-fonts.dart';
@@ -263,13 +265,17 @@ class RegistrationAndLoginView extends ConsumerWidget {
                                           ? {
                                               (controller
                                                   .loadUsers(model.email)
-                                                  .then((userlist) =>
-                                                      Navigator.pushNamed(
-                                                          context,
-                                                          '/UserSelectionAndAdministration',
-                                                          arguments: {
-                                                            'userList': userlist
-                                                          })))
+                                                  .then((userlist) => {
+                                                        Navigator.pushNamed(
+                                                            context,
+                                                            '/UserSelectionAndAdministration',
+                                                            arguments: {
+                                                              'emailID':
+                                                                  model.email,
+                                                              'userList':
+                                                                  userlist
+                                                            })
+                                                      }))
                                             }
                                           : {
                                               ScaffoldMessenger.of(context)
@@ -299,5 +305,5 @@ abstract class RegistrationAndLoginController
   void changeState(screen, password, confirmPassword, email);
   Future<RegistrationMessage> register(password, confirmPassword, email);
   Future<bool> login(password, email);
-  Future<List<UserModel>> loadUsers(email);
+  Future<List<UserModel>> loadUsers(String email);
 }

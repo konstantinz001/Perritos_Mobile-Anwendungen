@@ -1,3 +1,4 @@
+import 'package:flutter_application/common/services/db_service.dart';
 import 'package:flutter_application/models/user_model.dart';
 import 'package:flutter_application/screens/user_selection_and_administration/user_selection_and_administration_model.dart';
 import 'package:flutter_application/screens/user_selection_and_administration/user_selection_and_administration_view.dart';
@@ -5,11 +6,14 @@ import 'package:flutter_application/screens/user_selection_and_administration/us
 class UserSelectionAndAdministrationImplmentation
     extends UserSelectionAndAdministrationController {
   final List<UserModel> _users;
+  final DatabaseService _databaseService;
 
   UserSelectionAndAdministrationImplmentation(
       {required List<UserModel> users,
+      required DatabaseService databaseService,
       UserSelectionAndAdministrationModel? model})
       : _users = users,
+        _databaseService = databaseService,
         super(model ??
             UserSelectionAndAdministrationModel(
               currentUserSelectionAndAdministrationScreen:
@@ -22,9 +26,15 @@ class UserSelectionAndAdministrationImplmentation
     state = state.copyWith(currentUserSelectionAndAdministrationScreen: screen);
   }
 
-  void addUser(usermodel) {
-    state = state.copyWith(
-        userList: new List.from(state.userList.toList())..insert(0, usermodel));
+  Future<void> addUser(UserModel userModel) async {
+    _databaseService.insertUser(
+        emailID: userModel.emailID, name: userModel.name);
+    await Future.delayed(const Duration(seconds: 1));
+  }
+
+  Future<void> setUserList(String email) async {
+    state = state.copyWith(userList: List.from(await loadUsers(email)));
+    await Future.delayed(const Duration(seconds: 1));
   }
 
   void changeEditability() {
@@ -33,7 +43,7 @@ class UserSelectionAndAdministrationImplmentation
 
   void changeSelectedUser(UserModel userModel) {
     state = state.copyWith(
-        userList: new List.from(state.userList.toList())
+        userList: List.from(state.userList.toList())
           ..removeAt(state.userList
               .toList()
               .indexWhere((element) => element.name == userModel.name))
@@ -59,7 +69,7 @@ class UserSelectionAndAdministrationImplmentation
             .indexWhere((element) => element.name == user.name);
 
         state = state.copyWith(
-            userList: new List.from(state.userList.toList())
+            userList: List.from(state.userList.toList())
               ..insert(
                   state.userList
                       .toList()
@@ -71,5 +81,18 @@ class UserSelectionAndAdministrationImplmentation
                   1));
       }
     }
+  }
+
+  @override
+  Future<List<UserModel>> loadUsers(String email) async {
+    await for (List<UserModel> tasks
+        in _databaseService.getAllUsers(emailID: email)) {
+      tasks.forEach((element) {
+        print("C:" + element.name);
+      });
+      await Future.delayed(const Duration(seconds: 1));
+      return tasks;
+    }
+    return List.empty();
   }
 }
