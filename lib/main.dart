@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
         localizationsDelegates: const [GlobalMaterialLocalizations.delegate],
         supportedLocales: const [Locale('en'), Locale('de')],
         home: Navigator(
-          initialRoute: '/Calendar',
+          initialRoute: '/RegistrationAndLogin',
           onGenerateRoute: (RouteSettings routeParams) {
             if (routeParams.name == '/RegistrationAndLogin') {
               return MaterialPageRoute(
