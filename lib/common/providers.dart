@@ -1,4 +1,7 @@
-
+import 'package:dio/dio.dart';
+import 'package:flutter_application/screens/home/home_controller.dart';
+import 'package:flutter_application/screens/home/home_model.dart';
+import 'package:flutter_application/screens/home/home_view.dart';
 import 'package:flutter_application/screens/registration_and_login/registration_and_login_controller.dart';
 import 'package:flutter_application/screens/registration_and_login/registration_and_login_model.dart';
 import 'package:flutter_application/screens/registration_and_login/registration_and_login_view.dart';
@@ -10,4 +13,7 @@ class Providers {
   final StateNotifierProvider<RegistrationAndLoginController, RegistrationAndLoginModel>
       registrationAndLoginControllerProvider = StateNotifierProvider<RegistrationAndLoginController, RegistrationAndLoginModel>(
           (StateNotifierProviderRef ref) => RegistrationAndLoginImplmentation());
+  final StateNotifierProvider<HomeController, HomeModel>
+  homeProvider = StateNotifierProvider<HomeController, HomeModel>(
+          (StateNotifierProviderRef ref) => HomeImplementation());
 }

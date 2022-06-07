@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application/screens/home/home_view.dart';
 import 'package:flutter_application/screens/registration_and_login/registration_and_login_view.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -28,7 +29,7 @@ class MyApp extends StatelessWidget {
           } else if (routeParams.name == '/DogSelectionAndAdministration') {
             return MaterialPageRoute(builder: (context) => const Center(child: Text('DogSelectionAndAdministration Screen')));
           } else if (routeParams.name == '/Home') {
-            return MaterialPageRoute(builder: (context) => const Center(child: Text('Home Screen')));
+            return MaterialPageRoute(builder: (context) => const HomeView());
           } else if (routeParams.name == '/Calendar') {
             return MaterialPageRoute(builder: (context) => const Center(child: Text('Calendar Screen')));
           } else if (routeParams.name == '/DogProfileInfo') {

@@ -56,12 +56,6 @@ class RegistrationAndLoginView extends ConsumerWidget {
                                           RegistrationAndLogin.registration)}, 
                                 label: 'Sign Up'
                               ),
-                              PerritosNavigationBar(
-                                activeView: activeView.home,
-                                navigateToHome: () => {print('Home')},
-                                navigateToCalendar: () => {print('Calendar')},
-                                navigateToProfile: () => {print('Profile')},
-                              ),
                               const SizedBox(height: 60),
                             ],
                         )

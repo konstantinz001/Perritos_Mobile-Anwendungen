@@ -1,7 +1,15 @@
-2022/06/01-14:02:49.853 7003 Reusing MANIFEST /private/var/folders/s1/blgp6ljd685b8gg243tp73240000gn/T/flutter_tools.Hi77jx/flutter_tools_chrome_device.xYnfTh/Default/Site Characteristics Database/MANIFEST-000001
-2022/06/01-14:02:49.853 7003 Recovering log #3
-2022/06/01-14:02:49.853 7003 Level-0 table #6: started
-2022/06/01-14:02:49.873 7003 Level-0 table #6: 315 bytes OK
-2022/06/01-14:02:49.874 7003 Recovering log #6
-2022/06/01-14:02:49.874 7003 Reusing old log /private/var/folders/s1/blgp6ljd685b8gg243tp73240000gn/T/flutter_tools.Hi77jx/flutter_tools_chrome_device.xYnfTh/Default/Site Characteristics Database/000006.log 
-2022/06/01-14:02:49.928 7003 Delete type=0 #3
+2022/06/02-09:06:16.981 37bc Reusing MANIFEST C:\Users\Maria\AppData\Local\Temp\flutter_tools.a57bace9\flutter_tools_chrome_device.6101e700\Default\Site Characteristics Database/MANIFEST-000001
+2022/06/02-09:06:16.983 37bc Recovering log #3
+2022/06/02-09:06:16.983 37bc Level-0 table #19: started
+2022/06/02-09:06:16.990 37bc Level-0 table #19: 315 bytes OK
+2022/06/02-09:06:16.990 37bc Recovering log #6
+2022/06/02-09:06:16.990 37bc Recovering log #10
+2022/06/02-09:06:16.990 37bc Recovering log #16
+2022/06/02-09:06:16.991 37bc Reusing old log C:\Users\Maria\AppData\Local\Temp\flutter_tools.a57bace9\flutter_tools_chrome_device.6101e700\Default\Site Characteristics Database/000016.log 
+2022/06/02-09:06:16.993 37bc Delete type=0 #3
+2022/06/02-09:06:16.993 37bc Delete type=2 #4
+2022/06/02-09:06:16.993 37bc Delete type=2 #6
+2022/06/02-09:06:16.993 37bc Delete type=0 #6
+2022/06/02-09:06:16.993 37bc Delete type=2 #7
+2022/06/02-09:06:16.993 37bc Delete type=0 #10
+2022/06/02-09:06:16.993 37bc Delete type=2 #11
