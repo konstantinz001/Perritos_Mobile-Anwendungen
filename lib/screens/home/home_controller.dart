@@ -20,6 +20,7 @@ class HomeImplmentation extends HomeController {
             const HomeModel(
                 currentScreen: HomeScreen.overview,
                 selectedActionType: ActionType.task,
+                currentActionId: "",
                 searchString: ""));
 
   @override
@@ -28,7 +29,9 @@ class HomeImplmentation extends HomeController {
         in _databaseService.getAllActionDates(emailID: email)) {
       if (state.searchString != "") {
         actionDates = actionDates
-            .where((action) => action.title.toLowerCase().contains(state.searchString.toLowerCase()))
+            .where((action) => action.title
+                .toLowerCase()
+                .contains(state.searchString.toLowerCase()))
             .toList();
       }
       return actionDates
@@ -45,7 +48,9 @@ class HomeImplmentation extends HomeController {
         in _databaseService.getAllActionAbnormalities(emailID: email)) {
       if (state.searchString != "") {
         actionAbnormalities = actionAbnormalities
-            .where((action) => action.title.toLowerCase().contains(state.searchString.toLowerCase()))
+            .where((action) => action.title
+                .toLowerCase()
+                .contains(state.searchString.toLowerCase()))
             .toList();
       }
       return actionAbnormalities
@@ -61,7 +66,9 @@ class HomeImplmentation extends HomeController {
         in _databaseService.getAllActionTasks(emailID: email)) {
       if (state.searchString != "") {
         actionTasks = actionTasks
-            .where((action) => action.title.toLowerCase().contains(state.searchString.toLowerCase()))
+            .where((action) => action.title
+                .toLowerCase()
+                .contains(state.searchString.toLowerCase()))
             .toList();
       }
       return actionTasks
@@ -75,5 +82,10 @@ class HomeImplmentation extends HomeController {
   @override
   void changeSearchString(String searchString) {
     state = state.copyWith(searchString: searchString);
+  }
+
+  @override
+  void switchHomeScreen(HomeScreen homeScreen) {
+    state = state.copyWith(currentScreen: homeScreen);
   }
 }

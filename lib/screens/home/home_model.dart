@@ -20,6 +20,7 @@ class HomeModel with _$HomeModel {
   const factory HomeModel({
     required HomeScreen currentScreen,
     required ActionType selectedActionType,
-    required String searchString
+    required String searchString,
+    required String currentActionId
   }) = _CalendarModel;
 }
