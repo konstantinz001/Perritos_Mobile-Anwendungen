@@ -46,5 +46,7 @@ class Providers {
   final StateNotifierProvider<CalendarController, CalendarModel>
       calendarControllerProvider =
       StateNotifierProvider<CalendarController, CalendarModel>(
-          (StateNotifierProviderRef ref) => CalendarImplmentation());
+          (StateNotifierProviderRef ref) => CalendarImplmentation(
+            databaseService: ref.read(providers.databaseServiceProvider)
+          ));
 }

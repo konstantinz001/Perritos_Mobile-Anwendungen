@@ -69,37 +69,37 @@ class CalendarView extends ConsumerWidget {
                     controller.changeSelectedDay(selectDay);
                     controller.changeFocusedDay(focusDay);
                   },
-                  selectedDayPredicate: (day) =>isSameDay(day, model.selectedDay),
+                  selectedDayPredicate: (day) =>
+                      isSameDay(day, model.selectedDay),
                   onRangeSelected:
                       (DateTime? start, DateTime? end, DateTime focusedDay) {
                     controller.changeFocusedDay(focusedDay);
                   },
                   calendarStyle: CalendarStyle(
-                    selectedDecoration: BoxDecoration(
-                        color: PerritosColor.perritosMaizeCrayola.color,
-                        shape: BoxShape.circle),
-                    todayDecoration: BoxDecoration(
-                        color: PerritosColor.perritosGoldFusion.color
-                            .withOpacity(0.6),
-                        shape: BoxShape.circle),
-                    rangeStartDecoration: const BoxDecoration(
-                      color: perritosBurntSienna,
-                      shape: BoxShape.circle,
-                    ),
-                    rangeEndDecoration: const BoxDecoration(
-                      color: perritosBurntSienna,
-                      shape: BoxShape.circle,
-                    ),
-                    markerDecoration: const BoxDecoration(
-                      color: perritosCharcoal,
-                      shape: BoxShape.circle,
-                    ),
-                    todayTextStyle: perritosParagonLight,
-                    weekendTextStyle: perritosParagonGoldFusion,
-                    defaultTextStyle: perritosParagon,
-                    outsideTextStyle: perritosParagonOpacity,
-                    selectedTextStyle: perritosParagonLight
-                  ),
+                      selectedDecoration: BoxDecoration(
+                          color: PerritosColor.perritosMaizeCrayola.color,
+                          shape: BoxShape.circle),
+                      todayDecoration: BoxDecoration(
+                          color: PerritosColor.perritosGoldFusion.color
+                              .withOpacity(0.6),
+                          shape: BoxShape.circle),
+                      rangeStartDecoration: const BoxDecoration(
+                        color: perritosBurntSienna,
+                        shape: BoxShape.circle,
+                      ),
+                      rangeEndDecoration: const BoxDecoration(
+                        color: perritosBurntSienna,
+                        shape: BoxShape.circle,
+                      ),
+                      markerDecoration: const BoxDecoration(
+                        color: perritosCharcoal,
+                        shape: BoxShape.circle,
+                      ),
+                      todayTextStyle: perritosParagonLight,
+                      weekendTextStyle: perritosParagonGoldFusion,
+                      defaultTextStyle: perritosParagon,
+                      outsideTextStyle: perritosParagonOpacity,
+                      selectedTextStyle: perritosParagonLight),
                   headerStyle: HeaderStyle(
                       titleTextStyle: perritosDoublePica,
                       titleCentered: true,
@@ -116,13 +116,41 @@ class CalendarView extends ConsumerWidget {
                       formatButtonVisible: false),
                 ),
                 ...controller.getEventsfromDay(model.selectedDay).map(
-                      (ActionDateModel event) => 
-                      PerritosAction(
-                      icon: PerritosIcons.Icon_Date,
-                      label: event.title,
-                      value: '${DateFormat("dd.mm.yyyy hh:mm").format(event.begin)} bis ${DateFormat("dd.mm.yyyy hh:mm").format(event.end)}' ,
-                      onPressed: () => {})
-                    ),
+                    (ActionDateModel event) => PerritosAction(
+                        icon: PerritosIcons.Icon_Date,
+                        label: event.title,
+                        value:
+                            '${DateFormat("dd.mm.yyyy hh:mm").format(event.begin.toDate())} bis ${DateFormat("dd.mm.yyyy hh:mm").format(event.end.toDate())}',
+                        onPressed: () => {})),
+                // FutureBuilder(
+                //   future: controller.loadActionDatesFromDB(),
+                //   builder: (BuildContext context, AsyncSnapshot<List<ActionDateModel>> snapshot) {
+                //     if( snapshot.connectionState == ConnectionState.waiting){
+                //         return  const Center(child: Text('Please wait its loading...'));
+                //     }else{
+                //         if (snapshot.hasError)
+                //           return Center(child: Text('Error: ${snapshot.error}'));
+                //         else
+                //           return Center(child: new Text('${snapshot.data?.first.title}'));
+                //     }
+                //   }
+                // )
+                FutureBuilder(
+                    future: controller.loadEvents(),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<Map<DateTime, List<ActionDateModel>>> snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const SizedBox();
+                      } else {
+                        if (snapshot.hasError) {
+                          return Center(
+                              child: Text('Error: ${snapshot.error}'));
+                        }
+                        else {
+                          return const SizedBox();
+                        }
+                      }
+                    })
               ]))),
               PerritosNavigationBar(
                   activeView: activeView.calendar,
@@ -140,4 +168,6 @@ abstract class CalendarController extends StateNotifier<CalendarModel> {
   List<ActionDateModel> getEventsfromDay(DateTime date);
   void changeSelectedDay(DateTime date);
   void changeFocusedDay(DateTime date);
+  Future<List<ActionDateModel>> loadActionDatesFromDB();
+  Future<Map<DateTime, List<ActionDateModel>>> loadEvents();
 }

@@ -18,7 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$CalendarModel {
   DateTime get selectedDay => throw _privateConstructorUsedError;
   DateTime get focusedDay => throw _privateConstructorUsedError;
-  Map<DateTime, List<ActionDateModel>> get selectedEvents =>
+  Map<DateTime, List<ActionDateModel>> get events =>
       throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -34,7 +34,7 @@ abstract class $CalendarModelCopyWith<$Res> {
   $Res call(
       {DateTime selectedDay,
       DateTime focusedDay,
-      Map<DateTime, List<ActionDateModel>> selectedEvents});
+      Map<DateTime, List<ActionDateModel>> events});
 }
 
 /// @nodoc
@@ -50,7 +50,7 @@ class _$CalendarModelCopyWithImpl<$Res>
   $Res call({
     Object? selectedDay = freezed,
     Object? focusedDay = freezed,
-    Object? selectedEvents = freezed,
+    Object? events = freezed,
   }) {
     return _then(_value.copyWith(
       selectedDay: selectedDay == freezed
@@ -61,9 +61,9 @@ class _$CalendarModelCopyWithImpl<$Res>
           ? _value.focusedDay
           : focusedDay // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      selectedEvents: selectedEvents == freezed
-          ? _value.selectedEvents
-          : selectedEvents // ignore: cast_nullable_to_non_nullable
+      events: events == freezed
+          ? _value.events
+          : events // ignore: cast_nullable_to_non_nullable
               as Map<DateTime, List<ActionDateModel>>,
     ));
   }
@@ -79,7 +79,7 @@ abstract class _$$_CalendarModelCopyWith<$Res>
   $Res call(
       {DateTime selectedDay,
       DateTime focusedDay,
-      Map<DateTime, List<ActionDateModel>> selectedEvents});
+      Map<DateTime, List<ActionDateModel>> events});
 }
 
 /// @nodoc
@@ -97,7 +97,7 @@ class __$$_CalendarModelCopyWithImpl<$Res>
   $Res call({
     Object? selectedDay = freezed,
     Object? focusedDay = freezed,
-    Object? selectedEvents = freezed,
+    Object? events = freezed,
   }) {
     return _then(_$_CalendarModel(
       selectedDay: selectedDay == freezed
@@ -108,9 +108,9 @@ class __$$_CalendarModelCopyWithImpl<$Res>
           ? _value.focusedDay
           : focusedDay // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      selectedEvents: selectedEvents == freezed
-          ? _value._selectedEvents
-          : selectedEvents // ignore: cast_nullable_to_non_nullable
+      events: events == freezed
+          ? _value._events
+          : events // ignore: cast_nullable_to_non_nullable
               as Map<DateTime, List<ActionDateModel>>,
     ));
   }
@@ -122,23 +122,23 @@ class _$_CalendarModel implements _CalendarModel {
   const _$_CalendarModel(
       {required this.selectedDay,
       required this.focusedDay,
-      required final Map<DateTime, List<ActionDateModel>> selectedEvents})
-      : _selectedEvents = selectedEvents;
+      required final Map<DateTime, List<ActionDateModel>> events})
+      : _events = events;
 
   @override
   final DateTime selectedDay;
   @override
   final DateTime focusedDay;
-  final Map<DateTime, List<ActionDateModel>> _selectedEvents;
+  final Map<DateTime, List<ActionDateModel>> _events;
   @override
-  Map<DateTime, List<ActionDateModel>> get selectedEvents {
+  Map<DateTime, List<ActionDateModel>> get events {
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(_selectedEvents);
+    return EqualUnmodifiableMapView(_events);
   }
 
   @override
   String toString() {
-    return 'CalendarModel(selectedDay: $selectedDay, focusedDay: $focusedDay, selectedEvents: $selectedEvents)';
+    return 'CalendarModel(selectedDay: $selectedDay, focusedDay: $focusedDay, events: $events)';
   }
 
   @override
@@ -150,8 +150,7 @@ class _$_CalendarModel implements _CalendarModel {
                 .equals(other.selectedDay, selectedDay) &&
             const DeepCollectionEquality()
                 .equals(other.focusedDay, focusedDay) &&
-            const DeepCollectionEquality()
-                .equals(other._selectedEvents, _selectedEvents));
+            const DeepCollectionEquality().equals(other._events, _events));
   }
 
   @override
@@ -159,7 +158,7 @@ class _$_CalendarModel implements _CalendarModel {
       runtimeType,
       const DeepCollectionEquality().hash(selectedDay),
       const DeepCollectionEquality().hash(focusedDay),
-      const DeepCollectionEquality().hash(_selectedEvents));
+      const DeepCollectionEquality().hash(_events));
 
   @JsonKey(ignore: true)
   @override
@@ -171,7 +170,7 @@ abstract class _CalendarModel implements CalendarModel {
   const factory _CalendarModel(
           {required final DateTime selectedDay,
           required final DateTime focusedDay,
-          required final Map<DateTime, List<ActionDateModel>> selectedEvents}) =
+          required final Map<DateTime, List<ActionDateModel>> events}) =
       _$_CalendarModel;
 
   @override
@@ -179,7 +178,7 @@ abstract class _CalendarModel implements CalendarModel {
   @override
   DateTime get focusedDay => throw _privateConstructorUsedError;
   @override
-  Map<DateTime, List<ActionDateModel>> get selectedEvents =>
+  Map<DateTime, List<ActionDateModel>> get events =>
       throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)

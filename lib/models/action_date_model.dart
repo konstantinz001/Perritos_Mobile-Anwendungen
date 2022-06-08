@@ -1,12 +1,16 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class ActionDateModel {
+  final String emailID;
   final String title;
   final String description;
-  final DateTime begin;
-  final DateTime end;
-  final List<String> users;
-  final List<String> dogs;
+  final Timestamp begin;
+  final Timestamp end;
+  final List<dynamic> users;
+  final List<dynamic> dogs;
 
   ActionDateModel(
+    this.emailID,
     this.title,
     this.description,
     this.begin,
