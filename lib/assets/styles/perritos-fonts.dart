@@ -24,6 +24,9 @@ TextStyle perritosDoublePicaLight =
 TextStyle perritosDoublePicaLightOpacity =
     GoogleFonts.pompiere(color: perritosSnow.withOpacity(0.5), fontSize: 24);
 
+TextStyle perritosDoublePicaError =
+    GoogleFonts.pompiere(color: perritosBurntSienna, fontSize: 24);
+
 //Paragon:
 TextStyle perritosParagon =
     GoogleFonts.pompiere(color: perritosCharcoal, fontSize: 20);
