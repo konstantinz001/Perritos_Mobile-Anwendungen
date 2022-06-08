@@ -4,6 +4,7 @@ import 'package:flutter_application/models/action_date_model.dart';
 import 'package:flutter_application/models/user_model.dart';
 
 abstract class DatabaseService {
+  //User:
   Future insertUser(
       {required String emailID,
       required String name,
@@ -24,18 +25,23 @@ abstract class DatabaseService {
   });
   Stream<List<UserModel>> getAllUsers({required String emailID});
   Stream getUser({required String emailID, required String name});
-  Stream getAllActionDateFromUser(
-      {required String emailID, required String userName});
+
+  //ActionDate:
+  Stream getAllActionDates(
+      {required String emailID});
 }
 
 class DatabaseFireStoreService extends DatabaseService {
   // collection reference
   final CollectionReference _userCollection =
       FirebaseFirestore.instance.collection('users');
+
   final CollectionReference _actionDateCollection =
-      FirebaseFirestore.instance.collection('actionDate');
+      FirebaseFirestore.instance.collection('actionDates');
+
   String seperator = "_";
 
+//User:
   @override
   Future insertUser(
       {required String emailID,
@@ -107,13 +113,14 @@ class DatabaseFireStoreService extends DatabaseService {
         .snapshots();
   }
 
+  //ActionDate:
   @override
-  Stream<List<ActionDateModel>> getAllActionDateFromUser(
-      {required String emailID, required String userName}) {
+  Stream<List<ActionDateModel>> getAllActionDates(
+      {required String emailID}) {
+    //Todo: Filter dogName
     Stream<QuerySnapshot> stream =
         _actionDateCollection
         .where('emailID', isEqualTo: emailID)
-        .where('users', arrayContains: userName)
         .snapshots();
 
     return stream.map((qShot) => qShot.docs
@@ -129,4 +136,5 @@ class DatabaseFireStoreService extends DatabaseService {
         )
         .toList());
   }
+  
 }
