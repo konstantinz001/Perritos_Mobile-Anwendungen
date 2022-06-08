@@ -6,7 +6,7 @@ import 'package:flutter_application/assets/ui-components/action/perritos-action.
 import 'package:flutter_application/assets/ui-components/buttons/perritos-icon-button.dart';
 import 'package:flutter_application/assets/ui-components/navigation/perritos-navigation.dart';
 import 'package:flutter_application/common/providers.dart';
-import 'package:flutter_application/models/action_date_model.dart';
+import 'package:flutter_application/common/models/action_date_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -138,25 +138,31 @@ class CalendarView extends ConsumerWidget {
                 FutureBuilder(
                     future: controller.loadEvents(),
                     builder: (BuildContext context,
-                        AsyncSnapshot<Map<DateTime, List<ActionDateModel>>> snapshot) {
+                        AsyncSnapshot<Map<DateTime, List<ActionDateModel>>>
+                            snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return const SizedBox();
                       } else {
                         if (snapshot.hasError) {
-                          return Center(
-                              child: Text('Error: ${snapshot.error}'));
-                        }
-                        else {
+                              return Text('Error: ${snapshot.error}', style: perritosParagonError,);
+                        } else {
                           return const SizedBox();
                         }
                       }
                     })
               ]))),
               PerritosNavigationBar(
-                  activeView: activeView.calendar,
-                  navigateToHome: () => {},
-                  navigateToCalendar: () => {},
-                  navigateToProfile: () => {})
+                activeView: activeView.calendar,
+                navigateToHome: () {
+                  Navigator.pushNamed(context, '/Home');
+                },
+                navigateToProfile: () {
+                  Navigator.pushNamed(context, '/DogProfileInfo');
+                },
+                navigateToCalendar: () {
+                  Navigator.pushNamed(context, '/Calendar');
+                },
+              )
             ],
           )),
     ));

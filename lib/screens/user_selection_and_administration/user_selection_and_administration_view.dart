@@ -7,7 +7,7 @@ import 'package:flutter_application/assets/ui-components/profile/perritos-editab
 import 'package:flutter_application/assets/ui-components/profile/perritos-profile.dart';
 import 'package:flutter_application/common/providers.dart';
 import 'package:flutter_application/assets/styles/perritos-icons/PerritosIcons_icons.dart';
-import 'package:flutter_application/models/user_model.dart';
+import 'package:flutter_application/common/models/user_model.dart';
 import 'package:flutter_application/screens/user_selection_and_administration/user_selection_and_administration_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -66,22 +66,24 @@ class UserSelectionAndAdministrationView extends ConsumerWidget {
                                             }))
                                 : Align(
                                     alignment: Alignment.topLeft,
-                                    child: Column(children: [
-                                      const SizedBox(height: 60),
-                                    IconButton(
-                                        color: perritosCharcoal,
-                                        icon: const Icon(
-                                            PerritosIcons.Icon_Arrow_Left),
-                                        iconSize: 40,
-                                        onPressed: () => {
-                                              controller.changeEditability(),
-                                              controller
-                                                  .switchCurrentUserSelectionAndAdministrationScreen(
-                                                      UserSelectionAndAdministration
-                                                          .kickoff)
-                                            })                                      
-                                    ],)        
-                              ),
+                                    child: Column(
+                                      children: [
+                                        const SizedBox(height: 60),
+                                        IconButton(
+                                            color: perritosCharcoal,
+                                            icon: const Icon(
+                                                PerritosIcons.Icon_Arrow_Left),
+                                            iconSize: 40,
+                                            onPressed: () => {
+                                                  controller
+                                                      .changeEditability(),
+                                                  controller
+                                                      .switchCurrentUserSelectionAndAdministrationScreen(
+                                                          UserSelectionAndAdministration
+                                                              .kickoff)
+                                                })
+                                      ],
+                                    )),
                             const SizedBox(height: 60),
                             Expanded(
                               child: SingleChildScrollView(
@@ -128,10 +130,8 @@ class UserSelectionAndAdministrationView extends ConsumerWidget {
                                                           "",
                                                           "")),
                                                   model.editable == false
-                                                      ? controller
-                                                          .switchCurrentUserSelectionAndAdministrationScreen(
-                                                              UserSelectionAndAdministration
-                                                                  .select)
+                                                      ? Navigator.pushNamed(
+                                                          context, "/Home")
                                                       : controller
                                                           .switchCurrentUserSelectionAndAdministrationScreen(
                                                               UserSelectionAndAdministration
@@ -307,21 +307,22 @@ class UserSelectionAndAdministrationView extends ConsumerWidget {
                                         alignment: Alignment.topLeft,
                                         child: Column(
                                           children: [
-                                            const SizedBox(height: 60,),
-                                          IconButton(
-                                              color: perritosCharcoal,
-                                              icon: const Icon(
-                                                  PerritosIcons.Icon_Arrow_Left),
-                                              iconSize: 40,
-                                              onPressed: () => {
-                                                    controller
-                                                        .switchCurrentUserSelectionAndAdministrationScreen(
-                                                            UserSelectionAndAdministration
-                                                                .kickoff)
-                                                  })                                            
+                                            const SizedBox(
+                                              height: 60,
+                                            ),
+                                            IconButton(
+                                                color: perritosCharcoal,
+                                                icon: const Icon(PerritosIcons
+                                                    .Icon_Arrow_Left),
+                                                iconSize: 40,
+                                                onPressed: () => {
+                                                      controller
+                                                          .switchCurrentUserSelectionAndAdministrationScreen(
+                                                              UserSelectionAndAdministration
+                                                                  .kickoff)
+                                                    })
                                           ],
-                                        )       
-),
+                                        )),
                                     const SizedBox(height: 60),
                                     Expanded(
                                       child: SingleChildScrollView(

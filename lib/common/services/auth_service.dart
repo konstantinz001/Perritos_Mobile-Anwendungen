@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_application/models/auth_user_model.dart';
-import 'package:flutter_application/models/user_model.dart';
+import 'package:flutter_application/common/models/auth_user_model.dart';
 
 abstract class AuthService {
   Future login({
@@ -19,10 +18,6 @@ class AuthFirebaseService extends AuthService {
   AuthUserModel _userFromFirebaseUser(User? user) {
     return user != null ? AuthUserModel(uid: user.uid) : AuthUserModel(uid: "");
   }
-
-  /*Stream<AuthUserModel> get user {
-    return _auth.onAuthStateChanged.map(_userFromFirebaseUser);
-  }*/
 
   @override
   Future login({required String email, required String password}) async {

@@ -2,8 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application/common/services/db_service.dart';
-import 'package:flutter_application/models/user_model.dart';
+import 'package:flutter_application/common/models/user_model.dart';
 import 'package:flutter_application/screens/calendar/calendar_view.dart';
+import 'package:flutter_application/screens/home/home_view.dart';
 import 'package:flutter_application/screens/registration_and_login/registration_and_login_view.dart';
 import 'package:flutter_application/screens/user_selection_and_administration/user_selection_and_administration_view.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -30,7 +31,7 @@ class MyApp extends StatelessWidget {
         localizationsDelegates: const [GlobalMaterialLocalizations.delegate],
         supportedLocales: const [Locale('en'), Locale('de')],
         home: Navigator(
-          initialRoute: '/Calendar',
+          initialRoute: '/Home',
           onGenerateRoute: (RouteSettings routeParams) {
             if (routeParams.name == '/RegistrationAndLogin') {
               return MaterialPageRoute(
@@ -47,13 +48,10 @@ class MyApp extends StatelessWidget {
                   builder: (context) => const Center(
                       child: Text('DogSelectionAndAdministration Screen')));
             } else if (routeParams.name == '/Home') {
-              return MaterialPageRoute(
-                  builder: (context) =>
-                      const Center(child: Text('Home Screen')));
+              return MaterialPageRoute(builder: (context) => const HomeView());
             } else if (routeParams.name == '/Calendar') {
               return MaterialPageRoute(
-                  builder: (context) =>
-                      const CalendarView());
+                  builder: (context) => const CalendarView());
             } else if (routeParams.name == '/DogProfileInfo') {
               return MaterialPageRoute(
                   builder: (context) =>
