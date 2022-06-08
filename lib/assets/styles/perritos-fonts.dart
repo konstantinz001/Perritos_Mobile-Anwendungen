@@ -43,6 +43,9 @@ TextStyle perritosParagonMaizeCrayola =
 TextStyle perritosParagonGoldFusion =
     GoogleFonts.pompiere(color: perritosGoldFusion, fontSize: 20);
 
+TextStyle perritosParagonError=
+    GoogleFonts.pompiere(color: perritosBurntSienna, fontSize: 20);
+
 //English:
 TextStyle perritosEnglish =
     GoogleFonts.pompiere(color: perritosCharcoal, fontSize: 14);

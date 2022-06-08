@@ -156,7 +156,7 @@ class DatabaseFireStoreService extends DatabaseService {
 
   //ActionAbnormality:
   @override
-  Stream getAllActionAbnormalities({required String emailID}) {
+  Stream<List<ActionAbnormalityModel>>  getAllActionAbnormalities({required String emailID}) {
     Stream<QuerySnapshot> stream =
         _actionAbnormalityCollection.where('emailID', isEqualTo: emailID).snapshots();
 
@@ -173,7 +173,7 @@ class DatabaseFireStoreService extends DatabaseService {
 
   //ActionTask:
   @override
-  Stream getAllActionTasks({required String emailID}) {
+  Stream<List<ActionTaskModel>>  getAllActionTasks({required String emailID}) {
     Stream<QuerySnapshot> stream =
       _actionTaskCollection.where('emailID', isEqualTo: emailID).snapshots();
 
@@ -190,7 +190,7 @@ class DatabaseFireStoreService extends DatabaseService {
 
   //ActionWalking:
   @override
-  Stream getAllActionWalkings({required String emailID}) {
+  Stream<List<ActionWalkingModel>>  getAllActionWalkings({required String emailID}) {
     Stream<QuerySnapshot> stream =
       _actionWalkingCollection.where('emailID', isEqualTo: emailID).snapshots();
 

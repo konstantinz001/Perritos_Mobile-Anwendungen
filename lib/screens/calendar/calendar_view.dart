@@ -144,7 +144,7 @@ class CalendarView extends ConsumerWidget {
                         return const SizedBox();
                       } else {
                         if (snapshot.hasError) {
-                              return Text('Error: ${snapshot.error}', style: perritosDoublePicaError,);
+                              return Text('Error: ${snapshot.error}', style: perritosParagonError,);
                         } else {
                           return const SizedBox();
                         }
