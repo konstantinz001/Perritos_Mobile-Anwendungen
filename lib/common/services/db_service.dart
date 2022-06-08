@@ -117,7 +117,6 @@ class DatabaseFireStoreService extends DatabaseService {
   @override
   Stream<List<ActionDateModel>> getAllActionDates(
       {required String emailID}) {
-    //Todo: Filter dogName
     Stream<QuerySnapshot> stream =
         _actionDateCollection
         .where('emailID', isEqualTo: emailID)
