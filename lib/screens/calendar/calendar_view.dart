@@ -154,9 +154,16 @@ class CalendarView extends ConsumerWidget {
               ]))),
               PerritosNavigationBar(
                   activeView: activeView.calendar,
-                  navigateToHome: () => {},
-                  navigateToCalendar: () => {},
-                  navigateToProfile: () => {})
+                  navigateToHome: () {
+                    Navigator.pushNamed(context, '/Home');
+                  },
+                  navigateToProfile: () {
+                    Navigator.pushNamed(context, '/DogProfileInfo');
+                  },
+                  navigateToCalendar: () {
+                    Navigator.pushNamed(context, '/Calendar');
+                  },
+              )
             ],
           )),
     ));

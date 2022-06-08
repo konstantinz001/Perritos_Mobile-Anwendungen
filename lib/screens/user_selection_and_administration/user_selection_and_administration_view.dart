@@ -128,10 +128,7 @@ class UserSelectionAndAdministrationView extends ConsumerWidget {
                                                           "",
                                                           "")),
                                                   model.editable == false
-                                                      ? controller
-                                                          .switchCurrentUserSelectionAndAdministrationScreen(
-                                                              UserSelectionAndAdministration
-                                                                  .select)
+                                                      ? Navigator.pushNamed(context, "/Home")
                                                       : controller
                                                           .switchCurrentUserSelectionAndAdministrationScreen(
                                                               UserSelectionAndAdministration

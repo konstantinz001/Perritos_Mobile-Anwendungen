@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application/common/services/db_service.dart';
 import 'package:flutter_application/models/user_model.dart';
 import 'package:flutter_application/screens/calendar/calendar_view.dart';
+import 'package:flutter_application/screens/home/home_view.dart';
 import 'package:flutter_application/screens/registration_and_login/registration_and_login_view.dart';
 import 'package:flutter_application/screens/user_selection_and_administration/user_selection_and_administration_view.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -30,7 +31,7 @@ class MyApp extends StatelessWidget {
         localizationsDelegates: const [GlobalMaterialLocalizations.delegate],
         supportedLocales: const [Locale('en'), Locale('de')],
         home: Navigator(
-          initialRoute: '/Calendar',
+          initialRoute: '/RegistrationAndLogin',
           onGenerateRoute: (RouteSettings routeParams) {
             if (routeParams.name == '/RegistrationAndLogin') {
               return MaterialPageRoute(
@@ -49,7 +50,7 @@ class MyApp extends StatelessWidget {
             } else if (routeParams.name == '/Home') {
               return MaterialPageRoute(
                   builder: (context) =>
-                      const Center(child: Text('Home Screen')));
+                      const HomeView());
             } else if (routeParams.name == '/Calendar') {
               return MaterialPageRoute(
                   builder: (context) =>
