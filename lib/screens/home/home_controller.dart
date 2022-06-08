@@ -11,7 +11,8 @@ class HomeImplmentation extends HomeController {
   })  : _databaseService = databaseService,
         super(model ??
             const HomeModel(
-              screen: "screen 1"
+              currentScreen: HomeScreen.overview,
+              selectedActionType: ActionType.task
             )      
             );
 

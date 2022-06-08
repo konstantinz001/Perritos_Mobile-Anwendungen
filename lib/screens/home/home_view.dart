@@ -71,8 +71,8 @@ class HomeView extends ConsumerWidget {
                       children: [
                         Expanded(
                             child: PerritosSearchInput(
-                          onSubmit: (String) {},
-                        )) //TODO: Add functionality
+                          onSubmit: () {},
+                        ))
                       ],
                     ),
                     const SizedBox(height: 20),
