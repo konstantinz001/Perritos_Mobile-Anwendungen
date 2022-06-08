@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ActionDateModel {
+  final String actionID;
   final String emailID;
   final String title;
   final String description;
@@ -10,6 +11,7 @@ class ActionDateModel {
   final List<dynamic> dogs;
 
   ActionDateModel(
+    this.actionID,
     this.emailID,
     this.title,
     this.description,

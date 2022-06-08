@@ -143,6 +143,7 @@ class DatabaseFireStoreService extends DatabaseService {
 
     return stream.map((qShot) => qShot.docs
         .map((doc) => ActionDateModel(
+              doc.id,
               doc.get('emailID'),
               doc.get('title'),
               doc.get('description'),
@@ -162,6 +163,7 @@ class DatabaseFireStoreService extends DatabaseService {
 
     return stream.map((qShot) => qShot.docs
         .map((doc) => ActionAbnormalityModel(
+              doc.id,
               doc.get('emailID'),
               doc.get('title'),
               doc.get('description'),
@@ -179,6 +181,7 @@ class DatabaseFireStoreService extends DatabaseService {
 
     return stream.map((qShot) => qShot.docs
         .map((doc) => ActionTaskModel(
+              doc.id,
               doc.get('emailID'),
               doc.get('title'),
               doc.get('description'),
@@ -196,6 +199,7 @@ class DatabaseFireStoreService extends DatabaseService {
 
     return stream.map((qShot) => qShot.docs
         .map((doc) => ActionWalkingModel(
+              doc.id,
               doc.get('emailID'),
               doc.get('begin'),
               doc.get('end'),

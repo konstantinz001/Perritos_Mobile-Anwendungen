@@ -1,4 +1,5 @@
 class ActionWalkingModel {
+  final String actionID;
   final String emailID;
   final DateTime begin;
   final DateTime end;
@@ -6,6 +7,7 @@ class ActionWalkingModel {
   final List<String> dogs;
 
   ActionWalkingModel(
+    this.actionID,
     this.emailID,
     this.begin,
     this.end,

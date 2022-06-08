@@ -1,4 +1,5 @@
 class ActionTaskModel {
+  final String actionID;
   final String emailID;
   final String title;
   final String description;
@@ -6,6 +7,7 @@ class ActionTaskModel {
   final List<String> dogs;
 
   ActionTaskModel(
+    this.actionID,
     this.emailID,
     this.title,
     this.description,
