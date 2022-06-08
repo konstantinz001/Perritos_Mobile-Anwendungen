@@ -690,6 +690,6 @@ abstract class UserSelectionAndAdministrationController
   Future<void> setUserList(String email);
   void setEditingName(String name);
   void setEditingIconColor(String iconColor);
-  void setEditingIconName(String iconColor);
+  void setEditingIconName(String iconName);
   void setEditingDefault();
 }

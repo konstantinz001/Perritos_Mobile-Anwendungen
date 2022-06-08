@@ -8,6 +8,6 @@ class CalendarModel with _$CalendarModel {
   const factory CalendarModel({
     required DateTime selectedDay,
     required DateTime focusedDay,
-    required Map<DateTime, List<ActionDateModel>> selectedEvents
+    required Map<DateTime, List<ActionDateModel>> events
   }) = _CalendarModel;
 }

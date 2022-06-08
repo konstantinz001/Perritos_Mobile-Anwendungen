@@ -1,13 +1,13 @@
-class ActionDateModel {
+class ActionWalkingModel {
   final DateTime begin;
   final DateTime end;
   final List<String> users;
   final List<String> dogs;
 
-  ActionDateModel(
+  ActionWalkingModel(
     this.begin,
     this.end,
     this.users,
-    this.dogs
+    this.dogs, param4, param5, param6
   );
 }

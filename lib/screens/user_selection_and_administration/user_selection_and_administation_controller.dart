@@ -5,15 +5,13 @@ import 'package:flutter_application/screens/user_selection_and_administration/us
 
 class UserSelectionAndAdministrationImplmentation
     extends UserSelectionAndAdministrationController {
-  final List<UserModel> _users;
   final DatabaseService _databaseService;
 
   UserSelectionAndAdministrationImplmentation(
       {required List<UserModel> users,
       required DatabaseService databaseService,
       UserSelectionAndAdministrationModel? model})
-      : _users = users,
-        _databaseService = databaseService,
+      : _databaseService = databaseService,
         super(model ??
             UserSelectionAndAdministrationModel(
               currentUserSelectionAndAdministrationScreen:
@@ -30,6 +28,7 @@ class UserSelectionAndAdministrationImplmentation
     state = state.copyWith(currentUserSelectionAndAdministrationScreen: screen);
   }
 
+  @override
   Future<void> addUser(UserModel userModel) async {
     _databaseService.insertUser(
         emailID: userModel.emailID,
@@ -39,6 +38,7 @@ class UserSelectionAndAdministrationImplmentation
     await Future.delayed(const Duration(seconds: 1));
   }
 
+  @override
   Future<void> setUserList(String email) async {
     state = state.copyWith(userList: List.from(await loadUsers(email)));
     await Future.delayed(const Duration(seconds: 1));
