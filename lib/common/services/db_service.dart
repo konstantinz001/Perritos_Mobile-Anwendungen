@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_application/common/models/action_abnormality_model.dart';
 import 'package:flutter_application/common/models/action_date_model.dart';
+import 'package:flutter_application/common/models/action_task_model.dart';
+import 'package:flutter_application/common/models/action_walking_model.dart';
 import 'package:flutter_application/common/models/user_model.dart';
 
 abstract class DatabaseService {
@@ -28,6 +30,15 @@ abstract class DatabaseService {
 
   //ActionDate:
   Stream getAllActionDates({required String emailID});
+
+  //ActionAbnormality:
+  Stream getAllActionAbnormalities({required String emailID});
+
+  //ActionTask:
+  Stream getAllActionTasks({required String emailID});
+
+  //ActionWalking:
+  Stream getAllActionWalkings({required String emailID});
 }
 
 class DatabaseFireStoreService extends DatabaseService {
@@ -35,8 +46,20 @@ class DatabaseFireStoreService extends DatabaseService {
   final CollectionReference _userCollection =
       FirebaseFirestore.instance.collection('users');
 
+  final CollectionReference _dogCollection =
+      FirebaseFirestore.instance.collection('dogs');
+
   final CollectionReference _actionDateCollection =
       FirebaseFirestore.instance.collection('actionDates');
+
+  final CollectionReference _actionAbnormalityCollection =
+      FirebaseFirestore.instance.collection('actionAbnormalities');
+
+  final CollectionReference _actionTaskCollection =
+      FirebaseFirestore.instance.collection('actionTasks');
+
+  final CollectionReference _actionWalkingCollection =
+      FirebaseFirestore.instance.collection('actionWalkings');
 
   String seperator = "_";
 
@@ -123,6 +146,57 @@ class DatabaseFireStoreService extends DatabaseService {
               doc.get('emailID'),
               doc.get('title'),
               doc.get('description'),
+              doc.get('begin'),
+              doc.get('end'),
+              doc.get('users'),
+              doc.get('dogs'),
+            ))
+        .toList());
+  }
+
+  //ActionAbnormality:
+  @override
+  Stream getAllActionAbnormalities({required String emailID}) {
+    Stream<QuerySnapshot> stream =
+        _actionAbnormalityCollection.where('emailID', isEqualTo: emailID).snapshots();
+
+    return stream.map((qShot) => qShot.docs
+        .map((doc) => ActionAbnormalityModel(
+              doc.get('emailID'),
+              doc.get('title'),
+              doc.get('description'),
+              doc.get('dog'),
+              doc.get('emotionalState'),
+            ))
+        .toList());
+  }
+
+  //ActionTask:
+  @override
+  Stream getAllActionTasks({required String emailID}) {
+    Stream<QuerySnapshot> stream =
+      _actionTaskCollection.where('emailID', isEqualTo: emailID).snapshots();
+
+    return stream.map((qShot) => qShot.docs
+        .map((doc) => ActionTaskModel(
+              doc.get('emailID'),
+              doc.get('title'),
+              doc.get('description'),
+              doc.get('users'),
+              doc.get('dogs'),
+            ))
+        .toList());
+  }
+
+  //ActionWalking:
+  @override
+  Stream getAllActionWalkings({required String emailID}) {
+    Stream<QuerySnapshot> stream =
+      _actionWalkingCollection.where('emailID', isEqualTo: emailID).snapshots();
+
+    return stream.map((qShot) => qShot.docs
+        .map((doc) => ActionWalkingModel(
+              doc.get('emailID'),
               doc.get('begin'),
               doc.get('end'),
               doc.get('users'),

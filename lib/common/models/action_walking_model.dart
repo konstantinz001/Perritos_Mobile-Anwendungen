@@ -10,6 +10,6 @@ class ActionWalkingModel {
     this.begin,
     this.end,
     this.users,
-    this.dogs, param4, param5, param6
+    this.dogs
   );
 }
