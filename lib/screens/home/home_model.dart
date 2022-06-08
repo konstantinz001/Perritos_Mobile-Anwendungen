@@ -19,6 +19,7 @@ enum ActionType {
 class HomeModel with _$HomeModel {
   const factory HomeModel({
     required HomeScreen currentScreen,
-    required ActionType selectedActionType
+    required ActionType selectedActionType,
+    required String searchString
   }) = _CalendarModel;
 }

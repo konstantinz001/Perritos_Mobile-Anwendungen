@@ -18,6 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$HomeModel {
   HomeScreen get currentScreen => throw _privateConstructorUsedError;
   ActionType get selectedActionType => throw _privateConstructorUsedError;
+  String get searchString => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $HomeModelCopyWith<HomeModel> get copyWith =>
@@ -28,7 +29,10 @@ mixin _$HomeModel {
 abstract class $HomeModelCopyWith<$Res> {
   factory $HomeModelCopyWith(HomeModel value, $Res Function(HomeModel) then) =
       _$HomeModelCopyWithImpl<$Res>;
-  $Res call({HomeScreen currentScreen, ActionType selectedActionType});
+  $Res call(
+      {HomeScreen currentScreen,
+      ActionType selectedActionType,
+      String searchString});
 }
 
 /// @nodoc
@@ -43,6 +47,7 @@ class _$HomeModelCopyWithImpl<$Res> implements $HomeModelCopyWith<$Res> {
   $Res call({
     Object? currentScreen = freezed,
     Object? selectedActionType = freezed,
+    Object? searchString = freezed,
   }) {
     return _then(_value.copyWith(
       currentScreen: currentScreen == freezed
@@ -53,6 +58,10 @@ class _$HomeModelCopyWithImpl<$Res> implements $HomeModelCopyWith<$Res> {
           ? _value.selectedActionType
           : selectedActionType // ignore: cast_nullable_to_non_nullable
               as ActionType,
+      searchString: searchString == freezed
+          ? _value.searchString
+          : searchString // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -64,7 +73,10 @@ abstract class _$$_CalendarModelCopyWith<$Res>
           _$_CalendarModel value, $Res Function(_$_CalendarModel) then) =
       __$$_CalendarModelCopyWithImpl<$Res>;
   @override
-  $Res call({HomeScreen currentScreen, ActionType selectedActionType});
+  $Res call(
+      {HomeScreen currentScreen,
+      ActionType selectedActionType,
+      String searchString});
 }
 
 /// @nodoc
@@ -81,6 +93,7 @@ class __$$_CalendarModelCopyWithImpl<$Res> extends _$HomeModelCopyWithImpl<$Res>
   $Res call({
     Object? currentScreen = freezed,
     Object? selectedActionType = freezed,
+    Object? searchString = freezed,
   }) {
     return _then(_$_CalendarModel(
       currentScreen: currentScreen == freezed
@@ -91,6 +104,10 @@ class __$$_CalendarModelCopyWithImpl<$Res> extends _$HomeModelCopyWithImpl<$Res>
           ? _value.selectedActionType
           : selectedActionType // ignore: cast_nullable_to_non_nullable
               as ActionType,
+      searchString: searchString == freezed
+          ? _value.searchString
+          : searchString // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -99,16 +116,20 @@ class __$$_CalendarModelCopyWithImpl<$Res> extends _$HomeModelCopyWithImpl<$Res>
 
 class _$_CalendarModel implements _CalendarModel {
   const _$_CalendarModel(
-      {required this.currentScreen, required this.selectedActionType});
+      {required this.currentScreen,
+      required this.selectedActionType,
+      required this.searchString});
 
   @override
   final HomeScreen currentScreen;
   @override
   final ActionType selectedActionType;
+  @override
+  final String searchString;
 
   @override
   String toString() {
-    return 'HomeModel(currentScreen: $currentScreen, selectedActionType: $selectedActionType)';
+    return 'HomeModel(currentScreen: $currentScreen, selectedActionType: $selectedActionType, searchString: $searchString)';
   }
 
   @override
@@ -119,14 +140,17 @@ class _$_CalendarModel implements _CalendarModel {
             const DeepCollectionEquality()
                 .equals(other.currentScreen, currentScreen) &&
             const DeepCollectionEquality()
-                .equals(other.selectedActionType, selectedActionType));
+                .equals(other.selectedActionType, selectedActionType) &&
+            const DeepCollectionEquality()
+                .equals(other.searchString, searchString));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(currentScreen),
-      const DeepCollectionEquality().hash(selectedActionType));
+      const DeepCollectionEquality().hash(selectedActionType),
+      const DeepCollectionEquality().hash(searchString));
 
   @JsonKey(ignore: true)
   @override
@@ -137,12 +161,15 @@ class _$_CalendarModel implements _CalendarModel {
 abstract class _CalendarModel implements HomeModel {
   const factory _CalendarModel(
       {required final HomeScreen currentScreen,
-      required final ActionType selectedActionType}) = _$_CalendarModel;
+      required final ActionType selectedActionType,
+      required final String searchString}) = _$_CalendarModel;
 
   @override
   HomeScreen get currentScreen => throw _privateConstructorUsedError;
   @override
   ActionType get selectedActionType => throw _privateConstructorUsedError;
+  @override
+  String get searchString => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$$_CalendarModelCopyWith<_$_CalendarModel> get copyWith =>

@@ -56,6 +56,7 @@ class _PerritosSearchInputState extends State<PerritosSearchInput> {
         child: TextFormField(
           style: perritosDoublePica,
           onFieldSubmitted: widget.onSubmit,
+          onChanged: widget.onSubmit,
           controller: myController,
           focusNode: myFocusNode,
           decoration: InputDecoration(
