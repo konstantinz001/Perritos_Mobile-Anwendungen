@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_application/models/action_date_model.dart';
-import 'package:flutter_application/models/user_model.dart';
+import 'package:flutter_application/common/models/action_date_model.dart';
+import 'package:flutter_application/common/models/user_model.dart';
 
 abstract class DatabaseService {
   //User:
@@ -27,8 +27,7 @@ abstract class DatabaseService {
   Stream getUser({required String emailID, required String name});
 
   //ActionDate:
-  Stream getAllActionDates(
-      {required String emailID});
+  Stream getAllActionDates({required String emailID});
 }
 
 class DatabaseFireStoreService extends DatabaseService {
@@ -115,25 +114,20 @@ class DatabaseFireStoreService extends DatabaseService {
 
   //ActionDate:
   @override
-  Stream<List<ActionDateModel>> getAllActionDates(
-      {required String emailID}) {
+  Stream<List<ActionDateModel>> getAllActionDates({required String emailID}) {
     Stream<QuerySnapshot> stream =
-        _actionDateCollection
-        .where('emailID', isEqualTo: emailID)
-        .snapshots();
+        _actionDateCollection.where('emailID', isEqualTo: emailID).snapshots();
 
     return stream.map((qShot) => qShot.docs
         .map((doc) => ActionDateModel(
-          doc.get('emailID'), 
-          doc.get('title'), 
-          doc.get('description'),
-          doc.get('begin'),  
-          doc.get('end'),
-          doc.get('users'),
-          doc.get('dogs'), 
-          )
-        )
+              doc.get('emailID'),
+              doc.get('title'),
+              doc.get('description'),
+              doc.get('begin'),
+              doc.get('end'),
+              doc.get('users'),
+              doc.get('dogs'),
+            ))
         .toList());
   }
-  
 }

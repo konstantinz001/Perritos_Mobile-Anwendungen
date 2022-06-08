@@ -1,5 +1,5 @@
 import 'package:flutter_application/common/services/db_service.dart';
-import 'package:flutter_application/models/action_date_model.dart';
+import 'package:flutter_application/common/models/action_date_model.dart';
 import 'package:flutter_application/screens/calendar/calendar_model.dart';
 import 'package:intl/intl.dart';
 import 'calendar_view.dart';
@@ -62,7 +62,10 @@ class CalendarImplmentation extends CalendarController {
   Future<List<ActionDateModel>> loadActionDatesFromDB() async {
     await for (List<ActionDateModel> actionDates
         in _databaseService.getAllActionDates(emailID: email)) {
-      return actionDates.where((action) => action.users.contains(userName) && action.dogs.contains(dogName)).toList();
+      return actionDates
+          .where((action) =>
+              action.users.contains(userName) && action.dogs.contains(dogName))
+          .toList();
     }
     return List.empty();
   }

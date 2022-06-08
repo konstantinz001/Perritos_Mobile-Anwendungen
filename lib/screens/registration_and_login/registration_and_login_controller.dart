@@ -1,5 +1,5 @@
 import 'package:flutter_application/common/services/db_service.dart';
-import 'package:flutter_application/models/user_model.dart';
+import 'package:flutter_application/common/models/user_model.dart';
 import 'package:flutter_application/screens/registration_and_login/registration_and_login_model.dart';
 import 'package:flutter_application/common/services/auth_service.dart';
 import 'package:flutter_application/screens/registration_and_login/registration_and_login_view.dart';

@@ -1,5 +1,5 @@
 import 'package:flutter_application/common/services/db_service.dart';
-import 'package:flutter_application/models/user_model.dart';
+import 'package:flutter_application/common/models/user_model.dart';
 import 'package:flutter_application/screens/calendar/calendar_controller.dart';
 import 'package:flutter_application/screens/calendar/calendar_model.dart';
 import 'package:flutter_application/screens/calendar/calendar_view.dart';
@@ -50,13 +50,10 @@ class Providers {
       calendarControllerProvider =
       StateNotifierProvider<CalendarController, CalendarModel>(
           (StateNotifierProviderRef ref) => CalendarImplmentation(
-            databaseService: ref.read(providers.databaseServiceProvider)
-          ));
+              databaseService: ref.read(providers.databaseServiceProvider)));
 
   final StateNotifierProvider<HomeController, HomeModel>
-      homeControllerProvider =
-      StateNotifierProvider<HomeController, HomeModel>(
+      homeControllerProvider = StateNotifierProvider<HomeController, HomeModel>(
           (StateNotifierProviderRef ref) => HomeImplmentation(
-            databaseService: ref.read(providers.databaseServiceProvider)
-          ));
+              databaseService: ref.read(providers.databaseServiceProvider)));
 }
