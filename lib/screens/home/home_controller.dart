@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_application/common/models/action_task_model.dart';
 import 'package:flutter_application/common/models/action_abnormality_model.dart';
 import 'package:flutter_application/common/services/db_service.dart';
@@ -17,11 +18,20 @@ class HomeImplmentation extends HomeController {
     HomeModel? model,
   })  : _databaseService = databaseService,
         super(model ??
-            const HomeModel(
+            HomeModel(
                 currentScreen: HomeScreen.overview,
                 selectedActionType: ActionType.task,
                 currentActionId: "",
-                searchString: ""));
+                searchString: "",
+                title: "",
+                description: "",
+                users: [],
+                dogs: [],
+                emotionalState: 0,
+                begin: Timestamp.now(),
+                end: Timestamp.now()
+              ),
+            );
 
   @override
   Future<List<ActionDateModel>> loadActionDatesFromDB() async {
@@ -87,5 +97,10 @@ class HomeImplmentation extends HomeController {
   @override
   void switchHomeScreen(HomeScreen homeScreen) {
     state = state.copyWith(currentScreen: homeScreen);
+  }
+
+  @override
+  void selectActionType(ActionType actionType) {
+    state = state.copyWith(selectedActionType: actionType);
   }
 }

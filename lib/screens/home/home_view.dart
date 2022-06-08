@@ -295,26 +295,79 @@ class HomeView extends ConsumerWidget {
                               Text("wählen:", style: perritosDoublePica,),
                               const SizedBox(height: 20,),
                               PerritosButton(
-                                onPressed: () => {}, 
+                                onPressed: () => {
+                                  controller.selectActionType(ActionType.date),
+                                  controller.switchHomeScreen(HomeScreen.createAction)
+                                }, 
                                 label: "Termin"
                               ),
                               const SizedBox(height: 20,),
                               PerritosButton(
-                                onPressed: () => {}, 
+                                onPressed: () => {
+                                  controller.selectActionType(ActionType.task),
+                                  controller.switchHomeScreen(HomeScreen.createAction)
+                                }, 
                                 label: "Aufgabe"
                               ),
                               const SizedBox(height: 20,),
                               PerritosButton(
-                                onPressed: () => {}, 
+                                onPressed: () => {
+                                  controller.selectActionType(ActionType.abnormality),
+                                  controller.switchHomeScreen(HomeScreen.createAction)
+                                }, 
                                 label: "Auffälligkeit"
                               ),
                               const SizedBox(height: 20,),
                               PerritosButton(
-                                onPressed: () => {}, 
+                                onPressed: () => {
+                                  controller.selectActionType(ActionType.walking),
+                                  controller.switchHomeScreen(HomeScreen.createAction)
+                                }, 
                                 label: "Gassigang"
                               ),
                             ]))))
-            : Text("Hi :)");
+            : model.currentScreen == HomeScreen.createAction ? 
+            Scaffold(
+                backgroundColor: PerritosColor.perritosSnow.color,
+                body: SingleChildScrollView(
+                    physics: const ScrollPhysics(),
+                    child: Padding(
+                        padding: const EdgeInsets.only(
+                          left: 10,
+                          top: 60,
+                          right: 10,
+                          bottom: 60,
+                        ),
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const SizedBox(width: 10),
+                                  Expanded(
+                                      child: PerritosIconButton(
+                                          onPressed: () => {
+                                            controller.switchHomeScreen(HomeScreen.selectActionType)
+                                          },
+                                          iconSize: 40,
+                                          icon: PerritosIcons.Icon_Arrow_Left)),
+                                  Text(
+                                    model.selectedActionType == ActionType.abnormality? 'Auffälligkeit':
+                                    model.selectedActionType == ActionType.date? 'Termin':
+                                    model.selectedActionType == ActionType.task? 'Aufgabe':
+                                    'Gassigang',
+                                    style: perritosDoubleParagon,
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  const Spacer()
+                                ],
+                              ),
+                              const SizedBox(height: 40,),
+                              
+                            ])))):
+            Text("Hi :)");
   }
 }
 
@@ -322,6 +375,7 @@ abstract class HomeController extends StateNotifier<HomeModel> {
   HomeController(HomeModel state) : super(state);
   void changeSearchString(String searchString);
   void switchHomeScreen(HomeScreen homeScreen);
+  void selectActionType(ActionType actionType);
   Future<List<ActionDateModel>> loadActionDatesFromDB();
   Future<List<ActionTaskModel>> loadActionTasksFromDB();
   Future<List<ActionAbnormalityModel>> loadActionAbnormalitiesFromDB();

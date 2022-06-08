@@ -20,6 +20,13 @@ mixin _$HomeModel {
   ActionType get selectedActionType => throw _privateConstructorUsedError;
   String get searchString => throw _privateConstructorUsedError;
   String get currentActionId => throw _privateConstructorUsedError;
+  String get title => throw _privateConstructorUsedError;
+  String get description => throw _privateConstructorUsedError;
+  List<String> get users => throw _privateConstructorUsedError;
+  List<String> get dogs => throw _privateConstructorUsedError;
+  int get emotionalState => throw _privateConstructorUsedError;
+  Timestamp get begin => throw _privateConstructorUsedError;
+  Timestamp get end => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $HomeModelCopyWith<HomeModel> get copyWith =>
@@ -34,7 +41,14 @@ abstract class $HomeModelCopyWith<$Res> {
       {HomeScreen currentScreen,
       ActionType selectedActionType,
       String searchString,
-      String currentActionId});
+      String currentActionId,
+      String title,
+      String description,
+      List<String> users,
+      List<String> dogs,
+      int emotionalState,
+      Timestamp begin,
+      Timestamp end});
 }
 
 /// @nodoc
@@ -51,6 +65,13 @@ class _$HomeModelCopyWithImpl<$Res> implements $HomeModelCopyWith<$Res> {
     Object? selectedActionType = freezed,
     Object? searchString = freezed,
     Object? currentActionId = freezed,
+    Object? title = freezed,
+    Object? description = freezed,
+    Object? users = freezed,
+    Object? dogs = freezed,
+    Object? emotionalState = freezed,
+    Object? begin = freezed,
+    Object? end = freezed,
   }) {
     return _then(_value.copyWith(
       currentScreen: currentScreen == freezed
@@ -69,6 +90,34 @@ class _$HomeModelCopyWithImpl<$Res> implements $HomeModelCopyWith<$Res> {
           ? _value.currentActionId
           : currentActionId // ignore: cast_nullable_to_non_nullable
               as String,
+      title: title == freezed
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      description: description == freezed
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String,
+      users: users == freezed
+          ? _value.users
+          : users // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      dogs: dogs == freezed
+          ? _value.dogs
+          : dogs // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      emotionalState: emotionalState == freezed
+          ? _value.emotionalState
+          : emotionalState // ignore: cast_nullable_to_non_nullable
+              as int,
+      begin: begin == freezed
+          ? _value.begin
+          : begin // ignore: cast_nullable_to_non_nullable
+              as Timestamp,
+      end: end == freezed
+          ? _value.end
+          : end // ignore: cast_nullable_to_non_nullable
+              as Timestamp,
     ));
   }
 }
@@ -84,7 +133,14 @@ abstract class _$$_CalendarModelCopyWith<$Res>
       {HomeScreen currentScreen,
       ActionType selectedActionType,
       String searchString,
-      String currentActionId});
+      String currentActionId,
+      String title,
+      String description,
+      List<String> users,
+      List<String> dogs,
+      int emotionalState,
+      Timestamp begin,
+      Timestamp end});
 }
 
 /// @nodoc
@@ -103,6 +159,13 @@ class __$$_CalendarModelCopyWithImpl<$Res> extends _$HomeModelCopyWithImpl<$Res>
     Object? selectedActionType = freezed,
     Object? searchString = freezed,
     Object? currentActionId = freezed,
+    Object? title = freezed,
+    Object? description = freezed,
+    Object? users = freezed,
+    Object? dogs = freezed,
+    Object? emotionalState = freezed,
+    Object? begin = freezed,
+    Object? end = freezed,
   }) {
     return _then(_$_CalendarModel(
       currentScreen: currentScreen == freezed
@@ -121,6 +184,34 @@ class __$$_CalendarModelCopyWithImpl<$Res> extends _$HomeModelCopyWithImpl<$Res>
           ? _value.currentActionId
           : currentActionId // ignore: cast_nullable_to_non_nullable
               as String,
+      title: title == freezed
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      description: description == freezed
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String,
+      users: users == freezed
+          ? _value._users
+          : users // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      dogs: dogs == freezed
+          ? _value._dogs
+          : dogs // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      emotionalState: emotionalState == freezed
+          ? _value.emotionalState
+          : emotionalState // ignore: cast_nullable_to_non_nullable
+              as int,
+      begin: begin == freezed
+          ? _value.begin
+          : begin // ignore: cast_nullable_to_non_nullable
+              as Timestamp,
+      end: end == freezed
+          ? _value.end
+          : end // ignore: cast_nullable_to_non_nullable
+              as Timestamp,
     ));
   }
 }
@@ -132,7 +223,16 @@ class _$_CalendarModel implements _CalendarModel {
       {required this.currentScreen,
       required this.selectedActionType,
       required this.searchString,
-      required this.currentActionId});
+      required this.currentActionId,
+      required this.title,
+      required this.description,
+      required final List<String> users,
+      required final List<String> dogs,
+      required this.emotionalState,
+      required this.begin,
+      required this.end})
+      : _users = users,
+        _dogs = dogs;
 
   @override
   final HomeScreen currentScreen;
@@ -142,10 +242,34 @@ class _$_CalendarModel implements _CalendarModel {
   final String searchString;
   @override
   final String currentActionId;
+  @override
+  final String title;
+  @override
+  final String description;
+  final List<String> _users;
+  @override
+  List<String> get users {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_users);
+  }
+
+  final List<String> _dogs;
+  @override
+  List<String> get dogs {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_dogs);
+  }
+
+  @override
+  final int emotionalState;
+  @override
+  final Timestamp begin;
+  @override
+  final Timestamp end;
 
   @override
   String toString() {
-    return 'HomeModel(currentScreen: $currentScreen, selectedActionType: $selectedActionType, searchString: $searchString, currentActionId: $currentActionId)';
+    return 'HomeModel(currentScreen: $currentScreen, selectedActionType: $selectedActionType, searchString: $searchString, currentActionId: $currentActionId, title: $title, description: $description, users: $users, dogs: $dogs, emotionalState: $emotionalState, begin: $begin, end: $end)';
   }
 
   @override
@@ -160,7 +284,16 @@ class _$_CalendarModel implements _CalendarModel {
             const DeepCollectionEquality()
                 .equals(other.searchString, searchString) &&
             const DeepCollectionEquality()
-                .equals(other.currentActionId, currentActionId));
+                .equals(other.currentActionId, currentActionId) &&
+            const DeepCollectionEquality().equals(other.title, title) &&
+            const DeepCollectionEquality()
+                .equals(other.description, description) &&
+            const DeepCollectionEquality().equals(other._users, _users) &&
+            const DeepCollectionEquality().equals(other._dogs, _dogs) &&
+            const DeepCollectionEquality()
+                .equals(other.emotionalState, emotionalState) &&
+            const DeepCollectionEquality().equals(other.begin, begin) &&
+            const DeepCollectionEquality().equals(other.end, end));
   }
 
   @override
@@ -169,7 +302,14 @@ class _$_CalendarModel implements _CalendarModel {
       const DeepCollectionEquality().hash(currentScreen),
       const DeepCollectionEquality().hash(selectedActionType),
       const DeepCollectionEquality().hash(searchString),
-      const DeepCollectionEquality().hash(currentActionId));
+      const DeepCollectionEquality().hash(currentActionId),
+      const DeepCollectionEquality().hash(title),
+      const DeepCollectionEquality().hash(description),
+      const DeepCollectionEquality().hash(_users),
+      const DeepCollectionEquality().hash(_dogs),
+      const DeepCollectionEquality().hash(emotionalState),
+      const DeepCollectionEquality().hash(begin),
+      const DeepCollectionEquality().hash(end));
 
   @JsonKey(ignore: true)
   @override
@@ -182,7 +322,14 @@ abstract class _CalendarModel implements HomeModel {
       {required final HomeScreen currentScreen,
       required final ActionType selectedActionType,
       required final String searchString,
-      required final String currentActionId}) = _$_CalendarModel;
+      required final String currentActionId,
+      required final String title,
+      required final String description,
+      required final List<String> users,
+      required final List<String> dogs,
+      required final int emotionalState,
+      required final Timestamp begin,
+      required final Timestamp end}) = _$_CalendarModel;
 
   @override
   HomeScreen get currentScreen => throw _privateConstructorUsedError;
@@ -192,6 +339,20 @@ abstract class _CalendarModel implements HomeModel {
   String get searchString => throw _privateConstructorUsedError;
   @override
   String get currentActionId => throw _privateConstructorUsedError;
+  @override
+  String get title => throw _privateConstructorUsedError;
+  @override
+  String get description => throw _privateConstructorUsedError;
+  @override
+  List<String> get users => throw _privateConstructorUsedError;
+  @override
+  List<String> get dogs => throw _privateConstructorUsedError;
+  @override
+  int get emotionalState => throw _privateConstructorUsedError;
+  @override
+  Timestamp get begin => throw _privateConstructorUsedError;
+  @override
+  Timestamp get end => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$$_CalendarModelCopyWith<_$_CalendarModel> get copyWith =>
