@@ -11,7 +11,7 @@ import 'package:flutter_application/common/models/dog_model.dart';
 
 const userName = "Alex";
 const dogName = "dog1";
-const email = "hallo@gmx.com";
+const email = "k@web.de";
 
 class HomeImplmentation extends HomeController {
   final DatabaseService _databaseService;
