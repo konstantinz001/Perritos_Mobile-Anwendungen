@@ -35,8 +35,8 @@ class HomeImplmentation extends HomeController {
                   beginDate: DateTime.now(),
                   beginTime: TimeOfDay.now(),
                   endDate: DateTime.now(),
-                  endTime: TimeOfDay.fromDateTime(DateTime.now().add(const Duration(hours: 1)))
-                ),
+                  endTime: TimeOfDay.fromDateTime(
+                      DateTime.now().add(const Duration(hours: 1)))),
         );
 
   @override
@@ -195,8 +195,50 @@ class HomeImplmentation extends HomeController {
             description: state.description,
             dog: dogName,
             emotionalState: state.emotionalState.round());
+      case ActionType.date:
+        return await _databaseService.insertActionDate(
+            emailID: email,
+            title: state.title,
+            description: state.description,
+            begin: Timestamp.fromDate(DateTime(
+                state.beginDate.year,
+                state.beginDate.month,
+                state.beginDate.day,
+                state.beginTime.hour,
+                state.beginTime.minute)),
+            end: Timestamp.fromDate(DateTime(
+                state.endDate.year,
+                state.endDate.month,
+                state.endDate.day,
+                state.endDate.hour,
+                state.endDate.minute)),
+            users: state.users,
+            dogs: state.dogs);
+      case ActionType.task:
+        return await _databaseService.insertActionTask(
+            emailID: email,
+            title: state.title,
+            description: state.description,
+            users: state.users,
+            dogs: state.dogs);
+      case ActionType.walking:
+        return await _databaseService.insertActionWalking(
+            emailID: email,
+            begin: Timestamp.fromDate(DateTime(
+                state.beginDate.year,
+                state.beginDate.month,
+                state.beginDate.day,
+                state.beginTime.hour,
+                state.beginTime.minute)),
+            end: Timestamp.fromDate(DateTime(
+                state.endDate.year,
+                state.endDate.month,
+                state.endDate.day,
+                state.endDate.hour,
+                state.endDate.minute)),
+            users: state.users,
+            dogs: state.dogs);
     }
-    return null;
   }
 
   @override

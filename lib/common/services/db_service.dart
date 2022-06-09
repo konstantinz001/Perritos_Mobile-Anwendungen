@@ -34,6 +34,15 @@ abstract class DatabaseService {
 
   //ActionDate:
   Stream getAllActionDates({required String emailID});
+  Future insertActionDate({
+    required String emailID,
+    required String title,
+    required String description,
+    required Timestamp begin,
+    required Timestamp end,
+    required List<dynamic> users,
+    required List<dynamic> dogs
+  });
 
   //ActionAbnormality:
   Stream getAllActionAbnormalities({required String emailID});
@@ -47,9 +56,24 @@ abstract class DatabaseService {
 
   //ActionTask:
   Stream getAllActionTasks({required String emailID});
+  Future insertActionTask({
+    required String emailID,
+    required String title,
+    required String description,
+    required List<dynamic> users,
+    required List<dynamic> dogs
+  });
 
   //ActionWalking:
   Stream getAllActionWalkings({required String emailID});
+  Future insertActionWalking({
+    required String emailID,
+    required Timestamp begin,
+    required Timestamp end,
+    required List<dynamic> users,
+    required List<dynamic> dogs
+  });
+
 }
 
 class DatabaseFireStoreService extends DatabaseService {
@@ -186,6 +210,27 @@ class DatabaseFireStoreService extends DatabaseService {
         .toList());
   }
 
+  @override
+  Future insertActionDate({    
+    required String emailID,
+    required String title,
+    required String description,
+    required Timestamp begin,
+    required Timestamp end,
+    required List<dynamic> users,
+    required List<dynamic> dogs
+  }) async{
+     await _actionDateCollection.doc().set({
+        'emailID': emailID,
+        'title': title,
+        'description': description,
+        'begin': begin,
+        'end': end,
+        'users': users,
+        'dogs': dogs
+    });
+  }
+
   //ActionAbnormality:
   @override
   Stream<List<ActionAbnormalityModel>> getAllActionAbnormalities(
@@ -235,6 +280,23 @@ class DatabaseFireStoreService extends DatabaseService {
         .toList());
   }
 
+  @override
+  Future insertActionTask({    
+    required String emailID,
+    required String title,
+    required String description,
+    required List<dynamic> users,
+    required List<dynamic> dogs
+  }) async{
+     await _actionTaskCollection.doc().set({
+        'emailID': emailID,
+        'title': title,
+        'description': description,
+        'users': users,
+        'dogs': dogs
+    });
+  }
+
   //ActionWalking:
   @override
   Stream<List<ActionWalkingModel>> getAllActionWalkings(
@@ -253,5 +315,22 @@ class DatabaseFireStoreService extends DatabaseService {
               doc.get('dogs'),
             ))
         .toList());
+  }
+
+  @override
+  Future insertActionWalking({    
+    required String emailID,
+    required Timestamp begin,
+    required Timestamp end,
+    required List<dynamic> users,
+    required List<dynamic> dogs
+  }) async{
+     await _actionWalkingCollection.doc().set({
+        'emailID': emailID,
+        'begin': begin,
+        'end': end,
+        'users': users,
+        'dogs': dogs
+    });
   }
 }
