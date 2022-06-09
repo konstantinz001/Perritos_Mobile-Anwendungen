@@ -588,7 +588,18 @@ class HomeView extends ConsumerWidget {
                                                                           children: [
                                                                             for (var user
                                                                                 in snapshot.data ?? [])
-                                                                              PerritosChip(disabled: true, label: user.name, color: PerritosColor.perritosBurntSienna, onPressed: () => {}),
+                                                                              PerritosChip(
+                                                                                disabled: !user.selected, 
+                                                                                label: user.name, 
+                                                                                color: user.iconColor == 'perritosBurntSienna'? PerritosColor.perritosBurntSienna: user.iconColor == 'perritosGoldFusion' ? PerritosColor.perritosGoldFusion : user.iconColor == 'perritosMaizeCrayola' ? PerritosColor.perritosMaizeCrayola : user.iconColor == 'perritosSandyBrown' ? PerritosColor.perritosSandyBrown : PerritosColor.perritosCharcoal, 
+                                                                                onPressed: () => {
+                                                                                  if(user.selected){
+                                                                                    controller.removeUser(user.name)
+                                                                                  } else {
+                                                                                    controller.addUser(user.name)
+                                                                                  }
+                                                                                }
+                                                                              ),
                                                                           ],
                                                                         ))
                                                                       ],
@@ -667,7 +678,18 @@ class HomeView extends ConsumerWidget {
                                                                           children: [
                                                                             for (var dog
                                                                                 in snapshot.data ?? [])
-                                                                              PerritosChip(disabled: true, label: dog.name, color: PerritosColor.perritosBurntSienna, onPressed: () => {}),
+                                                                              PerritosChip(
+                                                                                disabled: !dog.selected, 
+                                                                                label: dog.name, 
+                                                                                color: dog.iconColor == 'perritosBurntSienna'? PerritosColor.perritosBurntSienna: dog.iconColor == 'perritosGoldFusion' ? PerritosColor.perritosGoldFusion : dog.iconColor == 'perritosMaizeCrayola' ? PerritosColor.perritosMaizeCrayola : dog.iconColor == 'perritosSandyBrown' ? PerritosColor.perritosSandyBrown : PerritosColor.perritosCharcoal, 
+                                                                                onPressed: () => {
+                                                                                  if(dog.selected){
+                                                                                    controller.removeDog(dog.name)
+                                                                                  } else {
+                                                                                    controller.addDog(dog.name)
+                                                                                  }
+                                                                                }
+                                                                              ),
                                                                           ],
                                                                         ))
                                                                       ],
@@ -718,7 +740,7 @@ abstract class HomeController extends StateNotifier<HomeModel> {
   void addUser(String user);
   void removeUser(String user);
   void addDog(String dog);
-  void remove(String dog);
+  void removeDog(String dog);
   void changeEmotionalState(double emotionalState);
   void changeBegin(Timestamp begin);
   void changeEnd(Timestamp end);

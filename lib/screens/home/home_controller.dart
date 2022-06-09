@@ -28,8 +28,8 @@ class HomeImplmentation extends HomeController {
                   searchString: "",
                   title: "",
                   description: "",
-                  users: ["user1", "user2", "user3", "user3", "user3", "user3"],
-                  dogs: [],
+                  users: [userName],
+                  dogs: [dogName],
                   emotionalState: 0,
                   begin: Timestamp.now(),
                   end: Timestamp.now()),
@@ -39,6 +39,13 @@ class HomeImplmentation extends HomeController {
   Future<List<UserModel>> loadUsersFromDB() async {
     await for (List<UserModel> users
         in _databaseService.getAllUsers(emailID: email)) {
+      for (var user in users) {
+        if (state.users.contains(user.name)) {
+          user.selected = true;
+        } else {
+          user.selected = false;
+        }
+      }
       return users.toList();
     }
     return List.empty();
@@ -48,6 +55,13 @@ class HomeImplmentation extends HomeController {
   Future<List<DogModel>> loadDogsFromDB() async {
     await for (List<DogModel> dogs
         in _databaseService.getAllDogs(emailID: email)) {
+      for (var dog in dogs) {
+        if (state.dogs.contains(dog.name)) {
+          dog.selected = true;
+        } else {
+          dog.selected = false;
+        }
+      }
       return dogs.toList();
     }
     return List.empty();
@@ -126,12 +140,16 @@ class HomeImplmentation extends HomeController {
 
   @override
   void addDog(String dog) {
-    // TODO: implement addDog
+    List<String> newDogs = [...state.dogs];
+    newDogs.add(dog);
+    state = state.copyWith(dogs: newDogs);  
   }
 
   @override
   void addUser(String user) {
-    // TODO: implement addUser
+    List<String> newUsers = [...state.users];
+    newUsers.add(user);
+    state = state.copyWith(users: newUsers);
   }
 
   @override
@@ -160,13 +178,17 @@ class HomeImplmentation extends HomeController {
   }
 
   @override
-  void remove(String dog) {
-    // TODO: implement remove
+  void removeDog(String dog) {
+    List<String> newDogs = [...state.dogs];
+    newDogs.add(dog);
+    state = state.copyWith(dogs: newDogs); 
   }
 
   @override
   void removeUser(String user) {
-    // TODO: implement removeUser
+    List<String> newUsers = [...state.users];
+    newUsers.remove(user);
+    state = state.copyWith(users: newUsers);
   }
 
   @override
