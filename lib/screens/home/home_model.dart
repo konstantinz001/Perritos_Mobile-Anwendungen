@@ -1,8 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_application/common/models/action_abnormality_model.dart';
-import 'package:flutter_application/common/models/action_date_model.dart';
-import 'package:flutter_application/common/models/action_task_model.dart';
-import 'package:flutter_application/common/models/action_walking_model.dart';
+import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'home_model.freezed.dart';
@@ -34,7 +30,10 @@ class HomeModel with _$HomeModel {
     required List<String> users,
     required List<String> dogs,
     required double emotionalState,
-    required Timestamp begin,
-    required Timestamp end
+    required DateTime beginDate,
+    required TimeOfDay beginTime,
+    required DateTime endDate,
+    required TimeOfDay endTime,
+    required 
   }) = _CalendarModel;
 }

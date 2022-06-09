@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_application/common/models/action_task_model.dart';
 import 'package:flutter_application/common/models/action_abnormality_model.dart';
 import 'package:flutter_application/common/services/db_service.dart';
@@ -31,9 +32,11 @@ class HomeImplmentation extends HomeController {
                   users: [userName],
                   dogs: [dogName],
                   emotionalState: 0,
-                  begin: Timestamp.now(),
-                  end: Timestamp.now()
-              ),
+                  beginDate: DateTime.now(),
+                  beginTime: TimeOfDay.now(),
+                  endDate: DateTime.now(),
+                  endTime: TimeOfDay.fromDateTime(DateTime.now().add(const Duration(hours: 1)))
+                ),
         );
 
   @override
@@ -154,11 +157,6 @@ class HomeImplmentation extends HomeController {
   }
 
   @override
-  void changeBegin(Timestamp begin) {
-    // TODO: implement changeBegin
-  }
-
-  @override
   void changeDescription(String description) {
     state = state.copyWith(description: description);
   }
@@ -166,11 +164,6 @@ class HomeImplmentation extends HomeController {
   @override
   void changeEmotionalState(double emotionalState) {
     state = state.copyWith(emotionalState: emotionalState);
-  }
-
-  @override
-  void changeEnd(Timestamp end) {
-    // TODO: implement changeEnd
   }
 
   @override
@@ -209,13 +202,35 @@ class HomeImplmentation extends HomeController {
   @override
   void resetActionData() {
     state = state.copyWith(
-      title: "",
-      description: "",
-      users: [userName],
-      dogs: [dogName],
-      emotionalState: 0,
-      begin: Timestamp.now(),
-      end: Timestamp.now()
-    );
+        title: "",
+        description: "",
+        users: [userName],
+        dogs: [dogName],
+        emotionalState: 0,
+        beginDate: DateTime.now(),
+        beginTime: TimeOfDay.now(),
+        endDate: DateTime.now(),
+        endTime: TimeOfDay(
+            hour: TimeOfDay.now().hour + 1, minute: TimeOfDay.now().minute));
+  }
+
+  @override
+  void changeBeginDate(DateTime beginDate) {
+    state = state.copyWith(beginDate: beginDate);
+  }
+
+  @override
+  void changeBeginTime(TimeOfDay beginTime) {
+    state = state.copyWith(beginTime: beginTime);
+  }
+
+  @override
+  void changeEndDate(DateTime endDate) {
+    state = state.copyWith(endDate: endDate);
+  }
+
+  @override
+  void changeEndTime(TimeOfDay endTime) {
+    state = state.copyWith(endTime: endTime);
   }
 }

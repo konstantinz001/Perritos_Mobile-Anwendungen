@@ -500,13 +500,31 @@ class HomeView extends ConsumerWidget {
                                                           runSpacing: 10,
                                                           spacing: 10,
                                                           children: [
-                                                            PerritosDateTimePicker(),
+                                                            PerritosDateTimePicker(
+                                                              initDate: model.beginDate,
+                                                              initTime: model.beginTime,
+                                                              onSubmitDate: (date) => {
+                                                                controller.changeBeginDate(date)
+                                                              }, 
+                                                              onSubmitTime: (time) => {
+                                                                controller.changeBeginTime(time)
+                                                              }
+                                                            ),
                                                             Text(
                                                               '-',
                                                               style:
                                                                   perritosParagon,
                                                             ),
-                                                            PerritosDateTimePicker()
+                                                            PerritosDateTimePicker(
+                                                              initDate: model.endDate,
+                                                              initTime: model.endTime,
+                                                              onSubmitDate: (date) => {
+                                                                controller.changeEndDate(date)
+                                                              }, 
+                                                              onSubmitTime: (time) => {
+                                                                controller.changeEndTime(time)
+                                                              }                                                             
+                                                            )
                                                           ],
                                                         )
                                                       ],
@@ -764,8 +782,10 @@ abstract class HomeController extends StateNotifier<HomeModel> {
   void addDog(String dog);
   void removeDog(String dog);
   void changeEmotionalState(double emotionalState);
-  void changeBegin(Timestamp begin);
-  void changeEnd(Timestamp end);
+  void changeBeginDate(DateTime beginDate);
+  void changeBeginTime(TimeOfDay beginTime);
+  void changeEndDate(DateTime endDate);
+  void changeEndTime(TimeOfDay endTime);
   void resetActionData();
   Future createAction();
   Future<List<UserModel>> loadUsersFromDB();

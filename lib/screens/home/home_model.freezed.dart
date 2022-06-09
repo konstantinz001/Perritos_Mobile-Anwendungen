@@ -25,8 +25,11 @@ mixin _$HomeModel {
   List<String> get users => throw _privateConstructorUsedError;
   List<String> get dogs => throw _privateConstructorUsedError;
   double get emotionalState => throw _privateConstructorUsedError;
-  Timestamp get begin => throw _privateConstructorUsedError;
-  Timestamp get end => throw _privateConstructorUsedError;
+  DateTime get beginDate => throw _privateConstructorUsedError;
+  TimeOfDay get beginTime => throw _privateConstructorUsedError;
+  DateTime get endDate => throw _privateConstructorUsedError;
+  TimeOfDay get endTime => throw _privateConstructorUsedError;
+  dynamic get required => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $HomeModelCopyWith<HomeModel> get copyWith =>
@@ -47,8 +50,11 @@ abstract class $HomeModelCopyWith<$Res> {
       List<String> users,
       List<String> dogs,
       double emotionalState,
-      Timestamp begin,
-      Timestamp end});
+      DateTime beginDate,
+      TimeOfDay beginTime,
+      DateTime endDate,
+      TimeOfDay endTime,
+      dynamic required});
 }
 
 /// @nodoc
@@ -70,8 +76,11 @@ class _$HomeModelCopyWithImpl<$Res> implements $HomeModelCopyWith<$Res> {
     Object? users = freezed,
     Object? dogs = freezed,
     Object? emotionalState = freezed,
-    Object? begin = freezed,
-    Object? end = freezed,
+    Object? beginDate = freezed,
+    Object? beginTime = freezed,
+    Object? endDate = freezed,
+    Object? endTime = freezed,
+    Object? required = freezed,
   }) {
     return _then(_value.copyWith(
       currentScreen: currentScreen == freezed
@@ -110,14 +119,26 @@ class _$HomeModelCopyWithImpl<$Res> implements $HomeModelCopyWith<$Res> {
           ? _value.emotionalState
           : emotionalState // ignore: cast_nullable_to_non_nullable
               as double,
-      begin: begin == freezed
-          ? _value.begin
-          : begin // ignore: cast_nullable_to_non_nullable
-              as Timestamp,
-      end: end == freezed
-          ? _value.end
-          : end // ignore: cast_nullable_to_non_nullable
-              as Timestamp,
+      beginDate: beginDate == freezed
+          ? _value.beginDate
+          : beginDate // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      beginTime: beginTime == freezed
+          ? _value.beginTime
+          : beginTime // ignore: cast_nullable_to_non_nullable
+              as TimeOfDay,
+      endDate: endDate == freezed
+          ? _value.endDate
+          : endDate // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      endTime: endTime == freezed
+          ? _value.endTime
+          : endTime // ignore: cast_nullable_to_non_nullable
+              as TimeOfDay,
+      required: required == freezed
+          ? _value.required
+          : required // ignore: cast_nullable_to_non_nullable
+              as dynamic,
     ));
   }
 }
@@ -139,8 +160,11 @@ abstract class _$$_CalendarModelCopyWith<$Res>
       List<String> users,
       List<String> dogs,
       double emotionalState,
-      Timestamp begin,
-      Timestamp end});
+      DateTime beginDate,
+      TimeOfDay beginTime,
+      DateTime endDate,
+      TimeOfDay endTime,
+      dynamic required});
 }
 
 /// @nodoc
@@ -164,8 +188,11 @@ class __$$_CalendarModelCopyWithImpl<$Res> extends _$HomeModelCopyWithImpl<$Res>
     Object? users = freezed,
     Object? dogs = freezed,
     Object? emotionalState = freezed,
-    Object? begin = freezed,
-    Object? end = freezed,
+    Object? beginDate = freezed,
+    Object? beginTime = freezed,
+    Object? endDate = freezed,
+    Object? endTime = freezed,
+    Object? required = freezed,
   }) {
     return _then(_$_CalendarModel(
       currentScreen: currentScreen == freezed
@@ -204,14 +231,23 @@ class __$$_CalendarModelCopyWithImpl<$Res> extends _$HomeModelCopyWithImpl<$Res>
           ? _value.emotionalState
           : emotionalState // ignore: cast_nullable_to_non_nullable
               as double,
-      begin: begin == freezed
-          ? _value.begin
-          : begin // ignore: cast_nullable_to_non_nullable
-              as Timestamp,
-      end: end == freezed
-          ? _value.end
-          : end // ignore: cast_nullable_to_non_nullable
-              as Timestamp,
+      beginDate: beginDate == freezed
+          ? _value.beginDate
+          : beginDate // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      beginTime: beginTime == freezed
+          ? _value.beginTime
+          : beginTime // ignore: cast_nullable_to_non_nullable
+              as TimeOfDay,
+      endDate: endDate == freezed
+          ? _value.endDate
+          : endDate // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      endTime: endTime == freezed
+          ? _value.endTime
+          : endTime // ignore: cast_nullable_to_non_nullable
+              as TimeOfDay,
+      required: required == freezed ? _value.required : required,
     ));
   }
 }
@@ -229,8 +265,11 @@ class _$_CalendarModel implements _CalendarModel {
       required final List<String> users,
       required final List<String> dogs,
       required this.emotionalState,
-      required this.begin,
-      required this.end})
+      required this.beginDate,
+      required this.beginTime,
+      required this.endDate,
+      required this.endTime,
+      this.required})
       : _users = users,
         _dogs = dogs;
 
@@ -263,13 +302,19 @@ class _$_CalendarModel implements _CalendarModel {
   @override
   final double emotionalState;
   @override
-  final Timestamp begin;
+  final DateTime beginDate;
   @override
-  final Timestamp end;
+  final TimeOfDay beginTime;
+  @override
+  final DateTime endDate;
+  @override
+  final TimeOfDay endTime;
+  @override
+  final dynamic required;
 
   @override
   String toString() {
-    return 'HomeModel(currentScreen: $currentScreen, selectedActionType: $selectedActionType, searchString: $searchString, currentActionId: $currentActionId, title: $title, description: $description, users: $users, dogs: $dogs, emotionalState: $emotionalState, begin: $begin, end: $end)';
+    return 'HomeModel(currentScreen: $currentScreen, selectedActionType: $selectedActionType, searchString: $searchString, currentActionId: $currentActionId, title: $title, description: $description, users: $users, dogs: $dogs, emotionalState: $emotionalState, beginDate: $beginDate, beginTime: $beginTime, endDate: $endDate, endTime: $endTime, required: $required)';
   }
 
   @override
@@ -292,8 +337,11 @@ class _$_CalendarModel implements _CalendarModel {
             const DeepCollectionEquality().equals(other._dogs, _dogs) &&
             const DeepCollectionEquality()
                 .equals(other.emotionalState, emotionalState) &&
-            const DeepCollectionEquality().equals(other.begin, begin) &&
-            const DeepCollectionEquality().equals(other.end, end));
+            const DeepCollectionEquality().equals(other.beginDate, beginDate) &&
+            const DeepCollectionEquality().equals(other.beginTime, beginTime) &&
+            const DeepCollectionEquality().equals(other.endDate, endDate) &&
+            const DeepCollectionEquality().equals(other.endTime, endTime) &&
+            const DeepCollectionEquality().equals(other.required, required));
   }
 
   @override
@@ -308,8 +356,11 @@ class _$_CalendarModel implements _CalendarModel {
       const DeepCollectionEquality().hash(_users),
       const DeepCollectionEquality().hash(_dogs),
       const DeepCollectionEquality().hash(emotionalState),
-      const DeepCollectionEquality().hash(begin),
-      const DeepCollectionEquality().hash(end));
+      const DeepCollectionEquality().hash(beginDate),
+      const DeepCollectionEquality().hash(beginTime),
+      const DeepCollectionEquality().hash(endDate),
+      const DeepCollectionEquality().hash(endTime),
+      const DeepCollectionEquality().hash(required));
 
   @JsonKey(ignore: true)
   @override
@@ -328,8 +379,11 @@ abstract class _CalendarModel implements HomeModel {
       required final List<String> users,
       required final List<String> dogs,
       required final double emotionalState,
-      required final Timestamp begin,
-      required final Timestamp end}) = _$_CalendarModel;
+      required final DateTime beginDate,
+      required final TimeOfDay beginTime,
+      required final DateTime endDate,
+      required final TimeOfDay endTime,
+      final dynamic required}) = _$_CalendarModel;
 
   @override
   HomeScreen get currentScreen => throw _privateConstructorUsedError;
@@ -350,9 +404,15 @@ abstract class _CalendarModel implements HomeModel {
   @override
   double get emotionalState => throw _privateConstructorUsedError;
   @override
-  Timestamp get begin => throw _privateConstructorUsedError;
+  DateTime get beginDate => throw _privateConstructorUsedError;
   @override
-  Timestamp get end => throw _privateConstructorUsedError;
+  TimeOfDay get beginTime => throw _privateConstructorUsedError;
+  @override
+  DateTime get endDate => throw _privateConstructorUsedError;
+  @override
+  TimeOfDay get endTime => throw _privateConstructorUsedError;
+  @override
+  dynamic get required => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$$_CalendarModelCopyWith<_$_CalendarModel> get copyWith =>

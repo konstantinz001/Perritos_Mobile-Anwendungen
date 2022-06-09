@@ -1,12 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application/assets/styles/perritos-colors.dart';
 import 'package:flutter_application/assets/styles/perritos-fonts.dart';
-import 'package:date_format/date_format.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 class PerritosDateTimePicker extends StatefulWidget {
-  const PerritosDateTimePicker({Key? key}) : super(key: key);
+  PerritosDateTimePicker(
+      {Key? key,
+      required this.onSubmitDate,
+      required this.onSubmitTime,
+      required this.initDate,
+      required this.initTime
+      })
+      : super(key: key);
+
+  final Function(DateTime) onSubmitDate;
+  final Function(TimeOfDay) onSubmitTime;
+
+  DateTime initDate;
+  TimeOfDay initTime;
 
   @override
   _PerritosDateTimePickerState createState() => _PerritosDateTimePickerState();
@@ -22,17 +34,13 @@ class _PerritosDateTimePickerState extends State<PerritosDateTimePicker> {
 
   late String dateTime;
 
-  DateTime selectedDate = DateTime.now();
-
-  TimeOfDay selectedTime = const TimeOfDay(hour: 00, minute: 00);
-
   final TextEditingController _dateController = TextEditingController();
   final TextEditingController _timeController = TextEditingController();
 
   Future<Null> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: selectedDate,
+      initialDate: widget.initDate,
       initialDatePickerMode: DatePickerMode.day,
       firstDate: DateTime(2015),
       lastDate: DateTime(2101),
@@ -51,8 +59,9 @@ class _PerritosDateTimePickerState extends State<PerritosDateTimePicker> {
     );
     if (picked != null) {
       setState(() {
-        selectedDate = picked;
-        _dateController.text = DateFormat.yMd('de').format(selectedDate);
+        widget.initDate = picked;
+        widget.onSubmitDate(widget.initDate);
+        _dateController.text = DateFormat.yMd('de').format(widget.initDate);
       });
     }
   }
@@ -60,7 +69,7 @@ class _PerritosDateTimePickerState extends State<PerritosDateTimePicker> {
   Future<Null> _selectTime(BuildContext context) async {
     final TimeOfDay? picked = await showTimePicker(
       context: context,
-      initialTime: selectedTime,
+      initialTime: widget.initTime,
       builder: (BuildContext? context, Widget? child) {
         return Theme(
           data: ThemeData(
@@ -76,21 +85,27 @@ class _PerritosDateTimePickerState extends State<PerritosDateTimePicker> {
     );
     if (picked != null) {
       setState(() {
-        selectedTime = picked;
-        _timeController.text = DateFormat.Hm('de').format(
-          DateTime(DateTime.now().year, 
-          DateTime.now().month, DateTime.now().day, 
-          selectedTime.hour, 
-          selectedTime.minute
-        ));
+        widget.initTime = picked;
+        widget.onSubmitTime(widget.initTime);
+        _timeController.text = DateFormat.Hm('de').format(DateTime(
+            DateTime.now().year,
+            DateTime.now().month,
+            DateTime.now().day,
+            widget.initTime.hour,
+            widget.initTime.minute));
       });
     }
   }
 
   @override
   void initState() {
-    _dateController.text = DateFormat.yMd('de').format(DateTime.now());
-    _timeController.text = DateFormat.Hm('de').format(DateTime.now());
+    _dateController.text = DateFormat.yMd('de').format(widget.initDate);
+    _timeController.text =  DateFormat.Hm('de').format(DateTime(
+            DateTime.now().year,
+            DateTime.now().month,
+            DateTime.now().day,
+            widget.initTime.hour,
+            widget.initTime.minute));
     super.initState();
   }
 
@@ -106,8 +121,7 @@ class _PerritosDateTimePickerState extends State<PerritosDateTimePicker> {
             _selectDate(context);
           },
           child: IntrinsicWidth(
-            child: 
-            TextFormField(
+            child: TextFormField(
               style: perritosParagon,
               textAlign: TextAlign.start,
               enabled: false,
@@ -119,7 +133,8 @@ class _PerritosDateTimePickerState extends State<PerritosDateTimePicker> {
               decoration: InputDecoration(
                   disabledBorder:
                       const UnderlineInputBorder(borderSide: BorderSide.none),
-                  contentPadding: const EdgeInsets.only(top: 0.0,right: 10, left: 10),
+                  contentPadding:
+                      const EdgeInsets.only(top: 0.0, right: 10, left: 10),
                   filled: true,
                   fillColor:
                       PerritosColor.perritosGoldFusion.color.withOpacity(0.1)),
@@ -146,7 +161,8 @@ class _PerritosDateTimePickerState extends State<PerritosDateTimePicker> {
               decoration: InputDecoration(
                   disabledBorder:
                       const UnderlineInputBorder(borderSide: BorderSide.none),
-                  contentPadding: const EdgeInsets.only(top: 0.0,right: 10, left: 10),
+                  contentPadding:
+                      const EdgeInsets.only(top: 0.0, right: 10, left: 10),
                   filled: true,
                   fillColor:
                       PerritosColor.perritosGoldFusion.color.withOpacity(0.1)),
