@@ -3,8 +3,8 @@ class ActionTaskModel {
   final String emailID;
   final String title;
   final String description;
-  final List<String> users;
-  final List<String> dogs;
+  final List<dynamic> users;
+  final List<dynamic> dogs;
 
   ActionTaskModel(
     this.actionID,

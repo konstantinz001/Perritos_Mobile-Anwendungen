@@ -19,6 +19,17 @@ mixin _$HomeModel {
   HomeScreen get currentScreen => throw _privateConstructorUsedError;
   ActionType get selectedActionType => throw _privateConstructorUsedError;
   String get searchString => throw _privateConstructorUsedError;
+  String get currentActionId => throw _privateConstructorUsedError;
+  String get title => throw _privateConstructorUsedError;
+  String get description => throw _privateConstructorUsedError;
+  List<String> get users => throw _privateConstructorUsedError;
+  List<String> get dogs => throw _privateConstructorUsedError;
+  double get emotionalState => throw _privateConstructorUsedError;
+  DateTime get beginDate => throw _privateConstructorUsedError;
+  TimeOfDay get beginTime => throw _privateConstructorUsedError;
+  DateTime get endDate => throw _privateConstructorUsedError;
+  TimeOfDay get endTime => throw _privateConstructorUsedError;
+  dynamic get required => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $HomeModelCopyWith<HomeModel> get copyWith =>
@@ -32,7 +43,18 @@ abstract class $HomeModelCopyWith<$Res> {
   $Res call(
       {HomeScreen currentScreen,
       ActionType selectedActionType,
-      String searchString});
+      String searchString,
+      String currentActionId,
+      String title,
+      String description,
+      List<String> users,
+      List<String> dogs,
+      double emotionalState,
+      DateTime beginDate,
+      TimeOfDay beginTime,
+      DateTime endDate,
+      TimeOfDay endTime,
+      dynamic required});
 }
 
 /// @nodoc
@@ -48,6 +70,17 @@ class _$HomeModelCopyWithImpl<$Res> implements $HomeModelCopyWith<$Res> {
     Object? currentScreen = freezed,
     Object? selectedActionType = freezed,
     Object? searchString = freezed,
+    Object? currentActionId = freezed,
+    Object? title = freezed,
+    Object? description = freezed,
+    Object? users = freezed,
+    Object? dogs = freezed,
+    Object? emotionalState = freezed,
+    Object? beginDate = freezed,
+    Object? beginTime = freezed,
+    Object? endDate = freezed,
+    Object? endTime = freezed,
+    Object? required = freezed,
   }) {
     return _then(_value.copyWith(
       currentScreen: currentScreen == freezed
@@ -62,6 +95,50 @@ class _$HomeModelCopyWithImpl<$Res> implements $HomeModelCopyWith<$Res> {
           ? _value.searchString
           : searchString // ignore: cast_nullable_to_non_nullable
               as String,
+      currentActionId: currentActionId == freezed
+          ? _value.currentActionId
+          : currentActionId // ignore: cast_nullable_to_non_nullable
+              as String,
+      title: title == freezed
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      description: description == freezed
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String,
+      users: users == freezed
+          ? _value.users
+          : users // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      dogs: dogs == freezed
+          ? _value.dogs
+          : dogs // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      emotionalState: emotionalState == freezed
+          ? _value.emotionalState
+          : emotionalState // ignore: cast_nullable_to_non_nullable
+              as double,
+      beginDate: beginDate == freezed
+          ? _value.beginDate
+          : beginDate // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      beginTime: beginTime == freezed
+          ? _value.beginTime
+          : beginTime // ignore: cast_nullable_to_non_nullable
+              as TimeOfDay,
+      endDate: endDate == freezed
+          ? _value.endDate
+          : endDate // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      endTime: endTime == freezed
+          ? _value.endTime
+          : endTime // ignore: cast_nullable_to_non_nullable
+              as TimeOfDay,
+      required: required == freezed
+          ? _value.required
+          : required // ignore: cast_nullable_to_non_nullable
+              as dynamic,
     ));
   }
 }
@@ -76,7 +153,18 @@ abstract class _$$_CalendarModelCopyWith<$Res>
   $Res call(
       {HomeScreen currentScreen,
       ActionType selectedActionType,
-      String searchString});
+      String searchString,
+      String currentActionId,
+      String title,
+      String description,
+      List<String> users,
+      List<String> dogs,
+      double emotionalState,
+      DateTime beginDate,
+      TimeOfDay beginTime,
+      DateTime endDate,
+      TimeOfDay endTime,
+      dynamic required});
 }
 
 /// @nodoc
@@ -94,6 +182,17 @@ class __$$_CalendarModelCopyWithImpl<$Res> extends _$HomeModelCopyWithImpl<$Res>
     Object? currentScreen = freezed,
     Object? selectedActionType = freezed,
     Object? searchString = freezed,
+    Object? currentActionId = freezed,
+    Object? title = freezed,
+    Object? description = freezed,
+    Object? users = freezed,
+    Object? dogs = freezed,
+    Object? emotionalState = freezed,
+    Object? beginDate = freezed,
+    Object? beginTime = freezed,
+    Object? endDate = freezed,
+    Object? endTime = freezed,
+    Object? required = freezed,
   }) {
     return _then(_$_CalendarModel(
       currentScreen: currentScreen == freezed
@@ -108,6 +207,47 @@ class __$$_CalendarModelCopyWithImpl<$Res> extends _$HomeModelCopyWithImpl<$Res>
           ? _value.searchString
           : searchString // ignore: cast_nullable_to_non_nullable
               as String,
+      currentActionId: currentActionId == freezed
+          ? _value.currentActionId
+          : currentActionId // ignore: cast_nullable_to_non_nullable
+              as String,
+      title: title == freezed
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      description: description == freezed
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String,
+      users: users == freezed
+          ? _value._users
+          : users // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      dogs: dogs == freezed
+          ? _value._dogs
+          : dogs // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      emotionalState: emotionalState == freezed
+          ? _value.emotionalState
+          : emotionalState // ignore: cast_nullable_to_non_nullable
+              as double,
+      beginDate: beginDate == freezed
+          ? _value.beginDate
+          : beginDate // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      beginTime: beginTime == freezed
+          ? _value.beginTime
+          : beginTime // ignore: cast_nullable_to_non_nullable
+              as TimeOfDay,
+      endDate: endDate == freezed
+          ? _value.endDate
+          : endDate // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      endTime: endTime == freezed
+          ? _value.endTime
+          : endTime // ignore: cast_nullable_to_non_nullable
+              as TimeOfDay,
+      required: required == freezed ? _value.required : required,
     ));
   }
 }
@@ -118,7 +258,20 @@ class _$_CalendarModel implements _CalendarModel {
   const _$_CalendarModel(
       {required this.currentScreen,
       required this.selectedActionType,
-      required this.searchString});
+      required this.searchString,
+      required this.currentActionId,
+      required this.title,
+      required this.description,
+      required final List<String> users,
+      required final List<String> dogs,
+      required this.emotionalState,
+      required this.beginDate,
+      required this.beginTime,
+      required this.endDate,
+      required this.endTime,
+      this.required})
+      : _users = users,
+        _dogs = dogs;
 
   @override
   final HomeScreen currentScreen;
@@ -126,10 +279,42 @@ class _$_CalendarModel implements _CalendarModel {
   final ActionType selectedActionType;
   @override
   final String searchString;
+  @override
+  final String currentActionId;
+  @override
+  final String title;
+  @override
+  final String description;
+  final List<String> _users;
+  @override
+  List<String> get users {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_users);
+  }
+
+  final List<String> _dogs;
+  @override
+  List<String> get dogs {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_dogs);
+  }
+
+  @override
+  final double emotionalState;
+  @override
+  final DateTime beginDate;
+  @override
+  final TimeOfDay beginTime;
+  @override
+  final DateTime endDate;
+  @override
+  final TimeOfDay endTime;
+  @override
+  final dynamic required;
 
   @override
   String toString() {
-    return 'HomeModel(currentScreen: $currentScreen, selectedActionType: $selectedActionType, searchString: $searchString)';
+    return 'HomeModel(currentScreen: $currentScreen, selectedActionType: $selectedActionType, searchString: $searchString, currentActionId: $currentActionId, title: $title, description: $description, users: $users, dogs: $dogs, emotionalState: $emotionalState, beginDate: $beginDate, beginTime: $beginTime, endDate: $endDate, endTime: $endTime, required: $required)';
   }
 
   @override
@@ -142,7 +327,21 @@ class _$_CalendarModel implements _CalendarModel {
             const DeepCollectionEquality()
                 .equals(other.selectedActionType, selectedActionType) &&
             const DeepCollectionEquality()
-                .equals(other.searchString, searchString));
+                .equals(other.searchString, searchString) &&
+            const DeepCollectionEquality()
+                .equals(other.currentActionId, currentActionId) &&
+            const DeepCollectionEquality().equals(other.title, title) &&
+            const DeepCollectionEquality()
+                .equals(other.description, description) &&
+            const DeepCollectionEquality().equals(other._users, _users) &&
+            const DeepCollectionEquality().equals(other._dogs, _dogs) &&
+            const DeepCollectionEquality()
+                .equals(other.emotionalState, emotionalState) &&
+            const DeepCollectionEquality().equals(other.beginDate, beginDate) &&
+            const DeepCollectionEquality().equals(other.beginTime, beginTime) &&
+            const DeepCollectionEquality().equals(other.endDate, endDate) &&
+            const DeepCollectionEquality().equals(other.endTime, endTime) &&
+            const DeepCollectionEquality().equals(other.required, required));
   }
 
   @override
@@ -150,7 +349,18 @@ class _$_CalendarModel implements _CalendarModel {
       runtimeType,
       const DeepCollectionEquality().hash(currentScreen),
       const DeepCollectionEquality().hash(selectedActionType),
-      const DeepCollectionEquality().hash(searchString));
+      const DeepCollectionEquality().hash(searchString),
+      const DeepCollectionEquality().hash(currentActionId),
+      const DeepCollectionEquality().hash(title),
+      const DeepCollectionEquality().hash(description),
+      const DeepCollectionEquality().hash(_users),
+      const DeepCollectionEquality().hash(_dogs),
+      const DeepCollectionEquality().hash(emotionalState),
+      const DeepCollectionEquality().hash(beginDate),
+      const DeepCollectionEquality().hash(beginTime),
+      const DeepCollectionEquality().hash(endDate),
+      const DeepCollectionEquality().hash(endTime),
+      const DeepCollectionEquality().hash(required));
 
   @JsonKey(ignore: true)
   @override
@@ -162,7 +372,18 @@ abstract class _CalendarModel implements HomeModel {
   const factory _CalendarModel(
       {required final HomeScreen currentScreen,
       required final ActionType selectedActionType,
-      required final String searchString}) = _$_CalendarModel;
+      required final String searchString,
+      required final String currentActionId,
+      required final String title,
+      required final String description,
+      required final List<String> users,
+      required final List<String> dogs,
+      required final double emotionalState,
+      required final DateTime beginDate,
+      required final TimeOfDay beginTime,
+      required final DateTime endDate,
+      required final TimeOfDay endTime,
+      final dynamic required}) = _$_CalendarModel;
 
   @override
   HomeScreen get currentScreen => throw _privateConstructorUsedError;
@@ -170,6 +391,28 @@ abstract class _CalendarModel implements HomeModel {
   ActionType get selectedActionType => throw _privateConstructorUsedError;
   @override
   String get searchString => throw _privateConstructorUsedError;
+  @override
+  String get currentActionId => throw _privateConstructorUsedError;
+  @override
+  String get title => throw _privateConstructorUsedError;
+  @override
+  String get description => throw _privateConstructorUsedError;
+  @override
+  List<String> get users => throw _privateConstructorUsedError;
+  @override
+  List<String> get dogs => throw _privateConstructorUsedError;
+  @override
+  double get emotionalState => throw _privateConstructorUsedError;
+  @override
+  DateTime get beginDate => throw _privateConstructorUsedError;
+  @override
+  TimeOfDay get beginTime => throw _privateConstructorUsedError;
+  @override
+  DateTime get endDate => throw _privateConstructorUsedError;
+  @override
+  TimeOfDay get endTime => throw _privateConstructorUsedError;
+  @override
+  dynamic get required => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$$_CalendarModelCopyWith<_$_CalendarModel> get copyWith =>

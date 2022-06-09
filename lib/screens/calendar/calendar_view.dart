@@ -122,19 +122,6 @@ class CalendarView extends ConsumerWidget {
                         value:
                             '${DateFormat("dd.mm.yyyy hh:mm").format(event.begin.toDate())} bis ${DateFormat("dd.mm.yyyy hh:mm").format(event.end.toDate())}',
                         onPressed: () => {})),
-                // FutureBuilder(
-                //   future: controller.loadActionDatesFromDB(),
-                //   builder: (BuildContext context, AsyncSnapshot<List<ActionDateModel>> snapshot) {
-                //     if( snapshot.connectionState == ConnectionState.waiting){
-                //         return  const Center(child: Text('Please wait its loading...'));
-                //     }else{
-                //         if (snapshot.hasError)
-                //           return Center(child: Text('Error: ${snapshot.error}'));
-                //         else
-                //           return Center(child: new Text('${snapshot.data?.first.title}'));
-                //     }
-                //   }
-                // )
                 FutureBuilder(
                     future: controller.loadEvents(),
                     builder: (BuildContext context,

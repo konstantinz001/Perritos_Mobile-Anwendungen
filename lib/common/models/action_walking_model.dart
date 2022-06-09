@@ -3,8 +3,8 @@ class ActionWalkingModel {
   final String emailID;
   final DateTime begin;
   final DateTime end;
-  final List<String> users;
-  final List<String> dogs;
+  final List<dynamic> users;
+  final List<dynamic> dogs;
 
   ActionWalkingModel(
     this.actionID,

@@ -8,7 +8,7 @@ class PerritosDescriptionInput extends StatefulWidget {
   const PerritosDescriptionInput ({
     Key? key,
     this.label = "",
-    this.hintTxt = "Text Input",
+    this.hintTxt = "",
     this.width = double.infinity,
     required this.onSubmit
   }) : super(key:key);
@@ -52,7 +52,6 @@ class _PerritosDescriptionInputState
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 400,
       width: widget.width,
       child: Column(
         children: [
@@ -82,9 +81,7 @@ class _PerritosDescriptionInputState
             maxLength: 168,
             maxLines: 5,
             onFieldSubmitted: widget.onSubmit,
-            onChanged: (value) {
-              setState(() { enteredText = value; });
-              },
+            onChanged: widget.onSubmit,
             controller: myController,
             focusNode: myFocusNode,
             decoration: InputDecoration(

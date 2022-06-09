@@ -6,7 +6,7 @@ import 'calendar_view.dart';
 
 const userName = "Alex";
 const dogName = "dog1";
-const email = "test@gmail.com";
+const email = "k@web.de";
 
 class CalendarImplmentation extends CalendarController {
   final DatabaseService _databaseService;

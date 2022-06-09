@@ -21,7 +21,7 @@ class PerritosChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ActionChip(
-      onPressed: disabled ? () => {} : onPressed,
+      onPressed: onPressed,
       label: Text(
         label,
         style:
@@ -31,10 +31,4 @@ class PerritosChip extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
     );
   }
-
-  /*void _changeDisabled() {
-    setState(() {
-      widget.disabled = !widget.disabled;
-    });
-  }*/
 }

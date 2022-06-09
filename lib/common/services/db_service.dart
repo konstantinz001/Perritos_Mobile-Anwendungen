@@ -4,6 +4,7 @@ import 'package:flutter_application/common/models/action_date_model.dart';
 import 'package:flutter_application/common/models/action_task_model.dart';
 import 'package:flutter_application/common/models/action_walking_model.dart';
 import 'package:flutter_application/common/models/user_model.dart';
+import 'package:flutter_application/common/models/dog_model.dart';
 
 abstract class DatabaseService {
   //User:
@@ -28,17 +29,48 @@ abstract class DatabaseService {
   Stream<List<UserModel>> getAllUsers({required String emailID});
   Stream getUser({required String emailID, required String name});
 
+  //Dog:
+  Stream<List<DogModel>> getAllDogs({required String emailID});
+
   //ActionDate:
   Stream getAllActionDates({required String emailID});
+  Future insertActionDate(
+      {required String emailID,
+      required String title,
+      required String description,
+      required Timestamp begin,
+      required Timestamp end,
+      required List<dynamic> users,
+      required List<dynamic> dogs});
 
   //ActionAbnormality:
   Stream getAllActionAbnormalities({required String emailID});
+  Future<ActionAbnormalityModel> getActionAbnormalityWithID(
+      {required String actionID});
+  Future insertActionAbnormaility(
+      {required String emailID,
+      required String title,
+      required String description,
+      required String dog,
+      required int emotionalState});
 
   //ActionTask:
   Stream getAllActionTasks({required String emailID});
+  Future insertActionTask(
+      {required String emailID,
+      required String title,
+      required String description,
+      required List<dynamic> users,
+      required List<dynamic> dogs});
 
   //ActionWalking:
   Stream getAllActionWalkings({required String emailID});
+  Future insertActionWalking(
+      {required String emailID,
+      required Timestamp begin,
+      required Timestamp end,
+      required List<dynamic> users,
+      required List<dynamic> dogs});
 }
 
 class DatabaseFireStoreService extends DatabaseService {
@@ -135,6 +167,25 @@ class DatabaseFireStoreService extends DatabaseService {
         .snapshots();
   }
 
+  //Dogs:
+  @override
+  Stream<List<DogModel>> getAllDogs({required String emailID}) {
+    Stream<QuerySnapshot> stream =
+        _dogCollection.where('emailID', isEqualTo: emailID).snapshots();
+
+    return stream.map((qShot) => qShot.docs
+        .map((doc) => DogModel(
+            doc.get('emailID'),
+            doc.get('name'),
+            false,
+            doc.get('iconName'),
+            doc.get('iconColor'),
+            doc.get('breed'),
+            doc.get('birthday'),
+            doc.get('info')))
+        .toList());
+  }
+
   //ActionDate:
   @override
   Stream<List<ActionDateModel>> getAllActionDates({required String emailID}) {
@@ -155,11 +206,33 @@ class DatabaseFireStoreService extends DatabaseService {
         .toList());
   }
 
+  @override
+  Future insertActionDate(
+      {required String emailID,
+      required String title,
+      required String description,
+      required Timestamp begin,
+      required Timestamp end,
+      required List<dynamic> users,
+      required List<dynamic> dogs}) async {
+    await _actionDateCollection.doc().set({
+      'emailID': emailID,
+      'title': title,
+      'description': description,
+      'begin': begin,
+      'end': end,
+      'users': users,
+      'dogs': dogs
+    });
+  }
+
   //ActionAbnormality:
   @override
-  Stream<List<ActionAbnormalityModel>>  getAllActionAbnormalities({required String emailID}) {
-    Stream<QuerySnapshot> stream =
-        _actionAbnormalityCollection.where('emailID', isEqualTo: emailID).snapshots();
+  Stream<List<ActionAbnormalityModel>> getAllActionAbnormalities(
+      {required String emailID}) {
+    Stream<QuerySnapshot> stream = _actionAbnormalityCollection
+        .where('emailID', isEqualTo: emailID)
+        .snapshots();
 
     return stream.map((qShot) => qShot.docs
         .map((doc) => ActionAbnormalityModel(
@@ -173,11 +246,36 @@ class DatabaseFireStoreService extends DatabaseService {
         .toList());
   }
 
+  @override
+  Future<ActionAbnormalityModel> getActionAbnormalityWithID(
+      {required String actionID}) async {
+    DocumentSnapshot<Object?> doc =
+        await _actionAbnormalityCollection.doc(actionID).get();
+    return ActionAbnormalityModel(actionID, doc.get('emailID'),
+        doc.get('title'), doc.get('description'), doc.get('dog'), doc.get('emotionalState'));
+  }
+
+  @override
+  Future insertActionAbnormaility(
+      {required String emailID,
+      required String title,
+      required String description,
+      required String dog,
+      required int emotionalState}) async {
+    await _actionAbnormalityCollection.doc().set({
+      'emailID': emailID,
+      'title': title,
+      'description': description,
+      'dog': dog,
+      'emotionalState': emotionalState
+    });
+  }
+
   //ActionTask:
   @override
-  Stream<List<ActionTaskModel>>  getAllActionTasks({required String emailID}) {
+  Stream<List<ActionTaskModel>> getAllActionTasks({required String emailID}) {
     Stream<QuerySnapshot> stream =
-      _actionTaskCollection.where('emailID', isEqualTo: emailID).snapshots();
+        _actionTaskCollection.where('emailID', isEqualTo: emailID).snapshots();
 
     return stream.map((qShot) => qShot.docs
         .map((doc) => ActionTaskModel(
@@ -191,11 +289,29 @@ class DatabaseFireStoreService extends DatabaseService {
         .toList());
   }
 
+  @override
+  Future insertActionTask(
+      {required String emailID,
+      required String title,
+      required String description,
+      required List<dynamic> users,
+      required List<dynamic> dogs}) async {
+    await _actionTaskCollection.doc().set({
+      'emailID': emailID,
+      'title': title,
+      'description': description,
+      'users': users,
+      'dogs': dogs
+    });
+  }
+
   //ActionWalking:
   @override
-  Stream<List<ActionWalkingModel>>  getAllActionWalkings({required String emailID}) {
-    Stream<QuerySnapshot> stream =
-      _actionWalkingCollection.where('emailID', isEqualTo: emailID).snapshots();
+  Stream<List<ActionWalkingModel>> getAllActionWalkings(
+      {required String emailID}) {
+    Stream<QuerySnapshot> stream = _actionWalkingCollection
+        .where('emailID', isEqualTo: emailID)
+        .snapshots();
 
     return stream.map((qShot) => qShot.docs
         .map((doc) => ActionWalkingModel(
@@ -207,5 +323,21 @@ class DatabaseFireStoreService extends DatabaseService {
               doc.get('dogs'),
             ))
         .toList());
+  }
+
+  @override
+  Future insertActionWalking(
+      {required String emailID,
+      required Timestamp begin,
+      required Timestamp end,
+      required List<dynamic> users,
+      required List<dynamic> dogs}) async {
+    await _actionWalkingCollection.doc().set({
+      'emailID': emailID,
+      'begin': begin,
+      'end': end,
+      'users': users,
+      'dogs': dogs
+    });
   }
 }
