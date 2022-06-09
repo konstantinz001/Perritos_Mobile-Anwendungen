@@ -20,6 +20,8 @@ enum ActionType {
   walking
 }
 
+enum DatabaseMessage { success, error }
+
 @freezed
 class HomeModel with _$HomeModel {
   const factory HomeModel({
@@ -31,7 +33,7 @@ class HomeModel with _$HomeModel {
     required String description,
     required List<String> users,
     required List<String> dogs,
-    required int emotionalState,
+    required double emotionalState,
     required Timestamp begin,
     required Timestamp end
   }) = _CalendarModel;

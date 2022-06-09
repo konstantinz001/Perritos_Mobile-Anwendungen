@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application/assets/styles/perritos-colors.dart';
 import 'package:flutter_application/assets/styles/perritos-fonts.dart';
@@ -231,8 +232,9 @@ class HomeView extends ConsumerWidget {
                             size: 42,
                           ),
                           onPressed: () => {
-                            controller.switchHomeScreen(HomeScreen.selectActionType)
-                          }),
+                                controller.switchHomeScreen(
+                                    HomeScreen.selectActionType)
+                              }),
                     ),
                   ],
                 ),
@@ -284,8 +286,9 @@ class HomeView extends ConsumerWidget {
                                   Expanded(
                                       child: PerritosIconButton(
                                           onPressed: () => {
-                                            controller.switchHomeScreen(HomeScreen.overview)
-                                          },
+                                                controller.switchHomeScreen(
+                                                    HomeScreen.overview)
+                                              },
                                           iconSize: 40,
                                           icon: PerritosIcons.Icon_Arrow_Left)),
                                   Text(
@@ -296,45 +299,62 @@ class HomeView extends ConsumerWidget {
                                   const Spacer()
                                 ],
                               ),
-                              const SizedBox(height: 20,),
-                              Text("wählen:", style: perritosDoublePica,),
-                              const SizedBox(height: 20,),
-                              PerritosButton(
-                                onPressed: () => {
-                                  controller.selectActionType(ActionType.date),
-                                  controller.switchHomeScreen(HomeScreen.createAction)
-                                }, 
-                                label: "Termin"
+                              const SizedBox(
+                                height: 20,
                               ),
-                              const SizedBox(height: 20,),
-                              PerritosButton(
-                                onPressed: () => {
-                                  controller.selectActionType(ActionType.task),
-                                  controller.switchHomeScreen(HomeScreen.createAction)
-                                }, 
-                                label: "Aufgabe"
+                              Text(
+                                "wählen:",
+                                style: perritosDoublePica,
                               ),
-                              const SizedBox(height: 20,),
-                              PerritosButton(
-                                onPressed: () => {
-                                  controller.selectActionType(ActionType.abnormality),
-                                  controller.switchHomeScreen(HomeScreen.createAction)
-                                }, 
-                                label: "Auffälligkeit"
+                              const SizedBox(
+                                height: 20,
                               ),
-                              const SizedBox(height: 20,),
                               PerritosButton(
-                                onPressed: () => {
-                                  controller.selectActionType(ActionType.walking),
-                                  controller.switchHomeScreen(HomeScreen.createAction)
-                                }, 
-                                label: "Gassigang"
+                                  onPressed: () => {
+                                        controller
+                                            .selectActionType(ActionType.date),
+                                        controller.switchHomeScreen(
+                                            HomeScreen.createAction)
+                                      },
+                                  label: "Termin"),
+                              const SizedBox(
+                                height: 20,
                               ),
+                              PerritosButton(
+                                  onPressed: () => {
+                                        controller
+                                            .selectActionType(ActionType.task),
+                                        controller.switchHomeScreen(
+                                            HomeScreen.createAction)
+                                      },
+                                  label: "Aufgabe"),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              PerritosButton(
+                                  onPressed: () => {
+                                        controller.selectActionType(
+                                            ActionType.abnormality),
+                                        controller.switchHomeScreen(
+                                            HomeScreen.createAction)
+                                      },
+                                  label: "Auffälligkeit"),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              PerritosButton(
+                                  onPressed: () => {
+                                        controller.selectActionType(
+                                            ActionType.walking),
+                                        controller.switchHomeScreen(
+                                            HomeScreen.createAction)
+                                      },
+                                  label: "Gassigang"),
                             ]))))
-            : model.currentScreen == HomeScreen.createAction ? 
-            Scaffold(
-                backgroundColor: PerritosColor.perritosSnow.color,
-                body: Padding(
+            : model.currentScreen == HomeScreen.createAction
+                ? Scaffold(
+                    backgroundColor: PerritosColor.perritosSnow.color,
+                    body: Padding(
                         padding: const EdgeInsets.only(
                           left: 10,
                           top: 60,
@@ -352,15 +372,22 @@ class HomeView extends ConsumerWidget {
                                   Expanded(
                                       child: PerritosIconButton(
                                           onPressed: () => {
-                                            controller.switchHomeScreen(HomeScreen.selectActionType)
-                                          },
+                                                controller.switchHomeScreen(
+                                                    HomeScreen.selectActionType)
+                                              },
                                           iconSize: 40,
                                           icon: PerritosIcons.Icon_Arrow_Left)),
                                   Text(
-                                    model.selectedActionType == ActionType.abnormality? 'Auffälligkeit':
-                                    model.selectedActionType == ActionType.date? 'Termin':
-                                    model.selectedActionType == ActionType.task? 'Aufgabe':
-                                    'Gassigang',
+                                    model.selectedActionType ==
+                                            ActionType.abnormality
+                                        ? 'Auffälligkeit'
+                                        : model.selectedActionType ==
+                                                ActionType.date
+                                            ? 'Termin'
+                                            : model.selectedActionType ==
+                                                    ActionType.task
+                                                ? 'Aufgabe'
+                                                : 'Gassigang',
                                     style: perritosDoubleParagon,
                                     textAlign: TextAlign.center,
                                   ),
@@ -368,159 +395,245 @@ class HomeView extends ConsumerWidget {
                                 ],
                               ),
                               Expanded(
-                                child:
-                              SingleChildScrollView(
-                                physics: const ScrollPhysics(),
-                                child: Column(
-                                  children: [
-                              const SizedBox(height: 20,),
-                              model.selectedActionType != ActionType.walking ?
-                              Column(
-                                children: [
-                                  PerritosTxtInput(
-                                    label: "Titel",
-                                    onSubmit: (title) => {print(title)}
-                                  ),
-                                  const SizedBox(height: 20,),   
-                                  PerritosDescriptionInput(
-                                    label: "Beschreibung",
-                                    onSubmit: (description) => {print(description)}
-                                  ),
-                                  const SizedBox(height: 20,),                                        
-                                ],
-                              ):const SizedBox(),
-                              model.selectedActionType == ActionType.abnormality ? 
-                              Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      const SizedBox(width: 20,),
-                                      Text(
-                                        "Gefühlslage:",
-                                        style: perritosParagonOpacity,
-                                        textAlign: TextAlign.left,
-                                      ),
-                                    ],
-                                  ),   
-                                  const SizedBox(height: 10,),
-                                  PerritosSlider(
-
-                                  )
-                                ],
-                              ): const SizedBox(),
-                              model.selectedActionType == ActionType.date || model.selectedActionType == ActionType.walking?
-                              Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      const SizedBox(width: 20,),
-                                      Text(
-                                        "Beginn/Ende:",
-                                        style: perritosParagonOpacity,
-                                        textAlign: TextAlign.left,
-                                      ),
-                                    ],
-                                  ),   
-                                  const SizedBox(height: 10,),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                        Wrap(
-                                          runSpacing: 10,
-                                          spacing: 10, 
-                                          children: [
-                                            PerritosDateTimePicker(),
-                                            Text('-', style: perritosParagon,),
-                                            PerritosDateTimePicker()
-                                          ],
-                                                                               
+                                  child: SingleChildScrollView(
+                                      physics: const ScrollPhysics(),
+                                      child: Column(
+                                        children: [
+                                          const SizedBox(
+                                            height: 20,
+                                          ),
+                                          model.selectedActionType !=
+                                                  ActionType.walking
+                                              ? Column(
+                                                  children: [
+                                                    PerritosTxtInput(
+                                                        label: "Titel",
+                                                        onSubmit: (title) => {
+                                                              controller
+                                                                  .changeTitle(
+                                                                      title)
+                                                            }),
+                                                    const SizedBox(
+                                                      height: 20,
+                                                    ),
+                                                    PerritosDescriptionInput(
+                                                        label: "Beschreibung",
+                                                        onSubmit:
+                                                            (description) => {
+                                                                  controller
+                                                                      .changeDescription(
+                                                                          description)
+                                                                }),
+                                                    const SizedBox(
+                                                      height: 20,
+                                                    ),
+                                                  ],
+                                                )
+                                              : const SizedBox(),
+                                          model.selectedActionType ==
+                                                  ActionType.abnormality
+                                              ? Column(
+                                                  children: [
+                                                    Row(
+                                                      children: [
+                                                        const SizedBox(
+                                                          width: 20,
+                                                        ),
+                                                        Text(
+                                                          "Gefühlslage:",
+                                                          style:
+                                                              perritosParagonOpacity,
+                                                          textAlign:
+                                                              TextAlign.left,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 10,
+                                                    ),
+                                                    PerritosSlider(
+                                                      value: model
+                                                          .emotionalState
+                                                          .toDouble(),
+                                                      onSubmit:
+                                                          (emotionalState) {
+                                                        controller
+                                                            .changeEmotionalState(
+                                                                emotionalState);
+                                                      },
+                                                    )
+                                                  ],
+                                                )
+                                              : const SizedBox(),
+                                          model.selectedActionType ==
+                                                      ActionType.date ||
+                                                  model.selectedActionType ==
+                                                      ActionType.walking
+                                              ? Column(
+                                                  children: [
+                                                    Row(
+                                                      children: [
+                                                        const SizedBox(
+                                                          width: 20,
+                                                        ),
+                                                        Text(
+                                                          "Beginn/Ende:",
+                                                          style:
+                                                              perritosParagonOpacity,
+                                                          textAlign:
+                                                              TextAlign.left,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 10,
+                                                    ),
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Wrap(
+                                                          runSpacing: 10,
+                                                          spacing: 10,
+                                                          children: [
+                                                            PerritosDateTimePicker(),
+                                                            Text(
+                                                              '-',
+                                                              style:
+                                                                  perritosParagon,
+                                                            ),
+                                                            PerritosDateTimePicker()
+                                                          ],
+                                                        )
+                                                      ],
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 20,
+                                                    )
+                                                  ],
+                                                )
+                                              : const SizedBox(),
+                                          model.selectedActionType !=
+                                                  ActionType.abnormality
+                                              ? Column(
+                                                  children: [
+                                                    Row(
+                                                      children: [
+                                                        const SizedBox(
+                                                          width: 20,
+                                                        ),
+                                                        Text(
+                                                          "Benutzer:",
+                                                          style:
+                                                              perritosParagonOpacity,
+                                                          textAlign:
+                                                              TextAlign.left,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 10,
+                                                    ),
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Flexible(
+                                                            child: Wrap(
+                                                          runSpacing: 10,
+                                                          spacing: 10,
+                                                          children: [
+                                                            for (var user
+                                                                in model.users)
+                                                              PerritosChip(
+                                                                  disabled:
+                                                                      true,
+                                                                  label: user,
+                                                                  color: PerritosColor
+                                                                      .perritosBurntSienna,
+                                                                  onPressed:
+                                                                      () => {}),
+                                                          ],
+                                                        ))
+                                                      ],
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 20,
+                                                    ),
+                                                    Row(
+                                                      children: [
+                                                        const SizedBox(
+                                                          width: 20,
+                                                        ),
+                                                        Text(
+                                                          "Hunde:",
+                                                          style:
+                                                              perritosParagonOpacity,
+                                                          textAlign:
+                                                              TextAlign.left,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 10,
+                                                    ),
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Flexible(
+                                                            child: Wrap(
+                                                          runSpacing: 10,
+                                                          spacing: 10,
+                                                          children: [
+                                                            for (var dog
+                                                                in model.dogs)
+                                                              PerritosChip(
+                                                                  disabled:
+                                                                      true,
+                                                                  label: dog,
+                                                                  color: PerritosColor
+                                                                      .perritosBurntSienna,
+                                                                  onPressed:
+                                                                      () => {}),
+                                                          ],
+                                                        ))
+                                                      ],
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 20,
+                                                    ),
+                                                  ],
+                                                )
+                                              : const SizedBox()
+                                        ],
+                                      ))),
+                              PerritosButton(
+                                  onPressed: () => {
+                                    controller.createAction().then(
+                                      (m)=>
+                                        {
+                                          controller.switchHomeScreen(HomeScreen.overview)
+                                        }
+                                    ).catchError((e)=>
+                                    {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(SnackBar(
+                                                  content: Text(
+                                                      'Erstellung der Aktion ist fehlgeschlagen :(',
+                                                      style:
+                                                          perritosDoublePica),
+                                                  backgroundColor:
+                                                      perritosBurntSienna))
+                                        }
                                       )
-                                    ],
-                                  ),
-                                  const SizedBox(height: 20,)
-                                ],
-                              ):const SizedBox(),
-                              model.selectedActionType != ActionType.abnormality ? 
-                              Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      const SizedBox(width: 20,),
-                                      Text(
-                                        "Benutzer:",
-                                        style: perritosParagonOpacity,
-                                        textAlign: TextAlign.left,
-                                      ),
-                                    ],
-                                  ),  
-                                  const SizedBox(height: 10,),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                    Flexible(
-                                      child: 
-                                        Wrap(
-                                          runSpacing: 10,
-                                          spacing: 10, 
-                                          children: [
-                                            for (var user
-                                                in model.users)
-                                                PerritosChip(
-                                                  disabled: true,
-                                                  label: user, 
-                                                  color: PerritosColor.perritosBurntSienna, 
-                                                  onPressed: ()=>{}
-                                                ),
-                                              ],
-                                            )                                            
-                                        )
-                                    ],
-                                  ),
-                                  const SizedBox(height: 20,),
-                                  Row(
-                                    children: [
-                                      const SizedBox(width: 20,),
-                                      Text(
-                                        "Hunde:",
-                                        style: perritosParagonOpacity,
-                                        textAlign: TextAlign.left,
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 10,),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                    Flexible(
-                                      child: 
-                                        Wrap(
-                                          runSpacing: 10,
-                                          spacing: 10, 
-                                          children: [
-                                            for (var dog
-                                                in model.dogs)
-                                                PerritosChip(
-                                                  disabled: true,
-                                                  label: dog, 
-                                                  color: PerritosColor.perritosBurntSienna, 
-                                                  onPressed: ()=>{}
-                                                ),
-                                              ],
-                                            )                                            
-                                        )
-                                    ],
-                                  ),
-                                  const SizedBox(height: 20,),
-                                ],
-                              ):const SizedBox()                                    
-                                  ],
-                                ))),
-                            PerritosButton(
-                              onPressed: ()=>{}, 
-                              label: "erstellen"
-                            )
-                            ]))):
-            const Text("Hi :)");
+                                    },
+                                  label: "erstellen")
+                            ])))
+                : const Text("Hi :)");
   }
 }
 
@@ -529,6 +642,16 @@ abstract class HomeController extends StateNotifier<HomeModel> {
   void changeSearchString(String searchString);
   void switchHomeScreen(HomeScreen homeScreen);
   void selectActionType(ActionType actionType);
+  void changeTitle(String title);
+  void changeDescription(String description);
+  void addUser(String user);
+  void removeUser(String user);
+  void addDog(String dog);
+  void remove(String dog);
+  void changeEmotionalState(double emotionalState);
+  void changeBegin(Timestamp begin);
+  void changeEnd(Timestamp end);
+  Future createAction();
   Future<List<ActionDateModel>> loadActionDatesFromDB();
   Future<List<ActionTaskModel>> loadActionTasksFromDB();
   Future<List<ActionAbnormalityModel>> loadActionAbnormalitiesFromDB();

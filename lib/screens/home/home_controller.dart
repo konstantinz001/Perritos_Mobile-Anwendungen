@@ -17,21 +17,21 @@ class HomeImplmentation extends HomeController {
     required DatabaseService databaseService,
     HomeModel? model,
   })  : _databaseService = databaseService,
-        super(model ??
-            HomeModel(
-                currentScreen: HomeScreen.overview,
-                selectedActionType: ActionType.task,
-                currentActionId: "",
-                searchString: "",
-                title: "",
-                description: "",
-                users: ["user1", "user2", "user3", "user3", "user3", "user3"],
-                dogs: [],
-                emotionalState: 0,
-                begin: Timestamp.now(),
-                end: Timestamp.now()
-              ),
-            );
+        super(
+          model ??
+              HomeModel(
+                  currentScreen: HomeScreen.overview,
+                  selectedActionType: ActionType.task,
+                  currentActionId: "",
+                  searchString: "",
+                  title: "",
+                  description: "",
+                  users: ["user1", "user2", "user3", "user3", "user3", "user3"],
+                  dogs: [],
+                  emotionalState: 0,
+                  begin: Timestamp.now(),
+                  end: Timestamp.now()),
+        );
 
   @override
   Future<List<ActionDateModel>> loadActionDatesFromDB() async {
@@ -102,5 +102,60 @@ class HomeImplmentation extends HomeController {
   @override
   void selectActionType(ActionType actionType) {
     state = state.copyWith(selectedActionType: actionType);
+  }
+
+  @override
+  void addDog(String dog) {
+    // TODO: implement addDog
+  }
+
+  @override
+  void addUser(String user) {
+    // TODO: implement addUser
+  }
+
+  @override
+  void changeBegin(Timestamp begin) {
+    // TODO: implement changeBegin
+  }
+
+  @override
+  void changeDescription(String description) {
+    state = state.copyWith(description: description);
+  }
+
+  @override
+  void changeEmotionalState(double emotionalState) {
+    state = state.copyWith(emotionalState: emotionalState);
+  }
+
+  @override
+  void changeEnd(Timestamp end) {
+    // TODO: implement changeEnd
+  }
+
+  @override
+  void changeTitle(String title) {
+    state = state.copyWith(title: title);
+  }
+
+  @override
+  void remove(String dog) {
+    // TODO: implement remove
+  }
+
+  @override
+  void removeUser(String user) {
+    // TODO: implement removeUser
+  }
+
+  @override
+  Future createAction() async {
+    await _databaseService.insertActionAbnormaility(
+        emailID: email,
+        title: state.title,
+        description: state.description,
+        dog: dogName,
+        emotionalState: state.emotionalState.round());
   }
 }

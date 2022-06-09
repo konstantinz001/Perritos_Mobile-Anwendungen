@@ -4,9 +4,10 @@ import 'package:flutter_application/assets/styles/perritos-colors.dart';
 import 'package:flutter_application/assets/styles/perritos-icons/PerritosIcons_icons.dart';
 
 class PerritosSlider extends StatefulWidget {
-  PerritosSlider({Key? key, this.value = 0}) : super(key: key);
+  PerritosSlider({Key? key, this.value = 0, required this.onSubmit}) : super(key: key);
 
   double value;
+  final Function(double) onSubmit;
 
   @override
   _PerritosSliderState createState() => _PerritosSliderState();
@@ -56,11 +57,8 @@ class _PerritosSliderState extends State<PerritosSlider> {
                       activeColor: PerritosColor.perritosSandyBrown.color,
                       inactiveColor: PerritosColor.perritosCharcoal.color.withOpacity(0.5),
                       value: widget.value,
-                      onChanged: (newValue) {
-                        setState(() {
-                          widget.value = newValue;
-                        });
-                      }),
+                      onChanged: widget.onSubmit
+                      ),
                 ))
           ],
         )

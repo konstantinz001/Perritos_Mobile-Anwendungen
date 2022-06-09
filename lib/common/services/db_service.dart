@@ -33,6 +33,13 @@ abstract class DatabaseService {
 
   //ActionAbnormality:
   Stream getAllActionAbnormalities({required String emailID});
+  Future insertActionAbnormaility({
+    required String emailID,
+    required String title,
+    required String description,
+    required String dog,
+    required int emotionalState
+  });
 
   //ActionTask:
   Stream getAllActionTasks({required String emailID});
@@ -157,9 +164,11 @@ class DatabaseFireStoreService extends DatabaseService {
 
   //ActionAbnormality:
   @override
-  Stream<List<ActionAbnormalityModel>>  getAllActionAbnormalities({required String emailID}) {
-    Stream<QuerySnapshot> stream =
-        _actionAbnormalityCollection.where('emailID', isEqualTo: emailID).snapshots();
+  Stream<List<ActionAbnormalityModel>> getAllActionAbnormalities(
+      {required String emailID}) {
+    Stream<QuerySnapshot> stream = _actionAbnormalityCollection
+        .where('emailID', isEqualTo: emailID)
+        .snapshots();
 
     return stream.map((qShot) => qShot.docs
         .map((doc) => ActionAbnormalityModel(
@@ -173,11 +182,22 @@ class DatabaseFireStoreService extends DatabaseService {
         .toList());
   }
 
+  @override
+  Future insertActionAbnormaility({required String emailID, required String title, required String description, required String dog, required int emotionalState}) async{
+     await _actionAbnormalityCollection.doc().set({
+        'emailID': emailID,
+        'title': title,
+        'description': description,
+        'dog': dog,
+        'emotionalState': emotionalState
+    });
+  }
+  
   //ActionTask:
   @override
-  Stream<List<ActionTaskModel>>  getAllActionTasks({required String emailID}) {
+  Stream<List<ActionTaskModel>> getAllActionTasks({required String emailID}) {
     Stream<QuerySnapshot> stream =
-      _actionTaskCollection.where('emailID', isEqualTo: emailID).snapshots();
+        _actionTaskCollection.where('emailID', isEqualTo: emailID).snapshots();
 
     return stream.map((qShot) => qShot.docs
         .map((doc) => ActionTaskModel(
@@ -193,9 +213,11 @@ class DatabaseFireStoreService extends DatabaseService {
 
   //ActionWalking:
   @override
-  Stream<List<ActionWalkingModel>>  getAllActionWalkings({required String emailID}) {
-    Stream<QuerySnapshot> stream =
-      _actionWalkingCollection.where('emailID', isEqualTo: emailID).snapshots();
+  Stream<List<ActionWalkingModel>> getAllActionWalkings(
+      {required String emailID}) {
+    Stream<QuerySnapshot> stream = _actionWalkingCollection
+        .where('emailID', isEqualTo: emailID)
+        .snapshots();
 
     return stream.map((qShot) => qShot.docs
         .map((doc) => ActionWalkingModel(

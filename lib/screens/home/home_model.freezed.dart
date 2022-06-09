@@ -24,7 +24,7 @@ mixin _$HomeModel {
   String get description => throw _privateConstructorUsedError;
   List<String> get users => throw _privateConstructorUsedError;
   List<String> get dogs => throw _privateConstructorUsedError;
-  int get emotionalState => throw _privateConstructorUsedError;
+  double get emotionalState => throw _privateConstructorUsedError;
   Timestamp get begin => throw _privateConstructorUsedError;
   Timestamp get end => throw _privateConstructorUsedError;
 
@@ -46,7 +46,7 @@ abstract class $HomeModelCopyWith<$Res> {
       String description,
       List<String> users,
       List<String> dogs,
-      int emotionalState,
+      double emotionalState,
       Timestamp begin,
       Timestamp end});
 }
@@ -109,7 +109,7 @@ class _$HomeModelCopyWithImpl<$Res> implements $HomeModelCopyWith<$Res> {
       emotionalState: emotionalState == freezed
           ? _value.emotionalState
           : emotionalState // ignore: cast_nullable_to_non_nullable
-              as int,
+              as double,
       begin: begin == freezed
           ? _value.begin
           : begin // ignore: cast_nullable_to_non_nullable
@@ -138,7 +138,7 @@ abstract class _$$_CalendarModelCopyWith<$Res>
       String description,
       List<String> users,
       List<String> dogs,
-      int emotionalState,
+      double emotionalState,
       Timestamp begin,
       Timestamp end});
 }
@@ -203,7 +203,7 @@ class __$$_CalendarModelCopyWithImpl<$Res> extends _$HomeModelCopyWithImpl<$Res>
       emotionalState: emotionalState == freezed
           ? _value.emotionalState
           : emotionalState // ignore: cast_nullable_to_non_nullable
-              as int,
+              as double,
       begin: begin == freezed
           ? _value.begin
           : begin // ignore: cast_nullable_to_non_nullable
@@ -261,7 +261,7 @@ class _$_CalendarModel implements _CalendarModel {
   }
 
   @override
-  final int emotionalState;
+  final double emotionalState;
   @override
   final Timestamp begin;
   @override
@@ -327,7 +327,7 @@ abstract class _CalendarModel implements HomeModel {
       required final String description,
       required final List<String> users,
       required final List<String> dogs,
-      required final int emotionalState,
+      required final double emotionalState,
       required final Timestamp begin,
       required final Timestamp end}) = _$_CalendarModel;
 
@@ -348,7 +348,7 @@ abstract class _CalendarModel implements HomeModel {
   @override
   List<String> get dogs => throw _privateConstructorUsedError;
   @override
-  int get emotionalState => throw _privateConstructorUsedError;
+  double get emotionalState => throw _privateConstructorUsedError;
   @override
   Timestamp get begin => throw _privateConstructorUsedError;
   @override

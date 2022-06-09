@@ -81,9 +81,7 @@ class _PerritosDescriptionInputState
             maxLength: 168,
             maxLines: 5,
             onFieldSubmitted: widget.onSubmit,
-            onChanged: (value) {
-              setState(() { enteredText = value; });
-              },
+            onChanged: widget.onSubmit,
             controller: myController,
             focusNode: myFocusNode,
             decoration: InputDecoration(

@@ -6,7 +6,7 @@ import '../../styles/perritos-fonts.dart';
 class PerritosTxtInput extends StatefulWidget {
   const PerritosTxtInput(
       {Key? key,
-      this.hintTxt = "Text Input",
+      this.hintTxt = "",
       this.label = "",
       this.optlabel = "",
       this.width = double.infinity,
