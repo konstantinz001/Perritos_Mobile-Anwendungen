@@ -813,7 +813,7 @@ class HomeView extends ConsumerWidget {
                           left: 10,
                           top: 60,
                           right: 10,
-                          bottom: 60,
+                          bottom: 20,
                         ),
                         child: Column(
                             mainAxisAlignment: MainAxisAlignment.start,
@@ -1229,7 +1229,40 @@ class HomeView extends ConsumerWidget {
                                                           backgroundColor:
                                                               perritosBurntSienna))
                                                 })
-                                  }, label: "bearbeiten")
+                                  }, label: "bearbeiten"),
+                                const SizedBox(
+                                  height: 10
+                                ),
+                                Row(
+                                  children: [
+                                    const Spacer(),
+                                    PerritosIconButton(
+                                      label:"löschen",
+                                      onPressed: ()=>{
+                                        controller
+                                        .deleteAction()
+                                        .then((m) => {
+                                              controller.resetActionData(),
+                                              controller.switchHomeScreen(
+                                                  HomeScreen.overview)
+                                            })
+                                        .catchError((e) => {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(SnackBar(
+                                                      content: Text(
+                                                          'Löschen der Aktion ist fehlgeschlagen :(',
+                                                          style:
+                                                              perritosDoublePica),
+                                                      backgroundColor:
+                                                          perritosBurntSienna))
+                                            })                                   
+                                      }, 
+                                      icon: PerritosIcons.Icon_Remove
+                                    ),
+                                    const Spacer()                                    
+                                  ],
+                                )
+
                             ])));
   }
 }
@@ -1254,6 +1287,7 @@ abstract class HomeController extends StateNotifier<HomeModel> {
   void resetActionData();
   Future createAction();
   Future updateAction();
+  Future deleteAction();
   Future<List<UserModel>> loadUsersFromDB();
   Future<List<DogModel>> loadDogsFromDB();
   Future<List<ActionDateModel>> loadActionDatesFromDB();

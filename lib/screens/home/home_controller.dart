@@ -383,4 +383,22 @@ class HomeImplmentation extends HomeController {
             dogs: state.dogs);
     }
   }
+
+  @override
+  Future deleteAction() async {
+    switch (state.selectedActionType) {
+      case ActionType.abnormality:
+        return _databaseService.deleteActionAbnormalityWithID(
+            actionID: state.currentActionId);
+      case ActionType.date:
+        return _databaseService.deleteActionDateWithID(
+            actionID: state.currentActionId);
+      case ActionType.task:
+        return _databaseService.deleteActionTaskWithID(
+            actionID: state.currentActionId);
+      case ActionType.walking:
+        return _databaseService.deleteActionWalkingWithID(
+            actionID: state.currentActionId);
+    }
+  }
 }
