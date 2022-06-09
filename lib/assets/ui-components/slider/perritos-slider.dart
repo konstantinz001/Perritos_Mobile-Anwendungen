@@ -1,10 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application/assets/styles/perritos-colors.dart';
 import 'package:flutter_application/assets/styles/perritos-icons/PerritosIcons_icons.dart';
 
 class PerritosSlider extends StatefulWidget {
-  PerritosSlider({Key? key, this.value = 0, required this.onSubmit}) : super(key: key);
+  PerritosSlider({Key? key, this.value = 0, required this.onSubmit})
+      : super(key: key);
 
   double value;
   final Function(double) onSubmit;
@@ -44,22 +44,24 @@ class _PerritosSliderState extends State<PerritosSlider> {
           children: [
             Expanded(
                 child: SliderTheme(
-                  data: SliderTheme.of(context).copyWith(
-                    trackHeight: 4,
-                    thumbShape:
+              data: SliderTheme.of(context).copyWith(
+                trackHeight: 4,
+                thumbShape:
                     const RoundSliderThumbShape(enabledThumbRadius: 9.0),
-                    overlayShape:
-                    const RoundSliderOverlayShape(overlayRadius: 9.0),
-                  ),
-                  child: Slider(
-                      min: 0,
-                      max: 10,
-                      activeColor: PerritosColor.perritosSandyBrown.color,
-                      inactiveColor: PerritosColor.perritosCharcoal.color.withOpacity(0.5),
-                      value: widget.value,
-                      onChanged: widget.onSubmit
-                      ),
-                ))
+                overlayShape: const RoundSliderOverlayShape(overlayRadius: 9.0),
+              ),
+              child: Slider(
+                  min: 0,
+                  max: 10,
+                  activeColor: PerritosColor.perritosSandyBrown.color,
+                  inactiveColor:
+                      PerritosColor.perritosCharcoal.color.withOpacity(0.5),
+                  value: widget.value,
+                  onChanged: (value) => {
+                    widget.onSubmit(value),
+                    widget.value = value
+                  }),
+            ))
           ],
         )
       ],

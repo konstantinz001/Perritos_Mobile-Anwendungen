@@ -34,6 +34,16 @@ abstract class DatabaseService {
 
   //ActionDate:
   Stream getAllActionDates({required String emailID});
+  Future<ActionDateModel> getActionDateWithID({required String actionID});
+  Future deleteActionDateWithID({required String actionID});
+  Future updateActionDateWithID(
+      {required String actionID,
+      required String title,
+      required String description,
+      required Timestamp begin,
+      required Timestamp end,
+      required List<dynamic> users,
+      required List<dynamic> dogs});
   Future insertActionDate(
       {required String emailID,
       required String title,
@@ -47,6 +57,13 @@ abstract class DatabaseService {
   Stream getAllActionAbnormalities({required String emailID});
   Future<ActionAbnormalityModel> getActionAbnormalityWithID(
       {required String actionID});
+  Future deleteActionAbnormalityWithID({required String actionID});
+  Future updateActionAbnormalityWithID(
+      {required String actionID,
+      required String title,
+      required String description,
+      required String dog,
+      required int emotionalState});
   Future insertActionAbnormaility(
       {required String emailID,
       required String title,
@@ -56,6 +73,14 @@ abstract class DatabaseService {
 
   //ActionTask:
   Stream getAllActionTasks({required String emailID});
+  Future<ActionTaskModel> getActionTaskWithID({required String actionID});
+  Future deleteActionTaskWithID({required String actionID});
+  Future updateActionTaskWithID(
+      {required String actionID,
+      required String title,
+      required String description,
+      required List<dynamic> users,
+      required List<dynamic> dogs});
   Future insertActionTask(
       {required String emailID,
       required String title,
@@ -65,6 +90,14 @@ abstract class DatabaseService {
 
   //ActionWalking:
   Stream getAllActionWalkings({required String emailID});
+  Future<ActionWalkingModel> getActionWalkingWithID({required String actionID});
+  Future deleteActionWalkingWithID({required String actionID});
+  Future updateActionWalkingWithID(
+      {required String actionID,
+      required Timestamp begin,
+      required Timestamp end,
+      required List<dynamic> users,
+      required List<dynamic> dogs});
   Future insertActionWalking(
       {required String emailID,
       required Timestamp begin,
@@ -95,7 +128,7 @@ class DatabaseFireStoreService extends DatabaseService {
 
   String seperator = "_";
 
-//User:
+  //User:
   @override
   Future insertUser(
       {required String emailID,
@@ -167,7 +200,7 @@ class DatabaseFireStoreService extends DatabaseService {
         .snapshots();
   }
 
-  //Dogs:
+  //Dog:
   @override
   Stream<List<DogModel>> getAllDogs({required String emailID}) {
     Stream<QuerySnapshot> stream =
@@ -204,6 +237,47 @@ class DatabaseFireStoreService extends DatabaseService {
               doc.get('dogs'),
             ))
         .toList());
+  }
+
+  @override
+  Future<ActionDateModel> getActionDateWithID(
+      {required String actionID}) async {
+    DocumentSnapshot<Object?> doc =
+        await _actionDateCollection.doc(actionID).get();
+    return ActionDateModel(
+      actionID,
+      doc.get('emailID'),
+      doc.get('title'),
+      doc.get('description'),
+      doc.get('begin'),
+      doc.get('end'),
+      doc.get('users'),
+      doc.get('dogs'),
+    );
+  }
+
+  @override
+  Future deleteActionDateWithID({required String actionID}) async {
+    await _actionDateCollection.doc(actionID).delete();
+  }
+
+  @override
+  Future updateActionDateWithID(
+      {required String actionID,
+      required String title,
+      required String description,
+      required Timestamp begin,
+      required Timestamp end,
+      required List<dynamic> users,
+      required List<dynamic> dogs}) async {
+    await _actionDateCollection.doc(actionID).update({
+      'title': title,
+      'description': description,
+      'begin': begin,
+      'end': end,
+      'users': users,
+      'dogs': dogs
+    });
   }
 
   @override
@@ -251,8 +325,35 @@ class DatabaseFireStoreService extends DatabaseService {
       {required String actionID}) async {
     DocumentSnapshot<Object?> doc =
         await _actionAbnormalityCollection.doc(actionID).get();
-    return ActionAbnormalityModel(actionID, doc.get('emailID'),
-        doc.get('title'), doc.get('description'), doc.get('dog'), doc.get('emotionalState'));
+    return ActionAbnormalityModel(
+        actionID,
+        doc.get('emailID'),
+        doc.get('title'),
+        doc.get('description'),
+        doc.get('dog'),
+        doc.get('emotionalState'));
+  }
+
+  @override
+  Future deleteActionAbnormalityWithID(
+      {required String actionID}) async {
+        await _actionAbnormalityCollection.doc(actionID).delete();
+  }
+
+  @override
+  Future updateActionAbnormalityWithID({
+      required String actionID,
+      required String title,
+      required String description,
+      required String dog,
+      required int emotionalState
+  }) async {
+    await _actionAbnormalityCollection.doc(actionID).update({
+      'title': title,
+      'description': description,
+      'dog': dog,
+      'emotionalState': emotionalState
+    });
   }
 
   @override
@@ -290,6 +391,44 @@ class DatabaseFireStoreService extends DatabaseService {
   }
 
   @override
+  Future<ActionTaskModel> getActionTaskWithID(
+      {required String actionID}) async {
+    DocumentSnapshot<Object?> doc =
+        await _actionTaskCollection.doc(actionID).get();
+    return ActionTaskModel(
+      actionID,
+      doc.get('emailID'),
+      doc.get('title'),
+      doc.get('description'),
+      doc.get('users'),
+        doc.get('dogs'),
+      );
+    }
+      
+      
+  @override
+  Future deleteActionTaskWithID(
+      {required String actionID}) async {
+        await _actionTaskCollection.doc(actionID).delete();
+  }
+
+  @override
+  Future updateActionTaskWithID({
+    required String actionID,
+    required String title,
+    required String description,
+    required List<dynamic> users,
+    required List<dynamic> dogs
+  }) async {
+    await _actionTaskCollection.doc(actionID).update({
+      'title': title,
+      'description': description,
+      'users': users,
+      'dogs': dogs
+    });
+  }
+
+  @override
   Future insertActionTask(
       {required String emailID,
       required String title,
@@ -323,6 +462,43 @@ class DatabaseFireStoreService extends DatabaseService {
               doc.get('dogs'),
             ))
         .toList());
+  }
+
+  @override
+  Future<ActionWalkingModel> getActionWalkingWithID(
+      {required String actionID}) async {
+    DocumentSnapshot<Object?> doc =
+        await _actionWalkingCollection.doc(actionID).get();
+    return ActionWalkingModel(
+      actionID,
+      doc.get('emailID'),
+      doc.get('begin'),
+      doc.get('end'),
+      doc.get('users'),
+      doc.get('dogs'),
+    );
+  }
+
+  @override
+  Future deleteActionWalkingWithID(
+      {required String actionID}) async {
+        await _actionWalkingCollection.doc(actionID).delete();
+  }
+
+  @override
+  Future updateActionWalkingWithID({
+    required String actionID,
+    required Timestamp begin,
+    required Timestamp end,
+    required List<dynamic> users,
+    required List<dynamic> dogs
+  }) async {
+    await _actionWalkingCollection.doc(actionID).update({
+      'begin': begin,
+      'end': end,
+      'users': users,
+      'dogs': dogs
+    });
   }
 
   @override

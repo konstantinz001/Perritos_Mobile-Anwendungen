@@ -131,13 +131,15 @@ class HomeView extends ConsumerWidget {
                                               value: "",
                                               label: action.title,
                                               onPressed: () {
+                                               controller.selectActionType(
+                                                        ActionType.task);
                                                 controller
                                                     .changeCurrentActionId(
-                                                        action.actionID);
-                                                controller.selectActionType(
-                                                    ActionType.task);
-                                                controller.switchHomeScreen(
-                                                    HomeScreen.editAction);
+                                                        action.actionID).then((value) => {
+                                                        controller.switchHomeScreen(
+                                                            HomeScreen.editAction)                                                        
+                                                        }                                                      
+                                                  );
                                               },
                                             )
                                         ]);
@@ -180,13 +182,15 @@ class HomeView extends ConsumerWidget {
                                                   '${DateFormat("dd.mm.yyyy hh:mm").format(action.begin.toDate())} bis ${DateFormat("dd.mm.yyyy hh:mm").format(action.end.toDate())}',
                                               label: action.title,
                                               onPressed: () {
+                                               controller.selectActionType(
+                                                        ActionType.date);
                                                 controller
                                                     .changeCurrentActionId(
-                                                        action.actionID);
-                                                controller.selectActionType(
-                                                    ActionType.date);
-                                                controller.switchHomeScreen(
-                                                    HomeScreen.editAction);
+                                                        action.actionID).then((value) => {
+                                                        controller.switchHomeScreen(
+                                                            HomeScreen.editAction)                                                        
+                                                        }                                                      
+                                                  );
                                               },
                                             )
                                         ]);
@@ -233,13 +237,15 @@ class HomeView extends ConsumerWidget {
                                               value: '',
                                               label: action.title,
                                               onPressed: () {
+                                               controller.selectActionType(
+                                                        ActionType.abnormality);
                                                 controller
                                                     .changeCurrentActionId(
-                                                        action.actionID);
-                                                controller.selectActionType(
-                                                    ActionType.abnormality);
-                                                controller.switchHomeScreen(
-                                                    HomeScreen.editAction);
+                                                        action.actionID).then((value) => {
+                                                        controller.switchHomeScreen(
+                                                            HomeScreen.editAction)                                                        
+                                                        }                                                      
+                                                  );
                                               },
                                             )
                                         ]);
@@ -807,7 +813,7 @@ class HomeView extends ConsumerWidget {
                           left: 10,
                           top: 60,
                           right: 10,
-                          bottom: 60,
+                          bottom: 20,
                         ),
                         child: Column(
                             mainAxisAlignment: MainAxisAlignment.start,
@@ -855,54 +861,28 @@ class HomeView extends ConsumerWidget {
                                                   ActionType.walking
                                               ? Column(
                                                   children: [
-                                                    FutureBuilder(
-                                                        future: controller
-                                                            .loadActionAbnormalityById(
-                                                                model
-                                                                    .currentActionId),
-                                                        builder: (BuildContext
-                                                                context,
-                                                            AsyncSnapshot<
-                                                                    ActionAbnormalityModel>
-                                                                snapshot) {
-                                                          if (snapshot
-                                                                  .connectionState ==
-                                                              ConnectionState
-                                                                  .waiting) {
-                                                            return const SizedBox();
-                                                          } else {
-                                                            if (snapshot
-                                                                .hasError) {
-                                                              return Text(
-                                                                'Error: ${snapshot.error}',
-                                                                style:
-                                                                    perritosParagonError,
-                                                              );
-                                                            } else {
-                                                              return PerritosTxtInput(
-                                                                  label: "Titel",
-                                                                  initialValue:
-                                                                      snapshot.data!
-                                                                          .title,
+                                                  PerritosTxtInput(
+                                                                  label:
+                                                                      "Titel",
+                                                                  initialValue: model.title,
                                                                   onSubmit:
                                                                       (title) =>
                                                                           {
                                                                             controller.changeTitle(title)
-                                                                          });
-                                                            }
-                                                          }
-                                                        }),
+                                                    }),
                                                     const SizedBox(
                                                       height: 20,
                                                     ),
                                                     PerritosDescriptionInput(
-                                                        label: "Beschreibung",
-                                                        onSubmit:
-                                                            (description) => {
-                                                                  controller
-                                                                      .changeDescription(
-                                                                          description)
-                                                                }),
+                                                                  label:
+                                                                      "Beschreibung",
+                                                                  initialValue:
+                                                                      model.description,
+                                                                  onSubmit:
+                                                                      (description) =>
+                                                                          {
+                                                                            controller.changeDescription(description)
+                                                    }),
                                                     const SizedBox(
                                                       height: 20,
                                                     ),
@@ -940,7 +920,7 @@ class HomeView extends ConsumerWidget {
                                                             .changeEmotionalState(
                                                                 emotionalState);
                                                       },
-                                                    )
+                                                    ),
                                                   ],
                                                 )
                                               : const SizedBox(),
@@ -1231,7 +1211,58 @@ class HomeView extends ConsumerWidget {
                                         ],
                                       ))),
                               PerritosButton(
-                                  onPressed: () => {}, label: "bearbeiten")
+                                  onPressed: () => {
+                                        controller
+                                            .updateAction()
+                                            .then((m) => {
+                                                  controller.resetActionData(),
+                                                  controller.switchHomeScreen(
+                                                      HomeScreen.overview)
+                                                })
+                                            .catchError((e) => {
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(SnackBar(
+                                                          content: Text(
+                                                              'Bearbeitung der Aktion ist fehlgeschlagen :(',
+                                                              style:
+                                                                  perritosDoublePica),
+                                                          backgroundColor:
+                                                              perritosBurntSienna))
+                                                })
+                                  }, label: "bearbeiten"),
+                                const SizedBox(
+                                  height: 10
+                                ),
+                                Row(
+                                  children: [
+                                    const Spacer(),
+                                    PerritosIconButton(
+                                      label:"löschen",
+                                      onPressed: ()=>{
+                                        controller
+                                        .deleteAction()
+                                        .then((m) => {
+                                              controller.resetActionData(),
+                                              controller.switchHomeScreen(
+                                                  HomeScreen.overview)
+                                            })
+                                        .catchError((e) => {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(SnackBar(
+                                                      content: Text(
+                                                          'Löschen der Aktion ist fehlgeschlagen :(',
+                                                          style:
+                                                              perritosDoublePica),
+                                                      backgroundColor:
+                                                          perritosBurntSienna))
+                                            })                                   
+                                      }, 
+                                      icon: PerritosIcons.Icon_Remove
+                                    ),
+                                    const Spacer()                                    
+                                  ],
+                                )
+
                             ])));
   }
 }
@@ -1241,7 +1272,7 @@ abstract class HomeController extends StateNotifier<HomeModel> {
   void changeSearchString(String searchString);
   void switchHomeScreen(HomeScreen homeScreen);
   void selectActionType(ActionType actionType);
-  void changeCurrentActionId(String actionId);
+  Future changeCurrentActionId(String actionId);
   void changeTitle(String title);
   void changeDescription(String description);
   void addUser(String user);
@@ -1255,10 +1286,11 @@ abstract class HomeController extends StateNotifier<HomeModel> {
   void changeEndTime(TimeOfDay endTime);
   void resetActionData();
   Future createAction();
+  Future updateAction();
+  Future deleteAction();
   Future<List<UserModel>> loadUsersFromDB();
   Future<List<DogModel>> loadDogsFromDB();
   Future<List<ActionDateModel>> loadActionDatesFromDB();
   Future<List<ActionTaskModel>> loadActionTasksFromDB();
   Future<List<ActionAbnormalityModel>> loadActionAbnormalitiesFromDB();
-  Future<ActionAbnormalityModel> loadActionAbnormalityById(actionID);
 }

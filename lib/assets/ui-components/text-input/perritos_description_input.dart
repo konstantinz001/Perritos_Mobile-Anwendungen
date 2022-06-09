@@ -5,16 +5,18 @@ import 'package:flutter_application/assets/styles/perritos-fonts.dart';
 
 class PerritosDescriptionInput extends StatefulWidget {
 
-  const PerritosDescriptionInput ({
+  PerritosDescriptionInput ({
     Key? key,
     this.label = "",
     this.hintTxt = "",
     this.width = double.infinity,
+    this.initialValue = "",
     required this.onSubmit
   }) : super(key:key);
 
   final String hintTxt;
   final String label;
+  String initialValue;
   final double width;
   final Function(String) onSubmit;
 
@@ -28,7 +30,6 @@ class _PerritosDescriptionInputState
     extends State<PerritosDescriptionInput> {
 
   late FocusNode myFocusNode;
-  final myController = TextEditingController();
   String enteredText = "";
 
   @override
@@ -45,7 +46,6 @@ class _PerritosDescriptionInputState
   @override
   void dispose() {
     myFocusNode.dispose();
-    myController.dispose();
     super.dispose();
   }
 
@@ -77,12 +77,12 @@ class _PerritosDescriptionInputState
             const SizedBox(width: 20)
           ],),
           TextFormField(
+            initialValue: widget.initialValue,
             style: perritosDoublePica,
             maxLength: 168,
             maxLines: 5,
             onFieldSubmitted: widget.onSubmit,
             onChanged: widget.onSubmit,
-            controller: myController,
             focusNode: myFocusNode,
             decoration: InputDecoration(
               enabledBorder: OutlineInputBorder(
