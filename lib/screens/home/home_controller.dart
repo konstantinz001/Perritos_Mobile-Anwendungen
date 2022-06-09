@@ -11,7 +11,7 @@ import 'package:flutter_application/common/models/dog_model.dart';
 
 const userName = "Alex";
 const dogName = "dog1";
-const email = "test@gmail.com";
+const email = "hallo@gmx.com";
 
 class HomeImplmentation extends HomeController {
   final DatabaseService _databaseService;
@@ -274,5 +274,16 @@ class HomeImplmentation extends HomeController {
   @override
   void changeEndTime(TimeOfDay endTime) {
     state = state.copyWith(endTime: endTime);
+  }
+
+  @override
+  void changeCurrentActionId(String actionId) {
+    state = state.copyWith(currentActionId: actionId);
+  }
+
+  @override
+  Future<ActionAbnormalityModel> loadActionAbnormalityById(
+      actionID) async {
+    return _databaseService.getActionAbnormalityWithID(actionID: actionID);
   }
 }

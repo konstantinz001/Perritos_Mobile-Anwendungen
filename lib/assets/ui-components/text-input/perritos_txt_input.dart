@@ -4,13 +4,14 @@ import '../../styles/perritos-colors.dart';
 import '../../styles/perritos-fonts.dart';
 
 class PerritosTxtInput extends StatefulWidget {
-  const PerritosTxtInput(
+  PerritosTxtInput(
       {Key? key,
       this.hintTxt = "",
       this.label = "",
       this.optlabel = "",
       this.width = double.infinity,
       this.password = false,
+      this.initialValue = "",
       required this.onSubmit})
       : super(key: key);
 
@@ -19,6 +20,7 @@ class PerritosTxtInput extends StatefulWidget {
   final String optlabel;
   final double width;
   final bool password;
+  String initialValue;
   final Function(String) onSubmit;
 
   @override
@@ -27,7 +29,6 @@ class PerritosTxtInput extends StatefulWidget {
 
 class _PerritosTxtInputState extends State<PerritosTxtInput> {
   late FocusNode myFocusNode;
-  final myController = TextEditingController();
   String result = "";
 
   @override
@@ -44,7 +45,6 @@ class _PerritosTxtInputState extends State<PerritosTxtInput> {
   @override
   void dispose() {
     myFocusNode.dispose();
-    myController.dispose();
     super.dispose();
   }
 
@@ -78,6 +78,7 @@ class _PerritosTxtInputState extends State<PerritosTxtInput> {
               const SizedBox(width: 20)
             ]),
             TextFormField(
+              initialValue: widget.initialValue,
               obscureText: widget.password,
               enableSuggestions: !widget.password,
               autocorrect: false,
@@ -85,7 +86,6 @@ class _PerritosTxtInputState extends State<PerritosTxtInput> {
               style: perritosDoublePica,
               onFieldSubmitted: widget.onSubmit,
               onChanged: widget.onSubmit,
-              controller: myController,
               focusNode: myFocusNode,
               decoration: InputDecoration(
                   enabledBorder: OutlineInputBorder(

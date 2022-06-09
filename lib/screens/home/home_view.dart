@@ -130,7 +130,15 @@ class HomeView extends ConsumerWidget {
                                               icon: PerritosIcons.Icon_Task,
                                               value: "",
                                               label: action.title,
-                                              onPressed: () {},
+                                              onPressed: () {
+                                                controller
+                                                    .changeCurrentActionId(
+                                                        action.actionID);
+                                                controller.selectActionType(
+                                                    ActionType.task);
+                                                controller.switchHomeScreen(
+                                                    HomeScreen.editAction);
+                                              },
                                             )
                                         ]);
                                 }
@@ -160,7 +168,7 @@ class HomeView extends ConsumerWidget {
                                 } else {
                                   return snapshot.data?.length == 0
                                       ? Text(
-                                          'Es gibt keine Aufgaben für dich :)',
+                                          'Es gibt keine Termine für dich :)',
                                           style: perritosParagonOpacity,
                                         )
                                       : Column(children: [
@@ -171,7 +179,15 @@ class HomeView extends ConsumerWidget {
                                               value:
                                                   '${DateFormat("dd.mm.yyyy hh:mm").format(action.begin.toDate())} bis ${DateFormat("dd.mm.yyyy hh:mm").format(action.end.toDate())}',
                                               label: action.title,
-                                              onPressed: () {},
+                                              onPressed: () {
+                                                controller
+                                                    .changeCurrentActionId(
+                                                        action.actionID);
+                                                controller.selectActionType(
+                                                    ActionType.date);
+                                                controller.switchHomeScreen(
+                                                    HomeScreen.editAction);
+                                              },
                                             )
                                         ]);
                                 }
@@ -216,7 +232,15 @@ class HomeView extends ConsumerWidget {
                                                       .Icon_Smiley_Sad,
                                               value: '',
                                               label: action.title,
-                                              onPressed: () {},
+                                              onPressed: () {
+                                                controller
+                                                    .changeCurrentActionId(
+                                                        action.actionID);
+                                                controller.selectActionType(
+                                                    ActionType.abnormality);
+                                                controller.switchHomeScreen(
+                                                    HomeScreen.editAction);
+                                              },
                                             )
                                         ]);
                                 }
@@ -501,30 +525,40 @@ class HomeView extends ConsumerWidget {
                                                           spacing: 10,
                                                           children: [
                                                             PerritosDateTimePicker(
-                                                              initDate: model.beginDate,
-                                                              initTime: model.beginTime,
-                                                              onSubmitDate: (date) => {
-                                                                controller.changeBeginDate(date)
-                                                              }, 
-                                                              onSubmitTime: (time) => {
-                                                                controller.changeBeginTime(time)
-                                                              }
-                                                            ),
+                                                                initDate: model
+                                                                    .beginDate,
+                                                                initTime: model
+                                                                    .beginTime,
+                                                                onSubmitDate:
+                                                                    (date) => {
+                                                                          controller
+                                                                              .changeBeginDate(date)
+                                                                        },
+                                                                onSubmitTime:
+                                                                    (time) => {
+                                                                          controller
+                                                                              .changeBeginTime(time)
+                                                                        }),
                                                             Text(
                                                               '-',
                                                               style:
                                                                   perritosParagon,
                                                             ),
                                                             PerritosDateTimePicker(
-                                                              initDate: model.endDate,
-                                                              initTime: model.endTime,
-                                                              onSubmitDate: (date) => {
-                                                                controller.changeEndDate(date)
-                                                              }, 
-                                                              onSubmitTime: (time) => {
-                                                                controller.changeEndTime(time)
-                                                              }                                                             
-                                                            )
+                                                                initDate: model
+                                                                    .endDate,
+                                                                initTime: model
+                                                                    .endTime,
+                                                                onSubmitDate:
+                                                                    (date) => {
+                                                                          controller
+                                                                              .changeEndDate(date)
+                                                                        },
+                                                                onSubmitTime:
+                                                                    (time) => {
+                                                                          controller
+                                                                              .changeEndTime(time)
+                                                                        })
                                                           ],
                                                         )
                                                       ],
@@ -766,7 +800,439 @@ class HomeView extends ConsumerWidget {
                                       },
                                   label: "erstellen")
                             ])))
-                : const Text("Hi :)");
+                : Scaffold(
+                    backgroundColor: PerritosColor.perritosSnow.color,
+                    body: Padding(
+                        padding: const EdgeInsets.only(
+                          left: 10,
+                          top: 60,
+                          right: 10,
+                          bottom: 60,
+                        ),
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const SizedBox(width: 10),
+                                  Expanded(
+                                      child: PerritosIconButton(
+                                          onPressed: () => {
+                                                controller.resetActionData(),
+                                                controller.switchHomeScreen(
+                                                    HomeScreen.overview)
+                                              },
+                                          iconSize: 40,
+                                          icon: PerritosIcons.Icon_Arrow_Left)),
+                                  Text(
+                                    model.selectedActionType ==
+                                            ActionType.abnormality
+                                        ? 'Auffälligkeit'
+                                        : model.selectedActionType ==
+                                                ActionType.date
+                                            ? 'Termin'
+                                            : model.selectedActionType ==
+                                                    ActionType.task
+                                                ? 'Aufgabe'
+                                                : 'Gassigang',
+                                    style: perritosDoubleParagon,
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  const Spacer()
+                                ],
+                              ),
+                              Expanded(
+                                  child: SingleChildScrollView(
+                                      physics: const ScrollPhysics(),
+                                      child: Column(
+                                        children: [
+                                          const SizedBox(
+                                            height: 20,
+                                          ),
+                                          model.selectedActionType !=
+                                                  ActionType.walking
+                                              ? Column(
+                                                  children: [
+                                                    FutureBuilder(
+                                                        future: controller
+                                                            .loadActionAbnormalityById(
+                                                                model
+                                                                    .currentActionId),
+                                                        builder: (BuildContext
+                                                                context,
+                                                            AsyncSnapshot<
+                                                                    ActionAbnormalityModel>
+                                                                snapshot) {
+                                                          if (snapshot
+                                                                  .connectionState ==
+                                                              ConnectionState
+                                                                  .waiting) {
+                                                            return const SizedBox();
+                                                          } else {
+                                                            if (snapshot
+                                                                .hasError) {
+                                                              return Text(
+                                                                'Error: ${snapshot.error}',
+                                                                style:
+                                                                    perritosParagonError,
+                                                              );
+                                                            } else {
+                                                              return PerritosTxtInput(
+                                                                  label: "Titel",
+                                                                  initialValue:
+                                                                      snapshot.data!
+                                                                          .title,
+                                                                  onSubmit:
+                                                                      (title) =>
+                                                                          {
+                                                                            controller.changeTitle(title)
+                                                                          });
+                                                            }
+                                                          }
+                                                        }),
+                                                    const SizedBox(
+                                                      height: 20,
+                                                    ),
+                                                    PerritosDescriptionInput(
+                                                        label: "Beschreibung",
+                                                        onSubmit:
+                                                            (description) => {
+                                                                  controller
+                                                                      .changeDescription(
+                                                                          description)
+                                                                }),
+                                                    const SizedBox(
+                                                      height: 20,
+                                                    ),
+                                                  ],
+                                                )
+                                              : const SizedBox(),
+                                          model.selectedActionType ==
+                                                  ActionType.abnormality
+                                              ? Column(
+                                                  children: [
+                                                    Row(
+                                                      children: [
+                                                        const SizedBox(
+                                                          width: 20,
+                                                        ),
+                                                        Text(
+                                                          "Gefühlslage:",
+                                                          style:
+                                                              perritosParagonOpacity,
+                                                          textAlign:
+                                                              TextAlign.left,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 10,
+                                                    ),
+                                                    PerritosSlider(
+                                                      value: model
+                                                          .emotionalState
+                                                          .toDouble(),
+                                                      onSubmit:
+                                                          (emotionalState) {
+                                                        controller
+                                                            .changeEmotionalState(
+                                                                emotionalState);
+                                                      },
+                                                    )
+                                                  ],
+                                                )
+                                              : const SizedBox(),
+                                          model.selectedActionType ==
+                                                      ActionType.date ||
+                                                  model.selectedActionType ==
+                                                      ActionType.walking
+                                              ? Column(
+                                                  children: [
+                                                    Row(
+                                                      children: [
+                                                        const SizedBox(
+                                                          width: 20,
+                                                        ),
+                                                        Text(
+                                                          "Beginn/Ende:",
+                                                          style:
+                                                              perritosParagonOpacity,
+                                                          textAlign:
+                                                              TextAlign.left,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 10,
+                                                    ),
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Wrap(
+                                                          runSpacing: 10,
+                                                          spacing: 10,
+                                                          children: [
+                                                            PerritosDateTimePicker(
+                                                                initDate: model
+                                                                    .beginDate,
+                                                                initTime: model
+                                                                    .beginTime,
+                                                                onSubmitDate:
+                                                                    (date) => {
+                                                                          controller
+                                                                              .changeBeginDate(date)
+                                                                        },
+                                                                onSubmitTime:
+                                                                    (time) => {
+                                                                          controller
+                                                                              .changeBeginTime(time)
+                                                                        }),
+                                                            Text(
+                                                              '-',
+                                                              style:
+                                                                  perritosParagon,
+                                                            ),
+                                                            PerritosDateTimePicker(
+                                                                initDate: model
+                                                                    .endDate,
+                                                                initTime: model
+                                                                    .endTime,
+                                                                onSubmitDate:
+                                                                    (date) => {
+                                                                          controller
+                                                                              .changeEndDate(date)
+                                                                        },
+                                                                onSubmitTime:
+                                                                    (time) => {
+                                                                          controller
+                                                                              .changeEndTime(time)
+                                                                        })
+                                                          ],
+                                                        )
+                                                      ],
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 20,
+                                                    )
+                                                  ],
+                                                )
+                                              : const SizedBox(),
+                                          model.selectedActionType !=
+                                                  ActionType.abnormality
+                                              ? Column(
+                                                  children: [
+                                                    Row(
+                                                      children: [
+                                                        const SizedBox(
+                                                          width: 20,
+                                                        ),
+                                                        Text(
+                                                          "Benutzer:",
+                                                          style:
+                                                              perritosParagonOpacity,
+                                                          textAlign:
+                                                              TextAlign.left,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 10,
+                                                    ),
+                                                    FutureBuilder(
+                                                        future: controller
+                                                            .loadUsersFromDB(),
+                                                        builder: (BuildContext
+                                                                context,
+                                                            AsyncSnapshot<
+                                                                    List<
+                                                                        UserModel>>
+                                                                snapshot) {
+                                                          if (snapshot
+                                                                  .connectionState ==
+                                                              ConnectionState
+                                                                  .waiting) {
+                                                            return Text(
+                                                              'Einen Augenblick bitte...',
+                                                              style:
+                                                                  perritosParagonOpacity,
+                                                            );
+                                                          } else {
+                                                            if (snapshot
+                                                                .hasError) {
+                                                              return Text(
+                                                                'Error: ${snapshot.error}',
+                                                                style:
+                                                                    perritosParagonError,
+                                                              );
+                                                            } else {
+                                                              return snapshot
+                                                                          .data
+                                                                          ?.length ==
+                                                                      0
+                                                                  ? Text(
+                                                                      'Keine Benutzer vorhanden :(',
+                                                                      style:
+                                                                          perritosParagonOpacity,
+                                                                    )
+                                                                  : Row(
+                                                                      mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .start,
+                                                                      children: [
+                                                                        Flexible(
+                                                                            child:
+                                                                                Wrap(
+                                                                          runSpacing:
+                                                                              10,
+                                                                          spacing:
+                                                                              10,
+                                                                          children: [
+                                                                            for (var user
+                                                                                in snapshot.data ?? [])
+                                                                              PerritosChip(
+                                                                                  disabled: !user.selected,
+                                                                                  label: user.name,
+                                                                                  color: user.iconColor == 'perritosBurntSienna'
+                                                                                      ? PerritosColor.perritosBurntSienna
+                                                                                      : user.iconColor == 'perritosGoldFusion'
+                                                                                          ? PerritosColor.perritosGoldFusion
+                                                                                          : user.iconColor == 'perritosMaizeCrayola'
+                                                                                              ? PerritosColor.perritosMaizeCrayola
+                                                                                              : user.iconColor == 'perritosSandyBrown'
+                                                                                                  ? PerritosColor.perritosSandyBrown
+                                                                                                  : PerritosColor.perritosCharcoal,
+                                                                                  onPressed: () => {
+                                                                                        if (user.selected)
+                                                                                          {
+                                                                                            controller.removeUser(user.name)
+                                                                                          }
+                                                                                        else
+                                                                                          {
+                                                                                            controller.addUser(user.name)
+                                                                                          }
+                                                                                      }),
+                                                                          ],
+                                                                        ))
+                                                                      ],
+                                                                    );
+                                                            }
+                                                          }
+                                                        }),
+                                                    const SizedBox(
+                                                      height: 20,
+                                                    ),
+                                                    Row(
+                                                      children: [
+                                                        const SizedBox(
+                                                          width: 20,
+                                                        ),
+                                                        Text(
+                                                          "Hunde:",
+                                                          style:
+                                                              perritosParagonOpacity,
+                                                          textAlign:
+                                                              TextAlign.left,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 10,
+                                                    ),
+                                                    FutureBuilder(
+                                                        future: controller
+                                                            .loadDogsFromDB(),
+                                                        builder: (BuildContext
+                                                                context,
+                                                            AsyncSnapshot<
+                                                                    List<
+                                                                        DogModel>>
+                                                                snapshot) {
+                                                          if (snapshot
+                                                                  .connectionState ==
+                                                              ConnectionState
+                                                                  .waiting) {
+                                                            return Text(
+                                                              'Einen Augenblick bitte...',
+                                                              style:
+                                                                  perritosParagonOpacity,
+                                                            );
+                                                          } else {
+                                                            if (snapshot
+                                                                .hasError) {
+                                                              return Text(
+                                                                'Error: ${snapshot.error}',
+                                                                style:
+                                                                    perritosParagonError,
+                                                              );
+                                                            } else {
+                                                              return snapshot
+                                                                          .data
+                                                                          ?.length ==
+                                                                      0
+                                                                  ? Text(
+                                                                      'Keine Hunde vorhanden :(',
+                                                                      style:
+                                                                          perritosParagonOpacity,
+                                                                    )
+                                                                  : Row(
+                                                                      mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .start,
+                                                                      children: [
+                                                                        Flexible(
+                                                                            child:
+                                                                                Wrap(
+                                                                          runSpacing:
+                                                                              10,
+                                                                          spacing:
+                                                                              10,
+                                                                          children: [
+                                                                            for (var dog
+                                                                                in snapshot.data ?? [])
+                                                                              PerritosChip(
+                                                                                  disabled: !dog.selected,
+                                                                                  label: dog.name,
+                                                                                  color: dog.iconColor == 'perritosBurntSienna'
+                                                                                      ? PerritosColor.perritosBurntSienna
+                                                                                      : dog.iconColor == 'perritosGoldFusion'
+                                                                                          ? PerritosColor.perritosGoldFusion
+                                                                                          : dog.iconColor == 'perritosMaizeCrayola'
+                                                                                              ? PerritosColor.perritosMaizeCrayola
+                                                                                              : dog.iconColor == 'perritosSandyBrown'
+                                                                                                  ? PerritosColor.perritosSandyBrown
+                                                                                                  : PerritosColor.perritosCharcoal,
+                                                                                  onPressed: () => {
+                                                                                        if (dog.selected)
+                                                                                          {
+                                                                                            controller.removeDog(dog.name)
+                                                                                          }
+                                                                                        else
+                                                                                          {
+                                                                                            controller.addDog(dog.name)
+                                                                                          }
+                                                                                      }),
+                                                                          ],
+                                                                        ))
+                                                                      ],
+                                                                    );
+                                                            }
+                                                          }
+                                                        }),
+                                                    const SizedBox(
+                                                      height: 20,
+                                                    ),
+                                                  ],
+                                                )
+                                              : const SizedBox()
+                                        ],
+                                      ))),
+                              PerritosButton(
+                                  onPressed: () => {}, label: "bearbeiten")
+                            ])));
   }
 }
 
@@ -775,6 +1241,7 @@ abstract class HomeController extends StateNotifier<HomeModel> {
   void changeSearchString(String searchString);
   void switchHomeScreen(HomeScreen homeScreen);
   void selectActionType(ActionType actionType);
+  void changeCurrentActionId(String actionId);
   void changeTitle(String title);
   void changeDescription(String description);
   void addUser(String user);
@@ -793,4 +1260,5 @@ abstract class HomeController extends StateNotifier<HomeModel> {
   Future<List<ActionDateModel>> loadActionDatesFromDB();
   Future<List<ActionTaskModel>> loadActionTasksFromDB();
   Future<List<ActionAbnormalityModel>> loadActionAbnormalitiesFromDB();
+  Future<ActionAbnormalityModel> loadActionAbnormalityById(actionID);
 }

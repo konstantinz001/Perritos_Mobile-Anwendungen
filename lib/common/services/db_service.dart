@@ -34,46 +34,43 @@ abstract class DatabaseService {
 
   //ActionDate:
   Stream getAllActionDates({required String emailID});
-  Future insertActionDate({
-    required String emailID,
-    required String title,
-    required String description,
-    required Timestamp begin,
-    required Timestamp end,
-    required List<dynamic> users,
-    required List<dynamic> dogs
-  });
+  Future insertActionDate(
+      {required String emailID,
+      required String title,
+      required String description,
+      required Timestamp begin,
+      required Timestamp end,
+      required List<dynamic> users,
+      required List<dynamic> dogs});
 
   //ActionAbnormality:
   Stream getAllActionAbnormalities({required String emailID});
-  Future insertActionAbnormaility({
-    required String emailID,
-    required String title,
-    required String description,
-    required String dog,
-    required int emotionalState
-  });
+  Future<ActionAbnormalityModel> getActionAbnormalityWithID(
+      {required String actionID});
+  Future insertActionAbnormaility(
+      {required String emailID,
+      required String title,
+      required String description,
+      required String dog,
+      required int emotionalState});
 
   //ActionTask:
   Stream getAllActionTasks({required String emailID});
-  Future insertActionTask({
-    required String emailID,
-    required String title,
-    required String description,
-    required List<dynamic> users,
-    required List<dynamic> dogs
-  });
+  Future insertActionTask(
+      {required String emailID,
+      required String title,
+      required String description,
+      required List<dynamic> users,
+      required List<dynamic> dogs});
 
   //ActionWalking:
   Stream getAllActionWalkings({required String emailID});
-  Future insertActionWalking({
-    required String emailID,
-    required Timestamp begin,
-    required Timestamp end,
-    required List<dynamic> users,
-    required List<dynamic> dogs
-  });
-
+  Future insertActionWalking(
+      {required String emailID,
+      required Timestamp begin,
+      required Timestamp end,
+      required List<dynamic> users,
+      required List<dynamic> dogs});
 }
 
 class DatabaseFireStoreService extends DatabaseService {
@@ -178,15 +175,14 @@ class DatabaseFireStoreService extends DatabaseService {
 
     return stream.map((qShot) => qShot.docs
         .map((doc) => DogModel(
-          doc.get('emailID'), 
-          doc.get('name'), 
-          false,
-          doc.get('iconName'), 
-          doc.get('iconColor'),
-          doc.get('breed'),
-          doc.get('birthday'),
-          doc.get('info')
-        ))
+            doc.get('emailID'),
+            doc.get('name'),
+            false,
+            doc.get('iconName'),
+            doc.get('iconColor'),
+            doc.get('breed'),
+            doc.get('birthday'),
+            doc.get('info')))
         .toList());
   }
 
@@ -211,23 +207,22 @@ class DatabaseFireStoreService extends DatabaseService {
   }
 
   @override
-  Future insertActionDate({    
-    required String emailID,
-    required String title,
-    required String description,
-    required Timestamp begin,
-    required Timestamp end,
-    required List<dynamic> users,
-    required List<dynamic> dogs
-  }) async{
-     await _actionDateCollection.doc().set({
-        'emailID': emailID,
-        'title': title,
-        'description': description,
-        'begin': begin,
-        'end': end,
-        'users': users,
-        'dogs': dogs
+  Future insertActionDate(
+      {required String emailID,
+      required String title,
+      required String description,
+      required Timestamp begin,
+      required Timestamp end,
+      required List<dynamic> users,
+      required List<dynamic> dogs}) async {
+    await _actionDateCollection.doc().set({
+      'emailID': emailID,
+      'title': title,
+      'description': description,
+      'begin': begin,
+      'end': end,
+      'users': users,
+      'dogs': dogs
     });
   }
 
@@ -252,16 +247,30 @@ class DatabaseFireStoreService extends DatabaseService {
   }
 
   @override
-  Future insertActionAbnormaility({required String emailID, required String title, required String description, required String dog, required int emotionalState}) async{
-     await _actionAbnormalityCollection.doc().set({
-        'emailID': emailID,
-        'title': title,
-        'description': description,
-        'dog': dog,
-        'emotionalState': emotionalState
+  Future<ActionAbnormalityModel> getActionAbnormalityWithID(
+      {required String actionID}) async {
+    DocumentSnapshot<Object?> doc =
+        await _actionAbnormalityCollection.doc(actionID).get();
+    return ActionAbnormalityModel(actionID, doc.get('emailID'),
+        doc.get('title'), doc.get('description'), doc.get('dog'), doc.get('emotionalState'));
+  }
+
+  @override
+  Future insertActionAbnormaility(
+      {required String emailID,
+      required String title,
+      required String description,
+      required String dog,
+      required int emotionalState}) async {
+    await _actionAbnormalityCollection.doc().set({
+      'emailID': emailID,
+      'title': title,
+      'description': description,
+      'dog': dog,
+      'emotionalState': emotionalState
     });
   }
-  
+
   //ActionTask:
   @override
   Stream<List<ActionTaskModel>> getAllActionTasks({required String emailID}) {
@@ -281,19 +290,18 @@ class DatabaseFireStoreService extends DatabaseService {
   }
 
   @override
-  Future insertActionTask({    
-    required String emailID,
-    required String title,
-    required String description,
-    required List<dynamic> users,
-    required List<dynamic> dogs
-  }) async{
-     await _actionTaskCollection.doc().set({
-        'emailID': emailID,
-        'title': title,
-        'description': description,
-        'users': users,
-        'dogs': dogs
+  Future insertActionTask(
+      {required String emailID,
+      required String title,
+      required String description,
+      required List<dynamic> users,
+      required List<dynamic> dogs}) async {
+    await _actionTaskCollection.doc().set({
+      'emailID': emailID,
+      'title': title,
+      'description': description,
+      'users': users,
+      'dogs': dogs
     });
   }
 
@@ -318,19 +326,18 @@ class DatabaseFireStoreService extends DatabaseService {
   }
 
   @override
-  Future insertActionWalking({    
-    required String emailID,
-    required Timestamp begin,
-    required Timestamp end,
-    required List<dynamic> users,
-    required List<dynamic> dogs
-  }) async{
-     await _actionWalkingCollection.doc().set({
-        'emailID': emailID,
-        'begin': begin,
-        'end': end,
-        'users': users,
-        'dogs': dogs
+  Future insertActionWalking(
+      {required String emailID,
+      required Timestamp begin,
+      required Timestamp end,
+      required List<dynamic> users,
+      required List<dynamic> dogs}) async {
+    await _actionWalkingCollection.doc().set({
+      'emailID': emailID,
+      'begin': begin,
+      'end': end,
+      'users': users,
+      'dogs': dogs
     });
   }
 }
