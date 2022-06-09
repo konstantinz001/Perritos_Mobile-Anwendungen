@@ -4,6 +4,7 @@ import 'package:flutter_application/common/models/action_date_model.dart';
 import 'package:flutter_application/common/models/action_task_model.dart';
 import 'package:flutter_application/common/models/action_walking_model.dart';
 import 'package:flutter_application/common/models/user_model.dart';
+import 'package:flutter_application/common/models/dog_model.dart';
 
 abstract class DatabaseService {
   //User:
@@ -27,6 +28,9 @@ abstract class DatabaseService {
   });
   Stream<List<UserModel>> getAllUsers({required String emailID});
   Stream getUser({required String emailID, required String name});
+
+  //Dog:
+  Stream<List<DogModel>> getAllDogs({required String emailID});
 
   //ActionDate:
   Stream getAllActionDates({required String emailID});
@@ -140,6 +144,26 @@ class DatabaseFireStoreService extends DatabaseService {
         .where('emailID', isEqualTo: emailID)
         .where('name', isEqualTo: name)
         .snapshots();
+  }
+
+  //Dogs:
+  @override
+  Stream<List<DogModel>> getAllDogs({required String emailID}) {
+    Stream<QuerySnapshot> stream =
+        _dogCollection.where('emailID', isEqualTo: emailID).snapshots();
+
+    return stream.map((qShot) => qShot.docs
+        .map((doc) => DogModel(
+          doc.get('emailID'), 
+          doc.get('name'), 
+          false,
+          doc.get('iconName'), 
+          doc.get('iconColor'),
+          doc.get('breed'),
+          doc.get('birthday'),
+          doc.get('info')
+        ))
+        .toList());
   }
 
   //ActionDate:

@@ -16,6 +16,8 @@ import 'package:flutter_application/assets/ui-components/text-input/perritos_txt
 import 'package:flutter_application/common/models/action_abnormality_model.dart';
 import 'package:flutter_application/common/models/action_date_model.dart';
 import 'package:flutter_application/common/models/action_task_model.dart';
+import 'package:flutter_application/common/models/user_model.dart';
+import 'package:flutter_application/common/models/dog_model.dart';
 import 'package:flutter_application/common/providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -535,30 +537,65 @@ class HomeView extends ConsumerWidget {
                                                     const SizedBox(
                                                       height: 10,
                                                     ),
-                                                    Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Flexible(
-                                                            child: Wrap(
-                                                          runSpacing: 10,
-                                                          spacing: 10,
-                                                          children: [
-                                                            for (var user
-                                                                in model.users)
-                                                              PerritosChip(
-                                                                  disabled:
-                                                                      true,
-                                                                  label: user,
-                                                                  color: PerritosColor
-                                                                      .perritosBurntSienna,
-                                                                  onPressed:
-                                                                      () => {}),
-                                                          ],
-                                                        ))
-                                                      ],
-                                                    ),
+                                                    FutureBuilder(
+                                                        future: controller
+                                                            .loadUsersFromDB(),
+                                                        builder: (BuildContext
+                                                                context,
+                                                            AsyncSnapshot<
+                                                                    List<
+                                                                        UserModel>>
+                                                                snapshot) {
+                                                          if (snapshot
+                                                                  .connectionState ==
+                                                              ConnectionState
+                                                                  .waiting) {
+                                                            return Text(
+                                                              'Einen Augenblick bitte...',
+                                                              style:
+                                                                  perritosParagonOpacity,
+                                                            );
+                                                          } else {
+                                                            if (snapshot
+                                                                .hasError) {
+                                                              return Text(
+                                                                'Error: ${snapshot.error}',
+                                                                style:
+                                                                    perritosParagonError,
+                                                              );
+                                                            } else {
+                                                              return snapshot
+                                                                          .data
+                                                                          ?.length ==
+                                                                      0
+                                                                  ? Text(
+                                                                      'Keine Benutzer vorhanden :(',
+                                                                      style:
+                                                                          perritosParagonOpacity,
+                                                                    )
+                                                                  : Row(
+                                                                      mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .start,
+                                                                      children: [
+                                                                        Flexible(
+                                                                            child:
+                                                                                Wrap(
+                                                                          runSpacing:
+                                                                              10,
+                                                                          spacing:
+                                                                              10,
+                                                                          children: [
+                                                                            for (var user
+                                                                                in snapshot.data ?? [])
+                                                                              PerritosChip(disabled: true, label: user.name, color: PerritosColor.perritosBurntSienna, onPressed: () => {}),
+                                                                          ],
+                                                                        ))
+                                                                      ],
+                                                                    );
+                                                            }
+                                                          }
+                                                        }),
                                                     const SizedBox(
                                                       height: 20,
                                                     ),
@@ -579,30 +616,65 @@ class HomeView extends ConsumerWidget {
                                                     const SizedBox(
                                                       height: 10,
                                                     ),
-                                                    Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Flexible(
-                                                            child: Wrap(
-                                                          runSpacing: 10,
-                                                          spacing: 10,
-                                                          children: [
-                                                            for (var dog
-                                                                in model.dogs)
-                                                              PerritosChip(
-                                                                  disabled:
-                                                                      true,
-                                                                  label: dog,
-                                                                  color: PerritosColor
-                                                                      .perritosBurntSienna,
-                                                                  onPressed:
-                                                                      () => {}),
-                                                          ],
-                                                        ))
-                                                      ],
-                                                    ),
+                                                    FutureBuilder(
+                                                        future: controller
+                                                            .loadDogsFromDB(),
+                                                        builder: (BuildContext
+                                                                context,
+                                                            AsyncSnapshot<
+                                                                    List<
+                                                                        DogModel>>
+                                                                snapshot) {
+                                                          if (snapshot
+                                                                  .connectionState ==
+                                                              ConnectionState
+                                                                  .waiting) {
+                                                            return Text(
+                                                              'Einen Augenblick bitte...',
+                                                              style:
+                                                                  perritosParagonOpacity,
+                                                            );
+                                                          } else {
+                                                            if (snapshot
+                                                                .hasError) {
+                                                              return Text(
+                                                                'Error: ${snapshot.error}',
+                                                                style:
+                                                                    perritosParagonError,
+                                                              );
+                                                            } else {
+                                                              return snapshot
+                                                                          .data
+                                                                          ?.length ==
+                                                                      0
+                                                                  ? Text(
+                                                                      'Keine Hunde vorhanden :(',
+                                                                      style:
+                                                                          perritosParagonOpacity,
+                                                                    )
+                                                                  : Row(
+                                                                      mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .start,
+                                                                      children: [
+                                                                        Flexible(
+                                                                            child:
+                                                                                Wrap(
+                                                                          runSpacing:
+                                                                              10,
+                                                                          spacing:
+                                                                              10,
+                                                                          children: [
+                                                                            for (var dog
+                                                                                in snapshot.data ?? [])
+                                                                              PerritosChip(disabled: true, label: dog.name, color: PerritosColor.perritosBurntSienna, onPressed: () => {}),
+                                                                          ],
+                                                                        ))
+                                                                      ],
+                                                                    );
+                                                            }
+                                                          }
+                                                        }),
                                                     const SizedBox(
                                                       height: 20,
                                                     ),
@@ -613,24 +685,23 @@ class HomeView extends ConsumerWidget {
                                       ))),
                               PerritosButton(
                                   onPressed: () => {
-                                    controller.createAction().then(
-                                      (m)=>
-                                        {
-                                          controller.switchHomeScreen(HomeScreen.overview)
-                                        }
-                                    ).catchError((e)=>
-                                    {
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(SnackBar(
-                                                  content: Text(
-                                                      'Erstellung der Aktion ist fehlgeschlagen :(',
-                                                      style:
-                                                          perritosDoublePica),
-                                                  backgroundColor:
-                                                      perritosBurntSienna))
-                                        }
-                                      )
-                                    },
+                                        controller
+                                            .createAction()
+                                            .then((m) => {
+                                                  controller.switchHomeScreen(
+                                                      HomeScreen.overview)
+                                                })
+                                            .catchError((e) => {
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(SnackBar(
+                                                          content: Text(
+                                                              'Erstellung der Aktion ist fehlgeschlagen :(',
+                                                              style:
+                                                                  perritosDoublePica),
+                                                          backgroundColor:
+                                                              perritosBurntSienna))
+                                                })
+                                      },
                                   label: "erstellen")
                             ])))
                 : const Text("Hi :)");
@@ -652,6 +723,8 @@ abstract class HomeController extends StateNotifier<HomeModel> {
   void changeBegin(Timestamp begin);
   void changeEnd(Timestamp end);
   Future createAction();
+  Future<List<UserModel>> loadUsersFromDB();
+  Future<List<DogModel>> loadDogsFromDB();
   Future<List<ActionDateModel>> loadActionDatesFromDB();
   Future<List<ActionTaskModel>> loadActionTasksFromDB();
   Future<List<ActionAbnormalityModel>> loadActionAbnormalitiesFromDB();

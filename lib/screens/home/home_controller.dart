@@ -5,6 +5,8 @@ import 'package:flutter_application/common/services/db_service.dart';
 import 'package:flutter_application/common/models/action_date_model.dart';
 import 'home_model.dart';
 import 'home_view.dart';
+import 'package:flutter_application/common/models/user_model.dart';
+import 'package:flutter_application/common/models/dog_model.dart';
 
 const userName = "Alex";
 const dogName = "dog1";
@@ -32,6 +34,24 @@ class HomeImplmentation extends HomeController {
                   begin: Timestamp.now(),
                   end: Timestamp.now()),
         );
+
+  @override
+  Future<List<UserModel>> loadUsersFromDB() async {
+    await for (List<UserModel> users
+        in _databaseService.getAllUsers(emailID: email)) {
+      return users.toList();
+    }
+    return List.empty();
+  }
+
+  @override
+  Future<List<DogModel>> loadDogsFromDB() async {
+    await for (List<DogModel> dogs
+        in _databaseService.getAllDogs(emailID: email)) {
+      return dogs.toList();
+    }
+    return List.empty();
+  }
 
   @override
   Future<List<ActionDateModel>> loadActionDatesFromDB() async {
@@ -151,11 +171,15 @@ class HomeImplmentation extends HomeController {
 
   @override
   Future createAction() async {
-    await _databaseService.insertActionAbnormaility(
-        emailID: email,
-        title: state.title,
-        description: state.description,
-        dog: dogName,
-        emotionalState: state.emotionalState.round());
+    switch (state.selectedActionType) {
+      case ActionType.abnormality:
+        return await _databaseService.insertActionAbnormaility(
+            emailID: email,
+            title: state.title,
+            description: state.description,
+            dog: dogName,
+            emotionalState: state.emotionalState.round());
+    }
+    return null;
   }
 }
