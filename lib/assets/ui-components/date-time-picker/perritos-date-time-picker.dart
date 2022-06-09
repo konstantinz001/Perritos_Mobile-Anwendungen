@@ -105,11 +105,11 @@ class _PerritosDateTimePickerState extends State<PerritosDateTimePicker> {
           onTap: () {
             _selectDate(context);
           },
-          child: Container(
-            width: 100,
-            child: TextFormField(
-              style: perritosDoublePica,
-              textAlign: TextAlign.center,
+          child: IntrinsicWidth(
+            child: 
+            TextFormField(
+              style: perritosParagon,
+              textAlign: TextAlign.start,
               enabled: false,
               keyboardType: TextInputType.text,
               controller: _dateController,
@@ -119,7 +119,7 @@ class _PerritosDateTimePickerState extends State<PerritosDateTimePicker> {
               decoration: InputDecoration(
                   disabledBorder:
                       const UnderlineInputBorder(borderSide: BorderSide.none),
-                  contentPadding: const EdgeInsets.only(top: 0.0),
+                  contentPadding: const EdgeInsets.only(top: 0.0,right: 10, left: 10),
                   filled: true,
                   fillColor:
                       PerritosColor.perritosGoldFusion.color.withOpacity(0.1)),
@@ -133,11 +133,10 @@ class _PerritosDateTimePickerState extends State<PerritosDateTimePicker> {
           onTap: () {
             _selectTime(context);
           },
-          child: Container(
-            width: 100,
+          child: IntrinsicWidth(
             child: TextFormField(
-              style: perritosDoublePica,
-              textAlign: TextAlign.center,
+              style: perritosParagon,
+              textAlign: TextAlign.start,
               onSaved: (String? val) {
                 _setTime = val;
               },
@@ -147,7 +146,7 @@ class _PerritosDateTimePickerState extends State<PerritosDateTimePicker> {
               decoration: InputDecoration(
                   disabledBorder:
                       const UnderlineInputBorder(borderSide: BorderSide.none),
-                  contentPadding: const EdgeInsets.only(top: 0.0),
+                  contentPadding: const EdgeInsets.only(top: 0.0,right: 10, left: 10),
                   filled: true,
                   fillColor:
                       PerritosColor.perritosGoldFusion.color.withOpacity(0.1)),

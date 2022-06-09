@@ -25,7 +25,7 @@ class HomeImplmentation extends HomeController {
                 searchString: "",
                 title: "",
                 description: "",
-                users: [],
+                users: ["user1", "user2", "user3", "user3", "user3", "user3"],
                 dogs: [],
                 emotionalState: 0,
                 begin: Timestamp.now(),

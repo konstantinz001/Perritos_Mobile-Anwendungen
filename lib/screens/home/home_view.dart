@@ -5,8 +5,13 @@ import 'package:flutter_application/assets/styles/perritos-icons/PerritosIcons_i
 import 'package:flutter_application/assets/ui-components/action/perritos-action.dart';
 import 'package:flutter_application/assets/ui-components/buttons/perritos-button.dart';
 import 'package:flutter_application/assets/ui-components/buttons/perritos-icon-button.dart';
+import 'package:flutter_application/assets/ui-components/chips/perritos-chip.dart';
+import 'package:flutter_application/assets/ui-components/date-time-picker/perritos-date-time-picker.dart';
 import 'package:flutter_application/assets/ui-components/navigation/perritos-navigation.dart';
+import 'package:flutter_application/assets/ui-components/slider/perritos-slider.dart';
+import 'package:flutter_application/assets/ui-components/text-input/perritos_description_input.dart';
 import 'package:flutter_application/assets/ui-components/text-input/perritos_search_input.dart';
+import 'package:flutter_application/assets/ui-components/text-input/perritos_txt_input.dart';
 import 'package:flutter_application/common/models/action_abnormality_model.dart';
 import 'package:flutter_application/common/models/action_date_model.dart';
 import 'package:flutter_application/common/models/action_task_model.dart';
@@ -83,12 +88,12 @@ class HomeView extends ConsumerWidget {
                                     }))
                       ],
                     ),
-                    const SizedBox(height: 20),
                     SingleChildScrollView(
                         child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
+                        const SizedBox(height: 20),
                         Text(
                           'Aufgaben',
                           style: perritosDoubleParagon,
@@ -266,7 +271,7 @@ class HomeView extends ConsumerWidget {
                           left: 10,
                           top: 60,
                           right: 10,
-                          bottom: 60,
+                          bottom: 0,
                         ),
                         child: Column(
                             mainAxisAlignment: MainAxisAlignment.start,
@@ -291,7 +296,7 @@ class HomeView extends ConsumerWidget {
                                   const Spacer()
                                 ],
                               ),
-                              const SizedBox(height: 40,),
+                              const SizedBox(height: 20,),
                               Text("wählen:", style: perritosDoublePica,),
                               const SizedBox(height: 20,),
                               PerritosButton(
@@ -329,9 +334,7 @@ class HomeView extends ConsumerWidget {
             : model.currentScreen == HomeScreen.createAction ? 
             Scaffold(
                 backgroundColor: PerritosColor.perritosSnow.color,
-                body: SingleChildScrollView(
-                    physics: const ScrollPhysics(),
-                    child: Padding(
+                body: Padding(
                         padding: const EdgeInsets.only(
                           left: 10,
                           top: 60,
@@ -340,7 +343,7 @@ class HomeView extends ConsumerWidget {
                         ),
                         child: Column(
                             mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -364,10 +367,160 @@ class HomeView extends ConsumerWidget {
                                   const Spacer()
                                 ],
                               ),
-                              const SizedBox(height: 40,),
-                              
-                            ])))):
-            Text("Hi :)");
+                              Expanded(
+                                child:
+                              SingleChildScrollView(
+                                physics: const ScrollPhysics(),
+                                child: Column(
+                                  children: [
+                              const SizedBox(height: 20,),
+                              model.selectedActionType != ActionType.walking ?
+                              Column(
+                                children: [
+                                  PerritosTxtInput(
+                                    label: "Titel",
+                                    onSubmit: (title) => {print(title)}
+                                  ),
+                                  const SizedBox(height: 20,),   
+                                  PerritosDescriptionInput(
+                                    label: "Beschreibung",
+                                    onSubmit: (description) => {print(description)}
+                                  ),
+                                  const SizedBox(height: 20,),                                        
+                                ],
+                              ):const SizedBox(),
+                              model.selectedActionType == ActionType.abnormality ? 
+                              Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      const SizedBox(width: 20,),
+                                      Text(
+                                        "Gefühlslage:",
+                                        style: perritosParagonOpacity,
+                                        textAlign: TextAlign.left,
+                                      ),
+                                    ],
+                                  ),   
+                                  const SizedBox(height: 10,),
+                                  PerritosSlider(
+
+                                  )
+                                ],
+                              ): const SizedBox(),
+                              model.selectedActionType == ActionType.date || model.selectedActionType == ActionType.walking?
+                              Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      const SizedBox(width: 20,),
+                                      Text(
+                                        "Beginn/Ende:",
+                                        style: perritosParagonOpacity,
+                                        textAlign: TextAlign.left,
+                                      ),
+                                    ],
+                                  ),   
+                                  const SizedBox(height: 10,),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                        Wrap(
+                                          runSpacing: 10,
+                                          spacing: 10, 
+                                          children: [
+                                            PerritosDateTimePicker(),
+                                            Text('-', style: perritosParagon,),
+                                            PerritosDateTimePicker()
+                                          ],
+                                                                               
+                                      )
+                                    ],
+                                  ),
+                                  const SizedBox(height: 20,)
+                                ],
+                              ):const SizedBox(),
+                              model.selectedActionType != ActionType.abnormality ? 
+                              Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      const SizedBox(width: 20,),
+                                      Text(
+                                        "Benutzer:",
+                                        style: perritosParagonOpacity,
+                                        textAlign: TextAlign.left,
+                                      ),
+                                    ],
+                                  ),  
+                                  const SizedBox(height: 10,),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                    Flexible(
+                                      child: 
+                                        Wrap(
+                                          runSpacing: 10,
+                                          spacing: 10, 
+                                          children: [
+                                            for (var user
+                                                in model.users)
+                                                PerritosChip(
+                                                  disabled: true,
+                                                  label: user, 
+                                                  color: PerritosColor.perritosBurntSienna, 
+                                                  onPressed: ()=>{}
+                                                ),
+                                              ],
+                                            )                                            
+                                        )
+                                    ],
+                                  ),
+                                  const SizedBox(height: 20,),
+                                  Row(
+                                    children: [
+                                      const SizedBox(width: 20,),
+                                      Text(
+                                        "Hunde:",
+                                        style: perritosParagonOpacity,
+                                        textAlign: TextAlign.left,
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 10,),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                    Flexible(
+                                      child: 
+                                        Wrap(
+                                          runSpacing: 10,
+                                          spacing: 10, 
+                                          children: [
+                                            for (var dog
+                                                in model.dogs)
+                                                PerritosChip(
+                                                  disabled: true,
+                                                  label: dog, 
+                                                  color: PerritosColor.perritosBurntSienna, 
+                                                  onPressed: ()=>{}
+                                                ),
+                                              ],
+                                            )                                            
+                                        )
+                                    ],
+                                  ),
+                                  const SizedBox(height: 20,),
+                                ],
+                              ):const SizedBox()                                    
+                                  ],
+                                ))),
+                            PerritosButton(
+                              onPressed: ()=>{}, 
+                              label: "erstellen"
+                            )
+                            ]))):
+            const Text("Hi :)");
   }
 }
 
