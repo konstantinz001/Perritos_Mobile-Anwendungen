@@ -32,7 +32,8 @@ class HomeImplmentation extends HomeController {
                   dogs: [dogName],
                   emotionalState: 0,
                   begin: Timestamp.now(),
-                  end: Timestamp.now()),
+                  end: Timestamp.now()
+              ),
         );
 
   @override
@@ -142,7 +143,7 @@ class HomeImplmentation extends HomeController {
   void addDog(String dog) {
     List<String> newDogs = [...state.dogs];
     newDogs.add(dog);
-    state = state.copyWith(dogs: newDogs);  
+    state = state.copyWith(dogs: newDogs);
   }
 
   @override
@@ -181,7 +182,7 @@ class HomeImplmentation extends HomeController {
   void removeDog(String dog) {
     List<String> newDogs = [...state.dogs];
     newDogs.add(dog);
-    state = state.copyWith(dogs: newDogs); 
+    state = state.copyWith(dogs: newDogs);
   }
 
   @override
@@ -203,5 +204,18 @@ class HomeImplmentation extends HomeController {
             emotionalState: state.emotionalState.round());
     }
     return null;
+  }
+
+  @override
+  void resetActionData() {
+    state = state.copyWith(
+      title: "",
+      description: "",
+      users: [userName],
+      dogs: [dogName],
+      emotionalState: 0,
+      begin: Timestamp.now(),
+      end: Timestamp.now()
+    );
   }
 }

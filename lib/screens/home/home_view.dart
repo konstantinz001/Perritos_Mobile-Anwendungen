@@ -374,6 +374,7 @@ class HomeView extends ConsumerWidget {
                                   Expanded(
                                       child: PerritosIconButton(
                                           onPressed: () => {
+                                                controller.resetActionData(),
                                                 controller.switchHomeScreen(
                                                     HomeScreen.selectActionType)
                                               },
@@ -589,17 +590,27 @@ class HomeView extends ConsumerWidget {
                                                                             for (var user
                                                                                 in snapshot.data ?? [])
                                                                               PerritosChip(
-                                                                                disabled: !user.selected, 
-                                                                                label: user.name, 
-                                                                                color: user.iconColor == 'perritosBurntSienna'? PerritosColor.perritosBurntSienna: user.iconColor == 'perritosGoldFusion' ? PerritosColor.perritosGoldFusion : user.iconColor == 'perritosMaizeCrayola' ? PerritosColor.perritosMaizeCrayola : user.iconColor == 'perritosSandyBrown' ? PerritosColor.perritosSandyBrown : PerritosColor.perritosCharcoal, 
-                                                                                onPressed: () => {
-                                                                                  if(user.selected){
-                                                                                    controller.removeUser(user.name)
-                                                                                  } else {
-                                                                                    controller.addUser(user.name)
-                                                                                  }
-                                                                                }
-                                                                              ),
+                                                                                  disabled: !user.selected,
+                                                                                  label: user.name,
+                                                                                  color: user.iconColor == 'perritosBurntSienna'
+                                                                                      ? PerritosColor.perritosBurntSienna
+                                                                                      : user.iconColor == 'perritosGoldFusion'
+                                                                                          ? PerritosColor.perritosGoldFusion
+                                                                                          : user.iconColor == 'perritosMaizeCrayola'
+                                                                                              ? PerritosColor.perritosMaizeCrayola
+                                                                                              : user.iconColor == 'perritosSandyBrown'
+                                                                                                  ? PerritosColor.perritosSandyBrown
+                                                                                                  : PerritosColor.perritosCharcoal,
+                                                                                  onPressed: () => {
+                                                                                        if (user.selected)
+                                                                                          {
+                                                                                            controller.removeUser(user.name)
+                                                                                          }
+                                                                                        else
+                                                                                          {
+                                                                                            controller.addUser(user.name)
+                                                                                          }
+                                                                                      }),
                                                                           ],
                                                                         ))
                                                                       ],
@@ -679,17 +690,27 @@ class HomeView extends ConsumerWidget {
                                                                             for (var dog
                                                                                 in snapshot.data ?? [])
                                                                               PerritosChip(
-                                                                                disabled: !dog.selected, 
-                                                                                label: dog.name, 
-                                                                                color: dog.iconColor == 'perritosBurntSienna'? PerritosColor.perritosBurntSienna: dog.iconColor == 'perritosGoldFusion' ? PerritosColor.perritosGoldFusion : dog.iconColor == 'perritosMaizeCrayola' ? PerritosColor.perritosMaizeCrayola : dog.iconColor == 'perritosSandyBrown' ? PerritosColor.perritosSandyBrown : PerritosColor.perritosCharcoal, 
-                                                                                onPressed: () => {
-                                                                                  if(dog.selected){
-                                                                                    controller.removeDog(dog.name)
-                                                                                  } else {
-                                                                                    controller.addDog(dog.name)
-                                                                                  }
-                                                                                }
-                                                                              ),
+                                                                                  disabled: !dog.selected,
+                                                                                  label: dog.name,
+                                                                                  color: dog.iconColor == 'perritosBurntSienna'
+                                                                                      ? PerritosColor.perritosBurntSienna
+                                                                                      : dog.iconColor == 'perritosGoldFusion'
+                                                                                          ? PerritosColor.perritosGoldFusion
+                                                                                          : dog.iconColor == 'perritosMaizeCrayola'
+                                                                                              ? PerritosColor.perritosMaizeCrayola
+                                                                                              : dog.iconColor == 'perritosSandyBrown'
+                                                                                                  ? PerritosColor.perritosSandyBrown
+                                                                                                  : PerritosColor.perritosCharcoal,
+                                                                                  onPressed: () => {
+                                                                                        if (dog.selected)
+                                                                                          {
+                                                                                            controller.removeDog(dog.name)
+                                                                                          }
+                                                                                        else
+                                                                                          {
+                                                                                            controller.addDog(dog.name)
+                                                                                          }
+                                                                                      }),
                                                                           ],
                                                                         ))
                                                                       ],
@@ -710,6 +731,7 @@ class HomeView extends ConsumerWidget {
                                         controller
                                             .createAction()
                                             .then((m) => {
+                                                  controller.resetActionData(),
                                                   controller.switchHomeScreen(
                                                       HomeScreen.overview)
                                                 })
@@ -744,6 +766,7 @@ abstract class HomeController extends StateNotifier<HomeModel> {
   void changeEmotionalState(double emotionalState);
   void changeBegin(Timestamp begin);
   void changeEnd(Timestamp end);
+  void resetActionData();
   Future createAction();
   Future<List<UserModel>> loadUsersFromDB();
   Future<List<DogModel>> loadDogsFromDB();
