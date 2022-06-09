@@ -277,13 +277,110 @@ class HomeImplmentation extends HomeController {
   }
 
   @override
-  void changeCurrentActionId(String actionId) {
+  Future changeCurrentActionId(String actionId) async {
     state = state.copyWith(currentActionId: actionId);
+    switch (state.selectedActionType) {
+      case ActionType.abnormality:
+        return await _databaseService
+            .getActionAbnormalityWithID(actionID: actionId)
+            .then((action) => {
+                  state = state.copyWith(
+                      title: action.title,
+                      description: action.description,
+                      emotionalState: action.emotionalState.toDouble())
+                });
+      case ActionType.date:
+        return await _databaseService
+            .getActionDateWithID(actionID: actionId)
+            .then((action) => {
+                  state = state.copyWith(
+                      title: action.title,
+                      description: action.description,
+                      beginDate: action.begin.toDate(),
+                      beginTime: TimeOfDay.fromDateTime(action.begin.toDate()),
+                      endDate: action.end.toDate(),
+                      endTime: TimeOfDay.fromDateTime(action.end.toDate()),
+                      users: action.users,
+                      dogs: action.dogs)
+                });
+      case ActionType.task:
+        return await _databaseService
+            .getActionTaskWithID(actionID: actionId)
+            .then((action) => {
+                  state = state.copyWith(
+                      title: action.title,
+                      description: action.description,
+                      users: action.users,
+                      dogs: action.dogs)
+                });
+      case ActionType.walking:
+        return await _databaseService
+            .getActionWalkingWithID(actionID: actionId)
+            .then((action) => {
+                  state = state.copyWith(
+                      beginDate: action.begin.toDate(),
+                      beginTime: TimeOfDay.fromDateTime(action.begin.toDate()),
+                      endDate: action.end.toDate(),
+                      endTime: TimeOfDay.fromDateTime(action.end.toDate()),
+                      users: action.users,
+                      dogs: action.dogs)
+                });
+    }
   }
 
   @override
-  Future<ActionAbnormalityModel> loadActionAbnormalityById(
-      actionID) async {
-    return _databaseService.getActionAbnormalityWithID(actionID: actionID);
+  Future updateAction() async {
+    switch (state.selectedActionType) {
+      case ActionType.abnormality:
+        return _databaseService.updateActionAbnormalityWithID(
+            actionID: state.currentActionId,
+            title: state.title,
+            description: state.description,
+            dog: dogName,
+            emotionalState: state.emotionalState.round());
+      case ActionType.date:
+        return _databaseService.updateActionDateWithID(
+            actionID: state.currentActionId,
+            title: state.title,
+            description: state.description,
+            begin: Timestamp.fromDate(DateTime(
+                state.beginDate.year,
+                state.beginDate.month,
+                state.beginDate.day,
+                state.beginTime.hour,
+                state.beginTime.minute)),
+            end: Timestamp.fromDate(DateTime(
+                state.endDate.year,
+                state.endDate.month,
+                state.endDate.day,
+                state.endDate.hour,
+                state.endDate.minute)),
+            users: state.users,
+            dogs: state.dogs);
+      case ActionType.task:
+        return _databaseService.updateActionTaskWithID(
+            actionID: state.currentActionId,
+            title: state.title,
+            description: state.description,
+            users: state.users,
+            dogs: state.dogs);
+      case ActionType.walking:
+        return _databaseService.updateActionWalkingWithID(
+            actionID: state.currentActionId,
+            begin: Timestamp.fromDate(DateTime(
+                state.beginDate.year,
+                state.beginDate.month,
+                state.beginDate.day,
+                state.beginTime.hour,
+                state.beginTime.minute)),
+            end: Timestamp.fromDate(DateTime(
+                state.endDate.year,
+                state.endDate.month,
+                state.endDate.day,
+                state.endDate.hour,
+                state.endDate.minute)),
+            users: state.users,
+            dogs: state.dogs);
+    }
   }
 }

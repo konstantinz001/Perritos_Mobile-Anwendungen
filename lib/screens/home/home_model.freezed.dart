@@ -22,8 +22,8 @@ mixin _$HomeModel {
   String get currentActionId => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
-  List<String> get users => throw _privateConstructorUsedError;
-  List<String> get dogs => throw _privateConstructorUsedError;
+  List<dynamic> get users => throw _privateConstructorUsedError;
+  List<dynamic> get dogs => throw _privateConstructorUsedError;
   double get emotionalState => throw _privateConstructorUsedError;
   DateTime get beginDate => throw _privateConstructorUsedError;
   TimeOfDay get beginTime => throw _privateConstructorUsedError;
@@ -47,8 +47,8 @@ abstract class $HomeModelCopyWith<$Res> {
       String currentActionId,
       String title,
       String description,
-      List<String> users,
-      List<String> dogs,
+      List<dynamic> users,
+      List<dynamic> dogs,
       double emotionalState,
       DateTime beginDate,
       TimeOfDay beginTime,
@@ -110,11 +110,11 @@ class _$HomeModelCopyWithImpl<$Res> implements $HomeModelCopyWith<$Res> {
       users: users == freezed
           ? _value.users
           : users // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as List<dynamic>,
       dogs: dogs == freezed
           ? _value.dogs
           : dogs // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as List<dynamic>,
       emotionalState: emotionalState == freezed
           ? _value.emotionalState
           : emotionalState // ignore: cast_nullable_to_non_nullable
@@ -157,8 +157,8 @@ abstract class _$$_CalendarModelCopyWith<$Res>
       String currentActionId,
       String title,
       String description,
-      List<String> users,
-      List<String> dogs,
+      List<dynamic> users,
+      List<dynamic> dogs,
       double emotionalState,
       DateTime beginDate,
       TimeOfDay beginTime,
@@ -222,11 +222,11 @@ class __$$_CalendarModelCopyWithImpl<$Res> extends _$HomeModelCopyWithImpl<$Res>
       users: users == freezed
           ? _value._users
           : users // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as List<dynamic>,
       dogs: dogs == freezed
           ? _value._dogs
           : dogs // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as List<dynamic>,
       emotionalState: emotionalState == freezed
           ? _value.emotionalState
           : emotionalState // ignore: cast_nullable_to_non_nullable
@@ -262,8 +262,8 @@ class _$_CalendarModel implements _CalendarModel {
       required this.currentActionId,
       required this.title,
       required this.description,
-      required final List<String> users,
-      required final List<String> dogs,
+      required final List<dynamic> users,
+      required final List<dynamic> dogs,
       required this.emotionalState,
       required this.beginDate,
       required this.beginTime,
@@ -285,16 +285,16 @@ class _$_CalendarModel implements _CalendarModel {
   final String title;
   @override
   final String description;
-  final List<String> _users;
+  final List<dynamic> _users;
   @override
-  List<String> get users {
+  List<dynamic> get users {
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_users);
   }
 
-  final List<String> _dogs;
+  final List<dynamic> _dogs;
   @override
-  List<String> get dogs {
+  List<dynamic> get dogs {
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_dogs);
   }
@@ -376,8 +376,8 @@ abstract class _CalendarModel implements HomeModel {
       required final String currentActionId,
       required final String title,
       required final String description,
-      required final List<String> users,
-      required final List<String> dogs,
+      required final List<dynamic> users,
+      required final List<dynamic> dogs,
       required final double emotionalState,
       required final DateTime beginDate,
       required final TimeOfDay beginTime,
@@ -398,9 +398,9 @@ abstract class _CalendarModel implements HomeModel {
   @override
   String get description => throw _privateConstructorUsedError;
   @override
-  List<String> get users => throw _privateConstructorUsedError;
+  List<dynamic> get users => throw _privateConstructorUsedError;
   @override
-  List<String> get dogs => throw _privateConstructorUsedError;
+  List<dynamic> get dogs => throw _privateConstructorUsedError;
   @override
   double get emotionalState => throw _privateConstructorUsedError;
   @override

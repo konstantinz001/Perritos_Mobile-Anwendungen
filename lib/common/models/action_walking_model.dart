@@ -1,8 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class ActionWalkingModel {
   final String actionID;
   final String emailID;
-  final DateTime begin;
-  final DateTime end;
+  final Timestamp begin;
+  final Timestamp end;
   final List<dynamic> users;
   final List<dynamic> dogs;
 
