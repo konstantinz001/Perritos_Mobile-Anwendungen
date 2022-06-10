@@ -1,14 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application/common/services/db_service.dart';
-import 'package:flutter_application/common/models/user_model.dart';
 import 'package:flutter_application/screens/calendar/calendar_view.dart';
+import 'package:flutter_application/screens/dog_profile_info/dog_profile_info_view.dart';
 import 'package:flutter_application/screens/home/home_view.dart';
 import 'package:flutter_application/screens/registration_and_login/registration_and_login_view.dart';
 import 'package:flutter_application/screens/user_selection_and_administration/user_selection_and_administration_view.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+
+import 'common/models/dog_model.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -53,9 +54,11 @@ class MyApp extends StatelessWidget {
               return MaterialPageRoute(
                   builder: (context) => const CalendarView());
             } else if (routeParams.name == '/DogProfileInfo') {
+              final Map args = routeParams.arguments as Map;
               return MaterialPageRoute(
-                  builder: (context) =>
-                      const Center(child: Text('DogProfileInfo Screen')));
+                  builder: (context) => DogProfileInfoView(
+                    dog: DogModel('pelusa@gmail.com','Pelusa',true,'Icon_Smiley_Happy','perritosSandyBrown','Malteser',Timestamp.fromDate(Timestamp.now().toDate().add(Duration(days: 1000))),'Pelusita'),
+                  ));
             }
             return MaterialPageRoute(
                 builder: (context) =>
