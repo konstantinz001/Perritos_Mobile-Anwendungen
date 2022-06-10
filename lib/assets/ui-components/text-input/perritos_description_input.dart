@@ -11,6 +11,8 @@ class PerritosDescriptionInput extends StatefulWidget {
     this.hintTxt = "",
     this.width = double.infinity,
     this.initialValue = "",
+    this.readOnly = false,
+    this.showWordCount = true,
     required this.onSubmit
   }) : super(key:key);
 
@@ -19,6 +21,8 @@ class PerritosDescriptionInput extends StatefulWidget {
   String initialValue;
   final double width;
   final Function(String) onSubmit;
+  final bool readOnly;
+  final bool showWordCount;
 
   @override
   _PerritosDescriptionInputState
@@ -66,6 +70,7 @@ class _PerritosDescriptionInputState
               ),
             ),
             const Spacer(),
+            widget.showWordCount ?
             Container(
               alignment: Alignment.topRight,
               child: Text(
@@ -73,7 +78,9 @@ class _PerritosDescriptionInputState
                 style: perritosEnglishOpacity,
                 textAlign: TextAlign.right,
               ),
-            ),
+            )
+            :
+            Container(),
             const SizedBox(width: 20)
           ],),
           TextFormField(
@@ -84,6 +91,7 @@ class _PerritosDescriptionInputState
             onFieldSubmitted: widget.onSubmit,
             onChanged: widget.onSubmit,
             focusNode: myFocusNode,
+            readOnly: widget.readOnly,
             decoration: InputDecoration(
               enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(20),

@@ -11,6 +11,7 @@ class PerritosTxtInput extends StatefulWidget {
       this.optlabel = "",
       this.width = double.infinity,
       this.password = false,
+        this.readOnly = false,
       this.initialValue = "",
       required this.onSubmit})
       : super(key: key);
@@ -22,6 +23,7 @@ class PerritosTxtInput extends StatefulWidget {
   final bool password;
   String initialValue;
   final Function(String) onSubmit;
+  final bool readOnly;
 
   @override
   _PerritosTxtInputState createState() => _PerritosTxtInputState();
@@ -87,6 +89,7 @@ class _PerritosTxtInputState extends State<PerritosTxtInput> {
               onFieldSubmitted: widget.onSubmit,
               onChanged: widget.onSubmit,
               focusNode: myFocusNode,
+              readOnly: widget.readOnly,
               decoration: InputDecoration(
                   enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20),

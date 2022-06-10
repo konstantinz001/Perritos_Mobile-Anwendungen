@@ -3,6 +3,9 @@ import 'package:flutter_application/common/models/user_model.dart';
 import 'package:flutter_application/screens/calendar/calendar_controller.dart';
 import 'package:flutter_application/screens/calendar/calendar_model.dart';
 import 'package:flutter_application/screens/calendar/calendar_view.dart';
+import 'package:flutter_application/screens/dog_profile_info/dog_profile_info_controller.dart';
+import 'package:flutter_application/screens/dog_profile_info/dog_profile_info_model.dart';
+import 'package:flutter_application/screens/dog_profile_info/dog_profile_info_view.dart';
 import 'package:flutter_application/screens/home/home_controller.dart';
 import 'package:flutter_application/screens/home/home_model.dart';
 import 'package:flutter_application/screens/home/home_view.dart';
@@ -14,6 +17,8 @@ import 'package:flutter_application/screens/user_selection_and_administration/us
 import 'package:flutter_application/screens/user_selection_and_administration/user_selection_and_administration_model.dart';
 import 'package:flutter_application/screens/user_selection_and_administration/user_selection_and_administration_view.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../screens/dog_profile_info/dog_profile_info_model.dart';
+import 'models/dog_model.dart';
 
 final Providers providers = Providers();
 
@@ -56,4 +61,15 @@ class Providers {
       homeControllerProvider = StateNotifierProvider<HomeController, HomeModel>(
           (StateNotifierProviderRef ref) => HomeImplmentation(
               databaseService: ref.read(providers.databaseServiceProvider)));
+
+  final StateNotifierProviderFamily<
+      DogProfileInfoController,
+      DogProfileModel,
+      DogModel> dogProfileInfoControllerProvider =
+  StateNotifierProvider.family<
+      DogProfileInfoController,
+      DogProfileModel,
+      DogModel>((StateNotifierProviderRef ref,
+      DogModel data) =>
+      DogProfileInfoImplementation(databaseService: ref.read(providers.databaseServiceProvider), dog: data));
 }
