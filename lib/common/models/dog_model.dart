@@ -6,17 +6,9 @@ class DogModel {
   bool selected;
   final String iconName;
   final String iconColor;
-  final String breed;
+  final String rasse;
   final Timestamp birthday;
   final String info;
-  DogModel(
-      this.emailID, 
-      this.name, 
-      this.selected, 
-      this.iconName, 
-      this.iconColor,
-      this.breed,
-      this.birthday,
-      this.info
-  );
+  DogModel(this.emailID, this.name, this.selected, this.iconName,
+      this.iconColor, this.rasse, this.birthday, this.info);
 }

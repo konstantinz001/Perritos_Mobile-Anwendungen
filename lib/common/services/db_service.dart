@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_application/common/models/action_abnormality_model.dart';
 import 'package:flutter_application/common/models/action_date_model.dart';
 import 'package:flutter_application/common/models/action_task_model.dart';
@@ -16,8 +19,9 @@ abstract class DatabaseService {
   Future updateUser(
       {required String emailID,
       required String name,
-      required String iconName,
-      required String iconColor});
+      required String newName,
+      required String newIconName,
+      required String newIconColor});
   Future deleteUser({
     required String emailID,
     required String name,
@@ -26,11 +30,35 @@ abstract class DatabaseService {
     required String emailID,
     required String name,
   });
-  Stream<List<UserModel>> getAllUsers({required String emailID});
-  Stream getUser({required String emailID, required String name});
+  Future<List<UserModel>> getAllUsers({required String emailID});
 
   //Dog:
-  Stream<List<DogModel>> getAllDogs({required String emailID});
+  Future insertDog(
+      {required String emailID,
+      required String name,
+      required String iconName,
+      required String iconColor,
+      required String info,
+      required String rasse,
+      required Timestamp birthday});
+  Future updateDog(
+      {required String emailID,
+      required String name,
+      required String newName,
+      required String newIconName,
+      required String newIconColor,
+      required String newInfo,
+      required String newRasse,
+      required Timestamp newBirthday});
+  Future deleteDog({
+    required String emailID,
+    required String name,
+  });
+  Future checkIfDogExists({
+    required String emailID,
+    required String name,
+  });
+  Future<List<DogModel>> getAllDogs({required String emailID});
 
   //ActionDate:
   Stream getAllActionDates({required String emailID});
@@ -150,17 +178,18 @@ class DatabaseFireStoreService extends DatabaseService {
   Future updateUser(
       {required String emailID,
       required String name,
-      required String iconName,
-      required String iconColor}) async {
+      required String newName,
+      required String newIconName,
+      required String newIconColor}) async {
     if (await checkIfUserExists(emailID: emailID, name: name)) {
-      deleteUser(emailID: emailID, name: name);
-      insertUser(
+      await deleteUser(emailID: emailID, name: name);
+
+      await insertUser(
           emailID: emailID,
-          name: name,
-          iconName: iconName,
-          iconColor: iconColor);
+          name: newName,
+          iconName: newIconName,
+          iconColor: newIconColor);
     }
-    return null; //User konnte nicht geupdatet werden!
   }
 
   @override
@@ -182,41 +211,113 @@ class DatabaseFireStoreService extends DatabaseService {
   }
 
   @override
-  Stream<List<UserModel>> getAllUsers({required String emailID}) {
+  Future<List<UserModel>> getAllUsers({required String emailID}) {
     Stream<QuerySnapshot> stream =
         _userCollection.where('emailID', isEqualTo: emailID).snapshots();
 
-    return stream.map((qShot) => qShot.docs
-        .map((doc) => UserModel(doc.get('emailID'), doc.get('name'), false,
-            doc.get('iconName'), doc.get('iconColor')))
-        .toList());
-  }
-
-  @override
-  Stream getUser({required String emailID, required String name}) {
-    return _userCollection
-        .where('emailID', isEqualTo: emailID)
-        .where('name', isEqualTo: name)
-        .snapshots();
+    final Completer<List<UserModel>> c = Completer<List<UserModel>>();
+    stream.listen((event) {
+      c.complete(event.docs
+          .map((doc) => UserModel(
+                doc.get('emailID'),
+                doc.get('name'),
+                false,
+                doc.get('iconName'),
+                doc.get('iconColor'),
+              ))
+          .toList());
+    });
+    return c.future;
   }
 
   //Dog:
   @override
-  Stream<List<DogModel>> getAllDogs({required String emailID}) {
+  Future insertDog(
+      {required String emailID,
+      required String name,
+      required String iconName,
+      required String iconColor,
+      required String info,
+      required String rasse,
+      required Timestamp birthday}) async {
+    if (!(await checkIfDogExists(emailID: emailID, name: name))) {
+      return await _dogCollection.doc(emailID + seperator + name).set({
+        'emailID': emailID,
+        'name': name,
+        'iconName': iconName,
+        'iconColor': iconColor,
+        'info': info,
+        'rasse': rasse,
+        'birthday': birthday
+      }, SetOptions(merge: true));
+    }
+    return null;
+  }
+
+  @override
+  Future deleteDog({required String emailID, required String name}) async {
+    if (await checkIfDogExists(emailID: emailID, name: name)) {
+      return await _dogCollection.doc(emailID + seperator + name).delete();
+    }
+    return null;
+  }
+
+  @override
+  Future updateDog(
+      {required String emailID,
+      required String name,
+      required String newName,
+      required String newIconName,
+      required String newIconColor,
+      required String newInfo,
+      required String newRasse,
+      required Timestamp newBirthday}) async {
+    if (await checkIfUserExists(emailID: emailID, name: name)) {
+      await deleteUser(emailID: emailID, name: name);
+
+      await insertDog(
+          emailID: emailID,
+          name: newName,
+          iconName: newIconName,
+          iconColor: newIconColor,
+          info: newInfo,
+          rasse: newRasse,
+          birthday: newBirthday);
+    }
+  }
+
+  @override
+  Future checkIfDogExists(
+      {required String emailID, required String name}) async {
+    if ((await _dogCollection.doc(emailID + seperator + name).get()).exists) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  @override
+  Future<List<DogModel>> getAllDogs({required String emailID}) {
     Stream<QuerySnapshot> stream =
         _dogCollection.where('emailID', isEqualTo: emailID).snapshots();
 
-    return stream.map((qShot) => qShot.docs
-        .map((doc) => DogModel(
-            doc.get('emailID'),
-            doc.get('name'),
-            false,
-            doc.get('iconName'),
-            doc.get('iconColor'),
-            doc.get('breed'),
-            doc.get('birthday'),
-            doc.get('info')))
-        .toList());
+    final Completer<List<DogModel>> c = Completer<List<DogModel>>();
+
+    stream.listen((event) {
+      c.complete(event.docs
+          .map((doc) => DogModel(
+                doc.get('emailID'),
+                doc.get('name'),
+                false,
+                doc.get('iconName'),
+                doc.get('iconColor'),
+                doc.get('rasse'),
+                doc.get('birthday'),
+                doc.get('info'),
+              ))
+          .toList());
+    });
+    return c.future;
   }
 
   //ActionDate:
@@ -335,19 +436,17 @@ class DatabaseFireStoreService extends DatabaseService {
   }
 
   @override
-  Future deleteActionAbnormalityWithID(
-      {required String actionID}) async {
-        await _actionAbnormalityCollection.doc(actionID).delete();
+  Future deleteActionAbnormalityWithID({required String actionID}) async {
+    await _actionAbnormalityCollection.doc(actionID).delete();
   }
 
   @override
-  Future updateActionAbnormalityWithID({
-      required String actionID,
+  Future updateActionAbnormalityWithID(
+      {required String actionID,
       required String title,
       required String description,
       required String dog,
-      required int emotionalState
-  }) async {
+      required int emotionalState}) async {
     await _actionAbnormalityCollection.doc(actionID).update({
       'title': title,
       'description': description,
@@ -401,25 +500,22 @@ class DatabaseFireStoreService extends DatabaseService {
       doc.get('title'),
       doc.get('description'),
       doc.get('users'),
-        doc.get('dogs'),
-      );
-    }
-      
-      
-  @override
-  Future deleteActionTaskWithID(
-      {required String actionID}) async {
-        await _actionTaskCollection.doc(actionID).delete();
+      doc.get('dogs'),
+    );
   }
 
   @override
-  Future updateActionTaskWithID({
-    required String actionID,
-    required String title,
-    required String description,
-    required List<dynamic> users,
-    required List<dynamic> dogs
-  }) async {
+  Future deleteActionTaskWithID({required String actionID}) async {
+    await _actionTaskCollection.doc(actionID).delete();
+  }
+
+  @override
+  Future updateActionTaskWithID(
+      {required String actionID,
+      required String title,
+      required String description,
+      required List<dynamic> users,
+      required List<dynamic> dogs}) async {
     await _actionTaskCollection.doc(actionID).update({
       'title': title,
       'description': description,
@@ -480,25 +576,20 @@ class DatabaseFireStoreService extends DatabaseService {
   }
 
   @override
-  Future deleteActionWalkingWithID(
-      {required String actionID}) async {
-        await _actionWalkingCollection.doc(actionID).delete();
+  Future deleteActionWalkingWithID({required String actionID}) async {
+    await _actionWalkingCollection.doc(actionID).delete();
   }
 
   @override
-  Future updateActionWalkingWithID({
-    required String actionID,
-    required Timestamp begin,
-    required Timestamp end,
-    required List<dynamic> users,
-    required List<dynamic> dogs
-  }) async {
-    await _actionWalkingCollection.doc(actionID).update({
-      'begin': begin,
-      'end': end,
-      'users': users,
-      'dogs': dogs
-    });
+  Future updateActionWalkingWithID(
+      {required String actionID,
+      required Timestamp begin,
+      required Timestamp end,
+      required List<dynamic> users,
+      required List<dynamic> dogs}) async {
+    await _actionWalkingCollection
+        .doc(actionID)
+        .update({'begin': begin, 'end': end, 'users': users, 'dogs': dogs});
   }
 
   @override

@@ -95,7 +95,7 @@ class DogProfileInfoView extends ConsumerWidget {
               const SizedBox(height: 24),
               PerritosTxtInput(
                 label: 'Rasse:',
-                hintTxt: _dog.breed,
+                hintTxt: _dog.rasse,
                 onSubmit: (value) => {},
                 readOnly: true,
               ),
