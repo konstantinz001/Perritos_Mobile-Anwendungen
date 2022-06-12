@@ -68,7 +68,6 @@ class UserSelectionAndAdministrationView extends ConsumerWidget {
                                     alignment: Alignment.topLeft,
                                     child: Column(
                                       children: [
-                                        const SizedBox(height: 60),
                                         IconButton(
                                             color: perritosCharcoal,
                                             icon: const Icon(
@@ -122,20 +121,36 @@ class UserSelectionAndAdministrationView extends ConsumerWidget {
                                             label: user.name,
                                             edit: model.editable,
                                             onPressed: () => {
-                                                  controller.changeSelectedUser(
-                                                      UserModel(
-                                                          user.emailID,
-                                                          user.name,
-                                                          !user.selected,
-                                                          "",
-                                                          "")),
+                                                  /*controller
+                                                      .disabledSelectedUser(),*/
                                                   model.editable == false
                                                       ? Navigator.pushNamed(
                                                           context, "/Home")
-                                                      : controller
-                                                          .switchCurrentUserSelectionAndAdministrationScreen(
-                                                              UserSelectionAndAdministration
-                                                                  .edit)
+                                                      : {
+                                                          controller
+                                                              .changeSelectedUser(
+                                                                  user),
+                                                          controller.setEditingIconColor(
+                                                              controller
+                                                                  .getSelectedUser()!
+                                                                  .iconColor),
+                                                          controller
+                                                              .setEditingIconName(
+                                                                  controller
+                                                                      .getSelectedUser()!
+                                                                      .iconName),
+                                                          controller.setEditingName(
+                                                              controller
+                                                                  .getSelectedUser()!
+                                                                  .name),
+                                                          textEditingController
+                                                                  .text =
+                                                              model.userName,
+                                                          controller
+                                                              .switchCurrentUserSelectionAndAdministrationScreen(
+                                                                  UserSelectionAndAdministration
+                                                                      .edit)
+                                                        }
                                                 }),
                                         const SizedBox(height: 20),
                                       ],
@@ -239,7 +254,6 @@ class UserSelectionAndAdministrationView extends ConsumerWidget {
                                             placeholder: "Name",
                                             label: textEditingController.text,
                                             onPressed: () => {
-                                              print(textEditingController.text),
                                               controller.setEditingName(
                                                   textEditingController.text),
                                               controller
@@ -262,24 +276,26 @@ class UserSelectionAndAdministrationView extends ConsumerWidget {
                                     onPressed: () async => {
                                       if (textEditingController.text != "")
                                         {
-                                          await controller.addUser(
-                                            UserModel(
-                                                _emailID,
-                                                textEditingController.text,
-                                                false,
-                                                model.iconName,
-                                                model.iconColor),
-                                          ),
                                           controller
-                                              .loadUsers(_emailID)
-                                              .then((userlist) => {
-                                                    Navigator.pushNamed(context,
-                                                        '/UserSelectionAndAdministration',
-                                                        arguments: {
-                                                          'emailID': _emailID,
-                                                          'userList': userlist
-                                                        })
-                                                  }),
+                                              .addUser(UserModel(
+                                                  _emailID,
+                                                  textEditingController.text,
+                                                  false,
+                                                  model.iconName,
+                                                  model.iconColor))
+                                              .then((value) => controller
+                                                  .loadUsers(_emailID)
+                                                  .then((userlist) => {
+                                                        Navigator.pushNamed(
+                                                            context,
+                                                            '/UserSelectionAndAdministration',
+                                                            arguments: {
+                                                              'emailID':
+                                                                  _emailID,
+                                                              'userList':
+                                                                  userlist
+                                                            })
+                                                      }))
                                         },
                                     },
                                     label: 'erstellen',
@@ -294,7 +310,7 @@ class UserSelectionAndAdministrationView extends ConsumerWidget {
                           child: Padding(
                               padding: const EdgeInsets.only(
                                 left: 10,
-                                top: 60,
+                                top: 0,
                                 right: 10,
                                 bottom: 0,
                               ),
@@ -303,26 +319,29 @@ class UserSelectionAndAdministrationView extends ConsumerWidget {
                                   crossAxisAlignment:
                                       CrossAxisAlignment.stretch,
                                   children: [
+                                    const SizedBox(height: 20),
                                     Align(
                                         alignment: Alignment.topLeft,
-                                        child: Column(
-                                          children: [
-                                            const SizedBox(
-                                              height: 60,
-                                            ),
-                                            IconButton(
-                                                color: perritosCharcoal,
-                                                icon: const Icon(PerritosIcons
-                                                    .Icon_Arrow_Left),
-                                                iconSize: 40,
-                                                onPressed: () => {
-                                                      controller
-                                                          .switchCurrentUserSelectionAndAdministrationScreen(
-                                                              UserSelectionAndAdministration
-                                                                  .kickoff)
-                                                    })
-                                          ],
-                                        )),
+                                        child: IconButton(
+                                            color: perritosCharcoal,
+                                            icon: const Icon(
+                                                PerritosIcons.Icon_Arrow_Left),
+                                            iconSize: 40,
+                                            onPressed: () async => {
+                                                  controller
+                                                      .loadUsers(_emailID)
+                                                      .then((userlist) => {
+                                                            Navigator.pushNamed(
+                                                                context,
+                                                                '/UserSelectionAndAdministration',
+                                                                arguments: {
+                                                                  'emailID':
+                                                                      _emailID,
+                                                                  'userList':
+                                                                      userlist
+                                                                })
+                                                          }),
+                                                })),
                                     const SizedBox(height: 60),
                                     Expanded(
                                       child: SingleChildScrollView(
@@ -330,14 +349,48 @@ class UserSelectionAndAdministrationView extends ConsumerWidget {
                                           Column(
                                             children: [
                                               PerritosEditableProfile(
-                                                icon: PerritosIcons.Icon_User,
-                                                placeholder: "Name",
-                                                label: "",
+                                                icon: model.iconName ==
+                                                        'Icon_Smiley_Happy'
+                                                    ? PerritosIcons
+                                                        .Icon_Smiley_Happy
+                                                    : controller
+                                                                .getSelectedUser()!
+                                                                .iconName ==
+                                                            'Icon_Smiley_Sad'
+                                                        ? PerritosIcons
+                                                            .Icon_Smiley_Sad
+                                                        : PerritosIcons
+                                                            .Icon_User,
+                                                perritosColor: model
+                                                            .iconColor ==
+                                                        'perritosGoldFusion'
+                                                    ? PerritosColor
+                                                        .perritosGoldFusion
+                                                    : model.iconColor ==
+                                                            'perritosMaizeCrayola'
+                                                        ? PerritosColor
+                                                            .perritosMaizeCrayola
+                                                        : model.iconColor ==
+                                                                'perritosSandyBrown'
+                                                            ? PerritosColor
+                                                                .perritosSandyBrown
+                                                            : model.iconColor ==
+                                                                    'perritosBurntSienna'
+                                                                ? PerritosColor
+                                                                    .perritosBurntSienna
+                                                                : PerritosColor
+                                                                    .perritosCharcoal,
+                                                placeholder: model.userName,
+                                                label:
+                                                    textEditingController.text,
                                                 onPressed: () => {
+                                                  controller.setEditingName(
+                                                      textEditingController
+                                                          .text),
                                                   controller
                                                       .switchCurrentUserSelectionAndAdministrationScreen(
                                                           UserSelectionAndAdministration
-                                                              .select)
+                                                              .changeIconName)
                                                 },
                                                 textEditingController:
                                                     textEditingController,
@@ -351,25 +404,71 @@ class UserSelectionAndAdministrationView extends ConsumerWidget {
                                     (Align(
                                       alignment: Alignment.bottomCenter,
                                       child: PerritosButton(
-                                        onPressed: () => {
+                                        onPressed: () async => {
                                           if (textEditingController.text != "")
                                             {
-                                              controller.addUser(UserModel(
-                                                  _emailID,
-                                                  textEditingController.text,
-                                                  false,
-                                                  "",
-                                                  "")),
                                               controller
-                                                  .switchCurrentUserSelectionAndAdministrationScreen(
-                                                      UserSelectionAndAdministration
-                                                          .kickoff)
-                                            }
+                                                  .updateUser(UserModel(
+                                                      _emailID,
+                                                      textEditingController
+                                                          .text,
+                                                      false,
+                                                      model.iconName,
+                                                      model.iconColor))
+                                                  .then((value) => controller
+                                                      .loadUsers(_emailID)
+                                                      .then((userlist) => {
+                                                            Navigator.pushNamed(
+                                                                context,
+                                                                '/UserSelectionAndAdministration',
+                                                                arguments: {
+                                                                  'emailID':
+                                                                      _emailID,
+                                                                  'userList':
+                                                                      userlist
+                                                                })
+                                                          }))
+                                            },
                                         },
                                         label: 'bearbeiten',
                                       ),
                                     )),
-                                    const SizedBox(height: 20),
+                                    const SizedBox(height: 10),
+                                    Row(
+                                      children: [
+                                        const Spacer(),
+                                        PerritosIconButton(
+                                            label: "Profil löschen",
+                                            onPressed: () async => {
+                                                  //NOCH EINFÜGE
+                                                  controller
+                                                      .deleteUser(UserModel(
+                                                          _emailID,
+                                                          model.userName,
+                                                          false,
+                                                          model.iconName,
+                                                          model.iconColor))
+                                                      .then((value) =>
+                                                          controller
+                                                              .loadUsers(
+                                                                  _emailID)
+                                                              .then(
+                                                                  (userlist) =>
+                                                                      {
+                                                                        Navigator.pushNamed(
+                                                                            context,
+                                                                            '/UserSelectionAndAdministration',
+                                                                            arguments: {
+                                                                              'emailID': _emailID,
+                                                                              'userList': userlist
+                                                                            })
+                                                                      }))
+                                                },
+                                            icon: PerritosIcons.Icon_Remove),
+                                        const Spacer()
+                                      ],
+                                    ),
+                                    const SizedBox(height: 10),
                                   ])))
                       : model.currentUserSelectionAndAdministrationScreen ==
                               UserSelectionAndAdministration.changeIconName
@@ -405,14 +504,30 @@ class UserSelectionAndAdministrationView extends ConsumerWidget {
                                                       child: PerritosIconButton(
                                                           //PROBLEM: Was wenn wir davor in edit waren???
                                                           onPressed: () => {
-                                                                textEditingController
-                                                                        .text =
-                                                                    model
-                                                                        .userName,
-                                                                controller
-                                                                    .switchCurrentUserSelectionAndAdministrationScreen(
+                                                                //DAS DA MUSS REIN BEVOR WIR IN EDIT VIEW GEHEN!!!
+                                                                if (controller
+                                                                        .getSelectedUser() ==
+                                                                    null)
+                                                                  {
+                                                                    textEditingController
+                                                                            .text =
+                                                                        model
+                                                                            .userName,
+                                                                    controller.switchCurrentUserSelectionAndAdministrationScreen(
                                                                         UserSelectionAndAdministration
                                                                             .add)
+                                                                  }
+                                                                else
+                                                                  {
+                                                                    textEditingController
+                                                                            .text =
+                                                                        controller
+                                                                            .getSelectedUser()!
+                                                                            .name,
+                                                                    controller.switchCurrentUserSelectionAndAdministrationScreen(
+                                                                        UserSelectionAndAdministration
+                                                                            .edit)
+                                                                  }
                                                               },
                                                           iconSize: 40,
                                                           icon: PerritosIcons
@@ -541,10 +656,22 @@ class UserSelectionAndAdministrationView extends ConsumerWidget {
                                                           textEditingController
                                                                   .text =
                                                               model.userName,
-                                                          controller
-                                                              .switchCurrentUserSelectionAndAdministrationScreen(
-                                                                  UserSelectionAndAdministration
-                                                                      .add)
+                                                          if (controller
+                                                                  .getSelectedUser() ==
+                                                              null)
+                                                            {
+                                                              controller
+                                                                  .switchCurrentUserSelectionAndAdministrationScreen(
+                                                                      UserSelectionAndAdministration
+                                                                          .add)
+                                                            }
+                                                          else
+                                                            {
+                                                              controller
+                                                                  .switchCurrentUserSelectionAndAdministrationScreen(
+                                                                      UserSelectionAndAdministration
+                                                                          .edit)
+                                                            }
                                                         }),
                                                 const SizedBox(
                                                   height: 20,
@@ -567,13 +694,22 @@ class UserSelectionAndAdministrationView extends ConsumerWidget {
                                                           controller
                                                               .setEditingIconColor(
                                                                   'perritosGoldFusion'),
-                                                          textEditingController
-                                                                  .text =
-                                                              model.userName,
-                                                          controller
-                                                              .switchCurrentUserSelectionAndAdministrationScreen(
-                                                                  UserSelectionAndAdministration
-                                                                      .add)
+                                                          if (controller
+                                                                  .getSelectedUser() ==
+                                                              null)
+                                                            {
+                                                              controller
+                                                                  .switchCurrentUserSelectionAndAdministrationScreen(
+                                                                      UserSelectionAndAdministration
+                                                                          .add)
+                                                            }
+                                                          else
+                                                            {
+                                                              controller
+                                                                  .switchCurrentUserSelectionAndAdministrationScreen(
+                                                                      UserSelectionAndAdministration
+                                                                          .edit)
+                                                            }
                                                         }),
                                                 const SizedBox(
                                                   height: 20,
@@ -599,10 +735,22 @@ class UserSelectionAndAdministrationView extends ConsumerWidget {
                                                           textEditingController
                                                                   .text =
                                                               model.userName,
-                                                          controller
-                                                              .switchCurrentUserSelectionAndAdministrationScreen(
-                                                                  UserSelectionAndAdministration
-                                                                      .add)
+                                                          if (controller
+                                                                  .getSelectedUser() ==
+                                                              null)
+                                                            {
+                                                              controller
+                                                                  .switchCurrentUserSelectionAndAdministrationScreen(
+                                                                      UserSelectionAndAdministration
+                                                                          .add)
+                                                            }
+                                                          else
+                                                            {
+                                                              controller
+                                                                  .switchCurrentUserSelectionAndAdministrationScreen(
+                                                                      UserSelectionAndAdministration
+                                                                          .edit)
+                                                            }
                                                         }),
                                                 const SizedBox(
                                                   height: 20,
@@ -628,10 +776,22 @@ class UserSelectionAndAdministrationView extends ConsumerWidget {
                                                           textEditingController
                                                                   .text =
                                                               model.userName,
-                                                          controller
-                                                              .switchCurrentUserSelectionAndAdministrationScreen(
-                                                                  UserSelectionAndAdministration
-                                                                      .add)
+                                                          if (controller
+                                                                  .getSelectedUser() ==
+                                                              null)
+                                                            {
+                                                              controller
+                                                                  .switchCurrentUserSelectionAndAdministrationScreen(
+                                                                      UserSelectionAndAdministration
+                                                                          .add)
+                                                            }
+                                                          else
+                                                            {
+                                                              controller
+                                                                  .switchCurrentUserSelectionAndAdministrationScreen(
+                                                                      UserSelectionAndAdministration
+                                                                          .edit)
+                                                            }
                                                         }),
                                                 const SizedBox(
                                                   height: 20,
@@ -657,10 +817,22 @@ class UserSelectionAndAdministrationView extends ConsumerWidget {
                                                           textEditingController
                                                                   .text =
                                                               model.userName,
-                                                          controller
-                                                              .switchCurrentUserSelectionAndAdministrationScreen(
-                                                                  UserSelectionAndAdministration
-                                                                      .add)
+                                                          if (controller
+                                                                  .getSelectedUser() ==
+                                                              null)
+                                                            {
+                                                              controller
+                                                                  .switchCurrentUserSelectionAndAdministrationScreen(
+                                                                      UserSelectionAndAdministration
+                                                                          .add)
+                                                            }
+                                                          else
+                                                            {
+                                                              controller
+                                                                  .switchCurrentUserSelectionAndAdministrationScreen(
+                                                                      UserSelectionAndAdministration
+                                                                          .edit)
+                                                            }
                                                         }),
                                               ]),
                                         ))
@@ -679,6 +851,8 @@ abstract class UserSelectionAndAdministrationController
   void switchCurrentUserSelectionAndAdministrationScreen(screen);
 
   Future<void> addUser(UserModel userModel);
+  Future<void> updateUser(UserModel userModel);
+  Future<void> deleteUser(UserModel userModel);
 
   void changeEditability();
 
@@ -686,9 +860,8 @@ abstract class UserSelectionAndAdministrationController
 
   void disabledSelectedUser();
 
-  UserModel getSelectedUser();
+  UserModel? getSelectedUser();
   Future<List<UserModel>> loadUsers(String email);
-  Future<void> setUserList(String email);
   void setEditingName(String name);
   void setEditingIconColor(String iconColor);
   void setEditingIconName(String iconName);

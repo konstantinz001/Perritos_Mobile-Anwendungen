@@ -30,26 +30,36 @@ class UserSelectionAndAdministrationImplmentation
 
   @override
   Future<void> addUser(UserModel userModel) async {
-    _databaseService.insertUser(
+    await _databaseService.insertUser(
         emailID: userModel.emailID,
         name: userModel.name,
         iconName: userModel.iconName,
         iconColor: userModel.iconColor);
-    await Future.delayed(const Duration(seconds: 1));
   }
 
   @override
-  Future<void> setUserList(String email) async {
-    state = state.copyWith(userList: List.from(await loadUsers(email)));
-    await Future.delayed(const Duration(seconds: 1));
+  Future<void> deleteUser(UserModel userModel) async {
+    await _databaseService.deleteUser(
+        emailID: userModel.emailID, name: userModel.name);
+  }
+
+  @override
+  Future<void> updateUser(UserModel userModel) async {
+    var currentUserName = getSelectedUser()!;
+    await _databaseService.updateUser(
+      emailID: userModel.emailID,
+      name: currentUserName.name,
+      newName: userModel.name,
+      iconName: currentUserName.name,
+      newIconName: userModel.iconName,
+      iconColor: userModel.iconColor,
+      newIconColor: userModel.iconColor,
+    );
   }
 
   @override
   void setEditingName(String name) {
-    print(state.userName);
-    print(name);
     state = state.copyWith(userName: name);
-    print(state.userName);
   }
 
   @override
@@ -76,24 +86,28 @@ class UserSelectionAndAdministrationImplmentation
 
   @override
   void changeSelectedUser(UserModel userModel) {
+    int index =
+        state.userList.indexWhere((element) => element.name == userModel.name);
     state = state.copyWith(
         userList: List.from(state.userList.toList())
-          ..removeAt(state.userList
-              .toList()
-              .indexWhere((element) => element.name == userModel.name))
+          ..removeAt(index)
           ..insert(
-              state.userList
-                  .toList()
-                  .indexWhere((element) => element.name == userModel.name),
-              userModel));
+              index,
+              UserModel(userModel.emailID, userModel.name, true,
+                  userModel.iconName, userModel.iconColor)));
   }
 
   @override
-  UserModel getSelectedUser() {
+  UserModel? getSelectedUser() {
     int index = state.userList
         .toList()
         .indexWhere((element) => element.selected == true);
-    return state.userList[index];
+
+    if (index >= 0) {
+      return state.userList[index];
+    } else {
+      return null;
+    }
   }
 
   @override
@@ -118,11 +132,11 @@ class UserSelectionAndAdministrationImplmentation
 
   @override
   Future<List<UserModel>> loadUsers(String email) async {
-    await for (List<UserModel> tasks
+    /*await for (List<UserModel> users
         in _databaseService.getAllUsers(emailID: email)) {
-      await Future.delayed(const Duration(seconds: 1));
-      return tasks;
-    }
-    return List.empty();
+      return users.toList();
+    }*/
+    return await _databaseService.getAllUsers(emailID: email);
+    //return List.empty();
   }
 }

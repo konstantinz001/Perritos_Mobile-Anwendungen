@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_application/common/models/action_abnormality_model.dart';
 import 'package:flutter_application/common/models/action_date_model.dart';
 import 'package:flutter_application/common/models/action_task_model.dart';
@@ -16,8 +19,11 @@ abstract class DatabaseService {
   Future updateUser(
       {required String emailID,
       required String name,
+      required String newName,
       required String iconName,
-      required String iconColor});
+      required String newIconName,
+      required String iconColor,
+      required String newIconColor});
   Future deleteUser({
     required String emailID,
     required String name,
@@ -26,7 +32,7 @@ abstract class DatabaseService {
     required String emailID,
     required String name,
   });
-  Stream<List<UserModel>> getAllUsers({required String emailID});
+  Future<List<UserModel>> getAllUsers({required String emailID});
   Stream getUser({required String emailID, required String name});
 
   //Dog:
@@ -150,17 +156,20 @@ class DatabaseFireStoreService extends DatabaseService {
   Future updateUser(
       {required String emailID,
       required String name,
+      required String newName,
       required String iconName,
-      required String iconColor}) async {
+      required String newIconName,
+      required String iconColor,
+      required String newIconColor}) async {
     if (await checkIfUserExists(emailID: emailID, name: name)) {
-      deleteUser(emailID: emailID, name: name);
-      insertUser(
+      await deleteUser(emailID: emailID, name: name);
+
+      await insertUser(
           emailID: emailID,
-          name: name,
-          iconName: iconName,
-          iconColor: iconColor);
+          name: newName,
+          iconName: newIconName,
+          iconColor: newIconColor);
     }
-    return null; //User konnte nicht geupdatet werden!
   }
 
   @override
@@ -182,14 +191,23 @@ class DatabaseFireStoreService extends DatabaseService {
   }
 
   @override
-  Stream<List<UserModel>> getAllUsers({required String emailID}) {
+  Future<List<UserModel>> getAllUsers({required String emailID}) {
     Stream<QuerySnapshot> stream =
         _userCollection.where('emailID', isEqualTo: emailID).snapshots();
 
-    return stream.map((qShot) => qShot.docs
-        .map((doc) => UserModel(doc.get('emailID'), doc.get('name'), false,
-            doc.get('iconName'), doc.get('iconColor')))
-        .toList());
+    final Completer<List<UserModel>> c = Completer<List<UserModel>>();
+    stream.listen((event) {
+      c.complete(event.docs
+          .map((doc) => UserModel(
+                doc.get('emailID'),
+                doc.get('name'),
+                false,
+                doc.get('iconName'),
+                doc.get('iconColor'),
+              ))
+          .toList());
+    });
+    return c.future;
   }
 
   @override
@@ -335,19 +353,17 @@ class DatabaseFireStoreService extends DatabaseService {
   }
 
   @override
-  Future deleteActionAbnormalityWithID(
-      {required String actionID}) async {
-        await _actionAbnormalityCollection.doc(actionID).delete();
+  Future deleteActionAbnormalityWithID({required String actionID}) async {
+    await _actionAbnormalityCollection.doc(actionID).delete();
   }
 
   @override
-  Future updateActionAbnormalityWithID({
-      required String actionID,
+  Future updateActionAbnormalityWithID(
+      {required String actionID,
       required String title,
       required String description,
       required String dog,
-      required int emotionalState
-  }) async {
+      required int emotionalState}) async {
     await _actionAbnormalityCollection.doc(actionID).update({
       'title': title,
       'description': description,
@@ -401,25 +417,22 @@ class DatabaseFireStoreService extends DatabaseService {
       doc.get('title'),
       doc.get('description'),
       doc.get('users'),
-        doc.get('dogs'),
-      );
-    }
-      
-      
-  @override
-  Future deleteActionTaskWithID(
-      {required String actionID}) async {
-        await _actionTaskCollection.doc(actionID).delete();
+      doc.get('dogs'),
+    );
   }
 
   @override
-  Future updateActionTaskWithID({
-    required String actionID,
-    required String title,
-    required String description,
-    required List<dynamic> users,
-    required List<dynamic> dogs
-  }) async {
+  Future deleteActionTaskWithID({required String actionID}) async {
+    await _actionTaskCollection.doc(actionID).delete();
+  }
+
+  @override
+  Future updateActionTaskWithID(
+      {required String actionID,
+      required String title,
+      required String description,
+      required List<dynamic> users,
+      required List<dynamic> dogs}) async {
     await _actionTaskCollection.doc(actionID).update({
       'title': title,
       'description': description,
@@ -480,25 +493,20 @@ class DatabaseFireStoreService extends DatabaseService {
   }
 
   @override
-  Future deleteActionWalkingWithID(
-      {required String actionID}) async {
-        await _actionWalkingCollection.doc(actionID).delete();
+  Future deleteActionWalkingWithID({required String actionID}) async {
+    await _actionWalkingCollection.doc(actionID).delete();
   }
 
   @override
-  Future updateActionWalkingWithID({
-    required String actionID,
-    required Timestamp begin,
-    required Timestamp end,
-    required List<dynamic> users,
-    required List<dynamic> dogs
-  }) async {
-    await _actionWalkingCollection.doc(actionID).update({
-      'begin': begin,
-      'end': end,
-      'users': users,
-      'dogs': dogs
-    });
+  Future updateActionWalkingWithID(
+      {required String actionID,
+      required Timestamp begin,
+      required Timestamp end,
+      required List<dynamic> users,
+      required List<dynamic> dogs}) async {
+    await _actionWalkingCollection
+        .doc(actionID)
+        .update({'begin': begin, 'end': end, 'users': users, 'dogs': dogs});
   }
 
   @override

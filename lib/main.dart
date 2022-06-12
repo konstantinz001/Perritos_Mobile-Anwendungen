@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
         localizationsDelegates: const [GlobalMaterialLocalizations.delegate],
         supportedLocales: const [Locale('en'), Locale('de')],
         home: Navigator(
-          initialRoute: '/Home',
+          initialRoute: '/RegistrationAndLogin',
           onGenerateRoute: (RouteSettings routeParams) {
             if (routeParams.name == '/RegistrationAndLogin') {
               return MaterialPageRoute(
@@ -57,8 +57,18 @@ class MyApp extends StatelessWidget {
               final Map args = routeParams.arguments as Map;
               return MaterialPageRoute(
                   builder: (context) => DogProfileInfoView(
-                    dog: DogModel('pelusa@gmail.com','Pelusa',true,'Icon_Smiley_Happy','perritosSandyBrown','Malteser',Timestamp.fromDate(Timestamp.now().toDate().add(Duration(days: 1000))),'Pelusita'),
-                  ));
+                        dog: DogModel(
+                            'pelusa@gmail.com',
+                            'Pelusa',
+                            true,
+                            'Icon_Smiley_Happy',
+                            'perritosSandyBrown',
+                            'Malteser',
+                            Timestamp.fromDate(Timestamp.now()
+                                .toDate()
+                                .add(Duration(days: 1000))),
+                            'Pelusita'),
+                      ));
             }
             return MaterialPageRoute(
                 builder: (context) =>

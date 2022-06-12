@@ -67,10 +67,6 @@ class RegistrationAndLoginImplmentation extends RegistrationAndLoginController {
 
   @override
   Future<List<UserModel>> loadUsers(String email) async {
-    await for (List<UserModel> tasks
-        in _databaseService.getAllUsers(emailID: email)) {
-      return tasks;
-    }
-    return List.empty();
+    return await _databaseService.getAllUsers(emailID: email);
   }
 }
