@@ -1,3 +1,4 @@
+import 'package:flutter_application/common/models/dog_model.dart';
 import 'package:flutter_application/common/services/db_service.dart';
 import 'package:flutter_application/common/models/user_model.dart';
 import 'package:flutter_application/screens/user_selection_and_administration/user_selection_and_administration_model.dart';
@@ -50,9 +51,7 @@ class UserSelectionAndAdministrationImplmentation
       emailID: userModel.emailID,
       name: currentUserName.name,
       newName: userModel.name,
-      iconName: currentUserName.name,
       newIconName: userModel.iconName,
-      iconColor: userModel.iconColor,
       newIconColor: userModel.iconColor,
     );
   }
@@ -132,11 +131,11 @@ class UserSelectionAndAdministrationImplmentation
 
   @override
   Future<List<UserModel>> loadUsers(String email) async {
-    /*await for (List<UserModel> users
-        in _databaseService.getAllUsers(emailID: email)) {
-      return users.toList();
-    }*/
     return await _databaseService.getAllUsers(emailID: email);
-    //return List.empty();
+  }
+
+  @override
+  Future<List<DogModel>> loadDogs(String email) async {
+    return await _databaseService.getAllDogs(emailID: email);
   }
 }

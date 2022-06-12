@@ -20,9 +20,7 @@ abstract class DatabaseService {
       {required String emailID,
       required String name,
       required String newName,
-      required String iconName,
       required String newIconName,
-      required String iconColor,
       required String newIconColor});
   Future deleteUser({
     required String emailID,
@@ -33,10 +31,34 @@ abstract class DatabaseService {
     required String name,
   });
   Future<List<UserModel>> getAllUsers({required String emailID});
-  Stream getUser({required String emailID, required String name});
 
   //Dog:
-  Stream<List<DogModel>> getAllDogs({required String emailID});
+  Future insertDog(
+      {required String emailID,
+      required String name,
+      required String iconName,
+      required String iconColor,
+      required String info,
+      required String rasse,
+      required Timestamp birthday});
+  Future updateDog(
+      {required String emailID,
+      required String name,
+      required String newName,
+      required String newIconName,
+      required String newIconColor,
+      required String newInfo,
+      required String newRasse,
+      required Timestamp newBirthday});
+  Future deleteDog({
+    required String emailID,
+    required String name,
+  });
+  Future checkIfDogExists({
+    required String emailID,
+    required String name,
+  });
+  Future<List<DogModel>> getAllDogs({required String emailID});
 
   //ActionDate:
   Stream getAllActionDates({required String emailID});
@@ -157,9 +179,7 @@ class DatabaseFireStoreService extends DatabaseService {
       {required String emailID,
       required String name,
       required String newName,
-      required String iconName,
       required String newIconName,
-      required String iconColor,
       required String newIconColor}) async {
     if (await checkIfUserExists(emailID: emailID, name: name)) {
       await deleteUser(emailID: emailID, name: name);
@@ -210,31 +230,94 @@ class DatabaseFireStoreService extends DatabaseService {
     return c.future;
   }
 
-  @override
-  Stream getUser({required String emailID, required String name}) {
-    return _userCollection
-        .where('emailID', isEqualTo: emailID)
-        .where('name', isEqualTo: name)
-        .snapshots();
-  }
-
   //Dog:
   @override
-  Stream<List<DogModel>> getAllDogs({required String emailID}) {
+  Future insertDog(
+      {required String emailID,
+      required String name,
+      required String iconName,
+      required String iconColor,
+      required String info,
+      required String rasse,
+      required Timestamp birthday}) async {
+    if (!(await checkIfDogExists(emailID: emailID, name: name))) {
+      return await _dogCollection.doc(emailID + seperator + name).set({
+        'emailID': emailID,
+        'name': name,
+        'iconName': iconName,
+        'iconColor': iconColor,
+        'info': info,
+        'rasse': rasse,
+        'birthday': birthday
+      }, SetOptions(merge: true));
+    }
+    return null;
+  }
+
+  @override
+  Future deleteDog({required String emailID, required String name}) async {
+    if (await checkIfDogExists(emailID: emailID, name: name)) {
+      return await _dogCollection.doc(emailID + seperator + name).delete();
+    }
+    return null;
+  }
+
+  @override
+  Future updateDog(
+      {required String emailID,
+      required String name,
+      required String newName,
+      required String newIconName,
+      required String newIconColor,
+      required String newInfo,
+      required String newRasse,
+      required Timestamp newBirthday}) async {
+    if (await checkIfUserExists(emailID: emailID, name: name)) {
+      await deleteUser(emailID: emailID, name: name);
+
+      await insertDog(
+          emailID: emailID,
+          name: newName,
+          iconName: newIconName,
+          iconColor: newIconColor,
+          info: newInfo,
+          rasse: newRasse,
+          birthday: newBirthday);
+    }
+  }
+
+  @override
+  Future checkIfDogExists(
+      {required String emailID, required String name}) async {
+    if ((await _dogCollection.doc(emailID + seperator + name).get()).exists) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  @override
+  Future<List<DogModel>> getAllDogs({required String emailID}) {
     Stream<QuerySnapshot> stream =
         _dogCollection.where('emailID', isEqualTo: emailID).snapshots();
 
-    return stream.map((qShot) => qShot.docs
-        .map((doc) => DogModel(
-            doc.get('emailID'),
-            doc.get('name'),
-            false,
-            doc.get('iconName'),
-            doc.get('iconColor'),
-            doc.get('breed'),
-            doc.get('birthday'),
-            doc.get('info')))
-        .toList());
+    final Completer<List<DogModel>> c = Completer<List<DogModel>>();
+
+    stream.listen((event) {
+      c.complete(event.docs
+          .map((doc) => DogModel(
+                doc.get('emailID'),
+                doc.get('name'),
+                false,
+                doc.get('iconName'),
+                doc.get('iconColor'),
+                doc.get('rasse'),
+                doc.get('birthday'),
+                doc.get('info'),
+              ))
+          .toList());
+    });
+    return c.future;
   }
 
   //ActionDate:

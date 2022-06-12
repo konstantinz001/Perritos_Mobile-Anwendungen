@@ -56,18 +56,7 @@ class HomeImplmentation extends HomeController {
 
   @override
   Future<List<DogModel>> loadDogsFromDB() async {
-    await for (List<DogModel> dogs
-        in _databaseService.getAllDogs(emailID: email)) {
-      for (var dog in dogs) {
-        if (state.dogs.contains(dog.name)) {
-          dog.selected = true;
-        } else {
-          dog.selected = false;
-        }
-      }
-      return dogs.toList();
-    }
-    return List.empty();
+    return await _databaseService.getAllDogs(emailID: email);
   }
 
   @override

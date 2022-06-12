@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application/screens/calendar/calendar_view.dart';
 import 'package:flutter_application/screens/dog_profile_info/dog_profile_info_view.dart';
+import 'package:flutter_application/screens/dog_selection_and_administration/dog_selection_and_administration_view.dart';
 import 'package:flutter_application/screens/home/home_view.dart';
 import 'package:flutter_application/screens/registration_and_login/registration_and_login_view.dart';
 import 'package:flutter_application/screens/user_selection_and_administration/user_selection_and_administration_view.dart';
@@ -45,9 +46,13 @@ class MyApp extends StatelessWidget {
                         emailID: args['emailID'],
                       ));
             } else if (routeParams.name == '/DogSelectionAndAdministration') {
+              final Map args = routeParams.arguments as Map;
               return MaterialPageRoute(
-                  builder: (context) => const Center(
-                      child: Text('DogSelectionAndAdministration Screen')));
+                  builder: (context) => DogSelectionAndAdministrationView(
+                        dogs: args['dogList'],
+                        emailID: args['emailID'],
+                        userName: args['userName'],
+                      ));
             } else if (routeParams.name == '/Home') {
               return MaterialPageRoute(builder: (context) => const HomeView());
             } else if (routeParams.name == '/Calendar') {

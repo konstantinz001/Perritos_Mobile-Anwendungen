@@ -6,6 +6,9 @@ import 'package:flutter_application/screens/calendar/calendar_view.dart';
 import 'package:flutter_application/screens/dog_profile_info/dog_profile_info_controller.dart';
 import 'package:flutter_application/screens/dog_profile_info/dog_profile_info_model.dart';
 import 'package:flutter_application/screens/dog_profile_info/dog_profile_info_view.dart';
+import 'package:flutter_application/screens/dog_selection_and_administration/dog_selection_and_administation_controller.dart';
+import 'package:flutter_application/screens/dog_selection_and_administration/dog_selection_and_administration_model.dart';
+import 'package:flutter_application/screens/dog_selection_and_administration/dog_selection_and_administration_view.dart';
 import 'package:flutter_application/screens/home/home_controller.dart';
 import 'package:flutter_application/screens/home/home_model.dart';
 import 'package:flutter_application/screens/home/home_view.dart';
@@ -51,6 +54,19 @@ class Providers {
               users: data,
               databaseService: ref.read(providers.databaseServiceProvider)));
 
+  final StateNotifierProviderFamily<
+          DogSelectionAndAdministrationController,
+          DogSelectionAndAdministrationModel,
+          List<DogModel>> dogSelectionAndAdministrationControllerProvider =
+      StateNotifierProvider.family<
+          DogSelectionAndAdministrationController,
+          DogSelectionAndAdministrationModel,
+          List<DogModel>>((StateNotifierProviderRef ref,
+              List<DogModel> data) =>
+          DogSelectionAndAdministrationImplmentation(
+              dogs: data,
+              databaseService: ref.read(providers.databaseServiceProvider)));
+
   final StateNotifierProvider<CalendarController, CalendarModel>
       calendarControllerProvider =
       StateNotifierProvider<CalendarController, CalendarModel>(
@@ -62,14 +78,11 @@ class Providers {
           (StateNotifierProviderRef ref) => HomeImplmentation(
               databaseService: ref.read(providers.databaseServiceProvider)));
 
-  final StateNotifierProviderFamily<
-      DogProfileInfoController,
-      DogProfileModel,
-      DogModel> dogProfileInfoControllerProvider =
-  StateNotifierProvider.family<
-      DogProfileInfoController,
-      DogProfileModel,
-      DogModel>((StateNotifierProviderRef ref,
-      DogModel data) =>
-      DogProfileInfoImplementation(databaseService: ref.read(providers.databaseServiceProvider), dog: data));
+  final StateNotifierProviderFamily<DogProfileInfoController, DogProfileModel,
+      DogModel> dogProfileInfoControllerProvider = StateNotifierProvider.family<
+          DogProfileInfoController, DogProfileModel, DogModel>(
+      (StateNotifierProviderRef ref, DogModel data) =>
+          DogProfileInfoImplementation(
+              databaseService: ref.read(providers.databaseServiceProvider),
+              dog: data));
 }
