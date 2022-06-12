@@ -5,6 +5,8 @@ import 'package:flutter_application/assets/styles/perritos-icons/PerritosIcons_i
 import 'package:flutter_application/assets/ui-components/action/perritos-action.dart';
 import 'package:flutter_application/assets/ui-components/buttons/perritos-icon-button.dart';
 import 'package:flutter_application/assets/ui-components/navigation/perritos-navigation.dart';
+import 'package:flutter_application/common/models/dog_model.dart';
+import 'package:flutter_application/common/models/user_model.dart';
 import 'package:flutter_application/common/providers.dart';
 import 'package:flutter_application/common/models/action_date_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -14,7 +16,18 @@ import 'package:table_calendar/table_calendar.dart';
 import 'calendar_model.dart';
 
 class CalendarView extends ConsumerWidget {
-  const CalendarView({Key? key}) : super(key: key);
+  final String _emailID;
+  final String _userName;
+  final String _dogName;
+  const CalendarView(
+      {Key? key,
+      required String dogName,
+      required String emailID,
+      required String userName})
+      : _dogName = dogName,
+        _emailID = emailID,
+        _userName = userName,
+        super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -37,15 +50,36 @@ class CalendarView extends ConsumerWidget {
               Row(
                 children: [
                   PerritosIconButton(
-                    onPressed: () =>
-                        {print("go to dog-selection-and-administration view")},
+                    onPressed: () async => {
+                      await controller
+                          .loadAllDogsFromDB(_emailID)
+                          .then((dogList) => {
+                                Navigator.pushNamed(
+                                    context, "/DogSelectionAndAdministration",
+                                    arguments: {
+                                      'emailID': _emailID,
+                                      'userName': _userName,
+                                      'dogList': dogList
+                                    })
+                              })
+                    },
                     icon: PerritosIcons.Icon_Dog,
                     iconSize: 26,
                   ),
                   const Spacer(),
                   PerritosIconButton(
-                    onPressed: () =>
-                        {print("go to user-selection-and-administration view")},
+                    onPressed: () async => {
+                      await controller
+                          .loadAllUsersFromDB(_emailID)
+                          .then((userList) => {
+                                Navigator.pushNamed(
+                                    context, '/UserSelectionAndAdministration',
+                                    arguments: {
+                                      'emailID': _emailID,
+                                      'userList': userList
+                                    })
+                              })
+                    },
                     icon: PerritosIcons.Icon_User,
                     iconSize: 26,
                   ),
@@ -123,7 +157,8 @@ class CalendarView extends ConsumerWidget {
                             '${DateFormat("dd.mm.yyyy hh:mm").format(event.begin.toDate())} bis ${DateFormat("dd.mm.yyyy hh:mm").format(event.end.toDate())}',
                         onPressed: () => {})),
                 FutureBuilder(
-                    future: controller.loadEvents(),
+                    future:
+                        controller.loadEvents(_emailID, _userName, _dogName),
                     builder: (BuildContext context,
                         AsyncSnapshot<Map<DateTime, List<ActionDateModel>>>
                             snapshot) {
@@ -131,7 +166,10 @@ class CalendarView extends ConsumerWidget {
                         return const SizedBox();
                       } else {
                         if (snapshot.hasError) {
-                              return Text('Error: ${snapshot.error}', style: perritosParagonError,);
+                          return Text(
+                            'Error: ${snapshot.error}',
+                            style: perritosParagonError,
+                          );
                         } else {
                           return const SizedBox();
                         }
@@ -141,13 +179,29 @@ class CalendarView extends ConsumerWidget {
               PerritosNavigationBar(
                 activeView: activeView.calendar,
                 navigateToHome: () {
-                  Navigator.pushNamed(context, '/Home');
+                  Navigator.pushNamed(context, '/Home', arguments: {
+                    'emailID': _emailID,
+                    'userName': _userName,
+                    'dogName': _dogName
+                  });
                 },
-                navigateToProfile: () {
-                  Navigator.pushNamed(context, '/DogProfileInfo');
+                navigateToProfile: () async {
+                  //TODO: PERRITOS DOG
+                  await controller.loadDogFromDB(_emailID, _dogName).then(
+                      (dog) => Navigator.pushNamed(context, '/DogProfileInfo',
+                              arguments: {
+                                'dogModel': dog,
+                                'emailID': _emailID,
+                                'userName': _userName,
+                                'dogName': _dogName
+                              }));
                 },
                 navigateToCalendar: () {
-                  Navigator.pushNamed(context, '/Calendar');
+                  Navigator.pushNamed(context, '/Calendar', arguments: {
+                    'emailID': _emailID,
+                    'userName': _userName,
+                    'dogName': _dogName
+                  });
                 },
               )
             ],
@@ -161,6 +215,12 @@ abstract class CalendarController extends StateNotifier<CalendarModel> {
   List<ActionDateModel> getEventsfromDay(DateTime date);
   void changeSelectedDay(DateTime date);
   void changeFocusedDay(DateTime date);
-  Future<List<ActionDateModel>> loadActionDatesFromDB();
-  Future<Map<DateTime, List<ActionDateModel>>> loadEvents();
+  Future<List<ActionDateModel>> loadActionDatesFromDB(
+      String email, String userName, String dogName);
+  Future<Map<DateTime, List<ActionDateModel>>> loadEvents(
+      String email, String userName, String dogName);
+
+  Future<List<UserModel>> loadAllUsersFromDB(String email);
+  Future<List<DogModel>> loadAllDogsFromDB(String email);
+  Future<DogModel> loadDogFromDB(String email, String name);
 }

@@ -54,26 +54,32 @@ class MyApp extends StatelessWidget {
                         userName: args['userName'],
                       ));
             } else if (routeParams.name == '/Home') {
-              return MaterialPageRoute(builder: (context) => const HomeView());
-            } else if (routeParams.name == '/Calendar') {
+              final Map args = routeParams.arguments as Map;
+              print(args['emailID']);
+              print(args['userName']);
+              print(args['dogName']);
               return MaterialPageRoute(
-                  builder: (context) => const CalendarView());
+                  builder: (context) => HomeView(
+                        emailID: args['emailID'],
+                        userName: args['userName'],
+                        dogName: args['dogName'],
+                      ));
+            } else if (routeParams.name == '/Calendar') {
+              final Map args = routeParams.arguments as Map;
+              return MaterialPageRoute(
+                  builder: (context) => CalendarView(
+                        emailID: args['emailID'],
+                        userName: args['userName'],
+                        dogName: args['dogName'],
+                      ));
             } else if (routeParams.name == '/DogProfileInfo') {
               final Map args = routeParams.arguments as Map;
               return MaterialPageRoute(
                   builder: (context) => DogProfileInfoView(
-                        dog: DogModel(
-                            'pelusa@gmail.com',
-                            'Pelusa',
-                            true,
-                            'Icon_Smiley_Happy',
-                            'perritosSandyBrown',
-                            'Malteser',
-                            Timestamp.fromDate(Timestamp.now()
-                                .toDate()
-                                .add(Duration(days: 1000))),
-                            'Pelusita'),
-                      ));
+                      dog: args['dogModel'],
+                      emailID: args['emailID'],
+                      userName: args['userName'],
+                      dogName: args['dogName']));
             }
             return MaterialPageRoute(
                 builder: (context) =>

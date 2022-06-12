@@ -1,12 +1,10 @@
+import 'package:flutter_application/common/models/dog_model.dart';
+import 'package:flutter_application/common/models/user_model.dart';
 import 'package:flutter_application/common/services/db_service.dart';
 import 'package:flutter_application/common/models/action_date_model.dart';
 import 'package:flutter_application/screens/calendar/calendar_model.dart';
 import 'package:intl/intl.dart';
 import 'calendar_view.dart';
-
-const userName = "Alex";
-const dogName = "dog1";
-const email = "k@web.de";
 
 class CalendarImplmentation extends CalendarController {
   final DatabaseService _databaseService;
@@ -39,8 +37,10 @@ class CalendarImplmentation extends CalendarController {
   }
 
   @override
-  Future<Map<DateTime, List<ActionDateModel>>> loadEvents() async {
-    List<ActionDateModel> actionDates = await loadActionDatesFromDB();
+  Future<Map<DateTime, List<ActionDateModel>>> loadEvents(
+      String email, String userName, String dogName) async {
+    List<ActionDateModel> actionDates =
+        await loadActionDatesFromDB(email, userName, dogName);
     Map<DateTime, List<ActionDateModel>> events = {};
     for (var action in actionDates) {
       DateTime key = DateTime.parse(
@@ -59,7 +59,8 @@ class CalendarImplmentation extends CalendarController {
   }
 
   @override
-  Future<List<ActionDateModel>> loadActionDatesFromDB() async {
+  Future<List<ActionDateModel>> loadActionDatesFromDB(
+      String email, String userName, String dogName) async {
     await for (List<ActionDateModel> actionDates
         in _databaseService.getAllActionDates(emailID: email)) {
       return actionDates
@@ -68,5 +69,21 @@ class CalendarImplmentation extends CalendarController {
           .toList();
     }
     return List.empty();
+  }
+
+  @override
+  Future<List<UserModel>> loadAllUsersFromDB(String email) async {
+    return await _databaseService.getAllUsers(emailID: email);
+  }
+
+  @override
+  Future<List<DogModel>> loadAllDogsFromDB(String email) async {
+    return await _databaseService.getAllDogs(emailID: email);
+  }
+
+  @override
+  Future<DogModel> loadDogFromDB(String email, String name) async {
+    var dogList = await _databaseService.getAllDogs(emailID: email);
+    return dogList.firstWhere((dog) => dog.name == name);
   }
 }

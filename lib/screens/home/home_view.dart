@@ -25,13 +25,25 @@ import 'package:intl/intl.dart';
 import 'home_model.dart';
 
 class HomeView extends ConsumerWidget {
-  const HomeView({Key? key}) : super(key: key);
+  final String _emailID;
+  final String _userName;
+  final String _dogName;
+  const HomeView(
+      {Key? key,
+      required String dogName,
+      required String emailID,
+      required String userName})
+      : _dogName = dogName,
+        _emailID = emailID,
+        _userName = userName,
+        super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final HomeController controller =
-        ref.read(providers.homeControllerProvider.notifier);
-    final HomeModel model = ref.watch(providers.homeControllerProvider);
+    final HomeController controller = ref.read(providers
+        .homeControllerProvider([_emailID, _userName, _dogName]).notifier);
+    final HomeModel model = ref.watch(
+        providers.homeControllerProvider([_emailID, _userName, _dogName]));
 
     return model.currentScreen == HomeScreen.overview
         ? Scaffold(
@@ -60,9 +72,18 @@ class HomeView extends ConsumerWidget {
                                   size: 26,
                                   color: PerritosColor.perritosGoldFusion.color,
                                 ),
-                                onPressed: () => {
-                                      Navigator.pushNamed(context,
-                                          '/DogSelectionAndAdministration')
+                                onPressed: () async => {
+                                      await controller
+                                          .loadAllDogsFromDB(_emailID)
+                                          .then((dogList) => {
+                                                Navigator.pushNamed(context,
+                                                    "/DogSelectionAndAdministration",
+                                                    arguments: {
+                                                      'emailID': _emailID,
+                                                      'userName': _userName,
+                                                      'dogList': dogList
+                                                    })
+                                              })
                                     }),
                             const Spacer(),
                             IconButton(
@@ -72,9 +93,17 @@ class HomeView extends ConsumerWidget {
                                   color:
                                       PerritosColor.perritosBurntSienna.color,
                                 ),
-                                onPressed: () => {
-                                      Navigator.pushNamed(context,
-                                          '/UserSelectionAndAdministration')
+                                onPressed: () async => {
+                                      await controller
+                                          .loadAllUsersFromDB(_emailID)
+                                          .then((userList) => {
+                                                Navigator.pushNamed(context,
+                                                    '/UserSelectionAndAdministration',
+                                                    arguments: {
+                                                      'emailID': _emailID,
+                                                      'userList': userList
+                                                    })
+                                              })
                                     }),
                           ],
                         ))
@@ -102,7 +131,8 @@ class HomeView extends ConsumerWidget {
                           style: perritosDoubleParagon,
                         ),
                         FutureBuilder(
-                            future: controller.loadActionTasksFromDB(),
+                            future: controller.loadActionTasksFromDB(
+                                _emailID, _userName, _dogName),
                             builder: (BuildContext context,
                                 AsyncSnapshot<List<ActionTaskModel>> snapshot) {
                               if (snapshot.connectionState ==
@@ -131,15 +161,17 @@ class HomeView extends ConsumerWidget {
                                               value: "",
                                               label: action.title,
                                               onPressed: () {
-                                               controller.selectActionType(
-                                                        ActionType.task);
+                                                controller.selectActionType(
+                                                    ActionType.task);
                                                 controller
                                                     .changeCurrentActionId(
-                                                        action.actionID).then((value) => {
-                                                        controller.switchHomeScreen(
-                                                            HomeScreen.editAction)                                                        
-                                                        }                                                      
-                                                  );
+                                                        action.actionID)
+                                                    .then((value) => {
+                                                          controller
+                                                              .switchHomeScreen(
+                                                                  HomeScreen
+                                                                      .editAction)
+                                                        });
                                               },
                                             )
                                         ]);
@@ -152,7 +184,8 @@ class HomeView extends ConsumerWidget {
                           style: perritosDoubleParagon,
                         ),
                         FutureBuilder(
-                            future: controller.loadActionDatesFromDB(),
+                            future: controller.loadActionDatesFromDB(
+                                _emailID, _userName, _dogName),
                             builder: (BuildContext context,
                                 AsyncSnapshot<List<ActionDateModel>> snapshot) {
                               if (snapshot.connectionState ==
@@ -182,15 +215,17 @@ class HomeView extends ConsumerWidget {
                                                   '${DateFormat("dd.mm.yyyy hh:mm").format(action.begin.toDate())} bis ${DateFormat("dd.mm.yyyy hh:mm").format(action.end.toDate())}',
                                               label: action.title,
                                               onPressed: () {
-                                               controller.selectActionType(
-                                                        ActionType.date);
+                                                controller.selectActionType(
+                                                    ActionType.date);
                                                 controller
                                                     .changeCurrentActionId(
-                                                        action.actionID).then((value) => {
-                                                        controller.switchHomeScreen(
-                                                            HomeScreen.editAction)                                                        
-                                                        }                                                      
-                                                  );
+                                                        action.actionID)
+                                                    .then((value) => {
+                                                          controller
+                                                              .switchHomeScreen(
+                                                                  HomeScreen
+                                                                      .editAction)
+                                                        });
                                               },
                                             )
                                         ]);
@@ -203,7 +238,8 @@ class HomeView extends ConsumerWidget {
                           style: perritosDoubleParagon,
                         ),
                         FutureBuilder(
-                            future: controller.loadActionAbnormalitiesFromDB(),
+                            future: controller.loadActionAbnormalitiesFromDB(
+                                _emailID, _dogName),
                             builder: (BuildContext context,
                                 AsyncSnapshot<List<ActionAbnormalityModel>>
                                     snapshot) {
@@ -237,15 +273,17 @@ class HomeView extends ConsumerWidget {
                                               value: '',
                                               label: action.title,
                                               onPressed: () {
-                                               controller.selectActionType(
-                                                        ActionType.abnormality);
+                                                controller.selectActionType(
+                                                    ActionType.abnormality);
                                                 controller
                                                     .changeCurrentActionId(
-                                                        action.actionID).then((value) => {
-                                                        controller.switchHomeScreen(
-                                                            HomeScreen.editAction)                                                        
-                                                        }                                                      
-                                                  );
+                                                        action.actionID)
+                                                    .then((value) => {
+                                                          controller
+                                                              .switchHomeScreen(
+                                                                  HomeScreen
+                                                                      .editAction)
+                                                        });
                                               },
                                             )
                                         ]);
@@ -275,25 +313,40 @@ class HomeView extends ConsumerWidget {
             bottomNavigationBar: Container(
               color: PerritosColor.perritosSnow.color,
               child: Padding(
-                padding: const EdgeInsets.only(
-                  left: 10,
-                  top: 0,
-                  right: 10,
-                  bottom: 10,
-                ),
-                child: PerritosNavigationBar(
-                  activeView: activeView.home,
-                  navigateToHome: () {
-                    Navigator.pushNamed(context, '/Home');
-                  },
-                  navigateToProfile: () {
-                    Navigator.pushNamed(context, '/DogProfileInfo');
-                  },
-                  navigateToCalendar: () {
-                    Navigator.pushNamed(context, '/Calendar');
-                  },
-                ),
-              ),
+                  padding: const EdgeInsets.only(
+                    left: 10,
+                    top: 0,
+                    right: 10,
+                    bottom: 10,
+                  ),
+                  child: PerritosNavigationBar(
+                    activeView: activeView.home,
+                    navigateToHome: () {
+                      Navigator.pushNamed(context, '/Home', arguments: {
+                        'emailID': _emailID,
+                        'userName': _userName,
+                        'dogName': _dogName
+                      });
+                    },
+                    navigateToProfile: () async {
+                      //TODO: PERRITOS DOG
+                      await controller.loadDogFromDB(_emailID, _dogName).then(
+                          (dog) => Navigator.pushNamed(
+                                  context, '/DogProfileInfo', arguments: {
+                                'dogModel': dog,
+                                'emailID': _emailID,
+                                'userName': _userName,
+                                'dogName': _dogName
+                              }));
+                    },
+                    navigateToCalendar: () {
+                      Navigator.pushNamed(context, '/Calendar', arguments: {
+                        'emailID': _emailID,
+                        'userName': _userName,
+                        'dogName': _dogName
+                      });
+                    },
+                  )),
             ))
         : model.currentScreen == HomeScreen.selectActionType
             ? Scaffold(
@@ -404,7 +457,8 @@ class HomeView extends ConsumerWidget {
                                   Expanded(
                                       child: PerritosIconButton(
                                           onPressed: () => {
-                                                controller.resetActionData(),
+                                                controller.resetActionData(
+                                                    _userName, _dogName),
                                                 controller.switchHomeScreen(
                                                     HomeScreen.selectActionType)
                                               },
@@ -598,7 +652,8 @@ class HomeView extends ConsumerWidget {
                                                     ),
                                                     FutureBuilder(
                                                         future: controller
-                                                            .loadUsersFromDB(),
+                                                            .loadAllUsersFromDB(
+                                                                _emailID),
                                                         builder: (BuildContext
                                                                 context,
                                                             AsyncSnapshot<
@@ -698,7 +753,8 @@ class HomeView extends ConsumerWidget {
                                                     ),
                                                     FutureBuilder(
                                                         future: controller
-                                                            .loadDogsFromDB(),
+                                                            .loadAllDogsFromDB(
+                                                                _emailID),
                                                         builder: (BuildContext
                                                                 context,
                                                             AsyncSnapshot<
@@ -787,9 +843,11 @@ class HomeView extends ConsumerWidget {
                               PerritosButton(
                                   onPressed: () => {
                                         controller
-                                            .createAction()
+                                            .createAction(
+                                                _emailID, _userName, _dogName)
                                             .then((m) => {
-                                                  controller.resetActionData(),
+                                                  controller.resetActionData(
+                                                      _userName, _dogName),
                                                   controller.switchHomeScreen(
                                                       HomeScreen.overview)
                                                 })
@@ -826,7 +884,8 @@ class HomeView extends ConsumerWidget {
                                   Expanded(
                                       child: PerritosIconButton(
                                           onPressed: () => {
-                                                controller.resetActionData(),
+                                                controller.resetActionData(
+                                                    _userName, _dogName),
                                                 controller.switchHomeScreen(
                                                     HomeScreen.overview)
                                               },
@@ -861,28 +920,28 @@ class HomeView extends ConsumerWidget {
                                                   ActionType.walking
                                               ? Column(
                                                   children: [
-                                                  PerritosTxtInput(
-                                                                  label:
-                                                                      "Titel",
-                                                                  initialValue: model.title,
-                                                                  onSubmit:
-                                                                      (title) =>
-                                                                          {
-                                                                            controller.changeTitle(title)
-                                                    }),
+                                                    PerritosTxtInput(
+                                                        label: "Titel",
+                                                        initialValue:
+                                                            model.title,
+                                                        onSubmit: (title) => {
+                                                              controller
+                                                                  .changeTitle(
+                                                                      title)
+                                                            }),
                                                     const SizedBox(
                                                       height: 20,
                                                     ),
                                                     PerritosDescriptionInput(
-                                                                  label:
-                                                                      "Beschreibung",
-                                                                  initialValue:
-                                                                      model.description,
-                                                                  onSubmit:
-                                                                      (description) =>
-                                                                          {
-                                                                            controller.changeDescription(description)
-                                                    }),
+                                                        label: "Beschreibung",
+                                                        initialValue:
+                                                            model.description,
+                                                        onSubmit:
+                                                            (description) => {
+                                                                  controller
+                                                                      .changeDescription(
+                                                                          description)
+                                                                }),
                                                     const SizedBox(
                                                       height: 20,
                                                     ),
@@ -1024,7 +1083,8 @@ class HomeView extends ConsumerWidget {
                                                     ),
                                                     FutureBuilder(
                                                         future: controller
-                                                            .loadUsersFromDB(),
+                                                            .loadAllUsersFromDB(
+                                                                _emailID),
                                                         builder: (BuildContext
                                                                 context,
                                                             AsyncSnapshot<
@@ -1124,7 +1184,8 @@ class HomeView extends ConsumerWidget {
                                                     ),
                                                     FutureBuilder(
                                                         future: controller
-                                                            .loadDogsFromDB(),
+                                                            .loadAllDogsFromDB(
+                                                                _emailID),
                                                         builder: (BuildContext
                                                                 context,
                                                             AsyncSnapshot<
@@ -1213,9 +1274,10 @@ class HomeView extends ConsumerWidget {
                               PerritosButton(
                                   onPressed: () => {
                                         controller
-                                            .updateAction()
+                                            .updateAction(_dogName)
                                             .then((m) => {
-                                                  controller.resetActionData(),
+                                                  controller.resetActionData(
+                                                      _userName, _dogName),
                                                   controller.switchHomeScreen(
                                                       HomeScreen.overview)
                                                 })
@@ -1229,40 +1291,43 @@ class HomeView extends ConsumerWidget {
                                                           backgroundColor:
                                                               perritosBurntSienna))
                                                 })
-                                  }, label: "bearbeiten"),
-                                const SizedBox(
-                                  height: 10
-                                ),
-                                Row(
-                                  children: [
-                                    const Spacer(),
-                                    PerritosIconButton(
-                                      label:"löschen",
-                                      onPressed: ()=>{
-                                        controller
-                                        .deleteAction()
-                                        .then((m) => {
-                                              controller.resetActionData(),
-                                              controller.switchHomeScreen(
-                                                  HomeScreen.overview)
-                                            })
-                                        .catchError((e) => {
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(SnackBar(
-                                                      content: Text(
-                                                          'Löschen der Aktion ist fehlgeschlagen :(',
-                                                          style:
-                                                              perritosDoublePica),
-                                                      backgroundColor:
-                                                          perritosBurntSienna))
-                                            })                                   
-                                      }, 
-                                      icon: PerritosIcons.Icon_Remove
-                                    ),
-                                    const Spacer()                                    
-                                  ],
-                                )
-
+                                      },
+                                  label: "bearbeiten"),
+                              const SizedBox(height: 10),
+                              Row(
+                                children: [
+                                  const Spacer(),
+                                  PerritosIconButton(
+                                      label: "löschen",
+                                      onPressed: () => {
+                                            controller
+                                                .deleteAction()
+                                                .then((m) => {
+                                                      controller
+                                                          .resetActionData(
+                                                              _userName,
+                                                              _dogName),
+                                                      controller
+                                                          .switchHomeScreen(
+                                                              HomeScreen
+                                                                  .overview)
+                                                    })
+                                                .catchError((e) => {
+                                                      ScaffoldMessenger.of(
+                                                              context)
+                                                          .showSnackBar(SnackBar(
+                                                              content: Text(
+                                                                  'Löschen der Aktion ist fehlgeschlagen :(',
+                                                                  style:
+                                                                      perritosDoublePica),
+                                                              backgroundColor:
+                                                                  perritosBurntSienna))
+                                                    })
+                                          },
+                                      icon: PerritosIcons.Icon_Remove),
+                                  const Spacer()
+                                ],
+                              )
                             ])));
   }
 }
@@ -1284,13 +1349,17 @@ abstract class HomeController extends StateNotifier<HomeModel> {
   void changeBeginTime(TimeOfDay beginTime);
   void changeEndDate(DateTime endDate);
   void changeEndTime(TimeOfDay endTime);
-  void resetActionData();
-  Future createAction();
-  Future updateAction();
+  void resetActionData(String userName, String dogName);
+  Future createAction(String email, String userName, String dogName);
+  Future updateAction(String dogName);
   Future deleteAction();
-  Future<List<UserModel>> loadUsersFromDB();
-  Future<List<DogModel>> loadDogsFromDB();
-  Future<List<ActionDateModel>> loadActionDatesFromDB();
-  Future<List<ActionTaskModel>> loadActionTasksFromDB();
-  Future<List<ActionAbnormalityModel>> loadActionAbnormalitiesFromDB();
+  Future<DogModel> loadDogFromDB(String email, String name);
+  Future<List<UserModel>> loadAllUsersFromDB(String email);
+  Future<List<DogModel>> loadAllDogsFromDB(String email);
+  Future<List<ActionDateModel>> loadActionDatesFromDB(
+      String email, String userName, String dogName);
+  Future<List<ActionTaskModel>> loadActionTasksFromDB(
+      String email, String userName, String dogName);
+  Future<List<ActionAbnormalityModel>> loadActionAbnormalitiesFromDB(
+      String email, String dogName);
 }

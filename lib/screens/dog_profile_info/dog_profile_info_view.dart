@@ -5,6 +5,7 @@ import 'package:flutter_application/assets/ui-components/navigation/perritos-nav
 import 'package:flutter_application/assets/ui-components/profile/perritos-profile.dart';
 import 'package:flutter_application/assets/ui-components/text-input/perritos_description_input.dart';
 import 'package:flutter_application/assets/ui-components/text-input/perritos_txt_input.dart';
+import 'package:flutter_application/common/models/user_model.dart';
 import 'package:flutter_application/common/providers.dart';
 import 'package:flutter_application/screens/dog_profile_info/dog_profile_info_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -14,10 +15,21 @@ import '../../assets/styles/perritos-icons/PerritosIcons_icons.dart';
 import '../../common/models/dog_model.dart';
 
 class DogProfileInfoView extends ConsumerWidget {
+  final String _emailID;
+  final String _userName;
+  final String _dogName;
   final DogModel _dog;
 
-  const DogProfileInfoView({Key? key, required DogModel dog})
+  const DogProfileInfoView(
+      {Key? key,
+      required DogModel dog,
+      required String dogName,
+      required String emailID,
+      required String userName})
       : _dog = dog,
+        _dogName = dogName,
+        _emailID = emailID,
+        _userName = userName,
         super(key: key);
 
   @override
@@ -49,9 +61,18 @@ class DogProfileInfoView extends ConsumerWidget {
                             size: 26,
                             color: PerritosColor.perritosGoldFusion.color,
                           ),
-                          onPressed: () => {
-                                Navigator.pushNamed(
-                                    context, '/DogSelectionAndAdministration')
+                          onPressed: () async => {
+                                await controller
+                                    .loadAllDogsFromDB(_emailID)
+                                    .then((dogList) => {
+                                          Navigator.pushNamed(context,
+                                              "/DogSelectionAndAdministration",
+                                              arguments: {
+                                                'emailID': _emailID,
+                                                'userName': _userName,
+                                                'dogList': dogList
+                                              })
+                                        })
                               }),
                       const Spacer(),
                       IconButton(
@@ -60,9 +81,17 @@ class DogProfileInfoView extends ConsumerWidget {
                             size: 26,
                             color: PerritosColor.perritosBurntSienna.color,
                           ),
-                          onPressed: () => {
-                                Navigator.pushNamed(
-                                    context, '/UserSelectionAndAdministration')
+                          onPressed: () async => {
+                                await controller
+                                    .loadAllUsersFromDB(_emailID)
+                                    .then((userList) => {
+                                          Navigator.pushNamed(context,
+                                              '/UserSelectionAndAdministration',
+                                              arguments: {
+                                                'emailID': _emailID,
+                                                'userList': userList
+                                              })
+                                        })
                               }),
                     ],
                   ))
@@ -128,21 +157,35 @@ class DogProfileInfoView extends ConsumerWidget {
       bottomNavigationBar: Container(
         color: PerritosColor.perritosSnow.color,
         child: Padding(
-          padding:
-              const EdgeInsets.only(left: 10, top: 10, right: 10, bottom: 10),
-          child: PerritosNavigationBar(
-            activeView: activeView.profile,
-            navigateToHome: () {
-              Navigator.pushNamed(context, '/Home');
-            },
-            navigateToCalendar: () {
-              Navigator.pushNamed(context, '/Calendar');
-            },
-            navigateToProfile: () {
-              Navigator.pushNamed(context, '/DogProfileInfo');
-            },
-          ),
-        ),
+            padding:
+                const EdgeInsets.only(left: 10, top: 10, right: 10, bottom: 10),
+            child: PerritosNavigationBar(
+              activeView: activeView.profile,
+              navigateToHome: () {
+                Navigator.pushNamed(context, '/Home', arguments: {
+                  'emailID': _emailID,
+                  'userName': _userName,
+                  'dogName': _dogName
+                });
+              },
+              navigateToProfile: () async {
+                //TODO: PERRITOS DOG
+                await controller.loadDogFromDB(_emailID, _dogName).then((dog) =>
+                    Navigator.pushNamed(context, '/DogProfileInfo', arguments: {
+                      'dogModel': dog,
+                      'emailID': _emailID,
+                      'userName': _userName,
+                      'dogName': _dogName
+                    }));
+              },
+              navigateToCalendar: () {
+                Navigator.pushNamed(context, '/Calendar', arguments: {
+                  'emailID': _emailID,
+                  'userName': _userName,
+                  'dogName': _dogName
+                });
+              },
+            )),
       ),
     );
   }
@@ -151,4 +194,8 @@ class DogProfileInfoView extends ConsumerWidget {
 abstract class DogProfileInfoController extends StateNotifier<DogProfileModel> {
   DogProfileInfoController(DogProfileModel state) : super(state);
   int calculateAge(DateTime birthdate);
+
+  Future<List<UserModel>> loadAllUsersFromDB(String email);
+  Future<DogModel> loadDogFromDB(String email, String name);
+  Future<List<DogModel>> loadAllDogsFromDB(String email);
 }

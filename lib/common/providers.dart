@@ -20,6 +20,7 @@ import 'package:flutter_application/screens/user_selection_and_administration/us
 import 'package:flutter_application/screens/user_selection_and_administration/user_selection_and_administration_model.dart';
 import 'package:flutter_application/screens/user_selection_and_administration/user_selection_and_administration_view.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tuple/tuple.dart';
 import '../screens/dog_profile_info/dog_profile_info_model.dart';
 import 'models/dog_model.dart';
 
@@ -73,10 +74,15 @@ class Providers {
           (StateNotifierProviderRef ref) => CalendarImplmentation(
               databaseService: ref.read(providers.databaseServiceProvider)));
 
-  final StateNotifierProvider<HomeController, HomeModel>
-      homeControllerProvider = StateNotifierProvider<HomeController, HomeModel>(
-          (StateNotifierProviderRef ref) => HomeImplmentation(
-              databaseService: ref.read(providers.databaseServiceProvider)));
+  final StateNotifierProviderFamily<HomeController, HomeModel, List<String>>
+      homeControllerProvider =
+      StateNotifierProvider.family<HomeController, HomeModel, List<String>>(
+          (StateNotifierProviderRef ref, List<String> data) =>
+              HomeImplmentation(
+                  databaseService: ref.read(providers.databaseServiceProvider),
+                  email: data[0],
+                  userName: data[1],
+                  dogName: data[2]));
 
   final StateNotifierProviderFamily<DogProfileInfoController, DogProfileModel,
       DogModel> dogProfileInfoControllerProvider = StateNotifierProvider.family<

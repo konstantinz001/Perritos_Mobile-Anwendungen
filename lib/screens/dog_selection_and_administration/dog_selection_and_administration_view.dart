@@ -50,8 +50,8 @@ class DogSelectionAndAdministrationView extends ConsumerWidget {
     textEditingControllerInfo.text = model.info;
     TextEditingController textEditingControllerBirthday =
         TextEditingController();
-    textEditingControllerBirthday.text = model.birthday.toDate().toString();
-    //FORMAT
+    textEditingControllerBirthday.text =
+        model.birthday.toDate().toString(); //TODO IST FALSCH
 
     var buildWidget = Scaffold(
       body: Center(
@@ -120,7 +120,12 @@ class DogSelectionAndAdministrationView extends ConsumerWidget {
                                             edit: false,
                                             onPressed: () => {
                                                   Navigator.pushNamed(
-                                                      context, "/Home")
+                                                      context, "/Home",
+                                                      arguments: {
+                                                        'emailID': _emailID,
+                                                        'userName': _userName,
+                                                        'dogName': "Perritos"
+                                                      })
                                                 }),
                                         const SizedBox(height: 20),
                                       ],
@@ -161,7 +166,15 @@ class DogSelectionAndAdministrationView extends ConsumerWidget {
                                             onPressed: () => {
                                                   model.editable == false
                                                       ? Navigator.pushNamed(
-                                                          context, "/Home")
+                                                          context, "/Home",
+                                                          arguments: {
+                                                              'emailID':
+                                                                  _emailID,
+                                                              'userName':
+                                                                  _userName,
+                                                              'dogName':
+                                                                  dog.name
+                                                            })
                                                       : {
                                                           controller
                                                               .changeSelectedDog(

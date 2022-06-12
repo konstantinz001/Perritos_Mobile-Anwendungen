@@ -1,18 +1,11 @@
-
-
-
 import 'package:flutter_application/common/models/dog_model.dart';
+import 'package:flutter_application/common/models/user_model.dart';
 import 'package:flutter_application/screens/dog_profile_info/dog_profile_info_model.dart';
 import 'package:flutter_application/screens/dog_profile_info/dog_profile_info_view.dart';
 
 import '../../common/services/db_service.dart';
 
-const userName = "Alex";
-const dogName = "dog1";
-const email = "k@web.de";
-
 class DogProfileInfoImplementation extends DogProfileInfoController {
-
   final DatabaseService _databaseService;
   final DogModel _dog;
 
@@ -22,10 +15,7 @@ class DogProfileInfoImplementation extends DogProfileInfoController {
     DogProfileModel? model,
   })  : _dog = dog,
         _databaseService = databaseService,
-        super(
-        model ??
-            DogProfileModel(dog: dog)
-      );
+        super(model ?? DogProfileModel(dog: dog));
 
   int calculateAge(DateTime birthDate) {
     DateTime currentDate = DateTime.now();
@@ -42,5 +32,21 @@ class DogProfileInfoImplementation extends DogProfileInfoController {
       }
     }
     return age;
+  }
+
+  @override
+  Future<List<DogModel>> loadAllDogsFromDB(String email) async {
+    return await _databaseService.getAllDogs(emailID: email);
+  }
+
+  @override
+  Future<DogModel> loadDogFromDB(String email, String name) async {
+    var dogList = await _databaseService.getAllDogs(emailID: email);
+    return dogList.firstWhere((dog) => dog.name == name);
+  }
+
+  @override
+  Future<List<UserModel>> loadAllUsersFromDB(String email) async {
+    return await _databaseService.getAllUsers(emailID: email);
   }
 }

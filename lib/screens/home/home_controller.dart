@@ -9,14 +9,13 @@ import 'home_view.dart';
 import 'package:flutter_application/common/models/user_model.dart';
 import 'package:flutter_application/common/models/dog_model.dart';
 
-const userName = "Alex";
-const dogName = "dog1";
-const email = "k@web.de";
-
 class HomeImplmentation extends HomeController {
   final DatabaseService _databaseService;
 
   HomeImplmentation({
+    required String dogName,
+    required String userName,
+    required String email,
     required DatabaseService databaseService,
     HomeModel? model,
   })  : _databaseService = databaseService,
@@ -40,27 +39,8 @@ class HomeImplmentation extends HomeController {
         );
 
   @override
-  Future<List<UserModel>> loadUsersFromDB() async {
-    List<UserModel> users = await _databaseService.getAllUsers(emailID: email);
-    // await for (List<UserModel> users
-    //in _databaseService.getAllUsers(emailID: email)) {
-    for (var user in users) {
-      if (state.users.contains(user.name)) {
-        user.selected = true;
-      } else {
-        user.selected = false;
-      }
-    }
-    return users.toList();
-  }
-
-  @override
-  Future<List<DogModel>> loadDogsFromDB() async {
-    return await _databaseService.getAllDogs(emailID: email);
-  }
-
-  @override
-  Future<List<ActionDateModel>> loadActionDatesFromDB() async {
+  Future<List<ActionDateModel>> loadActionDatesFromDB(
+      String email, String userName, String dogName) async {
     await for (List<ActionDateModel> actionDates
         in _databaseService.getAllActionDates(emailID: email)) {
       if (state.searchString != "") {
@@ -79,7 +59,8 @@ class HomeImplmentation extends HomeController {
   }
 
   @override
-  Future<List<ActionAbnormalityModel>> loadActionAbnormalitiesFromDB() async {
+  Future<List<ActionAbnormalityModel>> loadActionAbnormalitiesFromDB(
+      String email, String dogName) async {
     await for (List<ActionAbnormalityModel> actionAbnormalities
         in _databaseService.getAllActionAbnormalities(emailID: email)) {
       if (state.searchString != "") {
@@ -97,7 +78,8 @@ class HomeImplmentation extends HomeController {
   }
 
   @override
-  Future<List<ActionTaskModel>> loadActionTasksFromDB() async {
+  Future<List<ActionTaskModel>> loadActionTasksFromDB(
+      String email, String userName, String dogName) async {
     await for (List<ActionTaskModel> actionTasks
         in _databaseService.getAllActionTasks(emailID: email)) {
       if (state.searchString != "") {
@@ -174,7 +156,7 @@ class HomeImplmentation extends HomeController {
   }
 
   @override
-  Future createAction() async {
+  Future createAction(String email, String userName, String dogName) async {
     switch (state.selectedActionType) {
       case ActionType.abnormality:
         return await _databaseService.insertActionAbnormaility(
@@ -230,7 +212,7 @@ class HomeImplmentation extends HomeController {
   }
 
   @override
-  void resetActionData() {
+  void resetActionData(String userName, String dogName) {
     state = state.copyWith(
         title: "",
         description: "",
@@ -317,7 +299,7 @@ class HomeImplmentation extends HomeController {
   }
 
   @override
-  Future updateAction() async {
+  Future updateAction(String dogName) async {
     switch (state.selectedActionType) {
       case ActionType.abnormality:
         return _databaseService.updateActionAbnormalityWithID(
@@ -388,5 +370,30 @@ class HomeImplmentation extends HomeController {
         return _databaseService.deleteActionWalkingWithID(
             actionID: state.currentActionId);
     }
+  }
+
+  //NEW VON K
+  @override
+  Future<List<UserModel>> loadAllUsersFromDB(String email) async {
+    List<UserModel> users = await _databaseService.getAllUsers(emailID: email);
+    for (var user in users) {
+      if (state.users.contains(user.name)) {
+        user.selected = true;
+      } else {
+        user.selected = false;
+      }
+    }
+    return users.toList();
+  }
+
+  @override
+  Future<List<DogModel>> loadAllDogsFromDB(String email) async {
+    return await _databaseService.getAllDogs(emailID: email);
+  }
+
+  @override
+  Future<DogModel> loadDogFromDB(String email, String name) async {
+    var dogList = await _databaseService.getAllDogs(emailID: email);
+    return dogList.firstWhere((dog) => dog.name == name);
   }
 }
