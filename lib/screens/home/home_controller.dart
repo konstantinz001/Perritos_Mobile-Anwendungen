@@ -11,91 +11,141 @@ import 'package:flutter_application/common/models/dog_model.dart';
 
 class HomeImplmentation extends HomeController {
   final DatabaseService _databaseService;
+  final String _userName;
+  final String _dogName;
+  final ActionDateModel? _dateModel;
 
   HomeImplmentation({
     required DatabaseService databaseService,
     HomeModel? model,
+    required String userName,
+    required String dogName,
+    required ActionDateModel? dateModel,
   })  : _databaseService = databaseService,
+        _userName = userName,
+        _dogName = dogName,
+        _dateModel = dateModel,
         super(
           model ??
               HomeModel(
-                  currentScreen: HomeScreen.overview,
-                  selectedActionType: ActionType.task,
-                  currentActionId: "",
+                  currentScreen: dateModel != null
+                      ? HomeScreen.editAction
+                      : HomeScreen.overview,
+                  selectedActionType:
+                      dateModel != null ? ActionType.date : ActionType.task,
+                  currentActionId: dateModel != null ? dateModel.actionID : "",
                   searchString: "",
-                  title: "",
-                  description: "",
-                  users: ["Alex"], //User rein
-                  dogs: ["dog1"], //Dog rein
+                  title: dateModel != null ? dateModel.title : "",
+                  description: dateModel != null ? dateModel.description : "",
+                  users: dateModel != null ? dateModel.users : [userName],
+                  dogs: dateModel != null ? dateModel.dogs : [dogName],
                   emotionalState: 0,
-                  beginDate: DateTime.now(),
-                  beginTime: TimeOfDay.now(),
-                  endDate: DateTime.now(),
-                  endTime: TimeOfDay.fromDateTime(
-                      DateTime.now().add(const Duration(hours: 1)))),
+                  beginDate: dateModel != null
+                      ? dateModel.begin.toDate()
+                      : DateTime.now(),
+                  beginTime: dateModel != null
+                      ? TimeOfDay.fromDateTime(dateModel.begin.toDate())
+                      : TimeOfDay.now(),
+                  endDate: dateModel != null
+                      ? dateModel.end.toDate()
+                      : DateTime.now(),
+                  endTime: dateModel != null
+                      ? TimeOfDay.fromDateTime(dateModel.end.toDate())
+                      : TimeOfDay.fromDateTime(
+                          DateTime.now().add(const Duration(hours: 1)))),
         );
+
+  @override
+  Future<List<UserModel>> loadUsersFromDB(String email) async {
+    List<UserModel> users = await _databaseService.getAllUsers(emailID: email);
+    for (var user in users) {
+      if (state.users.contains(user.name)) {
+        user.selected = true;
+      } else {
+        user.selected = false;
+      }
+    }
+    return users.toList();
+  }
+
+  @override
+  Future<List<DogModel>> loadDogsFromDB(String email) async {
+    List<DogModel> dogs = await _databaseService.getAllDogs(emailID: email);
+    for (var dog in dogs) {
+      if (state.dogs.contains(dog.name)) {
+        dog.selected = true;
+      } else {
+        dog.selected = false;
+      }
+    }
+    return dogs.toList();
+  }
 
   @override
   Future<List<ActionDateModel>> loadActionDatesFromDB(
       String email, String userName, String dogName) async {
-    await for (List<ActionDateModel> actionDates
-        in _databaseService.getAllActionDates(emailID: email)) {
-      if (state.searchString != "") {
-        actionDates = actionDates
-            .where((action) => action.title
-                .toLowerCase()
-                .contains(state.searchString.toLowerCase()))
-            .toList();
-      }
+    List<ActionDateModel> actionDates =
+        await _databaseService.getAllActionDates(emailID: email);
+
+    if (state.searchString != "") {
       return actionDates
+          .where((action) => action.title
+              .toLowerCase()
+              .contains(state.searchString.toLowerCase()))
           .where((action) =>
               action.users.contains(userName) && action.dogs.contains(dogName))
           .toList();
     }
-    return List.empty();
-  }
-
-  HomeModel getState() {
-    return state;
+    return actionDates
+        .where((action) =>
+            action.users.contains(userName) && action.dogs.contains(dogName))
+        .toList();
   }
 
   @override
   Future<List<ActionAbnormalityModel>> loadActionAbnormalitiesFromDB(
-      String email, String dogName) async {
-    await for (List<ActionAbnormalityModel> actionAbnormalities
-        in _databaseService.getAllActionAbnormalities(emailID: email)) {
-      if (state.searchString != "") {
-        actionAbnormalities = actionAbnormalities
-            .where((action) => action.title
-                .toLowerCase()
-                .contains(state.searchString.toLowerCase()))
-            .toList();
-      }
+      String email, String userName, String dogName) async {
+    List<ActionAbnormalityModel> actionAbnormalities =
+        await _databaseService.getAllActionAbnormalities(emailID: email);
+    if (state.searchString != "") {
       return actionAbnormalities
+          .where((action) => action.title
+              .toLowerCase()
+              .contains(state.searchString.toLowerCase()))
           .where((action) => action.dog == dogName)
           .toList();
     }
-    return List.empty();
+    return actionAbnormalities
+        .where((action) => action.dog == dogName)
+        .toList();
   }
 
   @override
   Future<List<ActionTaskModel>> loadActionTasksFromDB(
       String email, String userName, String dogName) async {
-    await for (List<ActionTaskModel> actionTasks
-        in _databaseService.getAllActionTasks(emailID: email)) {
-      if (state.searchString != "") {
-        actionTasks = actionTasks
-            .where((action) => action.title
-                .toLowerCase()
-                .contains(state.searchString.toLowerCase()))
-            .toList();
-      }
+    List<ActionTaskModel> actionTasks =
+        await _databaseService.getAllActionTasks(emailID: email);
+
+    if (state.searchString != "") {
+      actionTasks
+          .where((action) => action.title
+              .toLowerCase()
+              .contains(state.searchString.toLowerCase()))
+          .where((action) =>
+              action.users.contains(userName) && action.dogs.contains(dogName))
+          .toList();
       return actionTasks
+          .where((action) => action.title
+              .toLowerCase()
+              .contains(state.searchString.toLowerCase()))
           .where((action) =>
               action.users.contains(userName) && action.dogs.contains(dogName))
           .toList();
     }
-    return List.empty();
+    return actionTasks
+        .where((action) =>
+            action.users.contains(userName) && action.dogs.contains(dogName))
+        .toList();
   }
 
   @override
@@ -106,7 +156,6 @@ class HomeImplmentation extends HomeController {
   @override
   void switchHomeScreen(HomeScreen homeScreen) {
     state = state.copyWith(currentScreen: homeScreen);
-    print(state.currentScreen);
   }
 
   @override
@@ -146,7 +195,7 @@ class HomeImplmentation extends HomeController {
   @override
   void removeDog(String dog) {
     List<String> newDogs = [...state.dogs];
-    newDogs.add(dog);
+    newDogs.remove(dog);
     state = state.copyWith(dogs: newDogs);
   }
 
@@ -226,6 +275,22 @@ class HomeImplmentation extends HomeController {
         endDate: DateTime.now(),
         endTime: TimeOfDay(
             hour: TimeOfDay.now().hour + 1, minute: TimeOfDay.now().minute));
+  }
+
+  @override
+  void setEditActionDatesToModel(ActionDateModel? model) {
+    state = state.copyWith(
+        selectedActionType: ActionType.date,
+        currentActionId: model!.actionID,
+        currentScreen: HomeScreen.editAction,
+        title: model.title,
+        description: model.description,
+        users: model.users,
+        dogs: model.dogs,
+        beginDate: model.begin.toDate(),
+        beginTime: TimeOfDay.fromDateTime(model.begin.toDate()),
+        endDate: model.begin.toDate(),
+        endTime: TimeOfDay.fromDateTime(model.end.toDate()));
   }
 
   @override
@@ -312,23 +377,24 @@ class HomeImplmentation extends HomeController {
             emotionalState: state.emotionalState.round());
       case ActionType.date:
         return _databaseService.updateActionDateWithID(
-            actionID: state.currentActionId,
-            title: state.title,
-            description: state.description,
-            begin: Timestamp.fromDate(DateTime(
-                state.beginDate.year,
-                state.beginDate.month,
-                state.beginDate.day,
-                state.beginTime.hour,
-                state.beginTime.minute)),
-            end: Timestamp.fromDate(DateTime(
-                state.endDate.year,
-                state.endDate.month,
-                state.endDate.day,
-                state.endDate.hour,
-                state.endDate.minute)),
-            users: state.users,
-            dogs: state.dogs);
+          actionID: state.currentActionId,
+          title: state.title,
+          description: state.description,
+          begin: Timestamp.fromDate(DateTime(
+              state.beginDate.year,
+              state.beginDate.month,
+              state.beginDate.day,
+              state.beginTime.hour,
+              state.beginTime.minute)),
+          end: Timestamp.fromDate(DateTime(
+              state.endDate.year,
+              state.endDate.month,
+              state.endDate.day,
+              state.endDate.hour,
+              state.endDate.minute)),
+          users: state.users,
+          dogs: state.dogs,
+        );
       case ActionType.task:
         return _databaseService.updateActionTaskWithID(
             actionID: state.currentActionId,
@@ -374,28 +440,12 @@ class HomeImplmentation extends HomeController {
     }
   }
 
-  //NEW VON K
-  @override
-  Future<List<UserModel>> loadAllUsersFromDB(String email) async {
-    List<UserModel> users = await _databaseService.getAllUsers(emailID: email);
-    for (var user in users) {
-      if (state.users.contains(user.name)) {
-        user.selected = true;
-      } else {
-        user.selected = false;
-      }
-    }
-    return users.toList();
-  }
-
-  @override
-  Future<List<DogModel>> loadAllDogsFromDB(String email) async {
-    return await _databaseService.getAllDogs(emailID: email);
-  }
-
-  @override
-  Future<DogModel> loadDogFromDB(String email, String name) async {
+  Future<DogModel> loadDogFromDB(String email, String dogName) async {
     var dogList = await _databaseService.getAllDogs(emailID: email);
-    return dogList.firstWhere((dog) => dog.name == name);
+    try {
+      return dogList.firstWhere((dog) => dog.name == dogName);
+    } catch (e) {
+      return DogModel(email, dogName, false, "", "", "", Timestamp.now(), "");
+    }
   }
 }

@@ -10,14 +10,6 @@ class ActionDateModel {
   final List<dynamic> users;
   final List<dynamic> dogs;
 
-  ActionDateModel(
-    this.actionID,
-    this.emailID,
-    this.title,
-    this.description,
-    this.begin,
-    this.end,
-    this.users,
-    this.dogs
-  );
+  ActionDateModel(this.actionID, this.emailID, this.title, this.description,
+      this.begin, this.end, this.users, this.dogs);
 }

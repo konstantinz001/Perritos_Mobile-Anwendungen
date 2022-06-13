@@ -19,29 +19,38 @@ import 'package:flutter_application/common/models/action_task_model.dart';
 import 'package:flutter_application/common/models/user_model.dart';
 import 'package:flutter_application/common/models/dog_model.dart';
 import 'package:flutter_application/common/providers.dart';
+import 'package:flutter_application/screens/calendar/calendar_model.dart';
+import 'package:flutter_application/screens/calendar/calendar_view.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:tuple/tuple.dart';
+
 import 'home_model.dart';
 
 class HomeView extends ConsumerWidget {
+  final String _dogName;
   final String _emailID;
   final String _userName;
-  final String _dogName;
+  final ActionDateModel? _dateModel;
   const HomeView(
       {Key? key,
       required String dogName,
       required String emailID,
-      required String userName})
+      required String userName,
+      required ActionDateModel? dateModel})
       : _dogName = dogName,
         _emailID = emailID,
         _userName = userName,
+        _dateModel = dateModel,
         super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final HomeController controller =
-        ref.read(providers.homeControllerProvider.notifier);
-    final HomeModel model = ref.watch(providers.homeControllerProvider);
+    final HomeController controller = ref.read(providers
+        .homeControllerProvider(Tuple3(_userName, _dogName, _dateModel))
+        .notifier);
+    final HomeModel model = ref.watch(providers
+        .homeControllerProvider(Tuple3(_userName, _dogName, _dateModel)));
 
     var overviewScreen = Scaffold(
         backgroundColor: PerritosColor.perritosSnow.color,
@@ -71,7 +80,7 @@ class HomeView extends ConsumerWidget {
                             ),
                             onPressed: () async => {
                                   await controller
-                                      .loadAllDogsFromDB(_emailID)
+                                      .loadDogsFromDB(_emailID)
                                       .then((dogList) => {
                                             Navigator.pushNamed(context,
                                                 "/DogSelectionAndAdministration",
@@ -91,7 +100,7 @@ class HomeView extends ConsumerWidget {
                             ),
                             onPressed: () async => {
                                   await controller
-                                      .loadAllUsersFromDB(_emailID)
+                                      .loadUsersFromDB(_emailID)
                                       .then((userList) => {
                                             Navigator.pushNamed(context,
                                                 '/UserSelectionAndAdministration',
@@ -110,8 +119,9 @@ class HomeView extends ConsumerWidget {
                   children: [
                     Expanded(
                         child: PerritosSearchInput(
-                            onSubmit: (searchString) =>
-                                {controller.changeSearchString(searchString)}))
+                            onSubmit: (searchString) async => {
+                                  controller.changeSearchString(searchString),
+                                }))
                   ],
                 ),
                 SingleChildScrollView(
@@ -129,47 +139,23 @@ class HomeView extends ConsumerWidget {
                             _emailID, _userName, _dogName),
                         builder: (BuildContext context,
                             AsyncSnapshot<List<ActionTaskModel>> snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return Text(
-                              'Einen Augenblick bitte...',
-                              style: perritosParagonOpacity,
-                            );
-                          } else {
-                            if (snapshot.hasError) {
-                              return Text(
-                                'Error: ${snapshot.error}',
-                                style: perritosParagonError,
-                              );
-                            } else {
-                              return snapshot.data?.length == 0
-                                  ? Text(
-                                      'Es gibt keine Aufgaben für dich :)',
-                                      style: perritosParagonOpacity,
-                                    )
-                                  : Column(children: [
-                                      for (var action in snapshot.data ?? [])
-                                        PerritosAction(
-                                          icon: PerritosIcons.Icon_Task,
-                                          value: "",
-                                          label: action.title,
-                                          onPressed: () {
-                                            controller.selectActionType(
-                                                ActionType.task);
-                                            controller
-                                                .changeCurrentActionId(
-                                                    action.actionID)
-                                                .then((value) => {
-                                                      controller
-                                                          .switchHomeScreen(
-                                                              HomeScreen
-                                                                  .editAction)
-                                                    });
-                                          },
-                                        )
-                                    ]);
-                            }
-                          }
+                          return Column(children: [
+                            for (var action in snapshot.data ?? [])
+                              PerritosAction(
+                                icon: PerritosIcons.Icon_Task,
+                                value: "",
+                                label: action.title,
+                                onPressed: () {
+                                  controller.selectActionType(ActionType.task);
+                                  controller
+                                      .changeCurrentActionId(action.actionID)
+                                      .then((value) => {
+                                            controller.switchHomeScreen(
+                                                HomeScreen.editAction)
+                                          });
+                                },
+                              )
+                          ]);
                         }),
                     const SizedBox(height: 20),
                     Text(
@@ -181,48 +167,24 @@ class HomeView extends ConsumerWidget {
                             _emailID, _userName, _dogName),
                         builder: (BuildContext context,
                             AsyncSnapshot<List<ActionDateModel>> snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return Text(
-                              'Einen Augenblick bitte...',
-                              style: perritosParagonOpacity,
-                            );
-                          } else {
-                            if (snapshot.hasError) {
-                              return Text(
-                                'Error: ${snapshot.error}',
-                                style: perritosParagonError,
-                              );
-                            } else {
-                              return snapshot.data?.length == 0
-                                  ? Text(
-                                      'Es gibt keine Termine für dich :)',
-                                      style: perritosParagonOpacity,
-                                    )
-                                  : Column(children: [
-                                      for (var action in snapshot.data ?? [])
-                                        PerritosAction(
-                                          icon: PerritosIcons.Icon_Date,
-                                          value:
-                                              '${DateFormat("dd.mm.yyyy hh:mm").format(action.begin.toDate())} bis ${DateFormat("dd.mm.yyyy hh:mm").format(action.end.toDate())}',
-                                          label: action.title,
-                                          onPressed: () {
-                                            controller.selectActionType(
-                                                ActionType.date);
-                                            controller
-                                                .changeCurrentActionId(
-                                                    action.actionID)
-                                                .then((value) => {
-                                                      controller
-                                                          .switchHomeScreen(
-                                                              HomeScreen
-                                                                  .editAction)
-                                                    });
-                                          },
-                                        )
-                                    ]);
-                            }
-                          }
+                          return Column(children: [
+                            for (var action in snapshot.data ?? [])
+                              PerritosAction(
+                                icon: PerritosIcons.Icon_Date,
+                                value:
+                                    '${DateFormat("dd.mm.yyyy hh:mm").format(action.begin.toDate())} bis ${DateFormat("dd.mm.yyyy hh:mm").format(action.end.toDate())}',
+                                label: action.title,
+                                onPressed: () {
+                                  controller.selectActionType(ActionType.date);
+                                  controller
+                                      .changeCurrentActionId(action.actionID)
+                                      .then((value) => {
+                                            controller.switchHomeScreen(
+                                                HomeScreen.editAction)
+                                          });
+                                },
+                              )
+                          ]);
                         }),
                     const SizedBox(height: 20),
                     Text(
@@ -231,53 +193,30 @@ class HomeView extends ConsumerWidget {
                     ),
                     FutureBuilder(
                         future: controller.loadActionAbnormalitiesFromDB(
-                            _emailID, _dogName),
+                            _emailID, _userName, _dogName),
                         builder: (BuildContext context,
                             AsyncSnapshot<List<ActionAbnormalityModel>>
                                 snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return Text(
-                              'Einen Augenblick bitte...',
-                              style: perritosParagonOpacity,
-                            );
-                          } else {
-                            if (snapshot.hasError) {
-                              return Text(
-                                'Error: ${snapshot.error}',
-                                style: perritosParagonError,
-                              );
-                            } else {
-                              return snapshot.data?.length == 0
-                                  ? Text(
-                                      'Es gibt keine Auffälligkeiten',
-                                      style: perritosParagonOpacity,
-                                    )
-                                  : Column(children: [
-                                      for (var action in snapshot.data ?? [])
-                                        PerritosAction(
-                                          icon: action.emotionalState < 5
-                                              ? PerritosIcons.Icon_Smiley_Happy
-                                              : PerritosIcons.Icon_Smiley_Sad,
-                                          value: '',
-                                          label: action.title,
-                                          onPressed: () {
-                                            controller.selectActionType(
-                                                ActionType.abnormality);
-                                            controller
-                                                .changeCurrentActionId(
-                                                    action.actionID)
-                                                .then((value) => {
-                                                      controller
-                                                          .switchHomeScreen(
-                                                              HomeScreen
-                                                                  .editAction)
-                                                    });
-                                          },
-                                        )
-                                    ]);
-                            }
-                          }
+                          return Column(children: [
+                            for (var action in snapshot.data ?? [])
+                              PerritosAction(
+                                icon: action.emotionalState < 5
+                                    ? PerritosIcons.Icon_Smiley_Happy
+                                    : PerritosIcons.Icon_Smiley_Sad,
+                                value: '',
+                                label: action.title,
+                                onPressed: () {
+                                  controller
+                                      .selectActionType(ActionType.abnormality);
+                                  controller
+                                      .changeCurrentActionId(action.actionID)
+                                      .then((value) => {
+                                            controller.switchHomeScreen(
+                                                HomeScreen.editAction)
+                                          });
+                                },
+                              )
+                          ]);
                         }),
                   ],
                 )),
@@ -291,10 +230,8 @@ class HomeView extends ConsumerWidget {
                         size: 42,
                       ),
                       onPressed: () => {
-                            print(model.currentScreen),
                             controller
-                                .switchHomeScreen(HomeScreen.selectActionType),
-                            print(model.currentScreen),
+                                .switchHomeScreen(HomeScreen.selectActionType)
                           }),
                 ),
               ],
@@ -340,7 +277,7 @@ class HomeView extends ConsumerWidget {
               )),
         ));
 
-    var selectActionScreen = Scaffold(
+    var selectedActionScreen = Scaffold(
         backgroundColor: PerritosColor.perritosSnow.color,
         body: SingleChildScrollView(
             physics: const ScrollPhysics(),
@@ -424,7 +361,6 @@ class HomeView extends ConsumerWidget {
                               },
                           label: "Gassigang"),
                     ]))));
-
     var createActionScreen = Scaffold(
         backgroundColor: PerritosColor.perritosSnow.color,
         body: Padding(
@@ -516,10 +452,8 @@ class HomeView extends ConsumerWidget {
                                           height: 10,
                                         ),
                                         PerritosSlider(
-                                          value: controller
-                                              .getState()
-                                              .emotionalState
-                                              .toDouble(),
+                                          value:
+                                              model.emotionalState.toDouble(),
                                           onSubmit: (emotionalState) {
                                             controller.changeEmotionalState(
                                                 emotionalState);
@@ -529,9 +463,7 @@ class HomeView extends ConsumerWidget {
                                     )
                                   : const SizedBox(),
                               model.selectedActionType == ActionType.date ||
-                                      controller
-                                              .getState()
-                                              .selectedActionType ==
+                                      model.selectedActionType ==
                                           ActionType.walking
                                   ? Column(
                                       children: [
@@ -559,12 +491,8 @@ class HomeView extends ConsumerWidget {
                                               spacing: 10,
                                               children: [
                                                 PerritosDateTimePicker(
-                                                    initDate: controller
-                                                        .getState()
-                                                        .beginDate,
-                                                    initTime: controller
-                                                        .getState()
-                                                        .beginTime,
+                                                    initDate: model.beginDate,
+                                                    initTime: model.beginTime,
                                                     onSubmitDate: (date) => {
                                                           controller
                                                               .changeBeginDate(
@@ -580,12 +508,8 @@ class HomeView extends ConsumerWidget {
                                                   style: perritosParagon,
                                                 ),
                                                 PerritosDateTimePicker(
-                                                    initDate: controller
-                                                        .getState()
-                                                        .endDate,
-                                                    initTime: controller
-                                                        .getState()
-                                                        .endTime,
+                                                    initDate: model.endDate,
+                                                    initTime: model.endTime,
                                                     onSubmitDate: (date) => {
                                                           controller
                                                               .changeEndDate(
@@ -626,78 +550,57 @@ class HomeView extends ConsumerWidget {
                                         ),
                                         FutureBuilder(
                                             future: controller
-                                                .loadAllUsersFromDB(_emailID),
+                                                .loadUsersFromDB(_emailID),
                                             builder: (BuildContext context,
                                                 AsyncSnapshot<List<UserModel>>
                                                     snapshot) {
-                                              if (snapshot.connectionState ==
-                                                  ConnectionState.waiting) {
-                                                return Text(
-                                                  'Einen Augenblick bitte...',
-                                                  style: perritosParagonOpacity,
-                                                );
-                                              } else {
-                                                if (snapshot.hasError) {
-                                                  return Text(
-                                                    'Error: ${snapshot.error}',
-                                                    style: perritosParagonError,
-                                                  );
-                                                } else {
-                                                  return snapshot
-                                                              .data?.length ==
-                                                          0
-                                                      ? Text(
-                                                          'Keine Benutzer vorhanden :(',
-                                                          style:
-                                                              perritosParagonOpacity,
-                                                        )
-                                                      : Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .start,
-                                                          children: [
-                                                            Flexible(
-                                                                child: Wrap(
-                                                              runSpacing: 10,
-                                                              spacing: 10,
-                                                              children: [
-                                                                for (var user
-                                                                    in snapshot
-                                                                            .data ??
-                                                                        [])
-                                                                  PerritosChip(
-                                                                      disabled:
-                                                                          !user
-                                                                              .selected,
-                                                                      label: user
-                                                                          .name,
-                                                                      color: user.iconColor ==
-                                                                              'perritosBurntSienna'
-                                                                          ? PerritosColor
-                                                                              .perritosBurntSienna
-                                                                          : user.iconColor == 'perritosGoldFusion'
-                                                                              ? PerritosColor.perritosGoldFusion
-                                                                              : user.iconColor == 'perritosMaizeCrayola'
-                                                                                  ? PerritosColor.perritosMaizeCrayola
-                                                                                  : user.iconColor == 'perritosSandyBrown'
-                                                                                      ? PerritosColor.perritosSandyBrown
-                                                                                      : PerritosColor.perritosCharcoal,
-                                                                      onPressed: () => {
-                                                                            if (user.selected)
-                                                                              {
-                                                                                controller.removeUser(user.name)
-                                                                              }
-                                                                            else
-                                                                              {
-                                                                                controller.addUser(user.name)
-                                                                              }
-                                                                          }),
-                                                              ],
-                                                            ))
-                                                          ],
-                                                        );
-                                                }
-                                              }
+                                              return Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                children: [
+                                                  Flexible(
+                                                      child: Wrap(
+                                                    runSpacing: 10,
+                                                    spacing: 10,
+                                                    children: [
+                                                      for (var user
+                                                          in snapshot.data ??
+                                                              [])
+                                                        PerritosChip(
+                                                            disabled:
+                                                                !user.selected,
+                                                            label: user.name,
+                                                            color: user.iconColor ==
+                                                                    'perritosBurntSienna'
+                                                                ? PerritosColor
+                                                                    .perritosBurntSienna
+                                                                : user.iconColor ==
+                                                                        'perritosGoldFusion'
+                                                                    ? PerritosColor
+                                                                        .perritosGoldFusion
+                                                                    : user.iconColor ==
+                                                                            'perritosMaizeCrayola'
+                                                                        ? PerritosColor
+                                                                            .perritosMaizeCrayola
+                                                                        : user.iconColor ==
+                                                                                'perritosSandyBrown'
+                                                                            ? PerritosColor
+                                                                                .perritosSandyBrown
+                                                                            : PerritosColor
+                                                                                .perritosCharcoal,
+                                                            onPressed: () => user
+                                                                    .selected
+                                                                ? controller
+                                                                    .removeUser(
+                                                                        user
+                                                                            .name)
+                                                                : controller
+                                                                    .addUser(user
+                                                                        .name)),
+                                                    ],
+                                                  ))
+                                                ],
+                                              );
                                             }),
                                         const SizedBox(
                                           height: 20,
@@ -719,77 +622,56 @@ class HomeView extends ConsumerWidget {
                                         ),
                                         FutureBuilder(
                                             future: controller
-                                                .loadAllDogsFromDB(_emailID),
+                                                .loadDogsFromDB(_emailID),
                                             builder: (BuildContext context,
                                                 AsyncSnapshot<List<DogModel>>
                                                     snapshot) {
-                                              if (snapshot.connectionState ==
-                                                  ConnectionState.waiting) {
-                                                return Text(
-                                                  'Einen Augenblick bitte...',
-                                                  style: perritosParagonOpacity,
-                                                );
-                                              } else {
-                                                if (snapshot.hasError) {
-                                                  return Text(
-                                                    'Error: ${snapshot.error}',
-                                                    style: perritosParagonError,
-                                                  );
-                                                } else {
-                                                  return snapshot
-                                                              .data?.length ==
-                                                          0
-                                                      ? Text(
-                                                          'Keine Hunde vorhanden :(',
-                                                          style:
-                                                              perritosParagonOpacity,
-                                                        )
-                                                      : Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .start,
-                                                          children: [
-                                                            Flexible(
-                                                                child: Wrap(
-                                                              runSpacing: 10,
-                                                              spacing: 10,
-                                                              children: [
-                                                                for (var dog
-                                                                    in snapshot
-                                                                            .data ??
-                                                                        [])
-                                                                  PerritosChip(
-                                                                      disabled: !dog
-                                                                          .selected,
-                                                                      label: dog
-                                                                          .name,
-                                                                      color: dog.iconColor ==
-                                                                              'perritosBurntSienna'
-                                                                          ? PerritosColor
-                                                                              .perritosBurntSienna
-                                                                          : dog.iconColor == 'perritosGoldFusion'
-                                                                              ? PerritosColor.perritosGoldFusion
-                                                                              : dog.iconColor == 'perritosMaizeCrayola'
-                                                                                  ? PerritosColor.perritosMaizeCrayola
-                                                                                  : dog.iconColor == 'perritosSandyBrown'
-                                                                                      ? PerritosColor.perritosSandyBrown
-                                                                                      : PerritosColor.perritosCharcoal,
-                                                                      onPressed: () => {
-                                                                            if (dog.selected)
-                                                                              {
-                                                                                controller.removeDog(dog.name)
-                                                                              }
-                                                                            else
-                                                                              {
-                                                                                controller.addDog(dog.name)
-                                                                              }
-                                                                          }),
-                                                              ],
-                                                            ))
-                                                          ],
-                                                        );
-                                                }
-                                              }
+                                              return Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                children: [
+                                                  Flexible(
+                                                      child: Wrap(
+                                                    runSpacing: 10,
+                                                    spacing: 10,
+                                                    children: [
+                                                      for (var dog
+                                                          in snapshot.data ??
+                                                              [])
+                                                        PerritosChip(
+                                                            disabled:
+                                                                !dog.selected,
+                                                            label: dog.name,
+                                                            color: dog.iconColor ==
+                                                                    'perritosBurntSienna'
+                                                                ? PerritosColor
+                                                                    .perritosBurntSienna
+                                                                : dog.iconColor ==
+                                                                        'perritosGoldFusion'
+                                                                    ? PerritosColor
+                                                                        .perritosGoldFusion
+                                                                    : dog.iconColor ==
+                                                                            'perritosMaizeCrayola'
+                                                                        ? PerritosColor
+                                                                            .perritosMaizeCrayola
+                                                                        : dog.iconColor ==
+                                                                                'perritosSandyBrown'
+                                                                            ? PerritosColor
+                                                                                .perritosSandyBrown
+                                                                            : PerritosColor
+                                                                                .perritosCharcoal,
+                                                            onPressed: () => dog
+                                                                    .selected
+                                                                ? controller
+                                                                    .removeDog(dog
+                                                                        .name)
+                                                                : controller
+                                                                    .addDog(dog
+                                                                        .name)),
+                                                    ],
+                                                  ))
+                                                ],
+                                              );
                                             }),
                                         const SizedBox(
                                           height: 20,
@@ -885,9 +767,7 @@ class HomeView extends ConsumerWidget {
                                         ),
                                         PerritosDescriptionInput(
                                             label: "Beschreibung",
-                                            initialValue: controller
-                                                .getState()
-                                                .description,
+                                            initialValue: model.description,
                                             onSubmit: (description) => {
                                                   controller.changeDescription(
                                                       description)
@@ -917,10 +797,8 @@ class HomeView extends ConsumerWidget {
                                           height: 10,
                                         ),
                                         PerritosSlider(
-                                          value: controller
-                                              .getState()
-                                              .emotionalState
-                                              .toDouble(),
+                                          value:
+                                              model.emotionalState.toDouble(),
                                           onSubmit: (emotionalState) {
                                             controller.changeEmotionalState(
                                                 emotionalState);
@@ -930,9 +808,7 @@ class HomeView extends ConsumerWidget {
                                     )
                                   : const SizedBox(),
                               model.selectedActionType == ActionType.date ||
-                                      controller
-                                              .getState()
-                                              .selectedActionType ==
+                                      model.selectedActionType ==
                                           ActionType.walking
                                   ? Column(
                                       children: [
@@ -960,12 +836,8 @@ class HomeView extends ConsumerWidget {
                                               spacing: 10,
                                               children: [
                                                 PerritosDateTimePicker(
-                                                    initDate: controller
-                                                        .getState()
-                                                        .beginDate,
-                                                    initTime: controller
-                                                        .getState()
-                                                        .beginTime,
+                                                    initDate: model.beginDate,
+                                                    initTime: model.beginTime,
                                                     onSubmitDate: (date) => {
                                                           controller
                                                               .changeBeginDate(
@@ -981,12 +853,8 @@ class HomeView extends ConsumerWidget {
                                                   style: perritosParagon,
                                                 ),
                                                 PerritosDateTimePicker(
-                                                    initDate: controller
-                                                        .getState()
-                                                        .endDate,
-                                                    initTime: controller
-                                                        .getState()
-                                                        .endTime,
+                                                    initDate: model.endDate,
+                                                    initTime: model.endTime,
                                                     onSubmitDate: (date) => {
                                                           controller
                                                               .changeEndDate(
@@ -1027,78 +895,61 @@ class HomeView extends ConsumerWidget {
                                         ),
                                         FutureBuilder(
                                             future: controller
-                                                .loadAllUsersFromDB(_emailID),
+                                                .loadUsersFromDB(_emailID),
                                             builder: (BuildContext context,
                                                 AsyncSnapshot<List<UserModel>>
                                                     snapshot) {
-                                              if (snapshot.connectionState ==
-                                                  ConnectionState.waiting) {
-                                                return Text(
-                                                  'Einen Augenblick bitte...',
-                                                  style: perritosParagonOpacity,
-                                                );
-                                              } else {
-                                                if (snapshot.hasError) {
-                                                  return Text(
-                                                    'Error: ${snapshot.error}',
-                                                    style: perritosParagonError,
-                                                  );
-                                                } else {
-                                                  return snapshot
-                                                              .data?.length ==
-                                                          0
-                                                      ? Text(
-                                                          'Keine Benutzer vorhanden :(',
-                                                          style:
-                                                              perritosParagonOpacity,
-                                                        )
-                                                      : Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .start,
-                                                          children: [
-                                                            Flexible(
-                                                                child: Wrap(
-                                                              runSpacing: 10,
-                                                              spacing: 10,
-                                                              children: [
-                                                                for (var user
-                                                                    in snapshot
-                                                                            .data ??
-                                                                        [])
-                                                                  PerritosChip(
-                                                                      disabled:
-                                                                          !user
-                                                                              .selected,
-                                                                      label: user
-                                                                          .name,
-                                                                      color: user.iconColor ==
-                                                                              'perritosBurntSienna'
-                                                                          ? PerritosColor
-                                                                              .perritosBurntSienna
-                                                                          : user.iconColor == 'perritosGoldFusion'
-                                                                              ? PerritosColor.perritosGoldFusion
-                                                                              : user.iconColor == 'perritosMaizeCrayola'
-                                                                                  ? PerritosColor.perritosMaizeCrayola
-                                                                                  : user.iconColor == 'perritosSandyBrown'
-                                                                                      ? PerritosColor.perritosSandyBrown
-                                                                                      : PerritosColor.perritosCharcoal,
-                                                                      onPressed: () => {
-                                                                            if (user.selected)
-                                                                              {
-                                                                                controller.removeUser(user.name)
-                                                                              }
-                                                                            else
-                                                                              {
-                                                                                controller.addUser(user.name)
-                                                                              }
-                                                                          }),
-                                                              ],
-                                                            ))
-                                                          ],
-                                                        );
-                                                }
-                                              }
+                                              return Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                children: [
+                                                  Flexible(
+                                                      child: Wrap(
+                                                    runSpacing: 10,
+                                                    spacing: 10,
+                                                    children: [
+                                                      for (var user
+                                                          in snapshot.data ??
+                                                              [])
+                                                        PerritosChip(
+                                                            disabled:
+                                                                !user.selected,
+                                                            label: user.name,
+                                                            color: user.iconColor ==
+                                                                    'perritosBurntSienna'
+                                                                ? PerritosColor
+                                                                    .perritosBurntSienna
+                                                                : user.iconColor ==
+                                                                        'perritosGoldFusion'
+                                                                    ? PerritosColor
+                                                                        .perritosGoldFusion
+                                                                    : user.iconColor ==
+                                                                            'perritosMaizeCrayola'
+                                                                        ? PerritosColor
+                                                                            .perritosMaizeCrayola
+                                                                        : user.iconColor ==
+                                                                                'perritosSandyBrown'
+                                                                            ? PerritosColor.perritosSandyBrown
+                                                                            : PerritosColor.perritosCharcoal,
+                                                            onPressed: () => {
+                                                                  if (user
+                                                                      .selected)
+                                                                    {
+                                                                      controller
+                                                                          .removeUser(
+                                                                              user.name)
+                                                                    }
+                                                                  else
+                                                                    {
+                                                                      controller
+                                                                          .addUser(
+                                                                              user.name)
+                                                                    }
+                                                                }),
+                                                    ],
+                                                  ))
+                                                ],
+                                              );
                                             }),
                                         const SizedBox(
                                           height: 20,
@@ -1120,77 +971,61 @@ class HomeView extends ConsumerWidget {
                                         ),
                                         FutureBuilder(
                                             future: controller
-                                                .loadAllDogsFromDB(_emailID),
+                                                .loadDogsFromDB(_emailID),
                                             builder: (BuildContext context,
                                                 AsyncSnapshot<List<DogModel>>
                                                     snapshot) {
-                                              if (snapshot.connectionState ==
-                                                  ConnectionState.waiting) {
-                                                return Text(
-                                                  'Einen Augenblick bitte...',
-                                                  style: perritosParagonOpacity,
-                                                );
-                                              } else {
-                                                if (snapshot.hasError) {
-                                                  return Text(
-                                                    'Error: ${snapshot.error}',
-                                                    style: perritosParagonError,
-                                                  );
-                                                } else {
-                                                  return snapshot
-                                                              .data?.length ==
-                                                          0
-                                                      ? Text(
-                                                          'Keine Hunde vorhanden :(',
-                                                          style:
-                                                              perritosParagonOpacity,
-                                                        )
-                                                      : Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .start,
-                                                          children: [
-                                                            Flexible(
-                                                                child: Wrap(
-                                                              runSpacing: 10,
-                                                              spacing: 10,
-                                                              children: [
-                                                                for (var dog
-                                                                    in snapshot
-                                                                            .data ??
-                                                                        [])
-                                                                  PerritosChip(
-                                                                      disabled: !dog
-                                                                          .selected,
-                                                                      label: dog
-                                                                          .name,
-                                                                      color: dog.iconColor ==
-                                                                              'perritosBurntSienna'
-                                                                          ? PerritosColor
-                                                                              .perritosBurntSienna
-                                                                          : dog.iconColor == 'perritosGoldFusion'
-                                                                              ? PerritosColor.perritosGoldFusion
-                                                                              : dog.iconColor == 'perritosMaizeCrayola'
-                                                                                  ? PerritosColor.perritosMaizeCrayola
-                                                                                  : dog.iconColor == 'perritosSandyBrown'
-                                                                                      ? PerritosColor.perritosSandyBrown
-                                                                                      : PerritosColor.perritosCharcoal,
-                                                                      onPressed: () => {
-                                                                            if (dog.selected)
-                                                                              {
-                                                                                controller.removeDog(dog.name)
-                                                                              }
-                                                                            else
-                                                                              {
-                                                                                controller.addDog(dog.name)
-                                                                              }
-                                                                          }),
-                                                              ],
-                                                            ))
-                                                          ],
-                                                        );
-                                                }
-                                              }
+                                              return Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                children: [
+                                                  Flexible(
+                                                      child: Wrap(
+                                                    runSpacing: 10,
+                                                    spacing: 10,
+                                                    children: [
+                                                      for (var dog
+                                                          in snapshot.data ??
+                                                              [])
+                                                        PerritosChip(
+                                                            disabled:
+                                                                !dog.selected,
+                                                            label: dog.name,
+                                                            color: dog.iconColor ==
+                                                                    'perritosBurntSienna'
+                                                                ? PerritosColor
+                                                                    .perritosBurntSienna
+                                                                : dog.iconColor ==
+                                                                        'perritosGoldFusion'
+                                                                    ? PerritosColor
+                                                                        .perritosGoldFusion
+                                                                    : dog.iconColor ==
+                                                                            'perritosMaizeCrayola'
+                                                                        ? PerritosColor
+                                                                            .perritosMaizeCrayola
+                                                                        : dog.iconColor ==
+                                                                                'perritosSandyBrown'
+                                                                            ? PerritosColor.perritosSandyBrown
+                                                                            : PerritosColor.perritosCharcoal,
+                                                            onPressed: () => {
+                                                                  if (dog
+                                                                      .selected)
+                                                                    {
+                                                                      controller
+                                                                          .removeDog(
+                                                                              dog.name)
+                                                                    }
+                                                                  else
+                                                                    {
+                                                                      controller
+                                                                          .addDog(
+                                                                              dog.name)
+                                                                    }
+                                                                }),
+                                                    ],
+                                                  ))
+                                                ],
+                                              );
                                             }),
                                         const SizedBox(
                                           height: 20,
@@ -1237,6 +1072,7 @@ class HomeView extends ConsumerWidget {
                                               HomeScreen.overview)
                                         })
                                     .catchError((e) => {
+                                          print(e),
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(SnackBar(
                                                   content: Text(
@@ -1252,19 +1088,13 @@ class HomeView extends ConsumerWidget {
                     ],
                   )
                 ])));
-
-    switch (model.currentScreen) {
-      case HomeScreen.overview:
-        return overviewScreen;
-      case HomeScreen.selectActionType:
-        return selectActionScreen;
-      case HomeScreen.createAction:
-        return createActionScreen;
-      case HomeScreen.editAction:
-        return overviewScreen;
-      default:
-        return editActionScreen;
-    }
+    return model.currentScreen == HomeScreen.overview
+        ? overviewScreen
+        : model.currentScreen == HomeScreen.createAction
+            ? createActionScreen
+            : model.currentScreen == HomeScreen.editAction
+                ? editActionScreen
+                : selectedActionScreen;
   }
 }
 
@@ -1289,14 +1119,14 @@ abstract class HomeController extends StateNotifier<HomeModel> {
   Future createAction(String email, String userName, String dogName);
   Future updateAction(String dogName);
   Future deleteAction();
-  Future<DogModel> loadDogFromDB(String email, String name);
-  Future<List<UserModel>> loadAllUsersFromDB(String email);
-  Future<List<DogModel>> loadAllDogsFromDB(String email);
+  Future<DogModel> loadDogFromDB(String email, String dogName);
+  Future<List<UserModel>> loadUsersFromDB(String email);
+  Future<List<DogModel>> loadDogsFromDB(String email);
   Future<List<ActionDateModel>> loadActionDatesFromDB(
       String email, String userName, String dogName);
   Future<List<ActionTaskModel>> loadActionTasksFromDB(
       String email, String userName, String dogName);
   Future<List<ActionAbnormalityModel>> loadActionAbnormalitiesFromDB(
-      String email, String dogName);
-  HomeModel getState();
+      String email, String userName, String dogName);
+  void setEditActionDatesToModel(ActionDateModel? model);
 }
