@@ -21,7 +21,6 @@ import 'package:flutter_application/common/models/dog_model.dart';
 import 'package:flutter_application/common/providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-
 import 'home_model.dart';
 
 class HomeView extends ConsumerWidget {
@@ -40,10 +39,9 @@ class HomeView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final HomeController controller = ref.read(providers
-        .homeControllerProvider([_emailID, _userName, _dogName]).notifier);
-    final HomeModel model = ref.watch(
-        providers.homeControllerProvider([_emailID, _userName, _dogName]));
+    final HomeController controller =
+        ref.read(providers.homeControllerProvider.notifier);
+    final HomeModel model = ref.watch(providers.homeControllerProvider);
 
     var overviewScreen = Scaffold(
         backgroundColor: PerritosColor.perritosSnow.color,
@@ -518,8 +516,10 @@ class HomeView extends ConsumerWidget {
                                           height: 10,
                                         ),
                                         PerritosSlider(
-                                          value:
-                                              model.emotionalState.toDouble(),
+                                          value: controller
+                                              .getState()
+                                              .emotionalState
+                                              .toDouble(),
                                           onSubmit: (emotionalState) {
                                             controller.changeEmotionalState(
                                                 emotionalState);
@@ -529,7 +529,9 @@ class HomeView extends ConsumerWidget {
                                     )
                                   : const SizedBox(),
                               model.selectedActionType == ActionType.date ||
-                                      model.selectedActionType ==
+                                      controller
+                                              .getState()
+                                              .selectedActionType ==
                                           ActionType.walking
                                   ? Column(
                                       children: [
@@ -557,8 +559,12 @@ class HomeView extends ConsumerWidget {
                                               spacing: 10,
                                               children: [
                                                 PerritosDateTimePicker(
-                                                    initDate: model.beginDate,
-                                                    initTime: model.beginTime,
+                                                    initDate: controller
+                                                        .getState()
+                                                        .beginDate,
+                                                    initTime: controller
+                                                        .getState()
+                                                        .beginTime,
                                                     onSubmitDate: (date) => {
                                                           controller
                                                               .changeBeginDate(
@@ -574,8 +580,12 @@ class HomeView extends ConsumerWidget {
                                                   style: perritosParagon,
                                                 ),
                                                 PerritosDateTimePicker(
-                                                    initDate: model.endDate,
-                                                    initTime: model.endTime,
+                                                    initDate: controller
+                                                        .getState()
+                                                        .endDate,
+                                                    initTime: controller
+                                                        .getState()
+                                                        .endTime,
                                                     onSubmitDate: (date) => {
                                                           controller
                                                               .changeEndDate(
@@ -812,7 +822,7 @@ class HomeView extends ConsumerWidget {
                       label: "erstellen")
                 ])));
 
-    var defaultScreen = Scaffold(
+    var editActionScreen = Scaffold(
         backgroundColor: PerritosColor.perritosSnow.color,
         body: Padding(
             padding: const EdgeInsets.only(
@@ -875,7 +885,9 @@ class HomeView extends ConsumerWidget {
                                         ),
                                         PerritosDescriptionInput(
                                             label: "Beschreibung",
-                                            initialValue: model.description,
+                                            initialValue: controller
+                                                .getState()
+                                                .description,
                                             onSubmit: (description) => {
                                                   controller.changeDescription(
                                                       description)
@@ -905,8 +917,10 @@ class HomeView extends ConsumerWidget {
                                           height: 10,
                                         ),
                                         PerritosSlider(
-                                          value:
-                                              model.emotionalState.toDouble(),
+                                          value: controller
+                                              .getState()
+                                              .emotionalState
+                                              .toDouble(),
                                           onSubmit: (emotionalState) {
                                             controller.changeEmotionalState(
                                                 emotionalState);
@@ -916,7 +930,9 @@ class HomeView extends ConsumerWidget {
                                     )
                                   : const SizedBox(),
                               model.selectedActionType == ActionType.date ||
-                                      model.selectedActionType ==
+                                      controller
+                                              .getState()
+                                              .selectedActionType ==
                                           ActionType.walking
                                   ? Column(
                                       children: [
@@ -944,8 +960,12 @@ class HomeView extends ConsumerWidget {
                                               spacing: 10,
                                               children: [
                                                 PerritosDateTimePicker(
-                                                    initDate: model.beginDate,
-                                                    initTime: model.beginTime,
+                                                    initDate: controller
+                                                        .getState()
+                                                        .beginDate,
+                                                    initTime: controller
+                                                        .getState()
+                                                        .beginTime,
                                                     onSubmitDate: (date) => {
                                                           controller
                                                               .changeBeginDate(
@@ -961,8 +981,12 @@ class HomeView extends ConsumerWidget {
                                                   style: perritosParagon,
                                                 ),
                                                 PerritosDateTimePicker(
-                                                    initDate: model.endDate,
-                                                    initTime: model.endTime,
+                                                    initDate: controller
+                                                        .getState()
+                                                        .endDate,
+                                                    initTime: controller
+                                                        .getState()
+                                                        .endTime,
                                                     onSubmitDate: (date) => {
                                                           controller
                                                               .changeEndDate(
@@ -1239,7 +1263,7 @@ class HomeView extends ConsumerWidget {
       case HomeScreen.editAction:
         return overviewScreen;
       default:
-        return defaultScreen;
+        return editActionScreen;
     }
   }
 }
@@ -1274,4 +1298,5 @@ abstract class HomeController extends StateNotifier<HomeModel> {
       String email, String userName, String dogName);
   Future<List<ActionAbnormalityModel>> loadActionAbnormalitiesFromDB(
       String email, String dogName);
+  HomeModel getState();
 }

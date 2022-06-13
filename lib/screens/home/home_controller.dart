@@ -13,9 +13,6 @@ class HomeImplmentation extends HomeController {
   final DatabaseService _databaseService;
 
   HomeImplmentation({
-    required String dogName,
-    required String userName,
-    required String email,
     required DatabaseService databaseService,
     HomeModel? model,
   })  : _databaseService = databaseService,
@@ -28,8 +25,8 @@ class HomeImplmentation extends HomeController {
                   searchString: "",
                   title: "",
                   description: "",
-                  users: [userName],
-                  dogs: [dogName],
+                  users: ["Alex"], //User rein
+                  dogs: ["dog1"], //Dog rein
                   emotionalState: 0,
                   beginDate: DateTime.now(),
                   beginTime: TimeOfDay.now(),
@@ -56,6 +53,10 @@ class HomeImplmentation extends HomeController {
           .toList();
     }
     return List.empty();
+  }
+
+  HomeModel getState() {
+    return state;
   }
 
   @override
