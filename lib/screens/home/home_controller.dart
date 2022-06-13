@@ -105,6 +105,7 @@ class HomeImplmentation extends HomeController {
   @override
   void switchHomeScreen(HomeScreen homeScreen) {
     state = state.copyWith(currentScreen: homeScreen);
+    print(state.currentScreen);
   }
 
   @override

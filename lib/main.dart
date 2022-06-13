@@ -76,10 +76,11 @@ class MyApp extends StatelessWidget {
               final Map args = routeParams.arguments as Map;
               return MaterialPageRoute(
                   builder: (context) => DogProfileInfoView(
-                      dog: args['dogModel'],
-                      emailID: args['emailID'],
-                      userName: args['userName'],
-                      dogName: args['dogName']));
+                        dog: args['dogModel'],
+                        emailID: args['emailID'],
+                        userName: args['userName'],
+                        dogName: args['dogName'],
+                      ));
             }
             return MaterialPageRoute(
                 builder: (context) =>
