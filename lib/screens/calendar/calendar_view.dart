@@ -155,7 +155,14 @@ class CalendarView extends ConsumerWidget {
                         label: event.title,
                         value:
                             '${DateFormat("dd.mm.yyyy hh:mm").format(event.begin.toDate())} bis ${DateFormat("dd.mm.yyyy hh:mm").format(event.end.toDate())}',
-                        onPressed: () => {})),
+                        onPressed: () => {
+                              Navigator.pushNamed(context, '/Home', arguments: {
+                                'emailID': _emailID,
+                                'userName': _userName,
+                                'dogName': _dogName,
+                                'dateModel': event,
+                              })
+                            })),
                 FutureBuilder(
                     future:
                         controller.loadEvents(_emailID, _userName, _dogName),

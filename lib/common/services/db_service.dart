@@ -1,7 +1,5 @@
 import 'dart:async';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_application/common/models/action_abnormality_model.dart';
 import 'package:flutter_application/common/models/action_date_model.dart';
 import 'package:flutter_application/common/models/action_task_model.dart';
@@ -61,17 +59,18 @@ abstract class DatabaseService {
   Future<List<DogModel>> getAllDogs({required String emailID});
 
   //ActionDate:
-  Stream getAllActionDates({required String emailID});
+  Future getAllActionDates({required String emailID});
   Future<ActionDateModel> getActionDateWithID({required String actionID});
   Future deleteActionDateWithID({required String actionID});
-  Future updateActionDateWithID(
-      {required String actionID,
-      required String title,
-      required String description,
-      required Timestamp begin,
-      required Timestamp end,
-      required List<dynamic> users,
-      required List<dynamic> dogs});
+  Future updateActionDateWithID({
+    required String actionID,
+    required String title,
+    required String description,
+    required Timestamp begin,
+    required Timestamp end,
+    required List<dynamic> users,
+    required List<dynamic> dogs,
+  });
   Future insertActionDate(
       {required String emailID,
       required String title,
@@ -82,7 +81,7 @@ abstract class DatabaseService {
       required List<dynamic> dogs});
 
   //ActionAbnormality:
-  Stream getAllActionAbnormalities({required String emailID});
+  Future getAllActionAbnormalities({required String emailID});
   Future<ActionAbnormalityModel> getActionAbnormalityWithID(
       {required String actionID});
   Future deleteActionAbnormalityWithID({required String actionID});
@@ -100,7 +99,7 @@ abstract class DatabaseService {
       required int emotionalState});
 
   //ActionTask:
-  Stream getAllActionTasks({required String emailID});
+  Future getAllActionTasks({required String emailID});
   Future<ActionTaskModel> getActionTaskWithID({required String actionID});
   Future deleteActionTaskWithID({required String actionID});
   Future updateActionTaskWithID(
@@ -117,7 +116,7 @@ abstract class DatabaseService {
       required List<dynamic> dogs});
 
   //ActionWalking:
-  Stream getAllActionWalkings({required String emailID});
+  Future getAllActionWalkings({required String emailID});
   Future<ActionWalkingModel> getActionWalkingWithID({required String actionID});
   Future deleteActionWalkingWithID({required String actionID});
   Future updateActionWalkingWithID(
@@ -322,22 +321,28 @@ class DatabaseFireStoreService extends DatabaseService {
 
   //ActionDate:
   @override
-  Stream<List<ActionDateModel>> getAllActionDates({required String emailID}) {
+  Future<List<ActionDateModel>> getAllActionDates({required String emailID}) {
     Stream<QuerySnapshot> stream =
         _actionDateCollection.where('emailID', isEqualTo: emailID).snapshots();
 
-    return stream.map((qShot) => qShot.docs
-        .map((doc) => ActionDateModel(
-              doc.id,
-              doc.get('emailID'),
-              doc.get('title'),
-              doc.get('description'),
-              doc.get('begin'),
-              doc.get('end'),
-              doc.get('users'),
-              doc.get('dogs'),
-            ))
-        .toList());
+    final Completer<List<ActionDateModel>> c =
+        Completer<List<ActionDateModel>>();
+
+    stream.listen((event) {
+      c.complete(event.docs
+          .map((doc) => ActionDateModel(
+                doc.id,
+                doc.get('emailID'),
+                doc.get('title'),
+                doc.get('description'),
+                doc.get('begin'),
+                doc.get('end'),
+                doc.get('users'),
+                doc.get('dogs'),
+              ))
+          .toList());
+    });
+    return c.future;
   }
 
   @override
@@ -377,7 +382,7 @@ class DatabaseFireStoreService extends DatabaseService {
       'begin': begin,
       'end': end,
       'users': users,
-      'dogs': dogs
+      'dogs': dogs,
     });
   }
 
@@ -397,28 +402,35 @@ class DatabaseFireStoreService extends DatabaseService {
       'begin': begin,
       'end': end,
       'users': users,
-      'dogs': dogs
+      'dogs': dogs,
+      'edit': false,
     });
   }
 
   //ActionAbnormality:
   @override
-  Stream<List<ActionAbnormalityModel>> getAllActionAbnormalities(
+  Future<List<ActionAbnormalityModel>> getAllActionAbnormalities(
       {required String emailID}) {
     Stream<QuerySnapshot> stream = _actionAbnormalityCollection
         .where('emailID', isEqualTo: emailID)
         .snapshots();
 
-    return stream.map((qShot) => qShot.docs
-        .map((doc) => ActionAbnormalityModel(
-              doc.id,
-              doc.get('emailID'),
-              doc.get('title'),
-              doc.get('description'),
-              doc.get('dog'),
-              doc.get('emotionalState'),
-            ))
-        .toList());
+    final Completer<List<ActionAbnormalityModel>> c =
+        Completer<List<ActionAbnormalityModel>>();
+
+    stream.listen((event) {
+      c.complete(event.docs
+          .map((doc) => ActionAbnormalityModel(
+                doc.id,
+                doc.get('emailID'),
+                doc.get('title'),
+                doc.get('description'),
+                doc.get('dog'),
+                doc.get('emotionalState'),
+              ))
+          .toList());
+    });
+    return c.future;
   }
 
   @override
@@ -473,20 +485,26 @@ class DatabaseFireStoreService extends DatabaseService {
 
   //ActionTask:
   @override
-  Stream<List<ActionTaskModel>> getAllActionTasks({required String emailID}) {
+  Future<List<ActionTaskModel>> getAllActionTasks({required String emailID}) {
     Stream<QuerySnapshot> stream =
         _actionTaskCollection.where('emailID', isEqualTo: emailID).snapshots();
 
-    return stream.map((qShot) => qShot.docs
-        .map((doc) => ActionTaskModel(
-              doc.id,
-              doc.get('emailID'),
-              doc.get('title'),
-              doc.get('description'),
-              doc.get('users'),
-              doc.get('dogs'),
-            ))
-        .toList());
+    final Completer<List<ActionTaskModel>> c =
+        Completer<List<ActionTaskModel>>();
+
+    stream.listen((event) {
+      c.complete(event.docs
+          .map((doc) => ActionTaskModel(
+                doc.id,
+                doc.get('emailID'),
+                doc.get('title'),
+                doc.get('description'),
+                doc.get('users'),
+                doc.get('dogs'),
+              ))
+          .toList());
+    });
+    return c.future;
   }
 
   @override
@@ -542,22 +560,28 @@ class DatabaseFireStoreService extends DatabaseService {
 
   //ActionWalking:
   @override
-  Stream<List<ActionWalkingModel>> getAllActionWalkings(
+  Future<List<ActionWalkingModel>> getAllActionWalkings(
       {required String emailID}) {
     Stream<QuerySnapshot> stream = _actionWalkingCollection
         .where('emailID', isEqualTo: emailID)
         .snapshots();
 
-    return stream.map((qShot) => qShot.docs
-        .map((doc) => ActionWalkingModel(
-              doc.id,
-              doc.get('emailID'),
-              doc.get('begin'),
-              doc.get('end'),
-              doc.get('users'),
-              doc.get('dogs'),
-            ))
-        .toList());
+    final Completer<List<ActionWalkingModel>> c =
+        Completer<List<ActionWalkingModel>>();
+
+    stream.listen((event) {
+      c.complete(event.docs
+          .map((doc) => ActionWalkingModel(
+                doc.id,
+                doc.get('emailID'),
+                doc.get('begin'),
+                doc.get('end'),
+                doc.get('users'),
+                doc.get('dogs'),
+              ))
+          .toList());
+    });
+    return c.future;
   }
 
   @override

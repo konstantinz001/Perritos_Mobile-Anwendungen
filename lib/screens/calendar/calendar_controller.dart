@@ -61,14 +61,11 @@ class CalendarImplmentation extends CalendarController {
   @override
   Future<List<ActionDateModel>> loadActionDatesFromDB(
       String email, String userName, String dogName) async {
-    await for (List<ActionDateModel> actionDates
-        in _databaseService.getAllActionDates(emailID: email)) {
-      return actionDates
-          .where((action) =>
-              action.users.contains(userName) && action.dogs.contains(dogName))
-          .toList();
-    }
-    return List.empty();
+    var actionDates = await _databaseService.getAllActionDates(emailID: email);
+    return actionDates
+        .where((action) =>
+            action.users.contains(userName) && action.dogs.contains(dogName))
+        .toList();
   }
 
   @override

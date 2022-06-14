@@ -74,15 +74,14 @@ class Providers {
           (StateNotifierProviderRef ref) => CalendarImplmentation(
               databaseService: ref.read(providers.databaseServiceProvider)));
 
-  final StateNotifierProviderFamily<HomeController, HomeModel, List<String>>
+  final StateNotifierProviderFamily<HomeController, HomeModel, Tuple3>
       homeControllerProvider =
-      StateNotifierProvider.family<HomeController, HomeModel, List<String>>(
-          (StateNotifierProviderRef ref, List<String> data) =>
-              HomeImplmentation(
-                  databaseService: ref.read(providers.databaseServiceProvider),
-                  email: data[0],
-                  userName: data[1],
-                  dogName: data[2]));
+      StateNotifierProvider.family<HomeController, HomeModel, Tuple3>(
+          (StateNotifierProviderRef ref, Tuple3 data) => HomeImplmentation(
+              userName: data.item1,
+              dogName: data.item2,
+              dateModel: data.item3,
+              databaseService: ref.read(providers.databaseServiceProvider)));
 
   final StateNotifierProviderFamily<DogProfileInfoController, DogProfileModel,
       DogModel> dogProfileInfoControllerProvider = StateNotifierProvider.family<
