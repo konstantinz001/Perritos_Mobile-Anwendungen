@@ -225,7 +225,7 @@ class HomeImplmentation extends HomeController {
   }
 
   @override
-  Future createAction(
+  Future<String?> createAction(
       String email, String userName, List<String> dogName) async {
     switch (state.selectedActionType) {
       case ActionType.abnormality:
@@ -237,9 +237,19 @@ class HomeImplmentation extends HomeController {
               dog: dogName[0],
               emotionalState: state.emotionalState.round());
         }
-        return;
+        return null;
       case ActionType.date:
-        return await _databaseService.insertActionDate(
+        if (state.users.length == 0 || state.dogs.length == 0) {
+          return "Dog/User";
+        }
+        if (state.beginDate
+            .add(Duration(
+                hours: state.beginTime.hour, minutes: state.beginTime.minute))
+            .isAfter(state.endDate.add(Duration(
+                hours: state.endTime.hour, minutes: state.endTime.minute)))) {
+          return "Time";
+        }
+        await _databaseService.insertActionDate(
             emailID: email,
             title: state.title,
             description: state.description,
@@ -257,15 +267,30 @@ class HomeImplmentation extends HomeController {
                 state.endDate.minute)),
             users: state.users,
             dogs: state.dogs);
+        return null;
       case ActionType.task:
-        return await _databaseService.insertActionTask(
+        if (state.users.length == 0 || state.dogs.length == 0) {
+          return "User/Dog";
+        }
+        await _databaseService.insertActionTask(
             emailID: email,
             title: state.title,
             description: state.description,
             users: state.users,
             dogs: state.dogs);
+        return null;
       case ActionType.walking:
-        return await _databaseService.insertActionWalking(
+        if (state.users.length == 0 || state.dogs.length == 0) {
+          return "User/Dog";
+        }
+        if (state.beginDate
+            .add(Duration(
+                hours: state.beginTime.hour, minutes: state.beginTime.minute))
+            .isAfter(state.endDate.add(Duration(
+                hours: state.endTime.hour, minutes: state.endTime.minute)))) {
+          return "Time";
+        }
+        await _databaseService.insertActionWalking(
             emailID: email,
             begin: Timestamp.fromDate(DateTime(
                 state.beginDate.year,
@@ -281,6 +306,7 @@ class HomeImplmentation extends HomeController {
                 state.endDate.minute)),
             users: state.users,
             dogs: state.dogs);
+        return null;
     }
   }
 
@@ -336,11 +362,11 @@ class HomeImplmentation extends HomeController {
   }
 
   @override
-  Future changeCurrentActionId(String actionId) async {
+  Future<String?> changeCurrentActionId(String actionId) async {
     state = state.copyWith(currentActionId: actionId);
     switch (state.selectedActionType) {
       case ActionType.abnormality:
-        return await _databaseService
+        await _databaseService
             .getActionAbnormalityWithID(actionID: actionId)
             .then((action) => {
                   state = state.copyWith(
@@ -348,8 +374,19 @@ class HomeImplmentation extends HomeController {
                       description: action.description,
                       emotionalState: action.emotionalState.toDouble())
                 });
+        return null;
       case ActionType.date:
-        return await _databaseService
+        if (state.users.length == 0 || state.dogs.length == 0) {
+          return "Dog/User";
+        }
+        if (state.beginDate
+            .add(Duration(
+                hours: state.beginTime.hour, minutes: state.beginTime.minute))
+            .isAfter(state.endDate.add(Duration(
+                hours: state.endTime.hour, minutes: state.endTime.minute)))) {
+          return "Time";
+        }
+        await _databaseService
             .getActionDateWithID(actionID: actionId)
             .then((action) => {
                   state = state.copyWith(
@@ -362,8 +399,12 @@ class HomeImplmentation extends HomeController {
                       users: action.users,
                       dogs: action.dogs)
                 });
+        return null;
       case ActionType.task:
-        return await _databaseService
+        if (state.users.length == 0 || state.dogs.length == 0) {
+          return "Dog/User";
+        }
+        await _databaseService
             .getActionTaskWithID(actionID: actionId)
             .then((action) => {
                   state = state.copyWith(
@@ -372,8 +413,19 @@ class HomeImplmentation extends HomeController {
                       users: action.users,
                       dogs: action.dogs)
                 });
+        return null;
       case ActionType.walking:
-        return await _databaseService
+        if (state.users.length == 0 || state.dogs.length == 0) {
+          return "Dog/User";
+        }
+        if (state.beginDate
+            .add(Duration(
+                hours: state.beginTime.hour, minutes: state.beginTime.minute))
+            .isAfter(state.endDate.add(Duration(
+                hours: state.endTime.hour, minutes: state.endTime.minute)))) {
+          return "Time";
+        }
+        await _databaseService
             .getActionWalkingWithID(actionID: actionId)
             .then((action) => {
                   state = state.copyWith(
@@ -384,24 +436,35 @@ class HomeImplmentation extends HomeController {
                       users: action.users,
                       dogs: action.dogs)
                 });
+        return null;
     }
   }
 
   @override
-  Future updateAction(List<String> dogName) async {
+  Future<String?> updateAction(List<String> dogName) async {
     switch (state.selectedActionType) {
       case ActionType.abnormality:
         if (dogName.length >= 1) {
-          return _databaseService.updateActionAbnormalityWithID(
+          await _databaseService.updateActionAbnormalityWithID(
               actionID: state.currentActionId,
               title: state.title,
               description: state.description,
               dog: dogName[0],
               emotionalState: state.emotionalState.round());
         }
-        return;
+        return null;
       case ActionType.date:
-        return _databaseService.updateActionDateWithID(
+        if (state.users.length == 0 || state.dogs.length == 0) {
+          return "Dog/User";
+        }
+        if (state.beginDate
+            .add(Duration(
+                hours: state.beginTime.hour, minutes: state.beginTime.minute))
+            .isAfter(state.endDate.add(Duration(
+                hours: state.endTime.hour, minutes: state.endTime.minute)))) {
+          return "Time";
+        }
+        await _databaseService.updateActionDateWithID(
           actionID: state.currentActionId,
           title: state.title,
           description: state.description,
@@ -420,15 +483,30 @@ class HomeImplmentation extends HomeController {
           users: state.users,
           dogs: state.dogs,
         );
+        return null;
       case ActionType.task:
-        return _databaseService.updateActionTaskWithID(
+        if (state.users.length == 0 || state.dogs.length == 0) {
+          return "Dog/User";
+        }
+        await _databaseService.updateActionTaskWithID(
             actionID: state.currentActionId,
             title: state.title,
             description: state.description,
             users: state.users,
             dogs: state.dogs);
+        return null;
       case ActionType.walking:
-        return _databaseService.updateActionWalkingWithID(
+        if (state.users.length == 0 || state.dogs.length == 0) {
+          return "Dog/User";
+        }
+        if (state.beginDate
+            .add(Duration(
+                hours: state.beginTime.hour, minutes: state.beginTime.minute))
+            .isAfter(state.endDate.add(Duration(
+                hours: state.endTime.hour, minutes: state.endTime.minute)))) {
+          return "Time";
+        }
+        await _databaseService.updateActionWalkingWithID(
             actionID: state.currentActionId,
             begin: Timestamp.fromDate(DateTime(
                 state.beginDate.year,
@@ -444,6 +522,7 @@ class HomeImplmentation extends HomeController {
                 state.endDate.minute)),
             users: state.users,
             dogs: state.dogs);
+        return null;
     }
   }
 
