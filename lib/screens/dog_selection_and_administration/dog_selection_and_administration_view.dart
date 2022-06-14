@@ -124,7 +124,10 @@ class DogSelectionAndAdministrationView extends ConsumerWidget {
                                                       arguments: {
                                                         'emailID': _emailID,
                                                         'userName': _userName,
-                                                        'dogName': "Perritos"
+                                                        'dogName': model.dogList
+                                                            .map((dog) =>
+                                                                dog.name)
+                                                            .toList(),
                                                       })
                                                 }),
                                         const SizedBox(height: 20),
@@ -172,8 +175,9 @@ class DogSelectionAndAdministrationView extends ConsumerWidget {
                                                                   _emailID,
                                                               'userName':
                                                                   _userName,
-                                                              'dogName':
-                                                                  dog.name
+                                                              'dogName': [
+                                                                dog.name
+                                                              ]
                                                             })
                                                       : {
                                                           controller

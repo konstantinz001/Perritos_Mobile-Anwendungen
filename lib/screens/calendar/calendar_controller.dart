@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_application/common/models/dog_model.dart';
 import 'package:flutter_application/common/models/user_model.dart';
 import 'package:flutter_application/common/services/db_service.dart';
@@ -38,9 +39,10 @@ class CalendarImplmentation extends CalendarController {
 
   @override
   Future<Map<DateTime, List<ActionDateModel>>> loadEvents(
-      String email, String userName, String dogName) async {
+      String email, String userName, List<String> dogName) async {
     List<ActionDateModel> actionDates =
         await loadActionDatesFromDB(email, userName, dogName);
+
     Map<DateTime, List<ActionDateModel>> events = {};
     for (var action in actionDates) {
       DateTime key = DateTime.parse(
@@ -60,12 +62,17 @@ class CalendarImplmentation extends CalendarController {
 
   @override
   Future<List<ActionDateModel>> loadActionDatesFromDB(
-      String email, String userName, String dogName) async {
+      String email, String userName, List<String> dogName) async {
     var actionDates = await _databaseService.getAllActionDates(emailID: email);
-    return actionDates
-        .where((action) =>
-            action.users.contains(userName) && action.dogs.contains(dogName))
-        .toList();
+    List<ActionDateModel> returnAction = List.empty(growable: true);
+
+    dogName.forEach((dog) {
+      returnAction.addAll(actionDates
+          .where((action) =>
+              action.users.contains(userName) && action.dogs.contains(dog))
+          .toList());
+    });
+    return returnAction.toSet().toList();
   }
 
   @override
@@ -79,8 +86,18 @@ class CalendarImplmentation extends CalendarController {
   }
 
   @override
-  Future<DogModel> loadDogFromDB(String email, String name) async {
-    var dogList = await _databaseService.getAllDogs(emailID: email);
-    return dogList.firstWhere((dog) => dog.name == name);
+  Future<DogModel> loadDogFromDB(String email, List<String> dogName) async {
+    if (dogName.length <= 1) {
+      var dogList = await _databaseService.getAllDogs(emailID: email);
+      try {
+        return dogList.firstWhere((dog) => dog.name == dogName[0]);
+      } catch (e) {
+        return DogModel(
+            email, "Perritos", false, "", "", "", Timestamp.now(), "");
+      }
+    } else {
+      return DogModel(
+          email, "Perritos", false, "", "", "", Timestamp.now(), "");
+    }
   }
 }

@@ -28,13 +28,13 @@ import 'package:tuple/tuple.dart';
 import 'home_model.dart';
 
 class HomeView extends ConsumerWidget {
-  final String _dogName;
+  final List<String> _dogName;
   final String _emailID;
   final String _userName;
   final ActionDateModel? _dateModel;
   const HomeView(
       {Key? key,
-      required String dogName,
+      required List<String> dogName,
       required String emailID,
       required String userName,
       required ActionDateModel? dateModel})
@@ -342,17 +342,23 @@ class HomeView extends ConsumerWidget {
                       const SizedBox(
                         height: 20,
                       ),
-                      PerritosButton(
-                          onPressed: () => {
-                                controller
-                                    .selectActionType(ActionType.abnormality),
-                                controller
-                                    .switchHomeScreen(HomeScreen.createAction)
-                              },
-                          label: "Auffälligkeit"),
-                      const SizedBox(
-                        height: 20,
-                      ),
+                      _dogName.length < 1
+                          ? PerritosButton(
+                              onPressed: () => {
+                                    controller.selectActionType(
+                                        ActionType.abnormality),
+                                    controller.switchHomeScreen(
+                                        HomeScreen.createAction)
+                                  },
+                              label: "Auffälligkeit")
+                          : Container(),
+                      _dogName.length < 1
+                          ? const SizedBox(
+                              height: 20,
+                            )
+                          : const SizedBox(
+                              height: 0,
+                            ),
                       PerritosButton(
                           onPressed: () => {
                                 controller.selectActionType(ActionType.walking),
@@ -1115,18 +1121,18 @@ abstract class HomeController extends StateNotifier<HomeModel> {
   void changeBeginTime(TimeOfDay beginTime);
   void changeEndDate(DateTime endDate);
   void changeEndTime(TimeOfDay endTime);
-  void resetActionData(String userName, String dogName);
-  Future createAction(String email, String userName, String dogName);
-  Future updateAction(String dogName);
+  void resetActionData(String userName, List<String> dogName);
+  Future createAction(String email, String userName, List<String> dogName);
+  Future updateAction(List<String> dogName);
   Future deleteAction();
-  Future<DogModel> loadDogFromDB(String email, String dogName);
+  Future<DogModel> loadDogFromDB(String email, List<String> dogName);
   Future<List<UserModel>> loadUsersFromDB(String email);
   Future<List<DogModel>> loadDogsFromDB(String email);
   Future<List<ActionDateModel>> loadActionDatesFromDB(
-      String email, String userName, String dogName);
+      String email, String userName, List<String> dogName);
   Future<List<ActionTaskModel>> loadActionTasksFromDB(
-      String email, String userName, String dogName);
+      String email, String userName, List<String> dogName);
   Future<List<ActionAbnormalityModel>> loadActionAbnormalitiesFromDB(
-      String email, String userName, String dogName);
+      String email, String userName, List<String> dogName);
   void setEditActionDatesToModel(ActionDateModel? model);
 }

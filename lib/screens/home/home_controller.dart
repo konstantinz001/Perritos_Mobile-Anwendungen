@@ -12,14 +12,14 @@ import 'package:flutter_application/common/models/dog_model.dart';
 class HomeImplmentation extends HomeController {
   final DatabaseService _databaseService;
   final String _userName;
-  final String _dogName;
+  final List<String> _dogName;
   final ActionDateModel? _dateModel;
 
   HomeImplmentation({
     required DatabaseService databaseService,
     HomeModel? model,
     required String userName,
-    required String dogName,
+    required List<String> dogName,
     required ActionDateModel? dateModel,
   })  : _databaseService = databaseService,
         _userName = userName,
@@ -38,7 +38,7 @@ class HomeImplmentation extends HomeController {
                   title: dateModel != null ? dateModel.title : "",
                   description: dateModel != null ? dateModel.description : "",
                   users: dateModel != null ? dateModel.users : [userName],
-                  dogs: dateModel != null ? dateModel.dogs : [dogName],
+                  dogs: dateModel != null ? dateModel.dogs : dogName,
                   emotionalState: 0,
                   beginDate: dateModel != null
                       ? dateModel.begin.toDate()
@@ -83,69 +83,87 @@ class HomeImplmentation extends HomeController {
 
   @override
   Future<List<ActionDateModel>> loadActionDatesFromDB(
-      String email, String userName, String dogName) async {
+      String email, String userName, List<String> dogName) async {
     List<ActionDateModel> actionDates =
         await _databaseService.getAllActionDates(emailID: email);
 
+    List<ActionDateModel> returnAction = List.empty(growable: true);
+
     if (state.searchString != "") {
-      return actionDates
-          .where((action) => action.title
-              .toLowerCase()
-              .contains(state.searchString.toLowerCase()))
-          .where((action) =>
-              action.users.contains(userName) && action.dogs.contains(dogName))
-          .toList();
+      dogName.forEach((dog) {
+        returnAction.addAll(actionDates
+            .where((action) => action.title
+                .toLowerCase()
+                .contains(state.searchString.toLowerCase()))
+            .where((action) =>
+                action.users.contains(userName) && action.dogs.contains(dog))
+            .toList());
+      });
+      return returnAction.toSet().toList();
+    } else {
+      dogName.forEach((dog) {
+        returnAction.addAll(actionDates
+            .where((action) =>
+                action.users.contains(userName) && action.dogs.contains(dog))
+            .toList());
+      });
+      return returnAction.toSet().toList();
     }
-    return actionDates
-        .where((action) =>
-            action.users.contains(userName) && action.dogs.contains(dogName))
-        .toList();
   }
 
   @override
   Future<List<ActionAbnormalityModel>> loadActionAbnormalitiesFromDB(
-      String email, String userName, String dogName) async {
+      String email, String userName, List<String> dogName) async {
     List<ActionAbnormalityModel> actionAbnormalities =
         await _databaseService.getAllActionAbnormalities(emailID: email);
+    List<ActionAbnormalityModel> returnAction = List.empty(growable: true);
+
     if (state.searchString != "") {
-      return actionAbnormalities
-          .where((action) => action.title
-              .toLowerCase()
-              .contains(state.searchString.toLowerCase()))
-          .where((action) => action.dog == dogName)
-          .toList();
+      dogName.forEach((dog) {
+        returnAction.addAll(actionAbnormalities
+            .where((action) => action.title
+                .toLowerCase()
+                .contains(state.searchString.toLowerCase()))
+            .where((action) => action.dog == dog)
+            .toList());
+      });
+      return returnAction.toSet().toList();
+    } else {
+      dogName.forEach((dog) {
+        returnAction.addAll(
+            actionAbnormalities.where((action) => action.dog == dog).toList());
+      });
+      return returnAction.toSet().toList();
     }
-    return actionAbnormalities
-        .where((action) => action.dog == dogName)
-        .toList();
   }
 
   @override
   Future<List<ActionTaskModel>> loadActionTasksFromDB(
-      String email, String userName, String dogName) async {
+      String email, String userName, List<String> dogName) async {
     List<ActionTaskModel> actionTasks =
         await _databaseService.getAllActionTasks(emailID: email);
+    List<ActionTaskModel> returnAction = List.empty(growable: true);
 
     if (state.searchString != "") {
-      actionTasks
-          .where((action) => action.title
-              .toLowerCase()
-              .contains(state.searchString.toLowerCase()))
-          .where((action) =>
-              action.users.contains(userName) && action.dogs.contains(dogName))
-          .toList();
-      return actionTasks
-          .where((action) => action.title
-              .toLowerCase()
-              .contains(state.searchString.toLowerCase()))
-          .where((action) =>
-              action.users.contains(userName) && action.dogs.contains(dogName))
-          .toList();
+      dogName.forEach((dog) {
+        returnAction.addAll(actionTasks
+            .where((action) => action.title
+                .toLowerCase()
+                .contains(state.searchString.toLowerCase()))
+            .where((action) =>
+                action.users.contains(userName) && action.dogs.contains(dog))
+            .toList());
+      });
+      return returnAction.toSet().toList();
+    } else {
+      dogName.forEach((dog) {
+        returnAction.addAll(actionTasks
+            .where((action) =>
+                action.users.contains(userName) && action.dogs.contains(dog))
+            .toList());
+      });
+      return returnAction.toSet().toList();
     }
-    return actionTasks
-        .where((action) =>
-            action.users.contains(userName) && action.dogs.contains(dogName))
-        .toList();
   }
 
   @override
@@ -207,15 +225,19 @@ class HomeImplmentation extends HomeController {
   }
 
   @override
-  Future createAction(String email, String userName, String dogName) async {
+  Future createAction(
+      String email, String userName, List<String> dogName) async {
     switch (state.selectedActionType) {
       case ActionType.abnormality:
-        return await _databaseService.insertActionAbnormaility(
-            emailID: email,
-            title: state.title,
-            description: state.description,
-            dog: dogName,
-            emotionalState: state.emotionalState.round());
+        if (dogName.length >= 1) {
+          return await _databaseService.insertActionAbnormaility(
+              emailID: email,
+              title: state.title,
+              description: state.description,
+              dog: dogName[0],
+              emotionalState: state.emotionalState.round());
+        }
+        return;
       case ActionType.date:
         return await _databaseService.insertActionDate(
             emailID: email,
@@ -263,12 +285,12 @@ class HomeImplmentation extends HomeController {
   }
 
   @override
-  void resetActionData(String userName, String dogName) {
+  void resetActionData(String userName, List<String> dogName) {
     state = state.copyWith(
         title: "",
         description: "",
         users: [userName],
-        dogs: [dogName],
+        dogs: dogName,
         emotionalState: 0,
         beginDate: DateTime.now(),
         beginTime: TimeOfDay.now(),
@@ -366,15 +388,18 @@ class HomeImplmentation extends HomeController {
   }
 
   @override
-  Future updateAction(String dogName) async {
+  Future updateAction(List<String> dogName) async {
     switch (state.selectedActionType) {
       case ActionType.abnormality:
-        return _databaseService.updateActionAbnormalityWithID(
-            actionID: state.currentActionId,
-            title: state.title,
-            description: state.description,
-            dog: dogName,
-            emotionalState: state.emotionalState.round());
+        if (dogName.length >= 1) {
+          return _databaseService.updateActionAbnormalityWithID(
+              actionID: state.currentActionId,
+              title: state.title,
+              description: state.description,
+              dog: dogName[0],
+              emotionalState: state.emotionalState.round());
+        }
+        return;
       case ActionType.date:
         return _databaseService.updateActionDateWithID(
           actionID: state.currentActionId,
@@ -440,12 +465,18 @@ class HomeImplmentation extends HomeController {
     }
   }
 
-  Future<DogModel> loadDogFromDB(String email, String dogName) async {
-    var dogList = await _databaseService.getAllDogs(emailID: email);
-    try {
-      return dogList.firstWhere((dog) => dog.name == dogName);
-    } catch (e) {
-      return DogModel(email, dogName, false, "", "", "", Timestamp.now(), "");
+  Future<DogModel> loadDogFromDB(String email, List<String> dogName) async {
+    if (dogName.length <= 1) {
+      var dogList = await _databaseService.getAllDogs(emailID: email);
+      try {
+        return dogList.firstWhere((dog) => dog.name == dogName[0]);
+      } catch (e) {
+        return DogModel(
+            email, "Perritos", false, "", "", "", Timestamp.now(), "");
+      }
+    } else {
+      return DogModel(
+          email, "Perritos", false, "", "", "", Timestamp.now(), "");
     }
   }
 }

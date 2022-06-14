@@ -17,13 +17,13 @@ import '../../common/models/dog_model.dart';
 class DogProfileInfoView extends ConsumerWidget {
   final String _emailID;
   final String _userName;
-  final String _dogName;
+  final List<String> _dogName;
   final DogModel _dog;
 
   const DogProfileInfoView(
       {Key? key,
       required DogModel dog,
-      required String dogName,
+      required List<String> dogName,
       required String emailID,
       required String userName})
       : _dog = dog,
@@ -101,55 +101,36 @@ class DogProfileInfoView extends ConsumerWidget {
               Row(
                 children: [
                   Expanded(
-                      child: PerritosProfile(
-                    icon: _dog.iconName == 'Icon_Smiley_Happy'
-                        ? PerritosIcons.Icon_Smiley_Happy
-                        : _dog.iconName == 'Icon_Smiley_Sad'
-                            ? PerritosIcons.Icon_Smiley_Sad
-                            : PerritosIcons.Icon_Dog,
-                    onPressed: () {},
-                    label: _dog.name,
-                    perritosColor: _dog.iconColor == 'perritosGoldFusion'
-                        ? PerritosColor.perritosGoldFusion
-                        : _dog.iconColor == 'perritosMaizeCrayola'
-                            ? PerritosColor.perritosMaizeCrayola
-                            : _dog.iconColor == 'perritosSandyBrown'
-                                ? PerritosColor.perritosSandyBrown
-                                : _dog.iconColor == 'perritosBurntSienna'
-                                    ? PerritosColor.perritosBurntSienna
-                                    : PerritosColor.perritosCharcoal,
-                  ))
+                      child: _dog.name != "Perritos"
+                          ? PerritosProfile(
+                              icon: _dog.iconName == 'Icon_Smiley_Happy'
+                                  ? PerritosIcons.Icon_Smiley_Happy
+                                  : _dog.iconName == 'Icon_Smiley_Sad'
+                                      ? PerritosIcons.Icon_Smiley_Sad
+                                      : PerritosIcons.Icon_Dog,
+                              onPressed: () {},
+                              label: _dog.name,
+                              perritosColor: _dog.iconColor ==
+                                      'perritosGoldFusion'
+                                  ? PerritosColor.perritosGoldFusion
+                                  : _dog.iconColor == 'perritosMaizeCrayola'
+                                      ? PerritosColor.perritosMaizeCrayola
+                                      : _dog.iconColor == 'perritosSandyBrown'
+                                          ? PerritosColor.perritosSandyBrown
+                                          : _dog.iconColor ==
+                                                  'perritosBurntSienna'
+                                              ? PerritosColor
+                                                  .perritosBurntSienna
+                                              : PerritosColor.perritosCharcoal,
+                            )
+                          : PerritosProfile(
+                              icon: PerritosIcons.Icon_Perritos,
+                              onPressed: () {},
+                              label: _dog.name,
+                              perritosColor: PerritosColor.perritosCharcoal,
+                            ))
                 ],
               ),
-              const SizedBox(height: 24),
-              PerritosTxtInput(
-                label: 'Rasse:',
-                hintTxt: _dog.rasse,
-                onSubmit: (value) => {},
-                readOnly: true,
-              ),
-              const SizedBox(height: 10),
-              PerritosTxtInput(
-                label: 'Geburtstag:',
-                hintTxt:
-                    DateFormat('dd.MM.yyyy').format(_dog.birthday.toDate()),
-                optlabel:
-                    (DateTime.now().difference(_dog.birthday.toDate()).inDays /
-                                365)
-                            .toInt()
-                            .toString() +
-                        ' Jahre alt',
-                onSubmit: (value) => {},
-                readOnly: true,
-              ),
-              const SizedBox(height: 10),
-              PerritosDescriptionInput(
-                label: 'Info:',
-                hintTxt: _dog.info,
-                onSubmit: (value) => {},
-                readOnly: true,
-                showWordCount: false,
-              )
             ],
           ),
         ),
@@ -196,6 +177,6 @@ abstract class DogProfileInfoController extends StateNotifier<DogProfileModel> {
   int calculateAge(DateTime birthdate);
 
   Future<List<UserModel>> loadAllUsersFromDB(String email);
-  Future<DogModel> loadDogFromDB(String email, String name);
+  Future<DogModel> loadDogFromDB(String email, List<String> name);
   Future<List<DogModel>> loadAllDogsFromDB(String email);
 }
