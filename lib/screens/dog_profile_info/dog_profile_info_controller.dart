@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_application/common/models/dog_model.dart';
 import 'package:flutter_application/common/models/user_model.dart';
 import 'package:flutter_application/screens/dog_profile_info/dog_profile_info_model.dart';
@@ -40,9 +41,19 @@ class DogProfileInfoImplementation extends DogProfileInfoController {
   }
 
   @override
-  Future<DogModel> loadDogFromDB(String email, String name) async {
-    var dogList = await _databaseService.getAllDogs(emailID: email);
-    return dogList.firstWhere((dog) => dog.name == name);
+  Future<DogModel> loadDogFromDB(String email, List<String> dogName) async {
+    if (dogName.length <= 1) {
+      var dogList = await _databaseService.getAllDogs(emailID: email);
+      try {
+        return dogList.firstWhere((dog) => dog.name == dogName[0]);
+      } catch (e) {
+        return DogModel(
+            email, "Perritos", false, "", "", "", Timestamp.now(), "");
+      }
+    } else {
+      return DogModel(
+          email, "Perritos", false, "", "", "", Timestamp.now(), "");
+    }
   }
 
   @override

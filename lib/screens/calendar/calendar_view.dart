@@ -18,10 +18,10 @@ import 'calendar_model.dart';
 class CalendarView extends ConsumerWidget {
   final String _emailID;
   final String _userName;
-  final String _dogName;
+  final List<String> _dogName;
   const CalendarView(
       {Key? key,
-      required String dogName,
+      required List<String> dogName,
       required String emailID,
       required String userName})
       : _dogName = dogName,
@@ -223,11 +223,11 @@ abstract class CalendarController extends StateNotifier<CalendarModel> {
   void changeSelectedDay(DateTime date);
   void changeFocusedDay(DateTime date);
   Future<List<ActionDateModel>> loadActionDatesFromDB(
-      String email, String userName, String dogName);
+      String email, String userName, List<String> dogName);
   Future<Map<DateTime, List<ActionDateModel>>> loadEvents(
-      String email, String userName, String dogName);
+      String email, String userName, List<String> dogName);
 
   Future<List<UserModel>> loadAllUsersFromDB(String email);
   Future<List<DogModel>> loadAllDogsFromDB(String email);
-  Future<DogModel> loadDogFromDB(String email, String name);
+  Future<DogModel> loadDogFromDB(String email, List<String> name);
 }

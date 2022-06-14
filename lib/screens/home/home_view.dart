@@ -28,13 +28,13 @@ import 'package:tuple/tuple.dart';
 import 'home_model.dart';
 
 class HomeView extends ConsumerWidget {
-  final String _dogName;
+  final List<String> _dogName;
   final String _emailID;
   final String _userName;
   final ActionDateModel? _dateModel;
   const HomeView(
       {Key? key,
-      required String dogName,
+      required List<String> dogName,
       required String emailID,
       required String userName,
       required ActionDateModel? dateModel})
@@ -149,9 +149,45 @@ class HomeView extends ConsumerWidget {
                                   controller.selectActionType(ActionType.task);
                                   controller
                                       .changeCurrentActionId(action.actionID)
-                                      .then((value) => {
-                                            controller.switchHomeScreen(
-                                                HomeScreen.editAction)
+                                      .then((event) => {
+                                            if (event == null)
+                                              {
+                                                controller.switchHomeScreen(
+                                                    HomeScreen.editAction)
+                                              }
+                                            else if (event == "Dog/User")
+                                              {
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(SnackBar(
+                                                        content: Text(
+                                                            'Es muss mindestens ein Benutzer und ein Hund ausgewählt werden!',
+                                                            style:
+                                                                perritosDoublePica),
+                                                        backgroundColor:
+                                                            perritosBurntSienna))
+                                              }
+                                            else if (event == "Time")
+                                              {
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(SnackBar(
+                                                        content: Text(
+                                                            'Gib bitte einen Endzeitpunkt ein, welcher hinter dem Startzeitpunkt liegt!',
+                                                            style:
+                                                                perritosDoublePica),
+                                                        backgroundColor:
+                                                            perritosBurntSienna))
+                                              }
+                                            else
+                                              {
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(SnackBar(
+                                                        content: Text(
+                                                            'Ein Fehler ist aufgetreten',
+                                                            style:
+                                                                perritosDoublePica),
+                                                        backgroundColor:
+                                                            perritosBurntSienna))
+                                              }
                                           });
                                 },
                               )
@@ -178,9 +214,45 @@ class HomeView extends ConsumerWidget {
                                   controller.selectActionType(ActionType.date);
                                   controller
                                       .changeCurrentActionId(action.actionID)
-                                      .then((value) => {
-                                            controller.switchHomeScreen(
-                                                HomeScreen.editAction)
+                                      .then((event) => {
+                                            if (event == null)
+                                              {
+                                                controller.switchHomeScreen(
+                                                    HomeScreen.editAction)
+                                              }
+                                            else if (event == "Dog/User")
+                                              {
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(SnackBar(
+                                                        content: Text(
+                                                            'Es muss mindestens ein Benutzer und ein Hund ausgewählt werden!',
+                                                            style:
+                                                                perritosDoublePica),
+                                                        backgroundColor:
+                                                            perritosBurntSienna))
+                                              }
+                                            else if (event == "Time")
+                                              {
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(SnackBar(
+                                                        content: Text(
+                                                            'Gib bitte einen Endzeitpunkt ein, welcher hinter dem Startzeitpunkt liegt!',
+                                                            style:
+                                                                perritosDoublePica),
+                                                        backgroundColor:
+                                                            perritosBurntSienna))
+                                              }
+                                            else
+                                              {
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(SnackBar(
+                                                        content: Text(
+                                                            'Ein Fehler ist aufgetreten',
+                                                            style:
+                                                                perritosDoublePica),
+                                                        backgroundColor:
+                                                            perritosBurntSienna))
+                                              }
                                           });
                                 },
                               )
@@ -210,9 +282,45 @@ class HomeView extends ConsumerWidget {
                                       .selectActionType(ActionType.abnormality);
                                   controller
                                       .changeCurrentActionId(action.actionID)
-                                      .then((value) => {
-                                            controller.switchHomeScreen(
-                                                HomeScreen.editAction)
+                                      .then((event) => {
+                                            if (event == null)
+                                              {
+                                                controller.switchHomeScreen(
+                                                    HomeScreen.editAction)
+                                              }
+                                            else if (event == "Dog/User")
+                                              {
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(SnackBar(
+                                                        content: Text(
+                                                            'Es muss mindestens ein Benutzer und ein Hund ausgewählt werden!',
+                                                            style:
+                                                                perritosDoublePica),
+                                                        backgroundColor:
+                                                            perritosBurntSienna))
+                                              }
+                                            else if (event == "Time")
+                                              {
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(SnackBar(
+                                                        content: Text(
+                                                            'Gib bitte einen Endzeitpunkt ein, welcher hinter dem Startzeitpunkt liegt!',
+                                                            style:
+                                                                perritosDoublePica),
+                                                        backgroundColor:
+                                                            perritosBurntSienna))
+                                              }
+                                            else
+                                              {
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(SnackBar(
+                                                        content: Text(
+                                                            'Ein Fehler ist aufgetreten',
+                                                            style:
+                                                                perritosDoublePica),
+                                                        backgroundColor:
+                                                            perritosBurntSienna))
+                                              }
                                           });
                                 },
                               )
@@ -342,17 +450,23 @@ class HomeView extends ConsumerWidget {
                       const SizedBox(
                         height: 20,
                       ),
-                      PerritosButton(
-                          onPressed: () => {
-                                controller
-                                    .selectActionType(ActionType.abnormality),
-                                controller
-                                    .switchHomeScreen(HomeScreen.createAction)
-                              },
-                          label: "Auffälligkeit"),
-                      const SizedBox(
-                        height: 20,
-                      ),
+                      _dogName.length < 1
+                          ? PerritosButton(
+                              onPressed: () => {
+                                    controller.selectActionType(
+                                        ActionType.abnormality),
+                                    controller.switchHomeScreen(
+                                        HomeScreen.createAction)
+                                  },
+                              label: "Auffälligkeit")
+                          : Container(),
+                      _dogName.length < 1
+                          ? const SizedBox(
+                              height: 20,
+                            )
+                          : const SizedBox(
+                              height: 0,
+                            ),
                       PerritosButton(
                           onPressed: () => {
                                 controller.selectActionType(ActionType.walking),
@@ -685,20 +799,47 @@ class HomeView extends ConsumerWidget {
                       onPressed: () => {
                             controller
                                 .createAction(_emailID, _userName, _dogName)
-                                .then((m) => {
-                                      controller.resetActionData(
-                                          _userName, _dogName),
-                                      controller
-                                          .switchHomeScreen(HomeScreen.overview)
-                                    })
-                                .catchError((e) => {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(SnackBar(
-                                              content: Text(
-                                                  'Erstellung der Aktion ist fehlgeschlagen :(',
-                                                  style: perritosDoublePica),
-                                              backgroundColor:
-                                                  perritosBurntSienna))
+                                .then((event) => {
+                                      if (event == null)
+                                        {
+                                          controller.resetActionData(
+                                              _userName, _dogName),
+                                          controller.switchHomeScreen(
+                                              HomeScreen.overview)
+                                        }
+                                      else if (event == "Dog/User")
+                                        {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(SnackBar(
+                                                  content: Text(
+                                                      'Es muss mindestens ein Benutzer und ein Hund ausgewählt werden!',
+                                                      style:
+                                                          perritosDoublePica),
+                                                  backgroundColor:
+                                                      perritosBurntSienna))
+                                        }
+                                      else if (event == "Time")
+                                        {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(SnackBar(
+                                                  content: Text(
+                                                      'Gib bitte einen Endzeitpunkt ein, welcher hinter dem Startzeitpunkt liegt!',
+                                                      style:
+                                                          perritosDoublePica),
+                                                  backgroundColor:
+                                                      perritosBurntSienna))
+                                        }
+                                      else
+                                        {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(SnackBar(
+                                                  content: Text(
+                                                      'Ein Fehler ist aufgetreten',
+                                                      style:
+                                                          perritosDoublePica),
+                                                  backgroundColor:
+                                                      perritosBurntSienna))
+                                        }
                                     })
                           },
                       label: "erstellen")
@@ -1037,23 +1178,45 @@ class HomeView extends ConsumerWidget {
                           ))),
                   PerritosButton(
                       onPressed: () => {
-                            controller
-                                .updateAction(_dogName)
-                                .then((m) => {
+                            controller.updateAction(_dogName).then((event) => {
+                                  if (event == null)
+                                    {
                                       controller.resetActionData(
                                           _userName, _dogName),
                                       controller
                                           .switchHomeScreen(HomeScreen.overview)
-                                    })
-                                .catchError((e) => {
+                                    }
+                                  else if (event == "Dog/User")
+                                    {
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(SnackBar(
                                               content: Text(
-                                                  'Bearbeitung der Aktion ist fehlgeschlagen :(',
+                                                  'Es muss mindestens ein Benutzer und ein Hund ausgewählt werden!',
                                                   style: perritosDoublePica),
                                               backgroundColor:
                                                   perritosBurntSienna))
-                                    })
+                                    }
+                                  else if (event == "Time")
+                                    {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(SnackBar(
+                                              content: Text(
+                                                  'Gib bitte einen Endzeitpunkt ein, welcher hinter dem Startzeitpunkt liegt!',
+                                                  style: perritosDoublePica),
+                                              backgroundColor:
+                                                  perritosBurntSienna))
+                                    }
+                                  else
+                                    {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(SnackBar(
+                                              content: Text(
+                                                  'Ein Fehler ist aufgetreten',
+                                                  style: perritosDoublePica),
+                                              backgroundColor:
+                                                  perritosBurntSienna))
+                                    }
+                                })
                           },
                       label: "bearbeiten"),
                   const SizedBox(height: 10),
@@ -1103,7 +1266,7 @@ abstract class HomeController extends StateNotifier<HomeModel> {
   void changeSearchString(String searchString);
   void switchHomeScreen(HomeScreen homeScreen);
   void selectActionType(ActionType actionType);
-  Future changeCurrentActionId(String actionId);
+  Future<String?> changeCurrentActionId(String actionId);
   void changeTitle(String title);
   void changeDescription(String description);
   void addUser(String user);
@@ -1115,18 +1278,19 @@ abstract class HomeController extends StateNotifier<HomeModel> {
   void changeBeginTime(TimeOfDay beginTime);
   void changeEndDate(DateTime endDate);
   void changeEndTime(TimeOfDay endTime);
-  void resetActionData(String userName, String dogName);
-  Future createAction(String email, String userName, String dogName);
-  Future updateAction(String dogName);
+  void resetActionData(String userName, List<String> dogName);
+  Future<String?> createAction(
+      String email, String userName, List<String> dogName);
+  Future<String?> updateAction(List<String> dogName);
   Future deleteAction();
-  Future<DogModel> loadDogFromDB(String email, String dogName);
+  Future<DogModel> loadDogFromDB(String email, List<String> dogName);
   Future<List<UserModel>> loadUsersFromDB(String email);
   Future<List<DogModel>> loadDogsFromDB(String email);
   Future<List<ActionDateModel>> loadActionDatesFromDB(
-      String email, String userName, String dogName);
+      String email, String userName, List<String> dogName);
   Future<List<ActionTaskModel>> loadActionTasksFromDB(
-      String email, String userName, String dogName);
+      String email, String userName, List<String> dogName);
   Future<List<ActionAbnormalityModel>> loadActionAbnormalitiesFromDB(
-      String email, String userName, String dogName);
+      String email, String userName, List<String> dogName);
   void setEditActionDatesToModel(ActionDateModel? model);
 }
