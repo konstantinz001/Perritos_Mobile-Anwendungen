@@ -331,11 +331,15 @@ class HomeView extends ConsumerWidget {
                         }),
                   ],
                 )),
-                const SizedBox(height: 30),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: FloatingActionButton(
+                const SizedBox(height: 100),
+              ],
+            ),
+          ),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        floatingActionButton: FloatingActionButton(
                       backgroundColor: PerritosColor.perritosCharcoal.color,
+  
                       child: const Icon(
                         PerritosIcons.Icon_Add,
                         size: 42,
@@ -344,11 +348,6 @@ class HomeView extends ConsumerWidget {
                             controller
                                 .switchHomeScreen(HomeScreen.selectActionType)
                           }),
-                ),
-              ],
-            ),
-          ),
-        ),
         bottomNavigationBar: Container(
           color: PerritosColor.perritosSnow.color,
           child: Padding(
