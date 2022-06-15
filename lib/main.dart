@@ -61,6 +61,7 @@ class MyApp extends StatelessWidget {
                         userName: args['userName'],
                         dogName: args['dogName'],
                         dateModel: args['dateModel'],
+                        comingFromCalendar: args['comingFromCalendar'],
                       ));
             } else if (routeParams.name == '/Calendar') {
               final Map args = routeParams.arguments as Map;

@@ -32,16 +32,19 @@ class HomeView extends ConsumerWidget {
   final String _emailID;
   final String _userName;
   final ActionDateModel? _dateModel;
-  const HomeView(
-      {Key? key,
-      required List<String> dogName,
-      required String emailID,
-      required String userName,
-      required ActionDateModel? dateModel})
-      : _dogName = dogName,
+  final bool? _comingFromCalendar;
+  const HomeView({
+    Key? key,
+    required List<String> dogName,
+    required String emailID,
+    required String userName,
+    required ActionDateModel? dateModel,
+    required bool? comingFromCalendar,
+  })  : _dogName = dogName,
         _emailID = emailID,
         _userName = userName,
         _dateModel = dateModel,
+        _comingFromCalendar = comingFromCalendar,
         super(key: key);
 
   @override
@@ -865,8 +868,16 @@ class HomeView extends ConsumerWidget {
                       Expanded(
                           child: PerritosIconButton(
                               onPressed: () => {
-                                    controller.resetActionData(
-                                        _userName, _dogName),
+                                print(_comingFromCalendar),
+                                    _comingFromCalendar == true
+                                        ? Navigator.pushNamed(
+                                            context, '/Calendar', arguments: {
+                                            'emailID': _emailID,
+                                            'userName': _userName,
+                                            'dogName': _dogName
+                                          })
+                                        : controller.resetActionData(
+                                            _userName, _dogName),
                                     controller
                                         .switchHomeScreen(HomeScreen.overview)
                                   },
@@ -1181,10 +1192,17 @@ class HomeView extends ConsumerWidget {
                             controller.updateAction(_dogName).then((event) => {
                                   if (event == null)
                                     {
-                                      controller.resetActionData(
-                                          _userName, _dogName),
-                                      controller
-                                          .switchHomeScreen(HomeScreen.overview)
+                                      _comingFromCalendar == true
+                                          ? Navigator.pushNamed(
+                                              context, '/Calendar', arguments: {
+                                              'emailID': _emailID,
+                                              'userName': _userName,
+                                              'dogName': _dogName
+                                            })
+                                          : controller.resetActionData(
+                                              _userName, _dogName),
+                                      controller.switchHomeScreen(
+                                          HomeScreen.overview),
                                     }
                                   else if (event == "Dog/User")
                                     {

@@ -84,10 +84,10 @@ class UserSelectionAndAdministrationView extends ConsumerWidget {
                                                 })
                                       ],
                                     )),
-                            const SizedBox(height: 60),
                             Expanded(
                               child: SingleChildScrollView(
                                 child: Column(children: [
+                                  const SizedBox(height: 60),
                                   for (var user in model.userList)
                                     Column(
                                       children: [

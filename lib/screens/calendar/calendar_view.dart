@@ -93,6 +93,9 @@ class CalendarView extends ConsumerWidget {
                       child: Column(children: [
                 TableCalendar(
                   eventLoader: controller.getEventsfromDay,
+                  onPageChanged: (DateTime focusedDate) {
+                    controller.changeFocusedDay(focusedDate);
+                  },
                   locale: 'de',
                   focusedDay: model.focusedDay,
                   firstDay: DateTime(DateTime.now().year - 10,
@@ -161,6 +164,7 @@ class CalendarView extends ConsumerWidget {
                                 'userName': _userName,
                                 'dogName': _dogName,
                                 'dateModel': event,
+                                'comingFromCalendar': true,
                               })
                             })),
                 FutureBuilder(
@@ -200,7 +204,7 @@ class CalendarView extends ConsumerWidget {
                                 'dogModel': dog,
                                 'emailID': _emailID,
                                 'userName': _userName,
-                                'dogName': _dogName
+                                'dogName': _dogName,
                               }));
                 },
                 navigateToCalendar: () {
