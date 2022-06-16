@@ -4,6 +4,7 @@ import 'package:flutter_application/assets/styles/perritos-fonts.dart';
 import 'package:flutter_application/assets/ui-components/buttons/perritos-button.dart';
 import 'package:flutter_application/assets/ui-components/buttons/perritos-icon-button.dart';
 import 'package:flutter_application/assets/ui-components/profile/perritos-editable-profile.dart';
+import 'package:flutter_application/assets/ui-components/profile/perritos-editable-profileReadOnly.dart';
 import 'package:flutter_application/assets/ui-components/profile/perritos-profile.dart';
 import 'package:flutter_application/common/models/dog_model.dart';
 import 'package:flutter_application/common/providers.dart';
@@ -364,7 +365,7 @@ class UserSelectionAndAdministrationView extends ConsumerWidget {
                                         child: Column(children: [
                                           Column(
                                             children: [
-                                              PerritosEditableProfile(
+                                              PerritosEditableProfileReadOnly(
                                                 icon: model.iconName ==
                                                         'Icon_Smiley_Happy'
                                                     ? PerritosIcons
@@ -396,7 +397,6 @@ class UserSelectionAndAdministrationView extends ConsumerWidget {
                                                                     .perritosBurntSienna
                                                                 : PerritosColor
                                                                     .perritosCharcoal,
-                                                placeholder: model.userName,
                                                 label:
                                                     textEditingController.text,
                                                 onPressed: () => {
@@ -408,8 +408,6 @@ class UserSelectionAndAdministrationView extends ConsumerWidget {
                                                           UserSelectionAndAdministration
                                                               .changeIconName)
                                                 },
-                                                textEditingController:
-                                                    textEditingController,
                                               ),
                                               const SizedBox(height: 20),
                                             ],
@@ -421,30 +419,26 @@ class UserSelectionAndAdministrationView extends ConsumerWidget {
                                       alignment: Alignment.bottomCenter,
                                       child: PerritosButton(
                                         onPressed: () async => {
-                                          if (textEditingController.text != "")
-                                            {
-                                              controller
-                                                  .updateUser(UserModel(
-                                                      _emailID,
-                                                      textEditingController
-                                                          .text,
-                                                      false,
-                                                      model.iconName,
-                                                      model.iconColor))
-                                                  .then((value) => controller
-                                                      .loadUsers(_emailID)
-                                                      .then((userlist) => {
-                                                            Navigator.pushNamed(
-                                                                context,
-                                                                '/UserSelectionAndAdministration',
-                                                                arguments: {
-                                                                  'emailID':
-                                                                      _emailID,
-                                                                  'userList':
-                                                                      userlist
-                                                                })
-                                                          }))
-                                            },
+                                          controller
+                                              .updateUser(UserModel(
+                                                  _emailID,
+                                                  textEditingController.text,
+                                                  false,
+                                                  model.iconName,
+                                                  model.iconColor))
+                                              .then((value) => controller
+                                                  .loadUsers(_emailID)
+                                                  .then((userlist) => {
+                                                        Navigator.pushNamed(
+                                                            context,
+                                                            '/UserSelectionAndAdministration',
+                                                            arguments: {
+                                                              'emailID':
+                                                                  _emailID,
+                                                              'userList':
+                                                                  userlist
+                                                            })
+                                                      }))
                                         },
                                         label: 'bearbeiten',
                                       ),

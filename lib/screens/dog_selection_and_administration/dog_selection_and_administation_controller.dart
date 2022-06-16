@@ -53,6 +53,7 @@ class DogSelectionAndAdministrationImplmentation
 
   @override
   Future<void> updateDog(DogModel dogModel) async {
+    print(dogModel.name);
     var currentDogName = getSelectedDog()!;
     await _databaseService.updateDog(
         emailID: dogModel.emailID,

@@ -271,9 +271,8 @@ class DatabaseFireStoreService extends DatabaseService {
       required String newInfo,
       required String newRasse,
       required Timestamp newBirthday}) async {
-    if (await checkIfUserExists(emailID: emailID, name: name)) {
-      await deleteUser(emailID: emailID, name: name);
-
+    if (await checkIfDogExists(emailID: emailID, name: name)) {
+      await deleteDog(emailID: emailID, name: name);
       await insertDog(
           emailID: emailID,
           name: newName,

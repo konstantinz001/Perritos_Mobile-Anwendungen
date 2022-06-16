@@ -5,6 +5,7 @@ import 'package:flutter_application/assets/styles/perritos-fonts.dart';
 import 'package:flutter_application/assets/ui-components/buttons/perritos-button.dart';
 import 'package:flutter_application/assets/ui-components/buttons/perritos-icon-button.dart';
 import 'package:flutter_application/assets/ui-components/profile/perritos-editable-profile.dart';
+import 'package:flutter_application/assets/ui-components/profile/perritos-editable-profileReadOnly.dart';
 import 'package:flutter_application/assets/ui-components/profile/perritos-profile.dart';
 import 'package:flutter_application/assets/ui-components/text-input/perritos_description_input.dart';
 import 'package:flutter_application/assets/ui-components/text-input/perritos_txt_input.dart';
@@ -43,14 +44,10 @@ class DogSelectionAndAdministrationView extends ConsumerWidget {
         providers.dogSelectionAndAdministrationControllerProvider(_dogs));
 
     TextEditingController textEditingControllerName = TextEditingController();
-    textEditingControllerName.text = model.dogName;
     TextEditingController textEditingControllerRasse = TextEditingController();
-    textEditingControllerRasse.text = model.rasse;
     TextEditingController textEditingControllerInfo = TextEditingController();
-    textEditingControllerInfo.text = model.info;
     TextEditingController textEditingControllerBirthday =
         TextEditingController();
-    textEditingControllerBirthday.text = model.birthday.toDate().toString();
 
     var buildWidget = Scaffold(
       body: Center(
@@ -128,7 +125,9 @@ class DogSelectionAndAdministrationView extends ConsumerWidget {
                                                                 dog.name)
                                                             .toList(),
                                                         'perritos': true,
-                                                        'selectedUser': _selectedUser                                                        }),
+                                                        'selectedUser':
+                                                            _selectedUser
+                                                      }),
                                                 }),
                                         const SizedBox(height: 20),
                                       ],
@@ -178,8 +177,10 @@ class DogSelectionAndAdministrationView extends ConsumerWidget {
                                                               'dogName': [
                                                                 dog.name
                                                               ],
-                                                              'selectedDog': dog,
-                                                              'selectedUser': _selectedUser                                                             
+                                                              'selectedDog':
+                                                                  dog,
+                                                              'selectedUser':
+                                                                  _selectedUser
                                                             })
                                                       : {
                                                           controller
@@ -212,6 +213,9 @@ class DogSelectionAndAdministrationView extends ConsumerWidget {
                                                                   controller
                                                                       .getSelectedDog()!
                                                                       .birthday),
+                                                          textEditingControllerName
+                                                                  .text =
+                                                              model.dogName,
                                                           controller
                                                               .switchCurrentDogSelectionAndAdministrationScreen(
                                                                   DogSelectionAndAdministration
@@ -280,8 +284,10 @@ class DogSelectionAndAdministrationView extends ConsumerWidget {
                                                                   _emailID,
                                                               'userName':
                                                                   _userName,
-                                                              'dogList': doglist,
-                                                              'selectedUser':_selectedUser,
+                                                              'dogList':
+                                                                  doglist,
+                                                              'selectedUser':
+                                                                  _selectedUser,
                                                             })
                                                       }),
                                             })),
@@ -319,9 +325,10 @@ class DogSelectionAndAdministrationView extends ConsumerWidget {
                                                                 .perritosBurntSienna
                                                             : PerritosColor
                                                                 .perritosCharcoal,
-                                            placeholder: "Name",
-                                            label:
-                                                textEditingControllerName.text,
+                                            placeholder: model.dogName == ""
+                                                ? "Name"
+                                                : model.dogName,
+                                            label: model.dogName,
                                             onPressed: () => {
                                               controller.setEditingName(
                                                   textEditingControllerName
@@ -334,18 +341,6 @@ class DogSelectionAndAdministrationView extends ConsumerWidget {
                                             textEditingController:
                                                 textEditingControllerName,
                                           ),
-                                          /*PerritosDatePicker(
-                                            initDate: DateTime.now(),
-                                            onSubmitDate: (date) => {
-                                              textEditingControllerBirthday
-                                                      .text =
-                                                  DateFormat.yMd('de')
-                                                      .format(date),
-                                              print(
-                                                  textEditingControllerBirthday
-                                                      .text),
-                                            },
-                                          ),*/
                                           PerritosTxtInput(
                                             onSubmit: (value) => {
                                               controller.setEditingRasse(value)
@@ -385,13 +380,12 @@ class DogSelectionAndAdministrationView extends ConsumerWidget {
                                   alignment: Alignment.bottomCenter,
                                   child: PerritosButton(
                                     onPressed: () async => {
-                                      if (textEditingControllerName.text != "")
+                                      if (model.dogName != "")
                                         {
                                           controller
                                               .addDog(DogModel(
                                                   _emailID,
-                                                  textEditingControllerName
-                                                      .text,
+                                                  model.dogName,
                                                   false,
                                                   model.iconName,
                                                   model.iconColor,
@@ -409,8 +403,10 @@ class DogSelectionAndAdministrationView extends ConsumerWidget {
                                                                   _emailID,
                                                               'userName':
                                                                   _userName,
-                                                              'dogList': doglist,
-                                                              'selectedUser':_selectedUser,                                                              
+                                                              'dogList':
+                                                                  doglist,
+                                                              'selectedUser':
+                                                                  _selectedUser,
                                                             })
                                                       }))
                                         },
@@ -458,7 +454,8 @@ class DogSelectionAndAdministrationView extends ConsumerWidget {
                                                                       _userName,
                                                                   'dogList':
                                                                       doglist,
-                                                                  'selectedUser':_selectedUser,
+                                                                  'selectedUser':
+                                                                      _selectedUser,
                                                                 })
                                                           }),
                                                 })),
@@ -468,7 +465,7 @@ class DogSelectionAndAdministrationView extends ConsumerWidget {
                                         child: Column(children: [
                                           Column(
                                             children: [
-                                              PerritosEditableProfile(
+                                              PerritosEditableProfileReadOnly(
                                                 icon: model.iconName ==
                                                         'Icon_Smiley_Happy'
                                                     ? PerritosIcons
@@ -500,20 +497,15 @@ class DogSelectionAndAdministrationView extends ConsumerWidget {
                                                                     .perritosBurntSienna
                                                                 : PerritosColor
                                                                     .perritosCharcoal,
-                                                placeholder: model.dogName,
-                                                label: textEditingControllerName
-                                                    .text,
+                                                label: model.dogName,
                                                 onPressed: () => {
                                                   controller.setEditingName(
-                                                      textEditingControllerName
-                                                          .text),
+                                                      model.dogName),
                                                   controller
                                                       .switchCurrentDogSelectionAndAdministrationScreen(
                                                           DogSelectionAndAdministration
                                                               .changeIconName)
                                                 },
-                                                textEditingController:
-                                                    textEditingControllerName,
                                               ),
                                               PerritosTxtInput(
                                                 onSubmit: (value) => {
@@ -558,37 +550,33 @@ class DogSelectionAndAdministrationView extends ConsumerWidget {
                                       alignment: Alignment.bottomCenter,
                                       child: PerritosButton(
                                         onPressed: () async => {
-                                          if (textEditingControllerName.text !=
-                                              "")
-                                            {
-                                              controller
-                                                  .updateDog(DogModel(
-                                                      _emailID,
-                                                      textEditingControllerName
-                                                          .text,
-                                                      false,
-                                                      model.iconName,
-                                                      model.iconColor,
-                                                      model.rasse,
-                                                      model.birthday,
-                                                      model.info))
-                                                  .then((value) => controller
-                                                      .loadDogs(_emailID)
-                                                      .then((doglist) => {
-                                                            Navigator.pushNamed(
-                                                                context,
-                                                                '/DogSelectionAndAdministration',
-                                                                arguments: {
-                                                                  'emailID':
-                                                                      _emailID,
-                                                                  'userName':
-                                                                      _userName,
-                                                                  'dogList':
-                                                                      doglist,
-                                                                'selectedUser':_selectedUser,
-                                                                })
-                                                          }))
-                                            },
+                                          controller
+                                              .updateDog(DogModel(
+                                                  _emailID,
+                                                  model.dogName,
+                                                  false,
+                                                  model.iconName,
+                                                  model.iconColor,
+                                                  model.rasse,
+                                                  model.birthday,
+                                                  model.info))
+                                              .then((value) => controller
+                                                  .loadDogs(_emailID)
+                                                  .then((doglist) => {
+                                                        Navigator.pushNamed(
+                                                            context,
+                                                            '/DogSelectionAndAdministration',
+                                                            arguments: {
+                                                              'emailID':
+                                                                  _emailID,
+                                                              'userName':
+                                                                  _userName,
+                                                              'dogList':
+                                                                  doglist,
+                                                              'selectedUser':
+                                                                  _selectedUser,
+                                                            })
+                                                      }))
                                         },
                                         label: 'bearbeiten',
                                       ),
@@ -624,7 +612,7 @@ class DogSelectionAndAdministrationView extends ConsumerWidget {
                                                                               'emailID': _emailID,
                                                                               'userName': _userName,
                                                                               'dogList': doglist,
-                                                                              'selectedUser':_selectedUser,
+                                                                              'selectedUser': _selectedUser,
                                                                             })
                                                                       }))
                                                 },
@@ -666,9 +654,7 @@ class DogSelectionAndAdministrationView extends ConsumerWidget {
                                                   const SizedBox(width: 10),
                                                   Expanded(
                                                       child: PerritosIconButton(
-                                                          //PROBLEM: Was wenn wir davor in edit waren???
                                                           onPressed: () => {
-                                                                //DAS DA MUSS REIN BEVOR WIR IN EDIT VIEW GEHEN!!!
                                                                 if (controller
                                                                         .getSelectedDog() ==
                                                                     null)
@@ -934,6 +920,7 @@ class DogSelectionAndAdministrationView extends ConsumerWidget {
                                                         .perritosSandyBrown,
                                                     label: "sandy-brown",
                                                     onPressed: () => {
+                                                          print(model.dogName),
                                                           controller
                                                               .setEditingIconColor(
                                                                   'perritosSandyBrown'),
