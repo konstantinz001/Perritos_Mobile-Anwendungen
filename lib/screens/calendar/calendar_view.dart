@@ -12,7 +12,6 @@ import 'package:flutter_application/common/models/action_date_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
-
 import 'calendar_model.dart';
 
 class CalendarView extends ConsumerWidget {
@@ -41,9 +40,9 @@ class CalendarView extends ConsumerWidget {
       child: Padding(
           padding: const EdgeInsets.only(
             left: 10,
-            top: 10,
+            top: 40,
             right: 10,
-            bottom: 10,
+            bottom: 30,
           ),
           child: Column(
             children: [
@@ -197,7 +196,6 @@ class CalendarView extends ConsumerWidget {
                   });
                 },
                 navigateToProfile: () async {
-                  //TODO: PERRITOS DOG
                   await controller.loadDogFromDB(_emailID, _dogName).then(
                       (dog) => Navigator.pushNamed(context, '/DogProfileInfo',
                               arguments: {

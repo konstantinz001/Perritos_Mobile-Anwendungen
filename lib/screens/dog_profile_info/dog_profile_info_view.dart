@@ -1,18 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_application/assets/styles/perritos-colors.dart';
+import 'package:flutter_application/assets/styles/perritos-icons/PerritosIcons_icons.dart';
 import 'package:flutter_application/assets/ui-components/navigation/perritos-navigation.dart';
 import 'package:flutter_application/assets/ui-components/profile/perritos-profile.dart';
-import 'package:flutter_application/assets/ui-components/text-input/perritos_description_input.dart';
-import 'package:flutter_application/assets/ui-components/text-input/perritos_txt_input.dart';
+import 'package:flutter_application/common/models/dog_model.dart';
 import 'package:flutter_application/common/models/user_model.dart';
 import 'package:flutter_application/common/providers.dart';
 import 'package:flutter_application/screens/dog_profile_info/dog_profile_info_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
 
-import '../../assets/styles/perritos-icons/PerritosIcons_icons.dart';
-import '../../common/models/dog_model.dart';
 
 class DogProfileInfoView extends ConsumerWidget {
   final String _emailID;
@@ -43,13 +39,11 @@ class DogProfileInfoView extends ConsumerWidget {
       backgroundColor: PerritosColor.perritosSnow.color,
       body: SingleChildScrollView(
         physics: const ScrollPhysics(),
-        child: Padding(
-          padding:
-              const EdgeInsets.only(left: 10, top: 0, right: 10, bottom: 0),
-          child: Column(
+        child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              const SizedBox(height: 30,),
               Row(
                 children: [
                   Expanded(
@@ -97,6 +91,11 @@ class DogProfileInfoView extends ConsumerWidget {
                   ))
                 ],
               ),
+              Padding(
+                        padding:
+                            const EdgeInsets.only(left: 10, top: 0, right: 10, bottom: 0),
+                        child: Column(
+                          children: [
               const SizedBox(height: 24),
               Row(
                 children: [
@@ -131,15 +130,17 @@ class DogProfileInfoView extends ConsumerWidget {
                             ))
                 ],
               ),
+                          ],
+                        )
+              ),
             ],
           ),
         ),
-      ),
       bottomNavigationBar: Container(
         color: PerritosColor.perritosSnow.color,
         child: Padding(
             padding:
-                const EdgeInsets.only(left: 10, top: 10, right: 10, bottom: 10),
+                const EdgeInsets.only(left: 10, top: 10, right: 10, bottom: 30),
             child: PerritosNavigationBar(
               activeView: activeView.profile,
               navigateToHome: () {
@@ -150,7 +151,6 @@ class DogProfileInfoView extends ConsumerWidget {
                 });
               },
               navigateToProfile: () async {
-                //TODO: PERRITOS DOG
                 await controller.loadDogFromDB(_emailID, _dogName).then((dog) =>
                     Navigator.pushNamed(context, '/DogProfileInfo', arguments: {
                       'dogModel': dog,
