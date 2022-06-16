@@ -30,6 +30,7 @@ class HomeView extends ConsumerWidget {
   final String _userName;
   final ActionDateModel? _dateModel;
   final bool? _comingFromCalendar;
+  final bool? _perritos;
   const HomeView({
     Key? key,
     required List<String> dogName,
@@ -37,11 +38,13 @@ class HomeView extends ConsumerWidget {
     required String userName,
     required ActionDateModel? dateModel,
     required bool? comingFromCalendar,
+    required bool? perritos
   })  : _dogName = dogName,
         _emailID = emailID,
         _userName = userName,
         _dateModel = dateModel,
         _comingFromCalendar = comingFromCalendar,
+        _perritos = perritos,
         super(key: key);
 
   @override
@@ -473,7 +476,7 @@ class HomeView extends ConsumerWidget {
                       const SizedBox(
                         height: 20,
                       ),
-                      _dogName.length < 1
+                      _perritos != true
                           ? PerritosButton(
                               onPressed: () => {
                                     controller.selectActionType(
@@ -483,20 +486,13 @@ class HomeView extends ConsumerWidget {
                                   },
                               label: "Auffälligkeit")
                           : Container(),
-                      _dogName.length < 1
-                          ? const SizedBox(
-                              height: 20,
-                            )
-                          : const SizedBox(
-                              height: 0,
-                            ),
-                      PerritosButton(
-                          onPressed: () => {
-                                controller.selectActionType(ActionType.walking),
-                                controller
-                                    .switchHomeScreen(HomeScreen.createAction)
-                              },
-                          label: "Gassigang"),
+                      // PerritosButton(
+                      //     onPressed: () => {
+                      //           controller.selectActionType(ActionType.walking),
+                      //           controller
+                      //               .switchHomeScreen(HomeScreen.createAction)
+                      //         },
+                      //     label: "Gassigang"),
                     ]))));
     var createActionScreen = Scaffold(
         backgroundColor: PerritosColor.perritosSnow.color,
@@ -888,7 +884,6 @@ class HomeView extends ConsumerWidget {
                       Expanded(
                           child: PerritosIconButton(
                               onPressed: () => {
-                                    print(_comingFromCalendar),
                                     _comingFromCalendar == true
                                         ? Navigator.pushNamed(
                                             context, '/Calendar', arguments: {

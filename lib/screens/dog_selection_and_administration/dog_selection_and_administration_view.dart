@@ -128,7 +128,8 @@ class DogSelectionAndAdministrationView extends ConsumerWidget {
                                                             .map((dog) =>
                                                                 dog.name)
                                                             .toList(),
-                                                      })
+                                                        'perritos': true
+                                                      }),
                                                 }),
                                         const SizedBox(height: 20),
                                       ],
