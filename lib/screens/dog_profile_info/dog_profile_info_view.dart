@@ -19,6 +19,8 @@ class DogProfileInfoView extends ConsumerWidget {
   final List<String> _dogName;
   final DogModel _dog;
   final bool? _perritos;
+  final DogModel? _selectedDog;
+  final UserModel? _selectedUser;
 
   const DogProfileInfoView(
       {Key? key,
@@ -26,13 +28,17 @@ class DogProfileInfoView extends ConsumerWidget {
       required List<String> dogName,
       required String emailID,
       required String userName,
-      required bool? perritos
+      required bool? perritos,
+      required UserModel? selectedUser,
+      required DogModel? selectedDog
       })
       : _dog = dog,
         _dogName = dogName,
         _emailID = emailID,
         _userName = userName,
         _perritos = perritos,
+        _selectedDog = selectedDog,
+        _selectedUser = selectedUser,       
         super(key: key);
 
   @override
@@ -58,9 +64,33 @@ class DogProfileInfoView extends ConsumerWidget {
                     children: [
                       IconButton(
                           icon: Icon(
-                            PerritosIcons.Icon_Dog,
+                                _perritos == true ? PerritosIcons.Icon_Perritos
+                                : _selectedDog?.iconName == 'Icon_Smiley_Happy'
+                                    ? PerritosIcons?.Icon_Smiley_Happy
+                                    : _selectedDog?.iconName ==
+                                            'Icon_Smiley_Sad'
+                                        ? PerritosIcons.Icon_Smiley_Sad
+                                        : PerritosIcons.Icon_Dog,
                             size: 26,
-                            color: PerritosColor.perritosGoldFusion.color,
+                            color: _perritos == true
+                                ? PerritosColor.perritosCharcoal.color
+                                : _selectedDog?.iconColor ==
+                                        'perritosGoldFusion'
+                                    ? PerritosColor.perritosGoldFusion.color
+                                    : _selectedDog?.iconColor ==
+                                            'perritosMaizeCrayola'
+                                        ? PerritosColor
+                                            .perritosMaizeCrayola.color
+                                        : _selectedDog?.iconColor ==
+                                                'perritosSandyBrown'
+                                            ? PerritosColor
+                                                .perritosSandyBrown.color
+                                            : _selectedDog?.iconColor ==
+                                                    'perritosBurntSienna'
+                                                ? PerritosColor
+                                                    .perritosBurntSienna.color
+                                                : PerritosColor
+                                                    .perritosCharcoal.color,
                           ),
                           onPressed: () async => {
                                 await controller
@@ -71,17 +101,35 @@ class DogProfileInfoView extends ConsumerWidget {
                                               arguments: {
                                                 'emailID': _emailID,
                                                 'userName': _userName,
-                                                'dogList': dogList
+                                                'dogList': dogList,
+                                                'selectedUser':_selectedUser                                                
                                               })
                                         })
                               }),
                       const Spacer(),
                       IconButton(
                           icon: Icon(
-                            PerritosIcons.Icon_User,
-                            size: 26,
-                            color: PerritosColor.perritosBurntSienna.color,
+                            _selectedUser?.iconName == 'Icon_Smiley_Happy'
+                                ? PerritosIcons.Icon_Smiley_Happy
+                                : _selectedUser?.iconName == 'Icon_Smiley_Sad'
+                                    ? PerritosIcons.Icon_Smiley_Sad
+                                    : PerritosIcons.Icon_User,
                           ),
+                          color: _selectedUser?.iconColor ==
+                                    'perritosGoldFusion'
+                                ? PerritosColor.perritosGoldFusion.color
+                                : _selectedUser?.iconColor ==
+                                        'perritosMaizeCrayola'
+                                    ? PerritosColor.perritosMaizeCrayola.color
+                                    : _selectedUser?.iconColor ==
+                                            'perritosSandyBrown'
+                                        ? PerritosColor.perritosSandyBrown.color
+                                        : _selectedUser?.iconColor ==
+                                                'perritosBurntSienna'
+                                            ? PerritosColor
+                                                .perritosBurntSienna.color
+                                            : PerritosColor
+                                                .perritosCharcoal.color,
                           onPressed: () async => {
                                 await controller
                                     .loadAllUsersFromDB(_emailID)
@@ -188,23 +236,20 @@ class DogProfileInfoView extends ConsumerWidget {
                   'emailID': _emailID,
                   'userName': _userName,
                   'dogName': _dogName,
-                  'perritos': _perritos
+                  'perritos': _perritos,
+                  'selectedUser':_selectedUser,
+                  'selectedDog': _selectedDog                 
                 });
               },
               navigateToProfile: () async {
-                await controller.loadDogFromDB(_emailID, _dogName).then((dog) =>
-                    Navigator.pushNamed(context, '/DogProfileInfo', arguments: {
-                      'dogModel': dog,
-                      'emailID': _emailID,
-                      'userName': _userName,
-                      'dogName': _dogName
-                    }));
               },
               navigateToCalendar: () {
                 Navigator.pushNamed(context, '/Calendar', arguments: {
                   'emailID': _emailID,
                   'userName': _userName,
-                  'dogName': _dogName
+                  'dogName': _dogName,
+                  'selectedUser':_selectedUser,
+                  'selectedDog': _selectedDog                    
                 });
               },
             )),

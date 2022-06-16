@@ -52,6 +52,7 @@ class MyApp extends StatelessWidget {
                         dogs: args['dogList'],
                         emailID: args['emailID'],
                         userName: args['userName'],
+                        selectedUser: args['selectedUser'],
                       ));
             } else if (routeParams.name == '/Home') {
               final Map args = routeParams.arguments as Map;
@@ -62,7 +63,9 @@ class MyApp extends StatelessWidget {
                         dogName: args['dogName'],
                         dateModel: args['dateModel'],
                         comingFromCalendar: args['comingFromCalendar'],
-                        perritos: args['perritos']
+                        perritos: args['perritos'],
+                        selectedDog: args['selectedDog'],
+                        selectedUser: args['selectedUser'],
                       ));
             } else if (routeParams.name == '/Calendar') {
               final Map args = routeParams.arguments as Map;
@@ -72,6 +75,8 @@ class MyApp extends StatelessWidget {
                         userName: args['userName'],
                         dogName: args['dogName'],
                         perritos: args['perritos'],
+                        selectedDog: args['selectedDog'],
+                        selectedUser: args['selectedUser'],  
                       ));
             } else if (routeParams.name == '/DogProfileInfo') {
               final Map args = routeParams.arguments as Map;
@@ -82,6 +87,8 @@ class MyApp extends StatelessWidget {
                         userName: args['userName'],
                         dogName: args['dogName'],
                         perritos: args['perritos'],
+                        selectedDog: args['selectedDog'],
+                        selectedUser: args['selectedUser'],                        
                       ));
             }
             return MaterialPageRoute(

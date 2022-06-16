@@ -31,6 +31,8 @@ class HomeView extends ConsumerWidget {
   final ActionDateModel? _dateModel;
   final bool? _comingFromCalendar;
   final bool? _perritos;
+  final DogModel? _selectedDog;
+  final UserModel? _selectedUser;
   const HomeView(
       {Key? key,
       required List<String> dogName,
@@ -38,13 +40,18 @@ class HomeView extends ConsumerWidget {
       required String userName,
       required ActionDateModel? dateModel,
       required bool? comingFromCalendar,
-      required bool? perritos})
+      required bool? perritos,
+      required UserModel? selectedUser,
+      required DogModel? selectedDog
+      })
       : _dogName = dogName,
         _emailID = emailID,
         _userName = userName,
         _dateModel = dateModel,
         _comingFromCalendar = comingFromCalendar,
         _perritos = perritos,
+        _selectedDog = selectedDog,
+        _selectedUser = selectedUser,
         super(key: key);
 
   @override
@@ -71,9 +78,34 @@ class HomeView extends ConsumerWidget {
                     children: [
                       IconButton(
                           icon: Icon(
-                            PerritosIcons.Icon_Dog,
+                            _perritos == true 
+                                ? PerritosIcons.Icon_Perritos
+                                : _selectedDog?.iconName == 'Icon_Smiley_Happy'
+                                    ? PerritosIcons.Icon_Smiley_Happy
+                                    : _selectedDog?.iconName ==
+                                            'Icon_Smiley_Sad'
+                                        ? PerritosIcons.Icon_Smiley_Sad
+                                        : PerritosIcons.Icon_Dog,
                             size: 26,
-                            color: PerritosColor.perritosGoldFusion.color,
+                            color: _perritos == true
+                                ? PerritosColor.perritosCharcoal.color
+                                : _selectedDog?.iconColor ==
+                                        'perritosGoldFusion'
+                                    ? PerritosColor.perritosGoldFusion.color
+                                    : _selectedDog?.iconColor ==
+                                            'perritosMaizeCrayola'
+                                        ? PerritosColor
+                                            .perritosMaizeCrayola.color
+                                        : _selectedDog?.iconColor ==
+                                                'perritosSandyBrown'
+                                            ? PerritosColor
+                                                .perritosSandyBrown.color
+                                            : _selectedDog?.iconColor ==
+                                                    'perritosBurntSienna'
+                                                ? PerritosColor
+                                                    .perritosBurntSienna.color
+                                                : PerritosColor
+                                                    .perritosCharcoal.color,
                           ),
                           onPressed: () async => {
                                 await controller
@@ -84,16 +116,35 @@ class HomeView extends ConsumerWidget {
                                               arguments: {
                                                 'emailID': _emailID,
                                                 'userName': _userName,
-                                                'dogList': dogList
+                                                'dogList': dogList,
+                                                'selectedUser':_selectedUser                                                
                                               })
                                         })
                               }),
                       const Spacer(),
                       IconButton(
                           icon: Icon(
-                            PerritosIcons.Icon_User,
+                            _selectedUser?.iconName == 'Icon_Smiley_Happy'
+                                ? PerritosIcons.Icon_Smiley_Happy
+                                : _selectedUser?.iconName == 'Icon_Smiley_Sad'
+                                    ? PerritosIcons.Icon_Smiley_Sad
+                                    : PerritosIcons.Icon_User,
                             size: 26,
-                            color: PerritosColor.perritosBurntSienna.color,
+                            color: _selectedUser?.iconColor ==
+                                    'perritosGoldFusion'
+                                ? PerritosColor.perritosGoldFusion.color
+                                : _selectedUser?.iconColor ==
+                                        'perritosMaizeCrayola'
+                                    ? PerritosColor.perritosMaizeCrayola.color
+                                    : _selectedUser?.iconColor ==
+                                            'perritosSandyBrown'
+                                        ? PerritosColor.perritosSandyBrown.color
+                                        : _selectedUser?.iconColor ==
+                                                'perritosBurntSienna'
+                                            ? PerritosColor
+                                                .perritosBurntSienna.color
+                                            : PerritosColor
+                                                .perritosCharcoal.color,
                           ),
                           onPressed: () async => {
                                 await controller
@@ -118,9 +169,9 @@ class HomeView extends ConsumerWidget {
                     right: 10,
                     bottom: 0,
                   ),
-                  child: Column(   
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,                
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       const SizedBox(height: 20),
                       Row(
@@ -245,8 +296,7 @@ class HomeView extends ConsumerWidget {
                                 if (snapshot.connectionState ==
                                     ConnectionState.waiting) {
                                   return const SizedBox();
-                                } else                                       
-                                if (snapshot.hasError) {
+                                } else if (snapshot.hasError) {
                                   return Text(
                                     'Error: ${snapshot.error}',
                                     style: perritosParagonError,
@@ -340,8 +390,7 @@ class HomeView extends ConsumerWidget {
                                 if (snapshot.connectionState ==
                                     ConnectionState.waiting) {
                                   return const SizedBox();
-                                } else                                        
-                                if (snapshot.hasError) {
+                                } else if (snapshot.hasError) {
                                   return Text(
                                     'Error: ${snapshot.error}',
                                     style: perritosParagonError,
@@ -456,7 +505,9 @@ class HomeView extends ConsumerWidget {
                   Navigator.pushNamed(context, '/Home', arguments: {
                     'emailID': _emailID,
                     'userName': _userName,
-                    'dogName': _dogName
+                    'dogName': _dogName,
+                    'selectedUser':_selectedUser,
+                    'selectedDog': _selectedDog                         
                   });
                 },
                 navigateToProfile: () async {
@@ -467,7 +518,9 @@ class HomeView extends ConsumerWidget {
                                 'emailID': _emailID,
                                 'userName': _userName,
                                 'dogName': _dogName,
-                                'perritos':_perritos
+                                'perritos': _perritos,
+                                'selectedUser':_selectedUser,
+                                'selectedDog': _selectedDog
                               }));
                 },
                 navigateToCalendar: () {
@@ -475,7 +528,9 @@ class HomeView extends ConsumerWidget {
                     'emailID': _emailID,
                     'userName': _userName,
                     'dogName': _dogName,
-                    'perritos': _perritos
+                    'perritos': _perritos,
+                    'selectedUser':_selectedUser,
+                    'selectedDog': _selectedDog                      
                   });
                 },
               )),
@@ -960,7 +1015,9 @@ class HomeView extends ConsumerWidget {
                                             'emailID': _emailID,
                                             'userName': _userName,
                                             'dogName': _dogName,
-                                            'perritos': _perritos
+                                            'perritos': _perritos,
+                                            'selectedUser':_selectedUser,
+                                            'selectedDog': _selectedDog                                              
                                           })
                                         : controller.resetActionData(
                                             _userName, _dogName),
@@ -1284,7 +1341,9 @@ class HomeView extends ConsumerWidget {
                                               'emailID': _emailID,
                                               'userName': _userName,
                                               'dogName': _dogName,
-                                              'perritos':_perritos
+                                              'perritos': _perritos,
+                                              'selectedUser':_selectedUser,
+                                              'selectedDog': _selectedDog                                               
                                             })
                                           : controller.resetActionData(
                                               _userName, _dogName),

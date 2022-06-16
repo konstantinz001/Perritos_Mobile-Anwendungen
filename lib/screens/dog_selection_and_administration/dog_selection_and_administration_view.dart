@@ -1,20 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application/assets/styles/perritos-colors.dart';
 import 'package:flutter_application/assets/styles/perritos-fonts.dart';
 import 'package:flutter_application/assets/ui-components/buttons/perritos-button.dart';
 import 'package:flutter_application/assets/ui-components/buttons/perritos-icon-button.dart';
-import 'package:flutter_application/assets/ui-components/date-picker/perritos-date-picker.dart';
-import 'package:flutter_application/assets/ui-components/date-time-picker/perritos-date-time-picker.dart';
 import 'package:flutter_application/assets/ui-components/profile/perritos-editable-profile.dart';
 import 'package:flutter_application/assets/ui-components/profile/perritos-profile.dart';
 import 'package:flutter_application/assets/ui-components/text-input/perritos_description_input.dart';
 import 'package:flutter_application/assets/ui-components/text-input/perritos_txt_input.dart';
+import 'package:flutter_application/common/models/user_model.dart';
 import 'package:flutter_application/common/providers.dart';
 import 'package:flutter_application/assets/styles/perritos-icons/PerritosIcons_icons.dart';
 import 'package:flutter_application/common/models/dog_model.dart';
-import 'package:flutter_application/screens/calendar/calendar_controller.dart';
 import 'package:flutter_application/screens/dog_selection_and_administration/dog_selection_and_administration_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -23,14 +20,17 @@ class DogSelectionAndAdministrationView extends ConsumerWidget {
   final List<DogModel> _dogs;
   final String _emailID;
   final String _userName;
+  final UserModel? _selectedUser;
   const DogSelectionAndAdministrationView(
       {Key? key,
       required List<DogModel> dogs,
       required String emailID,
-      required String userName})
+      required String userName,
+      required UserModel? selectedUser})
       : _dogs = dogs,
         _emailID = emailID,
         _userName = userName,
+        _selectedUser = selectedUser,
         super(key: key);
 
   @override
@@ -50,8 +50,7 @@ class DogSelectionAndAdministrationView extends ConsumerWidget {
     textEditingControllerInfo.text = model.info;
     TextEditingController textEditingControllerBirthday =
         TextEditingController();
-    textEditingControllerBirthday.text =
-        model.birthday.toDate().toString(); //TODO IST FALSCH
+    textEditingControllerBirthday.text = model.birthday.toDate().toString();
 
     var buildWidget = Scaffold(
       body: Center(
@@ -128,8 +127,8 @@ class DogSelectionAndAdministrationView extends ConsumerWidget {
                                                             .map((dog) =>
                                                                 dog.name)
                                                             .toList(),
-                                                        'perritos': true
-                                                      }),
+                                                        'perritos': true,
+                                                        'selectedUser': _selectedUser                                                        }),
                                                 }),
                                         const SizedBox(height: 20),
                                       ],
@@ -178,7 +177,9 @@ class DogSelectionAndAdministrationView extends ConsumerWidget {
                                                                   _userName,
                                                               'dogName': [
                                                                 dog.name
-                                                              ]
+                                                              ],
+                                                              'selectedDog': dog,
+                                                              'selectedUser': _selectedUser                                                             
                                                             })
                                                       : {
                                                           controller
@@ -279,7 +280,8 @@ class DogSelectionAndAdministrationView extends ConsumerWidget {
                                                                   _emailID,
                                                               'userName':
                                                                   _userName,
-                                                              'dogList': doglist
+                                                              'dogList': doglist,
+                                                              'selectedUser':_selectedUser,
                                                             })
                                                       }),
                                             })),
@@ -407,7 +409,8 @@ class DogSelectionAndAdministrationView extends ConsumerWidget {
                                                                   _emailID,
                                                               'userName':
                                                                   _userName,
-                                                              'dogList': doglist
+                                                              'dogList': doglist,
+                                                              'selectedUser':_selectedUser,                                                              
                                                             })
                                                       }))
                                         },
@@ -454,7 +457,8 @@ class DogSelectionAndAdministrationView extends ConsumerWidget {
                                                                   'userName':
                                                                       _userName,
                                                                   'dogList':
-                                                                      doglist
+                                                                      doglist,
+                                                                  'selectedUser':_selectedUser,
                                                                 })
                                                           }),
                                                 })),
@@ -580,7 +584,8 @@ class DogSelectionAndAdministrationView extends ConsumerWidget {
                                                                   'userName':
                                                                       _userName,
                                                                   'dogList':
-                                                                      doglist
+                                                                      doglist,
+                                                                'selectedUser':_selectedUser,
                                                                 })
                                                           }))
                                             },
@@ -618,7 +623,8 @@ class DogSelectionAndAdministrationView extends ConsumerWidget {
                                                                             arguments: {
                                                                               'emailID': _emailID,
                                                                               'userName': _userName,
-                                                                              'dogList': doglist
+                                                                              'dogList': doglist,
+                                                                              'selectedUser':_selectedUser,
                                                                             })
                                                                       }))
                                                 },

@@ -137,7 +137,8 @@ class UserSelectionAndAdministrationView extends ConsumerWidget {
                                                                             arguments: {
                                                                               'emailID': _emailID,
                                                                               'userName': user.name,
-                                                                              'dogList': dogList
+                                                                              'dogList': dogList,
+                                                                              'selectedUser': user
                                                                             })
                                                                       })
                                                         }
