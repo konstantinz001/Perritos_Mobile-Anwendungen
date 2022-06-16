@@ -84,10 +84,10 @@ class UserSelectionAndAdministrationView extends ConsumerWidget {
                                                 })
                                       ],
                                     )),
-                            const SizedBox(height: 60),
                             Expanded(
                               child: SingleChildScrollView(
                                 child: Column(children: [
+                                  const SizedBox(height: 60),
                                   for (var user in model.userList)
                                     Column(
                                       children: [
@@ -137,7 +137,8 @@ class UserSelectionAndAdministrationView extends ConsumerWidget {
                                                                             arguments: {
                                                                               'emailID': _emailID,
                                                                               'userName': user.name,
-                                                                              'dogList': dogList
+                                                                              'dogList': dogList,
+                                                                              'selectedUser': user
                                                                             })
                                                                       })
                                                         }

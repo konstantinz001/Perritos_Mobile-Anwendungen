@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application/assets/styles/perritos-colors.dart';
 import 'package:flutter_application/assets/styles/perritos-fonts.dart';
@@ -19,8 +18,6 @@ import 'package:flutter_application/common/models/action_task_model.dart';
 import 'package:flutter_application/common/models/user_model.dart';
 import 'package:flutter_application/common/models/dog_model.dart';
 import 'package:flutter_application/common/providers.dart';
-import 'package:flutter_application/screens/calendar/calendar_model.dart';
-import 'package:flutter_application/screens/calendar/calendar_view.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:tuple/tuple.dart';
@@ -32,16 +29,29 @@ class HomeView extends ConsumerWidget {
   final String _emailID;
   final String _userName;
   final ActionDateModel? _dateModel;
+  final bool? _comingFromCalendar;
+  final bool? _perritos;
+  final DogModel? _selectedDog;
+  final UserModel? _selectedUser;
   const HomeView(
       {Key? key,
       required List<String> dogName,
       required String emailID,
       required String userName,
-      required ActionDateModel? dateModel})
+      required ActionDateModel? dateModel,
+      required bool? comingFromCalendar,
+      required bool? perritos,
+      required UserModel? selectedUser,
+      required DogModel? selectedDog
+      })
       : _dogName = dogName,
         _emailID = emailID,
         _userName = userName,
         _dateModel = dateModel,
+        _comingFromCalendar = comingFromCalendar,
+        _perritos = perritos,
+        _selectedDog = selectedDog,
+        _selectedUser = selectedUser,
         super(key: key);
 
   @override
@@ -56,296 +66,430 @@ class HomeView extends ConsumerWidget {
         backgroundColor: PerritosColor.perritosSnow.color,
         body: SingleChildScrollView(
           physics: const ScrollPhysics(),
-          child: Padding(
-            padding: const EdgeInsets.only(
-              left: 10,
-              top: 0,
-              right: 10,
-              bottom: 0,
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Row(
-                  children: [
-                    Expanded(
-                        child: Row(
-                      children: [
-                        IconButton(
-                            icon: Icon(
-                              PerritosIcons.Icon_Dog,
-                              size: 26,
-                              color: PerritosColor.perritosGoldFusion.color,
-                            ),
-                            onPressed: () async => {
-                                  await controller
-                                      .loadDogsFromDB(_emailID)
-                                      .then((dogList) => {
-                                            Navigator.pushNamed(context,
-                                                "/DogSelectionAndAdministration",
-                                                arguments: {
-                                                  'emailID': _emailID,
-                                                  'userName': _userName,
-                                                  'dogList': dogList
-                                                })
-                                          })
-                                }),
-                        const Spacer(),
-                        IconButton(
-                            icon: Icon(
-                              PerritosIcons.Icon_User,
-                              size: 26,
-                              color: PerritosColor.perritosBurntSienna.color,
-                            ),
-                            onPressed: () async => {
-                                  await controller
-                                      .loadUsersFromDB(_emailID)
-                                      .then((userList) => {
-                                            Navigator.pushNamed(context,
-                                                '/UserSelectionAndAdministration',
-                                                arguments: {
-                                                  'emailID': _emailID,
-                                                  'userList': userList
-                                                })
-                                          })
-                                }),
-                      ],
-                    ))
-                  ],
-                ),
-                const SizedBox(height: 24),
-                Row(
-                  children: [
-                    Expanded(
-                        child: PerritosSearchInput(
-                            onSubmit: (searchString) async => {
-                                  controller.changeSearchString(searchString),
-                                }))
-                  ],
-                ),
-                SingleChildScrollView(
-                    child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: 20),
-                    Text(
-                      'Aufgaben',
-                      style: perritosDoubleParagon,
-                    ),
-                    FutureBuilder(
-                        future: controller.loadActionTasksFromDB(
-                            _emailID, _userName, _dogName),
-                        builder: (BuildContext context,
-                            AsyncSnapshot<List<ActionTaskModel>> snapshot) {
-                          return Column(children: [
-                            for (var action in snapshot.data ?? [])
-                              PerritosAction(
-                                icon: PerritosIcons.Icon_Task,
-                                value: "",
-                                label: action.title,
-                                onPressed: () {
-                                  controller.selectActionType(ActionType.task);
-                                  controller
-                                      .changeCurrentActionId(action.actionID)
-                                      .then((event) => {
-                                            if (event == null)
-                                              {
-                                                controller.switchHomeScreen(
-                                                    HomeScreen.editAction)
-                                              }
-                                            else if (event == "Dog/User")
-                                              {
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(SnackBar(
-                                                        content: Text(
-                                                            'Es muss mindestens ein Benutzer und ein Hund ausgewählt werden!',
-                                                            style:
-                                                                perritosDoublePica),
-                                                        backgroundColor:
-                                                            perritosBurntSienna))
-                                              }
-                                            else if (event == "Time")
-                                              {
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(SnackBar(
-                                                        content: Text(
-                                                            'Gib bitte einen Endzeitpunkt ein, welcher hinter dem Startzeitpunkt liegt!',
-                                                            style:
-                                                                perritosDoublePica),
-                                                        backgroundColor:
-                                                            perritosBurntSienna))
-                                              }
-                                            else
-                                              {
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(SnackBar(
-                                                        content: Text(
-                                                            'Ein Fehler ist aufgetreten',
-                                                            style:
-                                                                perritosDoublePica),
-                                                        backgroundColor:
-                                                            perritosBurntSienna))
-                                              }
-                                          });
-                                },
-                              )
-                          ]);
-                        }),
-                    const SizedBox(height: 20),
-                    Text(
-                      'Termine',
-                      style: perritosDoubleParagon,
-                    ),
-                    FutureBuilder(
-                        future: controller.loadActionDatesFromDB(
-                            _emailID, _userName, _dogName),
-                        builder: (BuildContext context,
-                            AsyncSnapshot<List<ActionDateModel>> snapshot) {
-                          return Column(children: [
-                            for (var action in snapshot.data ?? [])
-                              PerritosAction(
-                                icon: PerritosIcons.Icon_Date,
-                                value:
-                                    '${DateFormat("dd.mm.yyyy hh:mm").format(action.begin.toDate())} bis ${DateFormat("dd.mm.yyyy hh:mm").format(action.end.toDate())}',
-                                label: action.title,
-                                onPressed: () {
-                                  controller.selectActionType(ActionType.date);
-                                  controller
-                                      .changeCurrentActionId(action.actionID)
-                                      .then((event) => {
-                                            if (event == null)
-                                              {
-                                                controller.switchHomeScreen(
-                                                    HomeScreen.editAction)
-                                              }
-                                            else if (event == "Dog/User")
-                                              {
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(SnackBar(
-                                                        content: Text(
-                                                            'Es muss mindestens ein Benutzer und ein Hund ausgewählt werden!',
-                                                            style:
-                                                                perritosDoublePica),
-                                                        backgroundColor:
-                                                            perritosBurntSienna))
-                                              }
-                                            else if (event == "Time")
-                                              {
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(SnackBar(
-                                                        content: Text(
-                                                            'Gib bitte einen Endzeitpunkt ein, welcher hinter dem Startzeitpunkt liegt!',
-                                                            style:
-                                                                perritosDoublePica),
-                                                        backgroundColor:
-                                                            perritosBurntSienna))
-                                              }
-                                            else
-                                              {
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(SnackBar(
-                                                        content: Text(
-                                                            'Ein Fehler ist aufgetreten',
-                                                            style:
-                                                                perritosDoublePica),
-                                                        backgroundColor:
-                                                            perritosBurntSienna))
-                                              }
-                                          });
-                                },
-                              )
-                          ]);
-                        }),
-                    const SizedBox(height: 20),
-                    Text(
-                      'Auffälligkeiten',
-                      style: perritosDoubleParagon,
-                    ),
-                    FutureBuilder(
-                        future: controller.loadActionAbnormalitiesFromDB(
-                            _emailID, _userName, _dogName),
-                        builder: (BuildContext context,
-                            AsyncSnapshot<List<ActionAbnormalityModel>>
-                                snapshot) {
-                          return Column(children: [
-                            for (var action in snapshot.data ?? [])
-                              PerritosAction(
-                                icon: action.emotionalState < 5
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const SizedBox(height: 30),
+              Row(
+                children: [
+                  Expanded(
+                      child: Row(
+                    children: [
+                      IconButton(
+                          icon: Icon(
+                            _perritos == true 
+                                ? PerritosIcons.Icon_Perritos
+                                : _selectedDog?.iconName == 'Icon_Smiley_Happy'
                                     ? PerritosIcons.Icon_Smiley_Happy
-                                    : PerritosIcons.Icon_Smiley_Sad,
-                                value: '',
-                                label: action.title,
-                                onPressed: () {
-                                  controller
-                                      .selectActionType(ActionType.abnormality);
-                                  controller
-                                      .changeCurrentActionId(action.actionID)
-                                      .then((event) => {
-                                            if (event == null)
-                                              {
-                                                controller.switchHomeScreen(
-                                                    HomeScreen.editAction)
-                                              }
-                                            else if (event == "Dog/User")
-                                              {
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(SnackBar(
-                                                        content: Text(
-                                                            'Es muss mindestens ein Benutzer und ein Hund ausgewählt werden!',
-                                                            style:
-                                                                perritosDoublePica),
-                                                        backgroundColor:
-                                                            perritosBurntSienna))
-                                              }
-                                            else if (event == "Time")
-                                              {
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(SnackBar(
-                                                        content: Text(
-                                                            'Gib bitte einen Endzeitpunkt ein, welcher hinter dem Startzeitpunkt liegt!',
-                                                            style:
-                                                                perritosDoublePica),
-                                                        backgroundColor:
-                                                            perritosBurntSienna))
-                                              }
-                                            else
-                                              {
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(SnackBar(
-                                                        content: Text(
-                                                            'Ein Fehler ist aufgetreten',
-                                                            style:
-                                                                perritosDoublePica),
-                                                        backgroundColor:
-                                                            perritosBurntSienna))
-                                              }
-                                          });
-                                },
-                              )
-                          ]);
-                        }),
-                  ],
-                )),
-                const SizedBox(height: 30),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: FloatingActionButton(
-                      backgroundColor: PerritosColor.perritosCharcoal.color,
-                      child: const Icon(
-                        PerritosIcons.Icon_Add,
-                        size: 42,
+                                    : _selectedDog?.iconName ==
+                                            'Icon_Smiley_Sad'
+                                        ? PerritosIcons.Icon_Smiley_Sad
+                                        : PerritosIcons.Icon_Dog,
+                            size: 26,
+                            color: _perritos == true
+                                ? PerritosColor.perritosCharcoal.color
+                                : _selectedDog?.iconColor ==
+                                        'perritosGoldFusion'
+                                    ? PerritosColor.perritosGoldFusion.color
+                                    : _selectedDog?.iconColor ==
+                                            'perritosMaizeCrayola'
+                                        ? PerritosColor
+                                            .perritosMaizeCrayola.color
+                                        : _selectedDog?.iconColor ==
+                                                'perritosSandyBrown'
+                                            ? PerritosColor
+                                                .perritosSandyBrown.color
+                                            : _selectedDog?.iconColor ==
+                                                    'perritosBurntSienna'
+                                                ? PerritosColor
+                                                    .perritosBurntSienna.color
+                                                : PerritosColor
+                                                    .perritosCharcoal.color,
+                          ),
+                          onPressed: () async => {
+                                await controller
+                                    .loadDogsFromDB(_emailID)
+                                    .then((dogList) => {
+                                          Navigator.pushNamed(context,
+                                              "/DogSelectionAndAdministration",
+                                              arguments: {
+                                                'emailID': _emailID,
+                                                'userName': _userName,
+                                                'dogList': dogList,
+                                                'selectedUser':_selectedUser                                                
+                                              })
+                                        })
+                              }),
+                      const Spacer(),
+                      IconButton(
+                          icon: Icon(
+                            _selectedUser?.iconName == 'Icon_Smiley_Happy'
+                                ? PerritosIcons.Icon_Smiley_Happy
+                                : _selectedUser?.iconName == 'Icon_Smiley_Sad'
+                                    ? PerritosIcons.Icon_Smiley_Sad
+                                    : PerritosIcons.Icon_User,
+                            size: 26,
+                            color: _selectedUser?.iconColor ==
+                                    'perritosGoldFusion'
+                                ? PerritosColor.perritosGoldFusion.color
+                                : _selectedUser?.iconColor ==
+                                        'perritosMaizeCrayola'
+                                    ? PerritosColor.perritosMaizeCrayola.color
+                                    : _selectedUser?.iconColor ==
+                                            'perritosSandyBrown'
+                                        ? PerritosColor.perritosSandyBrown.color
+                                        : _selectedUser?.iconColor ==
+                                                'perritosBurntSienna'
+                                            ? PerritosColor
+                                                .perritosBurntSienna.color
+                                            : PerritosColor
+                                                .perritosCharcoal.color,
+                          ),
+                          onPressed: () async => {
+                                await controller
+                                    .loadUsersFromDB(_emailID)
+                                    .then((userList) => {
+                                          Navigator.pushNamed(context,
+                                              '/UserSelectionAndAdministration',
+                                              arguments: {
+                                                'emailID': _emailID,
+                                                'userList': userList
+                                              })
+                                        })
+                              }),
+                    ],
+                  ))
+                ],
+              ),
+              Padding(
+                  padding: const EdgeInsets.only(
+                    left: 10,
+                    top: 0,
+                    right: 10,
+                    bottom: 0,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: 20),
+                      Row(
+                        children: [
+                          Expanded(
+                              child: PerritosSearchInput(
+                                  onSubmit: (searchString) async => {
+                                        controller
+                                            .changeSearchString(searchString),
+                                      }))
+                        ],
                       ),
-                      onPressed: () => {
-                            controller
-                                .switchHomeScreen(HomeScreen.selectActionType)
-                          }),
-                ),
-              ],
-            ),
+                      SingleChildScrollView(
+                          child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          const SizedBox(height: 20),
+                          Text(
+                            'Aufgaben',
+                            style: perritosDoubleParagon,
+                          ),
+                          FutureBuilder(
+                              future: controller.loadActionTasksFromDB(
+                                  _emailID, _userName, _dogName),
+                              builder: (BuildContext context,
+                                  AsyncSnapshot<List<ActionTaskModel>>
+                                      snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return const SizedBox();
+                                } else if (snapshot.hasError) {
+                                  return Text(
+                                    'Error: ${snapshot.error}',
+                                    style: perritosParagonError,
+                                  );
+                                } else {
+                                  return snapshot.data!.isEmpty
+                                      ? Text(
+                                          'Es gibt keine Aufgaben für dich :)',
+                                          style: perritosParagonOpacity,
+                                        )
+                                      : Column(children: [
+                                          for (var action
+                                              in snapshot.data ?? [])
+                                            PerritosAction(
+                                              icon: PerritosIcons.Icon_Task,
+                                              value: "",
+                                              label: action.title,
+                                              onPressed: () {
+                                                controller.selectActionType(
+                                                    ActionType.task);
+                                                controller
+                                                    .changeCurrentActionId(
+                                                        action.actionID)
+                                                    .then((event) => {
+                                                          if (event == null)
+                                                            {
+                                                              controller
+                                                                  .switchHomeScreen(
+                                                                      HomeScreen
+                                                                          .editAction)
+                                                            }
+                                                          else if (event ==
+                                                              "Dog/User")
+                                                            {
+                                                              ScaffoldMessenger
+                                                                      .of(
+                                                                          context)
+                                                                  .showSnackBar(SnackBar(
+                                                                      content: Text(
+                                                                          'Es muss mindestens ein Benutzer und ein Hund ausgewählt werden!',
+                                                                          style:
+                                                                              perritosDoublePica),
+                                                                      backgroundColor:
+                                                                          perritosBurntSienna))
+                                                            }
+                                                          else if (event ==
+                                                              "Time")
+                                                            {
+                                                              ScaffoldMessenger
+                                                                      .of(
+                                                                          context)
+                                                                  .showSnackBar(SnackBar(
+                                                                      content: Text(
+                                                                          'Gib bitte einen Endzeitpunkt ein, welcher hinter dem Startzeitpunkt liegt!',
+                                                                          style:
+                                                                              perritosDoublePica),
+                                                                      backgroundColor:
+                                                                          perritosBurntSienna))
+                                                            }
+                                                          else
+                                                            {
+                                                              ScaffoldMessenger
+                                                                      .of(
+                                                                          context)
+                                                                  .showSnackBar(SnackBar(
+                                                                      content: Text(
+                                                                          'Ein Fehler ist aufgetreten',
+                                                                          style:
+                                                                              perritosDoublePica),
+                                                                      backgroundColor:
+                                                                          perritosBurntSienna))
+                                                            }
+                                                        });
+                                              },
+                                            )
+                                        ]);
+                                }
+                              }),
+                          const SizedBox(height: 20),
+                          Text(
+                            'Termine',
+                            style: perritosDoubleParagon,
+                          ),
+                          FutureBuilder(
+                              future: controller.loadActionDatesFromDB(
+                                  _emailID, _userName, _dogName),
+                              builder: (BuildContext context,
+                                  AsyncSnapshot<List<ActionDateModel>>
+                                      snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return const SizedBox();
+                                } else if (snapshot.hasError) {
+                                  return Text(
+                                    'Error: ${snapshot.error}',
+                                    style: perritosParagonError,
+                                  );
+                                } else {
+                                  return snapshot.data!.isEmpty
+                                      ? Text(
+                                          'Es gibt keine Termine für dich :)',
+                                          style: perritosParagonOpacity,
+                                        )
+                                      : Column(children: [
+                                          for (var action
+                                              in snapshot.data ?? [])
+                                            PerritosAction(
+                                              icon: PerritosIcons.Icon_Date,
+                                              value:
+                                                  '${DateFormat("dd.mm.yyyy hh:mm").format(action.begin.toDate())} bis ${DateFormat("dd.mm.yyyy hh:mm").format(action.end.toDate())}',
+                                              label: action.title,
+                                              onPressed: () {
+                                                controller.selectActionType(
+                                                    ActionType.date);
+                                                controller
+                                                    .changeCurrentActionId(
+                                                        action.actionID)
+                                                    .then((event) => {
+                                                          if (event == null)
+                                                            {
+                                                              controller
+                                                                  .switchHomeScreen(
+                                                                      HomeScreen
+                                                                          .editAction)
+                                                            }
+                                                          else if (event ==
+                                                              "Dog/User")
+                                                            {
+                                                              ScaffoldMessenger
+                                                                      .of(
+                                                                          context)
+                                                                  .showSnackBar(SnackBar(
+                                                                      content: Text(
+                                                                          'Es muss mindestens ein Benutzer und ein Hund ausgewählt werden!',
+                                                                          style:
+                                                                              perritosDoublePica),
+                                                                      backgroundColor:
+                                                                          perritosBurntSienna))
+                                                            }
+                                                          else if (event ==
+                                                              "Time")
+                                                            {
+                                                              ScaffoldMessenger
+                                                                      .of(
+                                                                          context)
+                                                                  .showSnackBar(SnackBar(
+                                                                      content: Text(
+                                                                          'Gib bitte einen Endzeitpunkt ein, welcher hinter dem Startzeitpunkt liegt!',
+                                                                          style:
+                                                                              perritosDoublePica),
+                                                                      backgroundColor:
+                                                                          perritosBurntSienna))
+                                                            }
+                                                          else
+                                                            {
+                                                              ScaffoldMessenger
+                                                                      .of(
+                                                                          context)
+                                                                  .showSnackBar(SnackBar(
+                                                                      content: Text(
+                                                                          'Ein Fehler ist aufgetreten',
+                                                                          style:
+                                                                              perritosDoublePica),
+                                                                      backgroundColor:
+                                                                          perritosBurntSienna))
+                                                            }
+                                                        });
+                                              },
+                                            )
+                                        ]);
+                                }
+                              }),
+                          const SizedBox(height: 20),
+                          Text(
+                            'Auffälligkeiten',
+                            style: perritosDoubleParagon,
+                          ),
+                          FutureBuilder(
+                              future: controller.loadActionAbnormalitiesFromDB(
+                                  _emailID, _userName, _dogName),
+                              builder: (BuildContext context,
+                                  AsyncSnapshot<List<ActionAbnormalityModel>>
+                                      snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return const SizedBox();
+                                } else if (snapshot.hasError) {
+                                  return Text(
+                                    'Error: ${snapshot.error}',
+                                    style: perritosParagonError,
+                                  );
+                                } else {
+                                  return snapshot.data!.isEmpty
+                                      ? Text(
+                                          'Es gibt keine Auffälligkeiten',
+                                          style: perritosParagonOpacity,
+                                        )
+                                      : Column(children: [
+                                          for (var action
+                                              in snapshot.data ?? [])
+                                            PerritosAction(
+                                              icon: action.emotionalState < 5
+                                                  ? PerritosIcons
+                                                      .Icon_Smiley_Happy
+                                                  : PerritosIcons
+                                                      .Icon_Smiley_Sad,
+                                              value: '',
+                                              label: action.title,
+                                              onPressed: () {
+                                                controller.selectActionType(
+                                                    ActionType.abnormality);
+                                                controller
+                                                    .changeCurrentActionId(
+                                                        action.actionID)
+                                                    .then((event) => {
+                                                          if (event == null)
+                                                            {
+                                                              controller
+                                                                  .switchHomeScreen(
+                                                                      HomeScreen
+                                                                          .editAction)
+                                                            }
+                                                          else if (event ==
+                                                              "Dog/User")
+                                                            {
+                                                              ScaffoldMessenger
+                                                                      .of(
+                                                                          context)
+                                                                  .showSnackBar(SnackBar(
+                                                                      content: Text(
+                                                                          'Es muss mindestens ein Benutzer und ein Hund ausgewählt werden!',
+                                                                          style:
+                                                                              perritosDoublePica),
+                                                                      backgroundColor:
+                                                                          perritosBurntSienna))
+                                                            }
+                                                          else if (event ==
+                                                              "Time")
+                                                            {
+                                                              ScaffoldMessenger
+                                                                      .of(
+                                                                          context)
+                                                                  .showSnackBar(SnackBar(
+                                                                      content: Text(
+                                                                          'Gib bitte einen Endzeitpunkt ein, welcher hinter dem Startzeitpunkt liegt!',
+                                                                          style:
+                                                                              perritosDoublePica),
+                                                                      backgroundColor:
+                                                                          perritosBurntSienna))
+                                                            }
+                                                          else
+                                                            {
+                                                              ScaffoldMessenger
+                                                                      .of(
+                                                                          context)
+                                                                  .showSnackBar(SnackBar(
+                                                                      content: Text(
+                                                                          'Ein Fehler ist aufgetreten',
+                                                                          style:
+                                                                              perritosDoublePica),
+                                                                      backgroundColor:
+                                                                          perritosBurntSienna))
+                                                            }
+                                                        });
+                                              },
+                                            )
+                                        ]);
+                                }
+                              }),
+                        ],
+                      )),
+                      const SizedBox(height: 90),
+                    ],
+                  )),
+            ],
           ),
         ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        floatingActionButton: FloatingActionButton(
+            backgroundColor: PerritosColor.perritosCharcoal.color,
+            child: const Icon(
+              PerritosIcons.Icon_Add,
+              size: 42,
+            ),
+            onPressed: () =>
+                {controller.switchHomeScreen(HomeScreen.selectActionType)}),
         bottomNavigationBar: Container(
           color: PerritosColor.perritosSnow.color,
           child: Padding(
@@ -353,7 +497,7 @@ class HomeView extends ConsumerWidget {
                 left: 10,
                 top: 0,
                 right: 10,
-                bottom: 10,
+                bottom: 30,
               ),
               child: PerritosNavigationBar(
                 activeView: activeView.home,
@@ -361,25 +505,32 @@ class HomeView extends ConsumerWidget {
                   Navigator.pushNamed(context, '/Home', arguments: {
                     'emailID': _emailID,
                     'userName': _userName,
-                    'dogName': _dogName
+                    'dogName': _dogName,
+                    'selectedUser':_selectedUser,
+                    'selectedDog': _selectedDog                         
                   });
                 },
                 navigateToProfile: () async {
-                  //TODO: PERRITOS DOG
                   await controller.loadDogFromDB(_emailID, _dogName).then(
                       (dog) => Navigator.pushNamed(context, '/DogProfileInfo',
                               arguments: {
                                 'dogModel': dog,
                                 'emailID': _emailID,
                                 'userName': _userName,
-                                'dogName': _dogName
+                                'dogName': _dogName,
+                                'perritos': _perritos,
+                                'selectedUser':_selectedUser,
+                                'selectedDog': _selectedDog
                               }));
                 },
                 navigateToCalendar: () {
                   Navigator.pushNamed(context, '/Calendar', arguments: {
                     'emailID': _emailID,
                     'userName': _userName,
-                    'dogName': _dogName
+                    'dogName': _dogName,
+                    'perritos': _perritos,
+                    'selectedUser':_selectedUser,
+                    'selectedDog': _selectedDog                      
                   });
                 },
               )),
@@ -450,7 +601,7 @@ class HomeView extends ConsumerWidget {
                       const SizedBox(
                         height: 20,
                       ),
-                      _dogName.length < 1
+                      _perritos != true
                           ? PerritosButton(
                               onPressed: () => {
                                     controller.selectActionType(
@@ -460,20 +611,13 @@ class HomeView extends ConsumerWidget {
                                   },
                               label: "Auffälligkeit")
                           : Container(),
-                      _dogName.length < 1
-                          ? const SizedBox(
-                              height: 20,
-                            )
-                          : const SizedBox(
-                              height: 0,
-                            ),
-                      PerritosButton(
-                          onPressed: () => {
-                                controller.selectActionType(ActionType.walking),
-                                controller
-                                    .switchHomeScreen(HomeScreen.createAction)
-                              },
-                          label: "Gassigang"),
+                      // PerritosButton(
+                      //     onPressed: () => {
+                      //           controller.selectActionType(ActionType.walking),
+                      //           controller
+                      //               .switchHomeScreen(HomeScreen.createAction)
+                      //         },
+                      //     label: "Gassigang"),
                     ]))));
     var createActionScreen = Scaffold(
         backgroundColor: PerritosColor.perritosSnow.color,
@@ -865,8 +1009,18 @@ class HomeView extends ConsumerWidget {
                       Expanded(
                           child: PerritosIconButton(
                               onPressed: () => {
-                                    controller.resetActionData(
-                                        _userName, _dogName),
+                                    _comingFromCalendar == true
+                                        ? Navigator.pushNamed(
+                                            context, '/Calendar', arguments: {
+                                            'emailID': _emailID,
+                                            'userName': _userName,
+                                            'dogName': _dogName,
+                                            'perritos': _perritos,
+                                            'selectedUser':_selectedUser,
+                                            'selectedDog': _selectedDog                                              
+                                          })
+                                        : controller.resetActionData(
+                                            _userName, _dogName),
                                     controller
                                         .switchHomeScreen(HomeScreen.overview)
                                   },
@@ -1181,10 +1335,20 @@ class HomeView extends ConsumerWidget {
                             controller.updateAction(_dogName).then((event) => {
                                   if (event == null)
                                     {
-                                      controller.resetActionData(
-                                          _userName, _dogName),
-                                      controller
-                                          .switchHomeScreen(HomeScreen.overview)
+                                      _comingFromCalendar == true
+                                          ? Navigator.pushNamed(
+                                              context, '/Calendar', arguments: {
+                                              'emailID': _emailID,
+                                              'userName': _userName,
+                                              'dogName': _dogName,
+                                              'perritos': _perritos,
+                                              'selectedUser':_selectedUser,
+                                              'selectedDog': _selectedDog                                               
+                                            })
+                                          : controller.resetActionData(
+                                              _userName, _dogName),
+                                      controller.switchHomeScreen(
+                                          HomeScreen.overview),
                                     }
                                   else if (event == "Dog/User")
                                     {
