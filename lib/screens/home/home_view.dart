@@ -147,7 +147,13 @@ class HomeView extends ConsumerWidget {
                               builder: (BuildContext context,
                                   AsyncSnapshot<List<ActionTaskModel>>
                                       snapshot) {
-                                return Column(children: [
+                                return snapshot.data?.length == 0
+                                  ? Text(
+                                      'Es gibt keine Aufgaben für dich :)',
+                                      style: perritosParagonOpacity,
+                                    )
+                                  :
+                                Column(children: [
                                   for (var action in snapshot.data ?? [])
                                     PerritosAction(
                                       icon: PerritosIcons.Icon_Task,
@@ -219,7 +225,13 @@ class HomeView extends ConsumerWidget {
                               builder: (BuildContext context,
                                   AsyncSnapshot<List<ActionDateModel>>
                                       snapshot) {
-                                return Column(children: [
+                                return snapshot.data?.length == 0
+                                  ? Text(
+                                      'Es gibt keine Termine für dich :)',
+                                      style: perritosParagonOpacity,
+                                    )
+                                  :
+                                Column(children: [
                                   for (var action in snapshot.data ?? [])
                                     PerritosAction(
                                       icon: PerritosIcons.Icon_Date,
@@ -292,7 +304,13 @@ class HomeView extends ConsumerWidget {
                               builder: (BuildContext context,
                                   AsyncSnapshot<List<ActionAbnormalityModel>>
                                       snapshot) {
-                                return Column(children: [
+                                return snapshot.data?.length == 0
+                                  ? Text(
+                                      'Es gibt keine Auffälligkeiten',
+                                      style: perritosParagonOpacity,
+                                    )
+                                  :
+                                Column(children: [
                                   for (var action in snapshot.data ?? [])
                                     PerritosAction(
                                       icon: action.emotionalState < 5
