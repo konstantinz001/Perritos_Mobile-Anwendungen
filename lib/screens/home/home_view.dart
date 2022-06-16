@@ -118,7 +118,9 @@ class HomeView extends ConsumerWidget {
                     right: 10,
                     bottom: 0,
                   ),
-                  child: Column(
+                  child: Column(   
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,                
                     children: [
                       const SizedBox(height: 20),
                       Row(
@@ -464,14 +466,16 @@ class HomeView extends ConsumerWidget {
                                 'dogModel': dog,
                                 'emailID': _emailID,
                                 'userName': _userName,
-                                'dogName': _dogName
+                                'dogName': _dogName,
+                                'perritos':_perritos
                               }));
                 },
                 navigateToCalendar: () {
                   Navigator.pushNamed(context, '/Calendar', arguments: {
                     'emailID': _emailID,
                     'userName': _userName,
-                    'dogName': _dogName
+                    'dogName': _dogName,
+                    'perritos': _perritos
                   });
                 },
               )),
@@ -955,7 +959,8 @@ class HomeView extends ConsumerWidget {
                                             context, '/Calendar', arguments: {
                                             'emailID': _emailID,
                                             'userName': _userName,
-                                            'dogName': _dogName
+                                            'dogName': _dogName,
+                                            'perritos': _perritos
                                           })
                                         : controller.resetActionData(
                                             _userName, _dogName),
@@ -1278,7 +1283,8 @@ class HomeView extends ConsumerWidget {
                                               context, '/Calendar', arguments: {
                                               'emailID': _emailID,
                                               'userName': _userName,
-                                              'dogName': _dogName
+                                              'dogName': _dogName,
+                                              'perritos':_perritos
                                             })
                                           : controller.resetActionData(
                                               _userName, _dogName),

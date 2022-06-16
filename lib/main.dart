@@ -71,6 +71,7 @@ class MyApp extends StatelessWidget {
                         emailID: args['emailID'],
                         userName: args['userName'],
                         dogName: args['dogName'],
+                        perritos: args['perritos'],
                       ));
             } else if (routeParams.name == '/DogProfileInfo') {
               final Map args = routeParams.arguments as Map;
@@ -80,6 +81,7 @@ class MyApp extends StatelessWidget {
                         emailID: args['emailID'],
                         userName: args['userName'],
                         dogName: args['dogName'],
+                        perritos: args['perritos'],
                       ));
             }
             return MaterialPageRoute(

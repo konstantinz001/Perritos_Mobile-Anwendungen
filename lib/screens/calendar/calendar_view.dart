@@ -18,14 +18,19 @@ class CalendarView extends ConsumerWidget {
   final String _emailID;
   final String _userName;
   final List<String> _dogName;
+  final bool? _perritos;
+
   const CalendarView(
       {Key? key,
       required List<String> dogName,
       required String emailID,
-      required String userName})
+      required String userName,
+      required bool? perritos
+      })
       : _dogName = dogName,
         _emailID = emailID,
         _userName = userName,
+        _perritos = perritos,
         super(key: key);
 
   @override
@@ -164,6 +169,7 @@ class CalendarView extends ConsumerWidget {
                                 'dogName': _dogName,
                                 'dateModel': event,
                                 'comingFromCalendar': true,
+                                'perritos':_perritos
                               })
                             })),
                 FutureBuilder(
@@ -192,7 +198,8 @@ class CalendarView extends ConsumerWidget {
                   Navigator.pushNamed(context, '/Home', arguments: {
                     'emailID': _emailID,
                     'userName': _userName,
-                    'dogName': _dogName
+                    'dogName': _dogName,
+                    'perritos': _perritos
                   });
                 },
                 navigateToProfile: () async {

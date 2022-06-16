@@ -3,11 +3,14 @@ import 'package:flutter_application/assets/styles/perritos-colors.dart';
 import 'package:flutter_application/assets/styles/perritos-icons/PerritosIcons_icons.dart';
 import 'package:flutter_application/assets/ui-components/navigation/perritos-navigation.dart';
 import 'package:flutter_application/assets/ui-components/profile/perritos-profile.dart';
+import 'package:flutter_application/assets/ui-components/text-input/perritos_description_input.dart';
+import 'package:flutter_application/assets/ui-components/text-input/perritos_txt_input.dart';
 import 'package:flutter_application/common/models/dog_model.dart';
 import 'package:flutter_application/common/models/user_model.dart';
 import 'package:flutter_application/common/providers.dart';
 import 'package:flutter_application/screens/dog_profile_info/dog_profile_info_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 
 
 class DogProfileInfoView extends ConsumerWidget {
@@ -15,17 +18,21 @@ class DogProfileInfoView extends ConsumerWidget {
   final String _userName;
   final List<String> _dogName;
   final DogModel _dog;
+  final bool? _perritos;
 
   const DogProfileInfoView(
       {Key? key,
       required DogModel dog,
       required List<String> dogName,
       required String emailID,
-      required String userName})
+      required String userName,
+      required bool? perritos
+      })
       : _dog = dog,
         _dogName = dogName,
         _emailID = emailID,
         _userName = userName,
+        _perritos = perritos,
         super(key: key);
 
   @override
@@ -100,33 +107,66 @@ class DogProfileInfoView extends ConsumerWidget {
               Row(
                 children: [
                   Expanded(
-                      child: _dog.name != "Perritos"
-                          ? PerritosProfile(
-                              icon: _dog.iconName == 'Icon_Smiley_Happy'
-                                  ? PerritosIcons.Icon_Smiley_Happy
-                                  : _dog.iconName == 'Icon_Smiley_Sad'
-                                      ? PerritosIcons.Icon_Smiley_Sad
-                                      : PerritosIcons.Icon_Dog,
-                              onPressed: () {},
-                              label: _dog.name,
-                              perritosColor: _dog.iconColor ==
-                                      'perritosGoldFusion'
-                                  ? PerritosColor.perritosGoldFusion
-                                  : _dog.iconColor == 'perritosMaizeCrayola'
-                                      ? PerritosColor.perritosMaizeCrayola
-                                      : _dog.iconColor == 'perritosSandyBrown'
-                                          ? PerritosColor.perritosSandyBrown
-                                          : _dog.iconColor ==
-                                                  'perritosBurntSienna'
-                                              ? PerritosColor
-                                                  .perritosBurntSienna
-                                              : PerritosColor.perritosCharcoal,
-                            )
-                          : PerritosProfile(
+                      child: _perritos == true?
+                          PerritosProfile(
                               icon: PerritosIcons.Icon_Perritos,
                               onPressed: () {},
-                              label: _dog.name,
+                              label: 'Perritos',
                               perritosColor: PerritosColor.perritosCharcoal,
+                            ):
+                            Column(
+                              children: [
+              const SizedBox(height: 24),
+              Row(
+                children: [
+                  Expanded(
+                      child: PerritosProfile(
+                    icon: _dog.iconName == 'Icon_Smiley_Happy'
+                        ? PerritosIcons.Icon_Smiley_Happy
+                        : _dog.iconName == 'Icon_Smiley_Sad'
+                            ? PerritosIcons.Icon_Smiley_Sad
+                            : PerritosIcons.Icon_Dog,
+                    onPressed: () {},
+                    label: _dog.name,
+                    perritosColor: _dog.iconColor == 'perritosGoldFusion'
+                        ? PerritosColor.perritosGoldFusion
+                        : _dog.iconColor == 'perritosMaizeCrayola'
+                            ? PerritosColor.perritosMaizeCrayola
+                            : _dog.iconColor == 'perritosSandyBrown'
+                                ? PerritosColor.perritosSandyBrown
+                                : _dog.iconColor == 'perritosBurntSienna'
+                                    ? PerritosColor.perritosBurntSienna
+                                    : PerritosColor.perritosCharcoal,
+                  ))
+                ],
+              ),
+              const SizedBox(height: 24),
+              PerritosTxtInput(
+                label: 'Rasse:',
+                hintTxt: _dog.rasse,
+                onSubmit: (value) => {},
+                readOnly: true,
+              ),
+              const SizedBox(height: 10),
+              PerritosTxtInput(
+                label: 'Geburtstag:',
+                hintTxt:
+                    DateFormat('dd.MM.yyyy').format(_dog.birthday.toDate()),
+                optlabel:
+                    '${DateTime.now().difference(_dog.birthday.toDate()).inDays ~/
+                                365} Jahre alt',
+                onSubmit: (value) => {},
+                readOnly: true,
+              ),
+              const SizedBox(height: 10),
+              PerritosDescriptionInput(
+                label: 'Info:',
+                hintTxt: _dog.info,
+                onSubmit: (value) => {},
+                readOnly: true,
+                showWordCount: false,
+              )                               
+                              ],
                             ))
                 ],
               ),
@@ -147,7 +187,8 @@ class DogProfileInfoView extends ConsumerWidget {
                 Navigator.pushNamed(context, '/Home', arguments: {
                   'emailID': _emailID,
                   'userName': _userName,
-                  'dogName': _dogName
+                  'dogName': _dogName,
+                  'perritos': _perritos
                 });
               },
               navigateToProfile: () async {
