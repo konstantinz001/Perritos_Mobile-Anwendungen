@@ -21,6 +21,7 @@ import 'package:flutter_application/common/providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:tuple/tuple.dart';
+import 'package:share_plus/share_plus.dart';
 
 import 'home_model.dart';
 
@@ -42,8 +43,7 @@ class HomeView extends ConsumerWidget {
       required bool? comingFromCalendar,
       required bool? perritos,
       required UserModel? selectedUser,
-      required DogModel? selectedDog
-      })
+      required DogModel? selectedDog})
       : _dogName = dogName,
         _emailID = emailID,
         _userName = userName,
@@ -78,7 +78,7 @@ class HomeView extends ConsumerWidget {
                     children: [
                       IconButton(
                           icon: Icon(
-                            _perritos == true 
+                            _perritos == true
                                 ? PerritosIcons.Icon_Perritos
                                 : _selectedDog?.iconName == 'Icon_Smiley_Happy'
                                     ? PerritosIcons.Icon_Smiley_Happy
@@ -117,7 +117,7 @@ class HomeView extends ConsumerWidget {
                                                 'emailID': _emailID,
                                                 'userName': _userName,
                                                 'dogList': dogList,
-                                                'selectedUser':_selectedUser                                                
+                                                'selectedUser': _selectedUser
                                               })
                                         })
                               }),
@@ -506,8 +506,8 @@ class HomeView extends ConsumerWidget {
                     'emailID': _emailID,
                     'userName': _userName,
                     'dogName': _dogName,
-                    'selectedUser':_selectedUser,
-                    'selectedDog': _selectedDog                         
+                    'selectedUser': _selectedUser,
+                    'selectedDog': _selectedDog
                   });
                 },
                 navigateToProfile: () async {
@@ -519,7 +519,7 @@ class HomeView extends ConsumerWidget {
                                 'userName': _userName,
                                 'dogName': _dogName,
                                 'perritos': _perritos,
-                                'selectedUser':_selectedUser,
+                                'selectedUser': _selectedUser,
                                 'selectedDog': _selectedDog
                               }));
                 },
@@ -529,8 +529,8 @@ class HomeView extends ConsumerWidget {
                     'userName': _userName,
                     'dogName': _dogName,
                     'perritos': _perritos,
-                    'selectedUser':_selectedUser,
-                    'selectedDog': _selectedDog                      
+                    'selectedUser': _selectedUser,
+                    'selectedDog': _selectedDog
                   });
                 },
               )),
@@ -1016,8 +1016,8 @@ class HomeView extends ConsumerWidget {
                                             'userName': _userName,
                                             'dogName': _dogName,
                                             'perritos': _perritos,
-                                            'selectedUser':_selectedUser,
-                                            'selectedDog': _selectedDog                                              
+                                            'selectedUser': _selectedUser,
+                                            'selectedDog': _selectedDog
                                           })
                                         : controller.resetActionData(
                                             _userName, _dogName),
@@ -1037,7 +1037,49 @@ class HomeView extends ConsumerWidget {
                         style: perritosDoubleParagon,
                         textAlign: TextAlign.center,
                       ),
-                      const Spacer()
+                      const Spacer(),
+                      PerritosIconButton(
+                          onPressed: () async => {
+                                model.selectedActionType == ActionType.date
+                                    ? await Share.share(
+                                        //Termin
+                                        "Hey du, ich wollte dir einen Perrito-Termin schicken: \n"
+                                        "\nTitle: ${model.title}"
+                                        "\nBeschreibung: ${model.description}"
+                                        "\nBegin : ${DateFormat('dd.MM.yyyy').format(model.beginDate)} um ${model.beginTime.hour}:${model.beginTime.minute} Uhr "
+                                        "\nEnde : ${DateFormat('dd.MM.yyyy').format(model.beginDate)} um ${model.beginTime.hour}:${model.beginTime.minute} Uhr \n"
+                                        "\nHunde : ${model.dogs.toString().replaceAll('[', '').replaceAll(']', '')}"
+                                        "\Benutzer : ${model.users.toString().replaceAll('[', '').replaceAll(']', '')}",
+                                        subject: 'Perritos: Termin')
+                                    : model.selectedActionType ==
+                                            ActionType.task
+                                        ? await Share.share(
+                                            //Aufgabe
+                                            "Hey du, ich wollte dir eine Perrito-Aufgabe schicken: \n"
+                                            "\nTitle: ${model.title}"
+                                            "\nBeschreibung: ${model.description}"
+                                            "\nHunde : ${model.dogs.toString().replaceAll('[', '').replaceAll(']', '')}"
+                                            "\nBenutzer : ${model.users.toString().replaceAll('[', '').replaceAll(']', '')}",
+                                            subject: 'Perritos: Aufgabe')
+                                        : model.selectedActionType ==
+                                                ActionType.abnormality
+                                            ? await Share.share(
+                                                //Gefühlslage
+                                                "Hey du, ich wollte dir eine Perrito-Auffälligkeit schicken: \n"
+                                                "\nTitle: ${model.title}"
+                                                "\nBeschreibung: ${model.description}",
+                                                subject: 'Perritos: Termin')
+                                            : await Share.share(
+                                                //Gassigang
+                                                "Hey du, ich wollte dir einen Perrito-Gassigang schicken: \n"
+                                                "\nBegin : ${DateFormat('dd.MM.yyyy').format(model.beginDate)} um ${model.beginTime.hour}:${model.beginTime.minute} Uhr "
+                                                "\nEnde : ${DateFormat('dd.MM.yyyy').format(model.beginDate)} um ${model.beginTime.hour}:${model.beginTime.minute} Uhr \n"
+                                                "\nHunde : ${model.dogs.toString().replaceAll('[', '').replaceAll(']', '')}"
+                                                "\Benutzer : ${model.users.toString().replaceAll('[', '').replaceAll(']', '')}",
+                                                subject: 'Perritos: Termin'),
+                              },
+                          iconSize: 40,
+                          icon: PerritosIcons.Icon_Send),
                     ],
                   ),
                   Expanded(
@@ -1342,8 +1384,8 @@ class HomeView extends ConsumerWidget {
                                               'userName': _userName,
                                               'dogName': _dogName,
                                               'perritos': _perritos,
-                                              'selectedUser':_selectedUser,
-                                              'selectedDog': _selectedDog                                               
+                                              'selectedUser': _selectedUser,
+                                              'selectedDog': _selectedDog
                                             })
                                           : controller.resetActionData(
                                               _userName, _dogName),
