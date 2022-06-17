@@ -1,5 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application/assets/styles/perritos-colors.dart';
+import 'package:flutter_application/assets/styles/perritos-icons/PerritosIcons_icons.dart';
+import 'package:flutter_application/assets/ui-components/action/perritos-action.dart';
 import 'package:flutter_application/common/models/action_task_model.dart';
 import 'package:flutter_application/common/models/action_abnormality_model.dart';
 import 'package:flutter_application/common/services/db_service.dart';
@@ -557,5 +560,35 @@ class HomeImplmentation extends HomeController {
       return DogModel(
           email, "Perritos", false, "", "", "", Timestamp.now(), "");
     }
+  }
+
+  @override
+  Future<List<ProfileIcon>> getProfileIcons(
+      String emailId, List<dynamic> dogNames) async {
+    List<DogModel> returnDogs = List.empty(growable: true);
+    List<ProfileIcon> profileIcons = List.empty(growable: true);
+    List<DogModel> allDogs = await loadDogsFromDB(emailId);
+    dogNames.forEach((name) {
+      allDogs.forEach((dog) {
+        if (name == dog.name) {
+          profileIcons.add(ProfileIcon(
+              dog.iconName == 'Icon_Smiley_Happy'
+                  ? PerritosIcons.Icon_Smiley_Happy
+                  : dog.iconName == 'Icon_Smiley_Sad'
+                      ? PerritosIcons.Icon_Smiley_Sad
+                      : PerritosIcons.Icon_Dog,
+              dog.iconColor == 'perritosBurntSienna'
+                  ? PerritosColor.perritosBurntSienna
+                  : dog.iconColor == 'perritosSandyBrown'
+                      ? PerritosColor.perritosSandyBrown
+                      : dog.iconColor == 'perritosMaizeCrayola'
+                          ? PerritosColor.perritosMaizeCrayola
+                          : dog.iconColor == 'perritosGoldFusion'
+                              ? PerritosColor.perritosGoldFusion
+                              : PerritosColor.perritosCharcoal));
+        }
+      });
+    });
+    return profileIcons;
   }
 }
