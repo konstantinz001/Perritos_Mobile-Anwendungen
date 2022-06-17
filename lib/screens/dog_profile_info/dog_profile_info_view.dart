@@ -66,7 +66,7 @@ class DogProfileInfoView extends ConsumerWidget {
                           icon: Icon(
                                 _perritos == true ? PerritosIcons.Icon_Perritos
                                 : _selectedDog?.iconName == 'Icon_Smiley_Happy'
-                                    ? PerritosIcons?.Icon_Smiley_Happy
+                                    ? PerritosIcons.Icon_Smiley_Happy
                                     : _selectedDog?.iconName ==
                                             'Icon_Smiley_Sad'
                                         ? PerritosIcons.Icon_Smiley_Sad
