@@ -1,4 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_application/assets/styles/perritos-fonts.dart';
 import 'package:flutter_application/common/models/dog_model.dart';
 import 'package:flutter_application/common/models/user_model.dart';
 import 'package:flutter_application/screens/dog_profile_info/dog_profile_info_model.dart';
@@ -59,5 +62,35 @@ class DogProfileInfoImplementation extends DogProfileInfoController {
   @override
   Future<List<UserModel>> loadAllUsersFromDB(String email) async {
     return await _databaseService.getAllUsers(emailID: email);
+  }
+
+  @override
+  Widget bottomTitles(double value, TitleMeta meta) {
+    List<String> titles = ["Mo", "Mo" , "Di", "Mi", "Do", "Fr", "Sa", "So", ];
+
+    Widget text = Text(
+      titles[value.toInt()],
+      style: perritosParagon,
+    );
+    return SideTitleWidget(
+      axisSide: meta.axisSide,
+      space: 5, //margin top
+      child: text,
+    );
+  }
+
+  @override
+  Widget topTitles(double value, TitleMeta meta) {
+    List<String> titles = ["Mo", "Mo" , "Di", "Mi", "Do", "Fr", "Sa", "So", ];
+
+    Widget text = Text(
+      titles[value.toInt()],
+      style: perritosParagon,
+    );
+    return SideTitleWidget(
+      axisSide: meta.axisSide,
+      space: 5, //margin top
+      child: text,
+    );
   }
 }
