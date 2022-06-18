@@ -48,6 +48,7 @@ dependencies:
   table_calendar: ^3.0.6
   flutter_launcher_icons: ^0.9.3
   fl_chart: ^0.51.0
+  share_plus: ^4.0.8
 
 flutter_icons:
   android: "launcher_icon"
