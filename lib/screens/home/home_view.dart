@@ -21,6 +21,7 @@ import 'package:flutter_application/common/providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:tuple/tuple.dart';
+import 'package:share_plus/share_plus.dart';
 
 import 'home_model.dart';
 
@@ -1100,7 +1101,49 @@ class HomeView extends ConsumerWidget {
                         style: perritosDoubleParagon,
                         textAlign: TextAlign.center,
                       ),
-                      const Spacer()
+                      const Spacer(),
+                      PerritosIconButton(
+                          onPressed: () async => {
+                                model.selectedActionType == ActionType.date
+                                    ? await Share.share(
+                                        //Termin
+                                        "Hey du, ich wollte dir einen Perrito-Termin schicken: \n"
+                                        "\nTitle: ${model.title}"
+                                        "\nBeschreibung: ${model.description}"
+                                        "\nBegin : ${DateFormat('dd.MM.yyyy').format(model.beginDate)} um ${model.beginTime.hour}:${model.beginTime.minute} Uhr "
+                                        "\nEnde : ${DateFormat('dd.MM.yyyy').format(model.beginDate)} um ${model.beginTime.hour}:${model.beginTime.minute} Uhr \n"
+                                        "\nHunde : ${model.dogs.toString().replaceAll('[', '').replaceAll(']', '')}"
+                                        "\Benutzer : ${model.users.toString().replaceAll('[', '').replaceAll(']', '')}",
+                                        subject: 'Perritos: Termin')
+                                    : model.selectedActionType ==
+                                            ActionType.task
+                                        ? await Share.share(
+                                            //Aufgabe
+                                            "Hey du, ich wollte dir eine Perrito-Aufgabe schicken: \n"
+                                            "\nTitle: ${model.title}"
+                                            "\nBeschreibung: ${model.description}"
+                                            "\nHunde : ${model.dogs.toString().replaceAll('[', '').replaceAll(']', '')}"
+                                            "\nBenutzer : ${model.users.toString().replaceAll('[', '').replaceAll(']', '')}",
+                                            subject: 'Perritos: Aufgabe')
+                                        : model.selectedActionType ==
+                                                ActionType.abnormality
+                                            ? await Share.share(
+                                                //Gefühlslage
+                                                "Hey du, ich wollte dir eine Perrito-Auffälligkeit schicken: \n"
+                                                "\nTitle: ${model.title}"
+                                                "\nBeschreibung: ${model.description}",
+                                                subject: 'Perritos: Termin')
+                                            : await Share.share(
+                                                //Gassigang
+                                                "Hey du, ich wollte dir einen Perrito-Gassigang schicken: \n"
+                                                "\nBegin : ${DateFormat('dd.MM.yyyy').format(model.beginDate)} um ${model.beginTime.hour}:${model.beginTime.minute} Uhr "
+                                                "\nEnde : ${DateFormat('dd.MM.yyyy').format(model.beginDate)} um ${model.beginTime.hour}:${model.beginTime.minute} Uhr \n"
+                                                "\nHunde : ${model.dogs.toString().replaceAll('[', '').replaceAll(']', '')}"
+                                                "\Benutzer : ${model.users.toString().replaceAll('[', '').replaceAll(']', '')}",
+                                                subject: 'Perritos: Termin'),
+                              },
+                          iconSize: 40,
+                          icon: PerritosIcons.Icon_Send),
                     ],
                   ),
                   Expanded(
