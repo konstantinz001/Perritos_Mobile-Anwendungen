@@ -1,4 +1,4 @@
-import 'package:flutter_application/common/models/action_date_model.dart';
+import 'package:flutter_application/common/models/actions/action_date_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'calendar_model.freezed.dart';

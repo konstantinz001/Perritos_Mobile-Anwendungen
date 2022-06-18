@@ -1,5 +1,5 @@
 import 'package:flutter_application/common/services/db_service.dart';
-import 'package:flutter_application/common/models/user_model.dart';
+import 'package:flutter_application/common/models/users/user_model.dart';
 import 'package:flutter_application/screens/calendar/calendar_controller.dart';
 import 'package:flutter_application/screens/calendar/calendar_model.dart';
 import 'package:flutter_application/screens/calendar/calendar_view.dart';
@@ -22,7 +22,7 @@ import 'package:flutter_application/screens/user_selection_and_administration/us
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tuple/tuple.dart';
 import '../screens/dog_profile_info/dog_profile_info_model.dart';
-import 'models/dog_model.dart';
+import 'models/users/dog_model.dart';
 
 final Providers providers = Providers();
 
@@ -89,5 +89,5 @@ class Providers {
       (StateNotifierProviderRef ref, DogModel data) =>
           DogProfileInfoImplementation(
               databaseService: ref.read(providers.databaseServiceProvider),
-              dog: data));
+              dog: data,));
 }

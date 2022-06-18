@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_application/common/services/db_service.dart';
-import 'package:flutter_application/common/models/dog_model.dart';
+import 'package:flutter_application/common/models/users/dog_model.dart';
 import 'package:flutter_application/screens/dog_selection_and_administration/dog_selection_and_administration_model.dart';
 import 'package:flutter_application/screens/dog_selection_and_administration/dog_selection_and_administration_view.dart';
 

@@ -1,6 +1,6 @@
-import 'package:flutter_application/common/models/dog_model.dart';
+import 'package:flutter_application/common/models/users/dog_model.dart';
 import 'package:flutter_application/common/services/db_service.dart';
-import 'package:flutter_application/common/models/user_model.dart';
+import 'package:flutter_application/common/models/users/user_model.dart';
 import 'package:flutter_application/screens/user_selection_and_administration/user_selection_and_administration_model.dart';
 import 'package:flutter_application/screens/user_selection_and_administration/user_selection_and_administration_view.dart';
 

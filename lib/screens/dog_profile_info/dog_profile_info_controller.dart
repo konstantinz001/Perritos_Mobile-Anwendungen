@@ -2,12 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application/assets/styles/perritos-fonts.dart';
-import 'package:flutter_application/common/models/dog_model.dart';
-import 'package:flutter_application/common/models/user_model.dart';
+import 'package:flutter_application/common/models/users/dog_model.dart';
+import 'package:flutter_application/common/models/users/user_model.dart';
+import 'package:flutter_application/common/services/db_service.dart';
 import 'package:flutter_application/screens/dog_profile_info/dog_profile_info_model.dart';
 import 'package:flutter_application/screens/dog_profile_info/dog_profile_info_view.dart';
-
-import '../../common/services/db_service.dart';
 
 class DogProfileInfoImplementation extends DogProfileInfoController {
   final DatabaseService _databaseService;
@@ -66,7 +65,16 @@ class DogProfileInfoImplementation extends DogProfileInfoController {
 
   @override
   Widget bottomTitles(double value, TitleMeta meta) {
-    List<String> titles = ["Mo", "Mo" , "Di", "Mi", "Do", "Fr", "Sa", "So", ];
+    List<String> titles = [
+      "Mo",
+      "Mo",
+      "Di",
+      "Mi",
+      "Do",
+      "Fr",
+      "Sa",
+      "So",
+    ];
 
     Widget text = Text(
       titles[value.toInt()],
@@ -81,7 +89,16 @@ class DogProfileInfoImplementation extends DogProfileInfoController {
 
   @override
   Widget topTitles(double value, TitleMeta meta) {
-    List<String> titles = ["Mo", "Mo" , "Di", "Mi", "Do", "Fr", "Sa", "So", ];
+    List<String> titles = [
+      "5",
+      "2",
+      "4",
+      "3",
+      "3",
+      "4",
+      "0",
+      "4",
+    ];
 
     Widget text = Text(
       titles[value.toInt()],
@@ -92,5 +109,25 @@ class DogProfileInfoImplementation extends DogProfileInfoController {
       space: 5, //margin top
       child: text,
     );
+  }
+
+  @override
+  double getWalkingData(WeekDay weekDay) {
+    switch (weekDay) {
+      case WeekDay.monday:
+        return 1;
+      case WeekDay.tuesday:
+        return 4;
+      case WeekDay.wednesday:
+        return 4;
+      case WeekDay.thursday:
+        return 3;
+      case WeekDay.friday:
+        return 1;
+      case WeekDay.saturday:
+        return 4;
+      case WeekDay.sunday:
+        return 3;
+    }
   }
 }

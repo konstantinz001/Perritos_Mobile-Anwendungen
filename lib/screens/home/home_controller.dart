@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application/assets/styles/perritos-colors.dart';
 import 'package:flutter_application/assets/styles/perritos-icons/PerritosIcons_icons.dart';
 import 'package:flutter_application/assets/ui-components/action/perritos-action.dart';
-import 'package:flutter_application/common/models/action_task_model.dart';
-import 'package:flutter_application/common/models/action_abnormality_model.dart';
+import 'package:flutter_application/common/models/actions/action_task_model.dart';
+import 'package:flutter_application/common/models/actions/action_abnormality_model.dart';
 import 'package:flutter_application/common/services/db_service.dart';
-import 'package:flutter_application/common/models/action_date_model.dart';
+import 'package:flutter_application/common/models/actions/action_date_model.dart';
 import 'home_model.dart';
 import 'home_view.dart';
-import 'package:flutter_application/common/models/user_model.dart';
-import 'package:flutter_application/common/models/dog_model.dart';
+import 'package:flutter_application/common/models/users/user_model.dart';
+import 'package:flutter_application/common/models/users/dog_model.dart';
 
 class HomeImplmentation extends HomeController {
   final DatabaseService _databaseService;

@@ -7,8 +7,8 @@ import 'package:flutter_application/assets/ui-components/navigation/perritos-nav
 import 'package:flutter_application/assets/ui-components/profile/perritos-profile.dart';
 import 'package:flutter_application/assets/ui-components/text-input/perritos_description_input.dart';
 import 'package:flutter_application/assets/ui-components/text-input/perritos_txt_input.dart';
-import 'package:flutter_application/common/models/dog_model.dart';
-import 'package:flutter_application/common/models/user_model.dart';
+import 'package:flutter_application/common/models/users/dog_model.dart';
+import 'package:flutter_application/common/models/users/user_model.dart';
 import 'package:flutter_application/common/providers.dart';
 import 'package:flutter_application/screens/dog_profile_info/dog_profile_info_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -284,49 +284,49 @@ class DogProfileInfoView extends ConsumerWidget {
                           barGroups: [
                             BarChartGroupData(x: 1, barRods: [
                               BarChartRodData(
-                                  toY: 10,
+                                  toY: controller.getWalkingData(WeekDay.monday),
                                   width: 15,
                                   color:
                                       PerritosColor.perritosMaizeCrayola.color),
                             ]),
                             BarChartGroupData(x: 2, barRods: [
                               BarChartRodData(
-                                  toY: 10,
+                                  toY: controller.getWalkingData(WeekDay.tuesday),
                                   width: 15,
                                   color:
                                       PerritosColor.perritosMaizeCrayola.color),
                             ]),
                             BarChartGroupData(x: 3, barRods: [
                               BarChartRodData(
-                                  toY: 10,
+                                  toY: controller.getWalkingData(WeekDay.wednesday),
                                   width: 15,
                                   color:
                                       PerritosColor.perritosMaizeCrayola.color),
                             ]),
                             BarChartGroupData(x: 4, barRods: [
                               BarChartRodData(
-                                  toY: 10,
+                                  toY: controller.getWalkingData(WeekDay.thursday),
                                   width: 15,
                                   color:
                                       PerritosColor.perritosMaizeCrayola.color),
                             ]),
                             BarChartGroupData(x: 5, barRods: [
                               BarChartRodData(
-                                  toY: 10,
+                                  toY: controller.getWalkingData(WeekDay.friday),
                                   width: 15,
                                   color:
                                       PerritosColor.perritosMaizeCrayola.color),
                             ]),
                             BarChartGroupData(x: 6, barRods: [
                               BarChartRodData(
-                                  toY: 10,
+                                  toY: controller.getWalkingData(WeekDay.saturday),
                                   width: 15,
                                   color:
                                       PerritosColor.perritosMaizeCrayola.color),
                             ]),
                             BarChartGroupData(x: 7, barRods: [
                               BarChartRodData(
-                                  toY: 10,
+                                  toY: controller.getWalkingData(WeekDay.sunday),
                                   width: 15,
                                   color:
                                       PerritosColor.perritosMaizeCrayola.color),
@@ -380,5 +380,5 @@ abstract class DogProfileInfoController extends StateNotifier<DogProfileModel> {
   Future<List<DogModel>> loadAllDogsFromDB(String email);
   Widget bottomTitles(double value, TitleMeta meta);
   Widget topTitles(double value, TitleMeta meta);
-
+  double getWalkingData(WeekDay weekDay);
 }

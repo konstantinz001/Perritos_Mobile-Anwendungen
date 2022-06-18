@@ -1,5 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_application/common/models/auth_user_model.dart';
+import 'package:flutter_application/common/models/users/auth_user_model.dart';
 
 abstract class AuthService {
   Future login({

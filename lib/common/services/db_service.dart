@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_application/common/models/action_abnormality_model.dart';
-import 'package:flutter_application/common/models/action_date_model.dart';
-import 'package:flutter_application/common/models/action_task_model.dart';
-import 'package:flutter_application/common/models/action_walking_model.dart';
-import 'package:flutter_application/common/models/user_model.dart';
-import 'package:flutter_application/common/models/dog_model.dart';
+import 'package:flutter_application/common/models/actions/action_abnormality_model.dart';
+import 'package:flutter_application/common/models/actions/action_date_model.dart';
+import 'package:flutter_application/common/models/actions/action_task_model.dart';
+import 'package:flutter_application/common/models/actions/action_walking_model.dart';
+import 'package:flutter_application/common/models/users/user_model.dart';
+import 'package:flutter_application/common/models/users/dog_model.dart';
 
 abstract class DatabaseService {
   //User:
