@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_application/common/models/dog_model.dart';
-import 'package:flutter_application/common/models/user_model.dart';
+import 'package:flutter_application/common/models/users/dog_model.dart';
+import 'package:flutter_application/common/models/users/user_model.dart';
 import 'package:flutter_application/common/services/db_service.dart';
-import 'package:flutter_application/common/models/action_date_model.dart';
+import 'package:flutter_application/common/models/actions/action_date_model.dart';
 import 'package:flutter_application/screens/calendar/calendar_model.dart';
 import 'package:intl/intl.dart';
 import 'calendar_view.dart';

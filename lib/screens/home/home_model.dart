@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application/common/models/dog_model.dart';
+import 'package:flutter_application/common/models/users/dog_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'home_model.freezed.dart';

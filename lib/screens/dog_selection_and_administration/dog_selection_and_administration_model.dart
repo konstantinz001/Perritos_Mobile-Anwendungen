@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:flutter_application/common/models/dog_model.dart';
+import 'package:flutter_application/common/models/users/dog_model.dart';
 
 part 'dog_selection_and_administration_model.freezed.dart';
 

@@ -6,7 +6,7 @@ import 'package:flutter_application/assets/ui-components/buttons/perritos-button
 import 'package:flutter_application/assets/ui-components/buttons/perritos-icon-button.dart';
 import 'package:flutter_application/assets/ui-components/text-input/perritos_txt_input.dart';
 import 'package:flutter_application/common/providers.dart';
-import 'package:flutter_application/common/models/user_model.dart';
+import 'package:flutter_application/common/models/users/user_model.dart';
 import 'package:flutter_application/screens/registration_and_login/registration_and_login_controller.dart';
 import 'package:flutter_application/screens/registration_and_login/registration_and_login_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
