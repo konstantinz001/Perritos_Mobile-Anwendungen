@@ -7,6 +7,7 @@ import 'package:flutter_application/assets/ui-components/navigation/perritos-nav
 import 'package:flutter_application/assets/ui-components/profile/perritos-profile.dart';
 import 'package:flutter_application/assets/ui-components/text-input/perritos_description_input.dart';
 import 'package:flutter_application/assets/ui-components/text-input/perritos_txt_input.dart';
+import 'package:flutter_application/common/models/statistics/weekday_data.model.dart';
 import 'package:flutter_application/common/models/users/dog_model.dart';
 import 'package:flutter_application/common/models/users/user_model.dart';
 import 'package:flutter_application/common/providers.dart';
@@ -246,93 +247,112 @@ class DogProfileInfoView extends ConsumerWidget {
                     const SizedBox(
                       height: 5,
                     ),
-                    Container(
-                      width: double.infinity,
-                      height: 300,
-                      child: BarChart(BarChartData(
-                          borderData: FlBorderData(
-                              border: Border(
-                            top: BorderSide.none,
-                            right: BorderSide.none,
-                            left: BorderSide.none,
-                            bottom: BorderSide(
-                                width: 1,
-                                color: PerritosColor.perritosCharcoal.color
-                                    .withOpacity(0.5)),
-                          )),
-                          groupsSpace: 1,
-                          titlesData: FlTitlesData(
-                            rightTitles: AxisTitles(
-                                sideTitles: SideTitles(
-                              showTitles: false,
-                            )),
-                            leftTitles: AxisTitles(
-                                sideTitles: SideTitles(
-                              showTitles: false,
-                            )),
-                            bottomTitles: AxisTitles(
-                                sideTitles: SideTitles(
-                                    showTitles: true,
-                                    reservedSize: 42,
-                                    getTitlesWidget: controller.bottomTitles)),
-                            topTitles: AxisTitles(
-                                sideTitles: SideTitles(
-                                    showTitles: true,
-                                    reservedSize: 42,
-                                    getTitlesWidget: controller.topTitles)),
-                          ),
-                          barGroups: [
-                            BarChartGroupData(x: 1, barRods: [
-                              BarChartRodData(
-                                  toY: controller.getWalkingData(WeekDay.monday),
-                                  width: 15,
-                                  color:
-                                      PerritosColor.perritosMaizeCrayola.color),
-                            ]),
-                            BarChartGroupData(x: 2, barRods: [
-                              BarChartRodData(
-                                  toY: controller.getWalkingData(WeekDay.tuesday),
-                                  width: 15,
-                                  color:
-                                      PerritosColor.perritosMaizeCrayola.color),
-                            ]),
-                            BarChartGroupData(x: 3, barRods: [
-                              BarChartRodData(
-                                  toY: controller.getWalkingData(WeekDay.wednesday),
-                                  width: 15,
-                                  color:
-                                      PerritosColor.perritosMaizeCrayola.color),
-                            ]),
-                            BarChartGroupData(x: 4, barRods: [
-                              BarChartRodData(
-                                  toY: controller.getWalkingData(WeekDay.thursday),
-                                  width: 15,
-                                  color:
-                                      PerritosColor.perritosMaizeCrayola.color),
-                            ]),
-                            BarChartGroupData(x: 5, barRods: [
-                              BarChartRodData(
-                                  toY: controller.getWalkingData(WeekDay.friday),
-                                  width: 15,
-                                  color:
-                                      PerritosColor.perritosMaizeCrayola.color),
-                            ]),
-                            BarChartGroupData(x: 6, barRods: [
-                              BarChartRodData(
-                                  toY: controller.getWalkingData(WeekDay.saturday),
-                                  width: 15,
-                                  color:
-                                      PerritosColor.perritosMaizeCrayola.color),
-                            ]),
-                            BarChartGroupData(x: 7, barRods: [
-                              BarChartRodData(
-                                  toY: controller.getWalkingData(WeekDay.sunday),
-                                  width: 15,
-                                  color:
-                                      PerritosColor.perritosMaizeCrayola.color),
-                            ]),
-                          ])),
-                    )
+                    FutureBuilder(
+                        future:
+                            controller.getWalkingData(_emailID, _selectedDog, _perritos),
+                        builder: (BuildContext context,
+                            AsyncSnapshot<WeekdayDataModel> snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const SizedBox();
+                          } else {
+                            if (snapshot.hasError) {
+                              return Text(
+                                'Error: ${snapshot.error}',
+                                style: perritosParagonError,
+                              );
+                            } else {
+                              return Container(
+                                width: double.infinity,
+                                height: 300,
+                                child: BarChart(BarChartData(
+                                    borderData: FlBorderData(
+                                        border: Border(
+                                      top: BorderSide.none,
+                                      right: BorderSide.none,
+                                      left: BorderSide.none,
+                                      bottom: BorderSide(
+                                          width: 1,
+                                          color: PerritosColor
+                                              .perritosCharcoal.color
+                                              .withOpacity(0.5)),
+                                    )),
+                                    groupsSpace: 1,
+                                    titlesData: FlTitlesData(
+                                      rightTitles: AxisTitles(
+                                          sideTitles: SideTitles(
+                                        showTitles: false,
+                                      )),
+                                      leftTitles: AxisTitles(
+                                          sideTitles: SideTitles(
+                                        showTitles: false,
+                                      )),
+                                      bottomTitles: AxisTitles(
+                                          sideTitles: SideTitles(
+                                              showTitles: true,
+                                              reservedSize: 42,
+                                              getTitlesWidget:
+                                                  controller.bottomTitles)),
+                                      topTitles: AxisTitles(
+                                          sideTitles: SideTitles(
+                                              showTitles: false,
+                                           )),
+                                    ),
+                                    barGroups: [
+                                      BarChartGroupData(x: 1, barRods: [
+                                        BarChartRodData(
+                                            toY: snapshot.data!.monday,
+                                            width: 15,
+                                            color: PerritosColor
+                                                .perritosMaizeCrayola.color),
+                                      ]),
+                                      BarChartGroupData(x: 2, barRods: [
+                                        BarChartRodData(
+                                            toY:snapshot.data!.tuesday,
+                                            width: 15,
+                                            color: PerritosColor
+                                                .perritosMaizeCrayola.color),
+                                      ]),
+                                      BarChartGroupData(x: 3, barRods: [
+                                        BarChartRodData(
+                                            toY: snapshot.data!.wednesday,
+                                            width: 15,
+                                            color: PerritosColor
+                                                .perritosMaizeCrayola.color),
+                                      ]),
+                                      BarChartGroupData(x: 4, barRods: [
+                                        BarChartRodData(
+                                            toY: snapshot.data!.thursday,
+                                            width: 15,
+                                            color: PerritosColor
+                                                .perritosMaizeCrayola.color),
+                                      ]),
+                                      BarChartGroupData(x: 5, barRods: [
+                                        BarChartRodData(
+                                            toY: snapshot.data!.friday,
+                                            width: 15,
+                                            color: PerritosColor
+                                                .perritosMaizeCrayola.color),
+                                      ]),
+                                      BarChartGroupData(x: 6, barRods: [
+                                        BarChartRodData(
+                                            toY: snapshot.data!.saturday,
+                                            width: 15,
+                                            color: PerritosColor
+                                                .perritosMaizeCrayola.color),
+                                      ]),
+                                      BarChartGroupData(x: 7, barRods: [
+                                        BarChartRodData(
+                                            toY: snapshot.data!.sunday,
+                                            width: 15,
+                                            color: PerritosColor
+                                                .perritosMaizeCrayola.color),
+                                      ]),
+                                    ])),
+                              );
+                            }
+                          }
+                        }),
                   ],
                 )),
           ],
@@ -374,11 +394,9 @@ class DogProfileInfoView extends ConsumerWidget {
 abstract class DogProfileInfoController extends StateNotifier<DogProfileModel> {
   DogProfileInfoController(DogProfileModel state) : super(state);
   int calculateAge(DateTime birthdate);
-
   Future<List<UserModel>> loadAllUsersFromDB(String email);
   Future<DogModel> loadDogFromDB(String email, List<String> name);
   Future<List<DogModel>> loadAllDogsFromDB(String email);
   Widget bottomTitles(double value, TitleMeta meta);
-  Widget topTitles(double value, TitleMeta meta);
-  double getWalkingData(WeekDay weekDay);
+  Future<WeekdayDataModel> getWalkingData(String email, DogModel? dog, bool? perritos);
 }

@@ -266,8 +266,8 @@ class HomeImplmentation extends HomeController {
                 state.endDate.year,
                 state.endDate.month,
                 state.endDate.day,
-                state.endDate.hour,
-                state.endDate.minute)),
+                state.endTime.hour,
+                state.endTime.minute)),
             users: state.users,
             dogs: state.dogs);
         return null;
@@ -305,8 +305,8 @@ class HomeImplmentation extends HomeController {
                 state.endDate.year,
                 state.endDate.month,
                 state.endDate.day,
-                state.endDate.hour,
-                state.endDate.minute)),
+                state.endTime.hour,
+                state.endTime.minute)),
             users: state.users,
             dogs: state.dogs);
         return null;
@@ -481,8 +481,8 @@ class HomeImplmentation extends HomeController {
               state.endDate.year,
               state.endDate.month,
               state.endDate.day,
-              state.endDate.hour,
-              state.endDate.minute)),
+              state.endTime.hour,
+              state.endTime.minute)),
           users: state.users,
           dogs: state.dogs,
         );
@@ -521,8 +521,8 @@ class HomeImplmentation extends HomeController {
                 state.endDate.year,
                 state.endDate.month,
                 state.endDate.day,
-                state.endDate.hour,
-                state.endDate.minute)),
+                state.endTime.hour,
+                state.endTime.minute)),
             users: state.users,
             dogs: state.dogs);
         return null;

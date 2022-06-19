@@ -662,22 +662,30 @@ class HomeView extends ConsumerWidget {
                         height: 20,
                       ),
                       _perritos != true
-                          ? PerritosButton(
-                              onPressed: () => {
-                                    controller.selectActionType(
-                                        ActionType.abnormality),
-                                    controller.switchHomeScreen(
-                                        HomeScreen.createAction)
-                                  },
-                              label: "Auffälligkeit")
+                          ? 
+                          Column(
+                            children: [
+                            PerritosButton(
+                                onPressed: () => {
+                                      controller.selectActionType(
+                                          ActionType.abnormality),
+                                      controller.switchHomeScreen(
+                                          HomeScreen.createAction)
+                                    },
+                                label: "Auffälligkeit"),
+                              const SizedBox(
+                                height: 20,
+                              ),                              
+                            ],
+                          )
                           : Container(),
-                      // PerritosButton(
-                      //     onPressed: () => {
-                      //           controller.selectActionType(ActionType.walking),
-                      //           controller
-                      //               .switchHomeScreen(HomeScreen.createAction)
-                      //         },
-                      //     label: "Gassigang"),
+                      PerritosButton(
+                          onPressed: () => {
+                                controller.selectActionType(ActionType.walking),
+                                controller
+                                    .switchHomeScreen(HomeScreen.createAction)
+                              },
+                          label: "Gassigang"),
                     ]))));
     var createActionScreen = Scaffold(
         backgroundColor: PerritosColor.perritosSnow.color,
